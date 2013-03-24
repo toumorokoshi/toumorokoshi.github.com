@@ -1,6 +1,6 @@
 make html
 git checkout master
-mv output/* .
+cp -r output/* .
 git add .
 git commit -am "build $(date)"
 git push origin master
