@@ -11,6 +11,7 @@ SITEURL = ''
 TAGLINE = 'Yusuke Tsutsumi'
 THEME = "pelican-svbtle"
 DISQUS_SITENAME = 'tsutsumi'
+GOOGLE_ANALYTICS = 'UA-29270527-2'
 
 TIMEZONE = 'Europe/Paris'
 
