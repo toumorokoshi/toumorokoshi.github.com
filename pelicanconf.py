@@ -10,8 +10,6 @@ SITENAME = u'toumorokoshi.github.com'
 SITEURL = ''
 TAGLINE = 'Yusuke Tsutsumi'
 THEME = "pelican-svbtle"
-DISQUS_SITENAME = 'tsutsumi'
-GOOGLE_ANALYTICS = 'UA-29270527-2'
 
 TIMEZONE = 'Europe/Paris'
 
@@ -26,3 +24,13 @@ SOCIAL = (('You can add links in your config file', '#'),
           ('Another social link', '#'),)
 
 DEFAULT_PAGINATION = 10
+
+# More configuration related
+DISQUS_SITENAME = 'tsutsumi'
+GOOGLE_ANALYTICS = 'UA-29270527-2'
+# rss
+FEED_RSS = 'rss'
+TAG_FEED_RSS = 'rsstag'
+CATEGORY_FEED_RSS = 'rsscategory'
+# atom
+FEED_ATOM = 'atom'
