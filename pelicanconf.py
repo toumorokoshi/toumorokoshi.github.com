@@ -10,6 +10,7 @@ SITENAME = u'toumorokoshi.github.com'
 SITEURL = ''
 TAGLINE = 'Yusuke Tsutsumi'
 THEME = "pelican-svbtle"
+DISQUS_SITENAME = 'tsutsumi'
 
 TIMEZONE = 'Europe/Paris'
 
