@@ -1,5 +1,6 @@
 make html
 git checkout master
+git pull
 rm *.html
 cp -r output/* .
 git add .
