@@ -5,7 +5,7 @@ Automatic Package Installation for Emacs 24 - Part 2
 :tags: emacs, el-get
 :author: Yusuke Tsutsumi
 
-About a year ago I wrote about installing packages on startup, automatically for Emacs 24. This used the native ELPA, looked for packages that weren't already installed, and used package-install to install them. 
+About a year ago I wrote about `installing packages on startup, automatically for Emacs 24 <|filename|/old/automatic-package-installation-using-elpa-in-emacs-24.rst>`_. This used the native ELPA, looked for packages that weren't already installed, and used package-install to install them. 
 
 Unfortunately, I realized that this method wasn't nearly as functional as I wanted it to be. I'll save my opinions for later. If you're just looking for a great way to install packages for Emacs, I'll just write it out here.
 
@@ -67,20 +67,35 @@ What does this do? Well:
 * Sets a list of package definitions into el-get-sources
 * Looks through the whole list of el-get-sources, ad runs el-get-install if the package isn't intalled (verified via the 'require' command)
 
-If I find a new package I want, whether it's on github, elpa, or otherwise, I first check if the package info already exists in el-get's huge list of recipes, or I write it up myself. As an example, install an elpa package is as simple as:
+If I find a new package I want, whether it's on github, elpa, or otherwise, I first check if the package info already exists in `el-get's huge list of recipes <https://github.com/dimitri/el-get/tree/master/recipes>`_, or I write it up myself. As an example, install an elpa package is as simple as:
 
     (:name rainbow-mode :type elpa)
 
+How about a git repository? In that case it's just:
+
+	(:name scala-mode :type git :url "http://github.com/scala/scala-dist.git")
+
+Or a shortened github version:
+
+	(:name scala-mode :type github :pkgname "scala/scala-dist.git")
+
 Also in my system, I put my el-get-sources list into a different file and load it, it makes it way easier to manager than a huge chunk of data halfway through a bunch of code:
 
-	;; put the "el-get-sources" list in here.
+	;; e.g. put the "el-get-sources" list in .emacs.elgetpackages
 	(load "~/.emacs.d/.emacs.elgetpackages")
 
+Try it out for yourself! Watch as all of your favorite packages get installed on startup. Note that the install order might be different, as the cloning and installing process is performed asynchronously.
 
 Why I do it this way
 --------------------
 
-So why do I el-get now instead of package.el and ELPA? When I started using ELPA. I was really satisfied. It was so easy to find and discover new packages, and installing them was a snap! However, with the rate at which emacs plugin development occurs, the packages are outdated quickly. In the world of github, and an incredibly active community, I found that my main issue was being able to install the most recent version of packages out there, and keeping them up to date. ELPA is only as up to date as the package developers make it, and depending on the library, that's not a lot.
+So why do I el-get now instead of package.el and ELPA? 
+
+When I started using ELPA. I was really satisfied. It was so easy to find and discover new packages, and installing them was a snap! However, with the rate at which emacs plugin development occurs, the packages are outdated quickly. In the world of github, and an incredibly active community, I found that my main issue was being able to install the most recent version of packages out there, and keeping them up to date. 
+
+ELPA is only as up to date as the package developers make it, and depending on the library, that's not a lot. In addition, there are quite a lot of libraries out there which haven't made it yet into a package.el repository. 
+
+So why wait? When adding a new package to your distributable emacs configuration is one line away, you don't have to.
 
 el-get provides basically everything I'm looking for:
 
@@ -90,6 +105,6 @@ el-get provides basically everything I'm looking for:
 
 Although I rarely use package.el or ELPA anymore. If I can find the github equivalent, I'll use that instead. You'd be surprised how outdated existing libraries become. 
 
-This also provides the flexibility of allowing me to use my own version of various libraries, if need be.
+This also provides the flexibility of allowing me to use my own version of various libraries, if need be. I no longer have to wait for pull requests to enjoy my fixes: I can just use my own repository, and switch back when the main repository catches up.
 
 So if you want to stay on the cutting-edge, and not worry about the hassle of installing every single package you use on every machine you have, give this a shot.
