@@ -65,7 +65,7 @@ What does this do? Well:
 
 * Checks for installation of el-get, my package manager of choice, and installs it if one doesn't exist
 * Sets a list of package definitions into el-get-sources
-* Looks through the whole list of el-get-sources, ad runs el-get-install if the package isn't intalled (verified via the 'require' command)
+* Looks through the whole list of el-get-sources, ad runs el-get-install if the package isn't installed (verified via the 'require' command)
 
 If I find a new package I want, whether it's on github, elpa, or otherwise, I first check if the package info already exists in `el-get's huge list of recipes <https://github.com/dimitri/el-get/tree/master/recipes>`_, or I write it up myself. As an example, install an elpa package is as simple as:
 
