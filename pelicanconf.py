@@ -34,3 +34,5 @@ TAG_FEED_RSS = 'rsstag'
 CATEGORY_FEED_RSS = 'rsscategory'
 # atom
 FEED_ATOM = 'atom'
+
+DISPLAY_PAGES_ON_MENU = True
