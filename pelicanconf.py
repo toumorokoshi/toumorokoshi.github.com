@@ -16,8 +16,8 @@ TIMEZONE = 'Europe/Paris'
 DEFAULT_LANG = u'en'
 
 # Blogroll
-LINKS =  (('GitHub', 'https://github.com/toumorokoshi'),
-          ('StackOverflow', 'http://stackoverflow.com/users/288570/drakeanderson'))
+MENUITEMS = (('GitHub', 'https://github.com/toumorokoshi'),
+             ('StackOverflow', 'http://stackoverflow.com/users/288570/drakeanderson'))
 
 # Social widget
 SOCIAL = (('You can add links in your config file', '#'),
