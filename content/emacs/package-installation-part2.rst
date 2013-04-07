@@ -10,7 +10,7 @@ About a year ago I wrote about `installing packages on startup, automatically fo
 Unfortunately, I realized that this method wasn't nearly as functional as I wanted it to be. I'll save my opinions for later. If you're just looking for a great way to install packages for Emacs, I'll just write it out here.
 
 What I do
-----------
+---------
 
 Here's a baseline example of how to manage your packages::
 
