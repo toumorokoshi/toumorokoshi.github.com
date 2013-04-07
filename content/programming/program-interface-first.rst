@@ -5,7 +5,7 @@ Develop Software Interface First
 :tags: architecture
 :author: Yusuke Tsutsumi
 
-Let me start by saying there's a lot about agile development that I think is awesome. The underlying philosophy of being able to easily adjust and accomodate an ever-changing series of specifications is great. However, there is at least one important lesson we can learn from the waterfall method: the importance of accurately defining our specifications, and our interfaces.
+Let me start by saying there's a lot about agile development that I think is awesome. The underlying philosophy of being able to easily adjust and accommodate an ever-changing series of specifications is great. However, there is at least one important lesson we can learn from the waterfall method: the importance of accurately defining our specifications, and our interfaces.
 
 When first writing any sort of code, the implementation is always the most difficult part. As developers, the type of questions we always ask are along the lines of:
 
@@ -21,11 +21,11 @@ Now fast forward two or three years, or even a couple of months. Now you'll find
 
 In other words, the problem has shifted away from the implementation so much into the interface. And the interface is much harder to fix.
 
-Interfaces are a tricky beast. Like software, the interface needs to be fluid to change and accomodate consumers demands. With a poor interface, everyone loses. 
+Interfaces are a tricky beast. Like software, the interface needs to be fluid to change and accommodate consumers demands. With a poor interface, everyone loses. 
 
-For example, let's talk about a software company developing an web api for public use. The users lose because your api is hard to use. Developers lose because they have to write more code to accomodate the more commononly desired interface, and now have to maintain the older ones as well. And the whole company loses because with a poor interface, fewer people will go through the pain to use it, and that means less consumers.
+For example, let's talk about a software company developing an web api for public use. The users lose because your api is hard to use. Developers lose because they have to write more code to accommodate the more commonly desired interface, and now have to maintain the older ones as well. And the whole company loses because with a poor interface, fewer people will go through the pain to use it, and that means less consumers.
 
-This pattern is identical at lower levels as well. In fact, it's even worse for a company when a poor interface is writtern internally. For example, let's look at a simple interface to get information about a forum. Forum's typcially contain threads, which in turn contain posts. Let's say we have these methods available:
+This pattern is identical at lower levels as well. In fact, it's even worse for a company when a poor interface is written internally. For example, let's look at a simple interface to get information about a forum. Forum's typically contain threads, which in turn contain posts. Let's say we have these methods available:
 
 * getForums() -> return a list of forums
 * getForum(forumId) -> returns a forum object, with a list of all of the threads in a forum
@@ -64,8 +64,8 @@ And finally my thread view:
     printThreadDetails(threadDetails)
     posts = getThread(threadId)
     for postId in posts:
-        post = getPost(postId)
-        printPost(post)
+       post = getPost(postId)
+       printPost(post)
 
 Is there a pattern here? Well, it looks like every time we grab an id, we always need the data associated as well. In fact, it seems like we don't even need to expose a method that just grabs ids at all. What if we modified it so we reduced the interface to what's really being used:
 
@@ -101,3 +101,13 @@ Looks better! We've actually reduced the number of interface calls we need to ma
 2. Maintain the old interface on top of this one.
 
 Now, the first option may be feasible when you just built this interface, because the number of consumers are low. However, most of the time these interface changes come in after the interface is long established and consumed. So option one probably isn't feasible. So now we have option two. Now we have nine methods that we need to maintain, over the three we would have had if we had thought more about the interface beforehand. Assuming the same amount of maintenance cost per method, this is already triple the cost to maintain. And it only gets worse when another unexpected case comes up.
+
+How can we avoid this? When you're developing software, design the interface first. Performance, efficiency, and implementation are very important when software is used in the real world, but none of it is useful when your interface is hard to use. Some good tips for interface-first design are:
+
+* Talk to as many people as you can who might use your interface. This will help cover all the major use cases
+* Think about the context where your interface will be used, and try to catch the big use cases.
+* Combine methods that are almost always called together. Don't make things separate because you think someone somewhere down the road might need it.
+* If no one needs it now, don't add it. A verbose, complex interface can be as harmful as a minimalistic one when it comes to adoption.
+* Do test driven development. Tests are the perfect way to validate your interface. Tests also tend to mold interfaces and code in a much more client-friendly fashion.
+
+In summary: please try interface-first development, and save everyone some time.
