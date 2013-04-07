@@ -25,6 +25,7 @@ Product Development
 *******************
 
 * (book) `The Phoenix Project <http://www.amazon.com/The-Phoenix-Project-Business-ebook/dp/B00AZRBLHO/ref=sr_1_1?s=digital-text&ie=UTF8&qid=1364790959&sr=1-1&keywords=the+phoenix+project>`_
+* (talk) `Development at the Speed and Scale of Google <http://www.infoq.com/presentations/Development-at-Google>`_
 
 
 Cooking and Learning
