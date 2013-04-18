@@ -36,3 +36,7 @@ CATEGORY_FEED_RSS = 'rsscategory'
 FEED_ATOM = 'atom'
 
 DISPLAY_PAGES_ON_MENU = True
+
+PLUGINS = [
+    'pelican_gist'
+]
