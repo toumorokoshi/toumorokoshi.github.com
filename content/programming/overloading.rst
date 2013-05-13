@@ -95,9 +95,6 @@ various properties, you're better off either building a new method
 that more accurately describes what you're trying to do, or use
 getters and setters later on to configure your piece to what you want.
 
-* the gradient triangle should have had a separate method, to
-help alleviate any confusion as to what the second color does.
-* rotationSpeed could have been set elsewhere as well. no need to add
-  into the constructor unless every triangle should have it set
-  explicitely.
+* the gradient triangle should have had a separate method, to help alleviate any confusion as to what the second color does.
+* rotationSpeed could have been set elsewhere as well. no need to add into the constructor unless every triangle should have it set explicitely.
 
