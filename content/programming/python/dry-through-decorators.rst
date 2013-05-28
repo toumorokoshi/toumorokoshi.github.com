@@ -16,6 +16,8 @@ For example, let's look at the `Django web framework <https://www.djangoproject.
 requests by methods which receive a method object and return a
 response object:
 
+.. code-block:: python
+
     def handle_request(request):
         return HttpResponse("Hello, World")
 

@@ -12,9 +12,10 @@ Unfortunately, I realized that this method wasn't nearly as functional as I want
 What I do
 ---------
 
-Here's a baseline example of how to manage your packages::
+Here's a baseline example of how to manage your packages:
 
-	
+.. code-block:: scheme
+
 	;; Check for el-get, install if not exists
 	(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
 	(unless (require 'el-get nil t)
@@ -24,7 +25,7 @@ Here's a baseline example of how to manage your packages::
 	     (goto-char (point-max))
 	     (eval-print-last-sexp))))
 
-    ;; Set up packages
+	;; Set up packages
 	(setq el-get-sources
 	  '((:name flymake
 	     :description "Continuous syntax checking for Emacs."
@@ -67,19 +68,31 @@ What does this do? Well:
 * Sets a list of package definitions into el-get-sources
 * Looks through the whole list of el-get-sources, ad runs el-get-install if the package isn't installed (verified via the 'require' command)
 
-If I find a new package I want, whether it's on github, elpa, or otherwise, I first check if the package info already exists in `el-get's huge list of recipes <https://github.com/dimitri/el-get/tree/master/recipes>`_, or I write it up myself. As an example, install an elpa package is as simple as:
+If I find a new package I want, whether it's on github, elpa, or
+otherwise, I first check if the package info already exists in
+`el-get's huge list of recipes
+<https://github.com/dimitri/el-get/tree/master/recipes>`_, or I write
+it up myself. As an example, install an elpa package is as simple as:
+
+.. code-block:: scheme
 
     (:name rainbow-mode :type elpa)
 
 How about a git repository? In that case it's just:
 
+.. code-block:: scheme
+
 	(:name scala-mode :type git :url "http://github.com/scala/scala-dist.git")
 
 Or a shortened github version:
 
+.. code-block:: scheme
+
 	(:name scala-mode :type github :pkgname "scala/scala-dist.git")
 
 Also in my system, I put my el-get-sources list into a different file and load it, it makes it way easier to manager than a huge chunk of data halfway through a bunch of code:
+
+.. code-block:: scheme
 
 	;; e.g. put the "el-get-sources" list in .emacs.elgetpackages
 	(load "~/.emacs.d/.emacs.elgetpackages")
