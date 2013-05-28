@@ -3,7 +3,7 @@ DRY Principles through Python Decorators
 ========================================
 :date: 2013-05-24
 :category: programming
-:tags: theory, python
+:tags: python
 :author: Yusuke Tsutsumi
 
 Python `decorators
