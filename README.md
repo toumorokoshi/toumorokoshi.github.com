@@ -8,4 +8,5 @@ Requirements for building
 
 * easy_install pelican
 * easy_install markdown
+* easy_install pelican-gist
 * pelican-svbtle theme

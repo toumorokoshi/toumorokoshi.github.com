@@ -30,10 +30,10 @@ DISQUS_SITENAME = 'tsutsumi'
 GOOGLE_ANALYTICS = 'UA-29270527-2'
 # rss
 FEED_RSS = 'rss'
-TAG_FEED_RSS = 'rsstag'
-CATEGORY_FEED_RSS = 'rsscategory'
+# TAG_FEED_RSS = 'rsstag'
+# CATEGORY_FEED_RSS = 'rsscategory'
 # atom
-FEED_ATOM = 'atom'
+#FEED_ATOM = 'atom'
 
 DISPLAY_PAGES_ON_MENU = True
 

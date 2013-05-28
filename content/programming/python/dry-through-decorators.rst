@@ -27,6 +27,8 @@ which must:
 
 As an example, for a register api endpoint, I would write something like this:
 
+.. code-block:: python
+
     def register(request):
         result = None
         # check for post only
@@ -63,6 +65,8 @@ and can modify what the function recieves and returns. For example, if
 I wanted to always return an integer result of one larger than whatever was
 returned, I could write my decorator as so:
 
+.. code-block:: python
+
     # a decorator recieves the method it's wrapping as a variable 'f'
     def increment(f):
         # we use arbitrary args and keywords to 
@@ -76,6 +80,7 @@ returned, I could write my decorator as so:
 
 And now we can use it to decorate another method using the '@' symbol:
 
+.. code-block:: python
 
     @increment
     def plus(a, b):
@@ -95,6 +100,8 @@ Now let's apply decorators to something useful. Let's make a decorator
 that returns an error response if the request received isn't a POST request in
 django:
 
+.. code-block:: python
+
     def post_only(f):
         """ Ensures a method is post only """
         def wrapped_f(request):
@@ -107,6 +114,8 @@ django:
         return wrapped_f
 
 Now, we can apply this to our register api above:
+
+.. code-block:: python
 
     @post_only
     def register(request):
@@ -137,6 +146,8 @@ Send the response as json
 To send the response as json (and also handle the 500 status code
 while we're at it), we can just create another decorator:
 
+.. code-block:: python
+
     def json_response(f):
         """ Return the response as json, and return a 500 error code if an error exists """
         def wrapped(*args, **kwargs):
@@ -148,7 +159,10 @@ while we're at it), we can just create another decorator:
 
 Now we can remove the json code from our methods, and add a decorator instead:
 
+.. code-block:: python
+
     @post_only
+    @json_response
     def register(request):
         try:
             user = User.objects.create_user(request.POST['username'],
@@ -162,3 +176,82 @@ Now we can remove the json code from our methods, and add a decorator instead:
             return {"success": True}
         except KeyError as e:
             return {"error": str(e) }
+
+
+Now, if I need to write a new method, I can just use these decorators
+to re-do the redundant work. If I need to make a sign-in method, I
+only have to write the real relevant code a second time:
+
+
+.. code-block:: python
+
+    @post_only
+    @json_response
+    def login(request):
+        if request.user is not None:
+            return {"error": "User is already authenticated!"}
+        user = auth.authenticate(request.POST['username'], request.POST['password'])
+        if user is not None:
+            if not user.is_active:
+                return {"error": "User is inactive"}
+            auth.login(request, user)
+            return {"success": True, "id": user.pk}
+        else:
+            return {"error": "User does not exist with those credentials"}
+
+BONUS: parameterizing your request method
+-----------------------------------------
+
+I've used the `turbogears <http://turbogears.org/index.html>`_
+framework for python, and something I've fallen in love with is the
+way query parameters are interpreted and passed directory into the
+method. So how can I mimic this behaviour in django? Well, a decorator
+is one way!
+
+Here's one:
+
+.. code-block:: python
+
+    def parameterize_request(types=["POST"]):
+        """
+        Parameterize the request instead of parsing the request directly.
+        Only the types specified will be added to the query parameters.
+
+        e.g. denormalize a=test&b=cv in request.POST to
+        fn(a=test, b=cv)
+        """
+        def wrapper(f):
+            def wrapped(request):
+                kw = {}
+                if "GET" in types:
+                    for k, v in request.GET.items():
+                        kw[k] = v
+                if "POST" in types:
+                    for k, v in request.POST.items():
+                        kw[k] = v
+                return f(request, **kw)
+            return wrapped
+        return wrapper
+
+Note that this is an example of a parameterized decorator. In this
+case, the *result* of the function is the actual decorator.
+
+Now, I can write my methods with parameterized arguments! I can even
+choose whether to allow GET and POST, or just one type of
+queryparameters.
+
+.. code-block:: python
+
+    @post_only
+    @json_response
+    @parameterize_request(["POST"])
+    def register(request, username, email, password,
+                 first_name=None, last_name=None):
+        user = User.objects.create_user(username, email, password)
+        user.first_name=first_name
+        user.last_name=last_name
+        user.save()
+        return {"success": True}
+
+
+Now, we have a succinct, and easily understandable api!
