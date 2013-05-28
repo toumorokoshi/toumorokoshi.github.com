@@ -1,6 +1,6 @@
-==========================================
-The inevitable cons of overloading methods
-==========================================
+========================================
+DRY Principles through Python Decorators
+========================================
 :date: 2013-05-24
 :category: programming
 :tags: theory, python
