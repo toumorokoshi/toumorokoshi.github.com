@@ -314,8 +314,20 @@ BONUS #3: Using the 'decorator' decorator
 (Credit goes to `LeszekSwirski <http://www.reddit.com/user/LeszekSwirski>`_ for this awesome tip.)
 
 If you look at the way decorators above, there is a lost of repeating
-going on there as well, in the declaring and returning of a wrapper. Python actually includes a 'decorator'
-decorator, that provide the decorator boilerplate for you!
+going on there as well, in the declaring and returning of a wrapper. 
+
+you can install the python egg 'decorator', which includes a 'decorator'
+decorator that provides the decorator boilerplate for you!
+
+With easy_install::
+
+    $ sudo easy_install decorator
+
+Or Pip::
+
+    $ pip install decorator
+
+Then you can simply write:
 
 .. code-block:: python
 
