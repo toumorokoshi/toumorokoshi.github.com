@@ -56,13 +56,18 @@ or, if you want to be even nicer:
 
    </p>
 
-| But what if we're using ten methods from that module? still gotta do
-it.
 
-| What about 20 methods? still gotta do it.
+  But what if we're using ten methods from that module? 
 
-| What about 100 methods? don't know how there's 100 methods in a single
-module, but *you still gotta do it*.
+still gotta do it.
+
+
+  What about 20 methods? still gotta do it.
+
+
+  What about 100 methods? 
+
+don't know how there's 100 methods in a single module, but *you still gotta do it*.
 
 The reasoning is simple: you're providing a very helpful hint that
 future coders can use to debug your code years from now. That hint is :

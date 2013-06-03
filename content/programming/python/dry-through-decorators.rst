@@ -8,7 +8,7 @@ DRY Principles through Python Decorators
 
 Python `decorators
 <http://docs.python.org/3/glossary.html#term-decorator>`_ are a
-powerful tool to remove redundandancy. Along with modularizing
+powerful tool to remove redundancy. Along with modularizing
 functionality into appropriate bite-sized methods, it makes even the
 most complex workflows into concise functionality.
 
@@ -62,23 +62,22 @@ Decorator Introduction
 ----------------------
 
 If you're not familiar with decorators, they are effectively function
-wrappers that are run when the python intrepreter loads the function,
-and can modify what the function recieves and returns. For example, if
+wrappers that are run when the python interpreter loads the function,
+and can modify what the function receives and returns. For example, if
 I wanted to always return an integer result of one larger than whatever was
 returned, I could write my decorator as so:
 
 .. code-block:: python
 
-    # a decorator recieves the method it's wrapping as a variable 'f'
+    # a decorator receives the method it's wrapping as a variable 'f'
     def increment(f):
         # we use arbitrary args and keywords to 
         # ensure we grab all the input arguments.
         def wrapped_f(*args, **kw):
             # note we call f against the variables passed into the wrapper,
-            # and cast the result to an int and incremenet .
+            # and cast the result to an int and increment .
             return int(f(*args, **kw)) + 1
-    return wrapped_f  # the wrapped function gets returned.
-
+        return wrapped_f  # the wrapped function gets returned.
 
 And now we can use it to decorate another method using the '@' symbol:
 
@@ -112,7 +111,7 @@ django:
                     {"error": "this method only accepts posts!"}))
                 response.status_code = 500
                 return response
-            return fn(request)
+            return f(request)
         return wrapped_f
 
 Now, we can apply this to our register api above:
@@ -153,7 +152,7 @@ while we're at it), we can just create another decorator:
     def json_response(f):
         """ Return the response as json, and return a 500 error code if an error exists """
         def wrapped(*args, **kwargs):
-            result = fn(*args, **kwargs)
+            result = f(*args, **kwargs)
             response = HttpResponse(json.dumps(result))
             if type(result) == dict and 'error' in result:
                 response.status_code = 500
@@ -204,23 +203,23 @@ only have to write the real relevant code a second time:
 BONUS: parameterizing your request method
 -----------------------------------------
 
-I've used the `turbogears <http://turbogears.org/index.html>`_
+I've used the `Turbogears <http://turbogears.org/index.html>`_
 framework for python, and something I've fallen in love with is the
 way query parameters are interpreted and passed directory into the
-method. So how can I mimic this behaviour in django? Well, a decorator
+method. So how can I mimic this behaviour in Django? Well, a decorator
 is one way!
 
 Here's one:
 
 .. code-block:: python
 
-    def parameterize_request(types=["POST"]):
+    def parameterize_request(types=("POST",)):
         """
         Parameterize the request instead of parsing the request directly.
         Only the types specified will be added to the query parameters.
 
-        e.g. denormalize a=test&b=cv in request.POST to
-        fn(a=test, b=cv)
+        e.g. convert a=test&b=cv in request.POST to
+        f(a=test, b=cv)
         """
         def wrapper(f):
             def wrapped(request):
@@ -240,7 +239,7 @@ case, the *result* of the function is the actual decorator.
 
 Now, I can write my methods with parameterized arguments! I can even
 choose whether to allow GET and POST, or just one type of
-queryparameters.
+query parameter.
 
 .. code-block:: python
 
@@ -257,3 +256,81 @@ queryparameters.
 
 
 Now, we have a succinct, and easily understandable api!
+
+BONUS #2: Using functools.wraps to preserve docstrings and function name
+------------------------------------------------------------------------
+
+(Credit goes to Wes Turner to pointing this out)
+
+Unfortunately, one of the side effects of using decorators is that the
+method's name (__name__) and docstring (__doc__) values are not
+preserved:
+
+.. code-block:: python
+
+    def increment(f):
+        """ Increment a function result """
+        wrapped_f(a, b):
+            return f(a, b) + 1
+        return wrapped_f
+        
+    @increment
+    def plus(a, b)
+        """ Add two things together """
+        return a + b
+
+    plus.__name__  # this is now 'wrapped_f' instead of 'plus'
+    plus.__doc__   # this now returns 'Increment a function result' instead of 'Add two things together'
+
+This causes issues for applications which use reflection, like Sphinx,
+a library to that automatically generates documentation for your
+python code.
+
+To resolve this, you can use a 'wraps' decorator to attach the name and docstring:
+
+.. code-block:: python
+
+    from functools import wraps
+
+    def increment(f):
+        """ Increment a function result """
+        @wraps(f)
+        wrapped_f(a, b):
+            return f(a, b) + 1
+        return wrapped_f
+        
+    @increment
+    def plus(a, b)
+        """ Add two things together """
+        return a + b
+
+    plus.__name__  # this returns 'plus'
+    plus.__doc__   # this returns 'Add two things together'
+
+
+BONUS #3: Using the 'decorator' decorator
+-----------------------------------------
+
+(Credit goes to `LeszekSwirski <http://www.reddit.com/user/LeszekSwirski>`_ for this awesome tip.)
+
+If you look at the way decorators above, there is a lost of repeating
+going on there as well, in the declaring and returning of a wrapper. Python actually includes a 'decorator'
+decorator, that provide the decorator boilerplate for you!
+
+.. code-block:: python
+
+    from decorator import decorator
+
+    @decorator
+    def post_only(f, request):
+        """ Ensures a method is post only """
+        if request.method != "POST":
+            response = HttpResponse(json.dumps(
+                {"error": "this method only accepts posts!"}))
+            response.status_code = 500
+            return response
+        return f(request)
+
+What's even more awesome about this decorator, is the fact that it
+preserves the return values of __name__ and __doc__, so it wraps in
+the functionality functools.wraps performs as well!
