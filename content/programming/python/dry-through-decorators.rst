@@ -311,7 +311,11 @@ To resolve this, you can use a 'wraps' decorator to attach the name and docstrin
 BONUS #3: Using the 'decorator' decorator
 -----------------------------------------
 
-(Credit goes to `LeszekSwirski <http://www.reddit.com/user/LeszekSwirski>`_ for this awesome tip.)
+(Credit goes to `LeszekSwirski <http://www.reddit.com/user/LeszekSwirski>`_ for
+this awesome tip.)
+
+** NOTE ** : Elghinn mentions in the comments that there are caveats
+ to using this decorator.
 
 If you look at the way decorators above, there is a lost of repeating
 going on there as well, in the declaring and returning of a wrapper. 
