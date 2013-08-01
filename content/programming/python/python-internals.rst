@@ -1,4 +1,4 @@
-ython Internals
+Python Internals
 ================
 :date: 2013-05-13
 :category: python
@@ -15,10 +15,14 @@ At the core, everything in python is an object. Each object has three properties
 
 This is represented by the keyword 'object' in python:
 
+.. code-block:: python
+
   >>> object
   <type 'object'>
 
 And you can always find the methods available on the object using 'dir':
+
+.. code-block:: python
 
   >>> dir(object)
   ['__class__',
@@ -43,28 +47,33 @@ So let's talk a little bit about the more interesting ones:
 * __doc__ is the docstring attached to a file.
 * __new__ is called whenever a new instance of an object is
   created. It almost always calls __init__
-*__sizeof__ get the size of the object. One can also use
- sys.getsizeof. This isn't the most reliable because it doesn't get
- the size of referenced objects, just the size of the reference
- itself.
-*__delattr__, __getattribute__, and __setattr__ are used to get the
- attributes regarding a particular object. However, you should use
- (set|get|has)attr methods instead of directly calling these.
+* __sizeof__ get the size of the object. One can also use sys.getsizeof. This isn't the most reliable because it doesn't get the size of referenced objects, just the size of the reference itself.
+* __delattr__, __getattribute__, and __setattr__ are used to get the attributes regarding a particular object. However, you should use (set|get|has)attr methods instead of directly calling these.
 
 
 exec, eval, and compile
 -----------------------
-* 'exec' executes a particlular string of code
+
+'exec' executes a particlular string of code
+
+.. code-block:: python
+
   >>> exec("print 'hello world'")
   hello world
 
-* 'eval' evaluates an expression. *Note*: this can not be a statement.
+'eval' evaluates an expression. *Note*: this can not be a statement.
+
+.. code-block:: python
+
   >>> eval("1")
   1
 
-* 'compile' compiles an expression or statement into a 'code' object.
+'compile' compiles an expression or statement into a 'code' object.
   Note that you have to choose to either 'eval' or 'exec' the string passed.
   Conversely, you can pass a file.
+
+.. code-block:: python
+
   >>> compile('./test.py')
   >>> compile('print "hello world", '', 'exec')
 
@@ -75,7 +84,9 @@ Functions consist of two objects:
 * a code object, containing the bytecode for a particular object
 * a globals dictionary, containing the global variables necessary
 
-One cant' instantiate functions directly, so we have to get the type of a function first:
+One can't instantiate functions directly, so we have to get the type of a function first:
+
+.. code-block:: python
 
   >>> ftype = type(lambda: None)  
   >>> fn = ftype(compile('print test', '', 'exec'), {'test': "hello world"})
@@ -86,6 +97,8 @@ One cant' instantiate functions directly, so we have to get the type of a functi
 
 If you wanted to modify a function directly, you can! There's a large
 number of method available that you can play with.
+
+.. code-block:: python
 
   >>> filter(lambda x: x.startswith('func'), dir(fn))
   ['func_closure', 
@@ -109,6 +122,8 @@ Classes
 -------
 You can create a class by instantiating a new type:
 
+.. code-block:: python
+
     >>> a = type('MyClassType', (), {'test': lambda self: 1 })
     >>> b = a()
     >>> b.test
@@ -119,6 +134,8 @@ You can create a class by instantiating a new type:
 type(name, parents, attributes + values)
 Python's objects are incredibly maleable. You can actually modify class methods directly:
 
+.. code-block:: python
+
     >>> a.test = lambda self : return "noooo!"
     >>> b.test()
     noooo!
@@ -128,11 +145,15 @@ Show off a.__dict__, and how item assignment ads stuff to it
 
 Although you can also override the method on the instance directly:
 
+.. code-block:: python
+
     >>> b.test = lambda self : return "yes!"
     >>> b.test()
     yes!
 
 This is the same method one can use to find out the type of an object:
+
+.. code-block:: python
 
     >>> type("hello world")
     <type 'str'>
@@ -143,21 +164,29 @@ Note that types actually have some hidden features as well:
 
 You can find out all the superclasses of a 'type' with .__bases__:
 
+.. code-block:: python
+
     >>> a.__bases__
     (object,)
 
 And all subclasses:
+
+.. code-block:: python
 
     >>> str.__subclasses__()
     [<class 'apt.package.__dstr'>]
 
 So how could I find all the classes in my scope?
 
+.. code-block:: python
+
     >>> object.__subclasses__()
 
 Pop Quiz: Is object a subclass of type, or visa versa?
 
 Answer: both are subclasses of each other! Kind of.
+
+.. code-block:: python
 
     >>> isinstance(object, type)
     True
@@ -173,8 +202,7 @@ Frames
 
 Want to look at the stack frames within python? That's possible too.
 
+.. code-block:: python
+
     >>> import sys
     >>> sys._getframe()
-
-__metaclasses__
-GetSizeOf, if we have time
