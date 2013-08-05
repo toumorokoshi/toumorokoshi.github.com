@@ -7,7 +7,7 @@ AUTHOR_BIO = \
 Love Python, Love Emacs, and starting to like Golang. I work at Zillow.
 """
 SITENAME = u'toumorokoshi.github.com'
-SITEURL = ''
+SITEURL = '.'
 TAGLINE = 'Yusuke Tsutsumi'
 THEME = "pelican-svbtle"
 
