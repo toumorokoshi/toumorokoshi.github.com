@@ -1,6 +1,6 @@
 Python Internals
 ================
-:date: 2013-05-13
+:date: 2013-08-05
 :category: python
 :tags: programming python
 :author: Yusuke Tsutsumi
@@ -222,16 +222,15 @@ defaults to:
 * if not, the attribute call's it's parents __getattribute__ method,
   which of course recurses to it's own parents on being unable to find it
 
-This is the same method one can use to find out the type of an object:
+One of the things about __dict__ is it's not directly writable. If you
+want to modify attributes on an object, python provides built-in
+functions for this:
 
-.. code-block:: python
+* hasattr(foo, 'bar') returns true if the object foo has the attribute 'bar'
+* getattr(foo, 'bar') returns the attribute foo.bar
+* setattr(foo, 'bar', val) is equivalent to foo.bar = val
 
-    >>> type("hello world")
-    <type 'str'>
-
-Note it returns a type object directly, instead of the some representation of the type.
-
-Note that types actually have some hidden features as well:
+back to classes/types, there's some interesting hidden features as well:
 
 You can find out all the superclasses of a 'type' with .__bases__:
 
@@ -280,3 +279,11 @@ Want to look at the stack frames within python? That's possible too.
     >>> sys._getframe()
 
 Will get you an instance of the existing frame, with references to the variables in the inner scope, outer scope, and more!
+
+Conclusion 
+---------- 
+
+There's a lot of interesting stuff going on under the hood of Python,
+way beyond the brief discussion I covered here. The interpretive
+nature of python is one that promotes exploration, so don't hesitate!
+Explore the wonderful world of python internals.
