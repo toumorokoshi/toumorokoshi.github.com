@@ -205,7 +205,7 @@ reason being that the problem of maintaining development environments
 and development tools is quite a bit different form maintaining a
 cluster of systems for running services in. Existing solutions tended
 to be ops-driven (or based on ops-driven technologies), and didn't
-make considerations like::
+make considerations like:
 
 Configuration based on user input
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -289,9 +289,9 @@ So in conclusion...
 Sprinter has been a fun project for me that has I feel like has a lot
 of potential. Please give it a try! Here's some options if you're interested:
 
-* Follow the more detailed and explanatory `tutorial <http://toumorokoshi.github.io/sprinter/tutorial.html>`_
-* Read up on the `docs <http://toumorokoshi.github.io/sprinter/index.html>`_
+* Follow the more detailed and explanatory `tutorial <http://sprinter.readthedocs.org/en/latest/tutorial.html>`_
+* Read up on the `docs <http://toumorokoshi.github.io/sprinter/>`_
 * Look at the `code <https://github.com/toumorokoshi/sprinter>`_
-* Ask some questions on the `Google Group <https://groups.google.com/forum/#!forum/sprinter-dev>'_
+* Ask some questions on the `Google Group <https://groups.google.com/forum/#!forum/sprinter-dev>`_
 
 And of course leave a comment :)
