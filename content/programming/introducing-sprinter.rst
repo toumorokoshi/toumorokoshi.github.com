@@ -45,7 +45,7 @@ Using wget (Debian/Ubuntu)::
     cd /tmp/; rm sandbox.sh; wget https://raw.github.com/toumorokoshi/sprinter/master/scripts/sandbox.sh -O sandbox.sh; bash sandbox.sh
 
 This adds the 'sprinter' command in a sandboxed location, inside your user root
-(~/.sprinter). In fact, when sprinter installs anything. it usually ends up in
+(~/.sprinter). In fact, when sprinter installs anything, it usually ends up in
 there. This allows for sandboxing packages and executables to make changing
 environments easier.
 
@@ -90,6 +90,41 @@ Installing an environment is as easy as pointing sprinter to the environment con
     sprinter install https://raw.github.com/toumorokoshi/yt.rc/master/toumorokoshi.cfg
     sprinter install ~/downloads/myconf.cfg
 
+And the output looks like this::
+
+    $ sprinter install developer.cfg 
+    Checking and setting global parameters...
+    Installing environment developer...
+    A standard global ssh key was detected! Would you like to use the global ssh key? (default no): no
+    installing node...
+    /home/tsutsumi/.sprinter/developer/features/node/bin/grunt -> /home/tsutsumi/.sprinter/developer/features/node/lib/node_modules/grunt-cli/bin/grunt
+    grunt-cli@0.1.9 /home/tsutsumi/.sprinter/developer/features/node/lib/node_modules/grunt-cli
+    ├── resolve@0.3.1
+    ├── nopt@1.0.10 (abbrev@1.0.4)
+    └── findup-sync@0.1.2 (lodash@1.0.1, glob@3.1.21)
+
+    installing git...
+    Installing git-core...
+    [sudo] password for tsutsumi: 
+    Reading package lists... Done
+    Building dependency tree       
+    Reading state information... Done
+    git-core is already the newest version.
+    The following packages were automatically installed and are no longer required:
+      linux-headers-3.2.0-32 linux-headers-3.2.0-27 linux-headers-3.2.0-32-generic
+      linux-headers-3.2.0-27-generic
+    Use 'apt-get autoremove' to remove them.
+    0 upgraded, 0 newly installed, 0 to remove and 129 not upgraded.
+    installing github...
+    Finalizing...
+    Injecting values into /home/tsutsumi/.profile...
+    Injecting values into /home/tsutsumi/.zprofile...
+    Injecting values into /home/tsutsumi/.zshrc...
+    Injecting values into /home/tsutsumi/.bash_profile...
+    Injecting values into /home/tsutsumi/.bashrc...
+    Injecting values into /home/tsutsumi/.bash_profile...
+    Injecting values into /home/tsutsumi/.zprofile...
+
 Once installed, sprinter remembers where the configuration was found,
 and updating is a simple as re-installing the environment, or updating
 the specific namespace (sprinter looks for the updated config where
@@ -101,7 +136,7 @@ you last installed the environment)::
 
 This way, managing a cross-platform(ish) development environment and
 distributing it is as simple as hosting a configuration file, or
-storing one in a git repository. Simple modify your configuration
+storing one in a git repository. Simply modify your configuration
 file, push it, and update it when you move machines!
 
 Managing Environments
@@ -129,7 +164,7 @@ Building environments for companies
 
 Sprinter is a great way to manage one's own personal environment, but
 it was designed to support company-wide environments as well. The only
-problem that company set up scripts have over personal ones is
+problem that company set-up scripts have over personal ones is
 customization: you need to be able to customize your install based on
 the username, one's own file layout, whether they want to use their
 own ssh keys, and more.
@@ -186,7 +221,7 @@ and the ssh formula to upload the ssh key). Here's what inputting parameters loo
 
     $ sprinter install mycompany.cfg 
     Checking and setting global parameters...
-    Installing environment mycomany...
+    Installing environment mycompany...
     please enter your fullname: 
     please enter your username: 
     please enter your domainpassword: 
@@ -202,7 +237,7 @@ Sprinter definitely isn't the first solution to try to manage an
 environment. Many alternatives exist, with their own merits. There was
 a few driving factors that motivated me to roll my own, the main
 reason being that the problem of maintaining development environments
-and development tools is quite a bit different form maintaining a
+and development tools is quite a bit different from maintaining a
 cluster of systems for running services in. Existing solutions tended
 to be ops-driven (or based on ops-driven technologies), and didn't
 make considerations like:
@@ -211,7 +246,7 @@ Configuration based on user input
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 A lot of the management systems out there were designed to push a
 machine into a specific state (Chef/Puppet). This design is influenced
-directly from an operator persepective, where a machine does not need
+directly from an operator perspective, where a machine does not need
 to consider any state that already exists on the user machine
 (e.g. existing SSH configuration, .rc files). Sprinter and it's
 formulas take a lot of caution to not override as much global state as
@@ -224,7 +259,7 @@ In addition, I haven't seen any configuration management query for
 user input on install. This makes things like automatically uploading
 ssh keys (which typically requires passwords you don't want to store
 in a repository) very tricky, unless you're willing to do a lot of
-fenagling with environment variables.
+finagling with environment variables.
 
 Sprinter solves this problem by querying and storing user input in
 it's configuration, so you only have to configure things once, and it
@@ -247,11 +282,11 @@ state from a system. For example, a sprinter deactivate assures that
 anything added to an .rc file is removed, and removing items from the
 PATH. This works well for personal machines, because working on
 software for your company doesn't mean you have to completely
-reconfigure your machine into an irreperable state.
+reconfigure your machine into an irreparable state.
 
 (unfortunately, package managers on most systems are global, so it's
-not possible to sandbox those. Solutions to this problem are still in
-the works.)
+not possible to sandbox those. Possible solutions to this problem are
+still in the works.)
 
 Multiple Simultaneous Environments
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -262,7 +297,8 @@ activating two different environments simultaneously.
 
 Sprinter provides that functionality. You can overlay as many
 environments as you want on top of each other, and each piece is still
-a modular component that can be installed or removed.
+a modular component that can be installed or removed. (the most
+recently activated/updated environment takes precedence).
 
 This works very well for the cases sprinter is designed for, like
 having a personal environment distributed through sprinter while using
@@ -271,7 +307,7 @@ your company or organization's configuration as well.
 It's easy to setup and install
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Chef and Puppet both typically require servers, and a ton of
+Chef and Puppet both typically require running a service, and a bit of
 configuration to get up and running. Sprinter configs and the update
 process was designed so that anyone could easily add an environment
 into their project that developers could use.
@@ -279,7 +315,7 @@ into their project that developers could use.
 Having a global environment that anyone can use is as simple as
 publishing a file online through a webserver. In fact, github is a
 great place to host this. To see an example, you can look at `my
-repository <https://github.com/toumorokoshi/yt.rc>`_, where I maintain
+environment repository <https://github.com/toumorokoshi/yt.rc>`_, where I maintain
 the development environment I use on my Linux and OSX machines (I
 switch between three or four).
 
@@ -287,11 +323,11 @@ So in conclusion...
 -------------------
 
 Sprinter has been a fun project for me that has I feel like has a lot
-of potential. Please give it a try! Here's some options if you're interested:
+of potential. Please give it a try! Here's some ways to explore Sprinter:
 
 * Follow the more detailed and explanatory `tutorial <http://sprinter.readthedocs.org/en/latest/tutorial.html>`_
 * Read up on the `docs <http://toumorokoshi.github.io/sprinter/>`_
 * Look at the `code <https://github.com/toumorokoshi/sprinter>`_
 * Ask some questions on the `Google Group <https://groups.google.com/forum/#!forum/sprinter-dev>`_
 
-And of course leave a comment :)
+And of course feel free to leave a comment :)
