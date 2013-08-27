@@ -322,7 +322,7 @@ switch between three or four).
 So in conclusion...
 -------------------
 
-Sprinter has been a fun project for me that has I feel like has a lot
+Sprinter has been a fun project for me that I feel like has a lot
 of potential. Please give it a try! Here's some ways to explore Sprinter:
 
 * Follow the more detailed and explanatory `tutorial <http://sprinter.readthedocs.org/en/latest/tutorial.html>`_
