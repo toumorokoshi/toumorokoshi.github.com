@@ -1,4 +1,4 @@
-make html
+make publish
 git checkout master
 git pull
 rm *.html
