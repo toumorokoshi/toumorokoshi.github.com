@@ -87,7 +87,8 @@ configuration::
     packages =
       grunt-cli
 
-Installing an environment is as easy as pointing sprinter to the environment configuration file::
+Installing an environment is as easy as pointing sprinter to the environment configuration file. sprinter
+handles remote or local configuration files::
 
     sprinter install https://raw.github.com/toumorokoshi/yt.rc/master/toumorokoshi.cfg
     sprinter install ~/downloads/myconf.cfg
