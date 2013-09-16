@@ -3,7 +3,7 @@ Introducing Sprinter: environment management made easy
 ======================================================
 :date: 2013-08-23
 :category: programming
-:tags: python
+:tags: python (are there other tags that are relavent and can be used?)
 :author: Yusuke Tsutsumi
 
 
@@ -43,6 +43,8 @@ Using curl (OSX)::
 Using wget (Debian/Ubuntu)::
 
     cd /tmp/; rm sandbox.sh; wget https://raw.github.com/toumorokoshi/sprinter/master/scripts/sandbox.sh -O sandbox.sh; bash sandbox.sh
+
+After running commands, be sure to start a new shell after commands have been run to ensure sprinter is running.
 
 This adds the 'sprinter' command in a sandboxed location, inside your user root
 (~/.sprinter). In fact, when sprinter installs anything. it usually ends up in
@@ -205,7 +207,7 @@ reason being that the problem of maintaining development environments
 and development tools is quite a bit different form maintaining a
 cluster of systems for running services in. Existing solutions tended
 to be ops-driven (or based on ops-driven technologies), and didn't
-make considerations like::
+make considerations like:
 
 Configuration based on user input
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
