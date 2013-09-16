@@ -3,7 +3,7 @@ Introducing Sprinter: environment management made easy
 ======================================================
 :date: 2013-08-23
 :category: programming
-:tags: python
+:tags: python, environment
 :author: Yusuke Tsutsumi
 
 
@@ -34,7 +34,10 @@ Enter Sprinter
 Sprinter is a development environment management tool, designed to easily create,
 manage, and configure multiple development environments. 
 
-So what does that look like? Well, the first step is to install sprinter. Currently, installing sprinter involves downloading and running a shell script. You can take advantage of these pre-crafted commands:
+So what does that look like? Well, the first step is to install
+sprinter. Currently, installing sprinter involves downloading and
+running a shell script. You can take advantage of these pre-crafted
+commands:
 
 Using curl (OSX)::
 
@@ -43,6 +46,10 @@ Using curl (OSX)::
 Using wget (Debian/Ubuntu)::
 
     cd /tmp/; rm sandbox.sh; wget https://raw.github.com/toumorokoshi/sprinter/master/scripts/sandbox.sh -O sandbox.sh; bash sandbox.sh
+
+*NOTE*: You'll have to open a new shell every time you modify an
+ environment. This is because resetting shells to scratch really
+ isn't possible, unless you start a brand new one.
 
 This adds the 'sprinter' command in a sandboxed location, inside your user root
 (~/.sprinter). In fact, when sprinter installs anything, it usually ends up in
