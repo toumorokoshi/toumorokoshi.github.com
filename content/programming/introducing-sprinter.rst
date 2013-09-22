@@ -7,10 +7,12 @@ Introducing Sprinter: environment management made easy
 :author: Yusuke Tsutsumi
 
 
-First, let's admit something here: setting up new machines just the way you like
-them is hard. The longer you've been developing, the more programs, tools, and
-configuration you take with you. When you set up a new machine, you have to
-remember everything you had set up on an old machine, including:
+Here's a problem I've had, and I think others have had to: setting up
+a new machine.  setting up new machines just the way you like them is
+hard. The longer you've been developing, the more programs, tools, and
+configuration you take with you. When you set up a new machine, you
+have to remember everything you had set up on an old machine,
+including:
 
 * your .rc and shell config files (.vimrc, .emacs, .bashrc)
 * all of the packages you've installed
@@ -19,13 +21,13 @@ remember everything you had set up on an old machine, including:
 * generating ssh keys and setting up ssh configs
 
 At a company, things become even more difficult. In addition to the difficulties
-mentioned above, you have to handle additional difficulties like
+mentioned above, you have to handle additional problems like
 installing and updating internal tools, and you have more machines:
 every developer needs to remain in sync!
 
 Another one of the big problems comes from developers who use their own machines
 to work on company projects: there's times when you want to deactivate or remove
-the company environment, so you can continue work on your own, personal
+the company development environment, so you can continue work on your own, personal
 projects, without having to take a lot of time switching back and forth.
 
 Enter Sprinter
@@ -37,7 +39,9 @@ manage, and configure multiple development environments.
 So what does that look like? Well, the first step is to install
 sprinter. Currently, installing sprinter involves downloading and
 running a shell script. You can take advantage of these pre-crafted
+
 commands:
+=======
 
 Using curl (OSX)::
 
