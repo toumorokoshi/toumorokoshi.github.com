@@ -8,7 +8,7 @@ Introducing Sprinter: environment management made easy
 
 
 Here's a problem I've had, and I think others have had to: setting up
-a new machine.  setting up new machines just the way you like them is
+a new machine. Setting up new machines just the way you like them is
 hard. The longer you've been developing, the more programs, tools, and
 configuration you take with you. When you set up a new machine, you
 have to remember everything you had set up on an old machine,
