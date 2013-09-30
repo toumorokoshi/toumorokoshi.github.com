@@ -1,14 +1,14 @@
 ======================================================
 Introducing Sprinter: environment management made easy
 ======================================================
-:date: 2013-08-23
+:date: 2013-09-29
 :category: programming
 :tags: python, environment
 :author: Yusuke Tsutsumi
 
 
-Here's a problem I've had, and I think others have had to: setting up
-a new machine. Setting up new machines just the way you like them is
+Today, I wanted to talk about one of the more annoying problems that pops from time to time: setting up
+a new machine, and keeping existing machines in sync. Setting up new machines just the way you like them is
 hard. The longer you've been developing, the more programs, tools, and
 configuration you take with you. When you set up a new machine, you
 have to remember everything you had set up on an old machine,
@@ -38,10 +38,7 @@ manage, and configure multiple development environments.
 
 So what does that look like? Well, the first step is to install
 sprinter. Currently, installing sprinter involves downloading and
-running a shell script. You can take advantage of these pre-crafted
-
-commands:
-=======
+running a shell script. You can take advantage of these pre-crafted commands:
 
 Using curl (OSX)::
 
@@ -53,7 +50,7 @@ Using wget (Debian/Ubuntu)::
 
 *NOTE*: You'll have to open a new shell every time you modify an
  environment. This is because resetting shells to scratch really
- isn't possible, unless you start a brand new one.
+ isn't possible. Currently the best solution is just to open a new one.
 
 This adds the 'sprinter' command in a sandboxed location, inside your user root
 (~/.sprinter). In fact, when sprinter installs anything, it usually ends up in
@@ -280,13 +277,13 @@ Sandboxing Environments
 ^^^^^^^^^^^^^^^^^^^^^^^
 
 All of the existing environment management tools don't really consider
-sandboxing an environment. Once again this comes from the needs of an
-operator: why would you ever want to sandbox state of a machine that's
-only going to be one type it's whole life? For developers, the needs
-are different: you might have to reconfigure yourself to a release
-box, or a test box (in the very common case where differences exist),
-and switching between them can mean removing everything and installing
-from scratch.
+sandboxing an environment. Once again this comes from the fact that
+current tools are designed from the needs of an operator: why would
+you ever want to sandbox state of a machine that's only going to be
+one type it's whole life? For developers, the needs are different: you
+might have to reconfigure yourself to a release box, or a test box (in
+the very common case where differences exist), and switching between
+them can mean removing everything and installing from scratch.
 
 Sprinter formulas are designed to be able to easily inject and remove
 state from a system. For example, a sprinter deactivate assures that
@@ -295,7 +292,7 @@ PATH. This works well for personal machines, because working on
 software for your company doesn't mean you have to completely
 reconfigure your machine into an irreparable state.
 
-(unfortunately, package managers on most systems are global, so it's
+*NOTE*: (unfortunately, package managers on most systems are global, so it's
 not possible to sandbox those. Possible solutions to this problem are
 still in the works.)
 
@@ -337,7 +334,7 @@ Sprinter has been a fun project for me that I feel like has a lot
 of potential. Please give it a try! Here's some ways to explore Sprinter:
 
 * Follow the more detailed and explanatory `tutorial <http://sprinter.readthedocs.org/en/latest/tutorial.html>`_
-* Read up on the `docs <http://toumorokoshi.github.io/sprinter/>`_
+* Read up on the `docs <http://sprinter.readthedocs.org/en/latest/>`_
 * Look at the `code <https://github.com/toumorokoshi/sprinter>`_
 * Ask some questions on the `Google Group <https://groups.google.com/forum/#!forum/sprinter-dev>`_
 
