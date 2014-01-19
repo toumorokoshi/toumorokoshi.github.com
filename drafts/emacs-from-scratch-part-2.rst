@@ -1,7 +1,7 @@
 =================================================
 My Emacs From Scratch, Part 2: Package management
 =================================================
-:date: 2013-12-12
+:date: 2013-1-19
 :category: programming
 :tags: emacs, environment
 :author: Yusuke Tsutsumi
@@ -21,6 +21,7 @@ environment similar to mine. You can see a video here:
 
 Today we'll be talking about:
 
+--------------------------------
 Installing and Managing Packages
 --------------------------------
 
@@ -36,7 +37,8 @@ on `intalling emacs 24 <http://batsov.com/articles/2011/10/09/getting-started-wi
 
 Conversely, you can install `package.el <http://repo.or.cz/w/emacs.git/blob_plain/1a0a666f941c99882093d7bd08ced15033bc3f0c:/lisp/emacs-lisp/package.el>`
 
-### Background ###
+Background
+----------
 
 Text editors tend to be limited in the initial functionality they
 provide. Even Emacs, which provides a larger set of base functionality
@@ -52,7 +54,8 @@ As of Emacs 24, packages management is now included by default. This means you h
 
 But we have a couple steps to go until we reach package management nirvana.
 
-### The Code ###
+The Code
+--------
 
 For this tutorial, let's add two separate files into our ~/.emacs.d/ directory:
 
@@ -65,7 +68,8 @@ And load .emacs.loadpackages files in your ~/.emacs:
 
 Keeping functionality in separate files helps growing .emacs files (somewhat) manageable.
 
-#### Adding packages archives ####
+Adding packages archives
+------------------------
 
 Emacs 24's packages manager allows the adding of additional package
 archives. In your .emacs.packages, let's tell Emacs to add some more package archives:
