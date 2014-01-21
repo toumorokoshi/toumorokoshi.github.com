@@ -7,7 +7,7 @@ from pelicanconf import *
 
 SITEURL = 'http://toumorokoshi.github.io'
 
-DELETE_OUTPUT_DIRECTORY = True
+DELETE_OUTPUT_DIRECTORY = True #test
 
 # Following items are often useful when publishing
 
