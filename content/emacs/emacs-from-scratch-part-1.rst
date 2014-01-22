@@ -1,7 +1,7 @@
 ==================================================
 Emacs From Scratch, Part 1: Extending Emacs basics
 ==================================================
-:date: 2013-1-22
+:date: 2014-1-22
 :category: programming
 :tags: emacs, environment
 :author: Yusuke Tsutsumi
