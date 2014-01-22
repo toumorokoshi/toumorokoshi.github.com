@@ -1,7 +1,7 @@
 ==================================================
 Emacs From Scratch, Part 1: Extending Emacs basics
 ==================================================
-:date: 2013-1-19
+:date: 2013-1-22
 :category: programming
 :tags: emacs, environment
 :author: Yusuke Tsutsumi
@@ -9,11 +9,11 @@ Emacs From Scratch, Part 1: Extending Emacs basics
 This is a series of tutorials geared around building up your own
 customized environment, using emacs, from scratch.
 
-This tutorial is geared toward those who are starting with Emacs, and
-want to learn the pieces you need to know to really extend and build
-your custom environment. If you want to just get started with a
-rocking environment and don't care about understanding the nitty-gritty,
-I'd suggest looking at `emacs-prelude
+This tutorial is geared toward those who are starting with extending
+Emacs, and want to learn the pieces you need to know to really extend
+and build your custom environment. If you want to just get started
+with a rocking environment and don't care about understanding the
+nitty-gritty, I'd suggest looking at `emacs-prelude
 <https://github.com/bbatsov/prelude>`_
 
 We're going to go in-depth on discussing the following topics:
@@ -25,13 +25,13 @@ We're going to go in-depth on discussing the following topics:
 
 If you follow all these tutorials word for word, you'll end up with an emacs environment somewhat like mine:
 
-`My Emacs Setup <http://www.youtube.com/watch?v=z0PET0Qq8CU>`_
+`My Emacs Setup <http://www.youtube.com/watch?v=8vdOrsywra0>`_
 
 However, I would recommend picking and choosing the parts that best
 suit your purposes. Please leave comments if I'm not going in-depth
 enough to provide the tools to do so.
 
-So lets' begin!
+So let's begin!
 
 ------------
 The Tutorial
@@ -39,6 +39,10 @@ The Tutorial
 
 Init-Files
 ==========
+
+init-files are the files that emacs loads on startup. This is similar
+to the rc files that you often see with shells/terminals, vim, or a
+variety of other tools.
 
 Emacs has a few standard places to add an init-file, but those are
 already well documented in the `manual
@@ -53,7 +57,7 @@ Unlike some other init files, Emacs's initialization is basically
 evaluating the init-files with it's built-in elisp (Emacs Lisp)
 interpreter. This is what provides Emacs users with real power: since
 the great majority of Emacs is written directly in elisp, it is
-possible to hook into any of that code with your init-file, or even
+possible to extend any of that code with your init-file, or even
 evaluating code on the fly after the system starts up. This is a stark
 contrast to other extensibile architectures, which only allow a
 discrete set of configs or apis from which to modify application
@@ -70,13 +74,17 @@ files beyond the .emacs file. Package managers add their packages
 there, packages add their configuration there, so it's also a good
 place to add our custom configuration.
 
-For our example, let's disable the scroll and menu bars, so all we have are the buffers left.
+For our example, let's disable the menu, scroll and tool bars. This
+removes all of the dropdown gui menus, so all we have are the buffers
+left. You might think this is crippling at first, but learning your keybindings
+will make you way more efficient in the long run.
 
 You can name your files whatever you want, but I've found it's easy to
 find files if you prefix them. I prefix all of my init-files with
 ".emacs.". So let's make a file now called ".emacs.noexternals". This
 signifies to me that these are configs for components that are native
-to emacs. Let's disable the menu, tool, and scroll bar now::
+to Emacs (don't depend on third-party packages). Let's disable the
+menu, tool, and scroll bar now::
 
     ; ~/.emacs.d/.emacs.noexternals
     
