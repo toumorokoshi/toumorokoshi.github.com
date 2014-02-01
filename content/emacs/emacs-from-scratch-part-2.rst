@@ -103,7 +103,8 @@ The code above does the following:
 * installs relevant package managers
 * initializes the package system so definitions are loaded
 
-#### Installing and Loading Packages on Startup ####
+Installing and Loading Packages on Startup
+------------------------------------------
 
 Now that we have the package repositories we like, it's time to
 install some packages! First, choose a package you'd like to
