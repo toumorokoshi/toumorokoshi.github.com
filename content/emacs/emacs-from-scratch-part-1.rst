@@ -23,7 +23,8 @@ We're going to go in-depth on discussing the following topics:
 * binding command and keys to installed packages
 * writing some custom code, and integrating it into your emacs environment
 
-If you follow all these tutorials word for word, you'll end up with an emacs environment somewhat like mine:
+If you follow all these tutorials word for word, you'll end up with
+the building blocks to set up your own personalized emacs environment. Here's mine:
 
 `My Emacs Setup <http://www.youtube.com/watch?v=8vdOrsywra0>`_
 
@@ -226,9 +227,10 @@ What's Next
 ===========
 
 Next tutorial, we'll talk about package management.
+You can find part 2 `here <{filename}/emacs/emacs-from-scratch-part-2.rst>`_
 
-Further Reading
-===============
+Further Reading / References
+============================
 
 * `init-file <http://www.gnu.org/software/emacs/manual/html_node/emacs/Init-File.html>`_
 * `hooks <http://www.gnu.org/software/emacs/manual/html_node/emacs/Hooks.html>`_

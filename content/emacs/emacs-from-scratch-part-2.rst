@@ -8,14 +8,14 @@ Emacs From Scratch, Part 2: Package management
 
 This is a series of tutorials geared around building up your own
 customized environment, using emacs, from scratch.
-
 You can find part 1 `here <{filename}/emacs/emacs-from-scratch-part-1.rst>`_
 
 --------------------------------
 Installing and Managing Packages
 --------------------------------
 
-### Requirements ###
+Requirements
+------------
 
 To follow along with this tutorial, all you need is an existing
 installation of Emacs 24, or package.el. I note 24 specifically because if you have
@@ -23,9 +23,9 @@ Linux, your distribution might not have an Emacs package that is version 24 or h
 
 You can find out your emacs version with the 'M-x emacs-version' in
 your Emacs. If you don't have 24, Bozhidar Batsov wrote a great guide
-on `intalling emacs 24 <http://batsov.com/articles/2011/10/09/getting-started-with-emacs-24/>`.
+on `installing emacs 24 <http://batsov.com/articles/2011/10/09/getting-started-with-emacs-24/>`_.
 
-Conversely, you can install `package.el <http://repo.or.cz/w/emacs.git/blob_plain/1a0a666f941c99882093d7bd08ced15033bc3f0c:/lisp/emacs-lisp/package.el>`.
+Conversely, you can install `package.el <http://repo.or.cz/w/emacs.git/blob_plain/1a0a666f941c99882093d7bd08ced15033bc3f0c:/lisp/emacs-lisp/package.el>`_.
 Simple add it somewhere to your .emacs.d and load it as shown in part 1.
 
 Background
@@ -69,6 +69,8 @@ archives, the places where package.el looks for packages to
 install. In your .emacs.packages, let's tell Emacs to add some more
 package archives:
 
+.. code-block:: lisp
+
     ; .emacs.packages
     (require 'package)
     (add-to-list 'package-archives
@@ -79,14 +81,14 @@ package archives:
 
 So what are these package archives? Here's some info about them:
 
-* `melpa <http://melpa.milkbox.net/#/>` is a package archive managed
+* `melpa <http://melpa.milkbox.net/#/>`_ is a package archive managed
   by Milkypostman. It's the easiest package archive to add packages
   too, and is automatically updated when the package is. The go-to
   source for up to date, and the vast majority of, packages. However
   it's worth noting that with cutting-edge comes instability, so that
   is a risk of stability one should be aware of. It's worth noting I've never been
   broken for any package I've installed via melpa, however.
-* `marmalade <http://marmalade-repo.org/>` is another third-party
+* `marmalade <http://marmalade-repo.org/>`_ is another third-party
   package manager. Marmalade tends to be more stable, due to the
   requirement that developers explicitely upload new versions of their
   packages.
@@ -106,9 +108,9 @@ The code above does the following:
 Now that we have the package repositories we like, it's time to
 install some packages! First, choose a package you'd like to
 install. I'm going to install `magit
-<http://magit.github.io/documentation.html>`, a very nice version
+<http://magit.github.io/documentation.html>`_, a very nice version
 control major mode for git, and `yasnippet
-<http://capitaomorte.github.io/yasnippet/>`, a package to easily
+<http://capitaomorte.github.io/yasnippet/>`_, a package to easily
 parameterize and inject templates as needed (e.g. a java class template). 
 Remember, you can always find more package by using 'M-x list-packages'
 
@@ -118,12 +120,14 @@ going to explain a method that will automatically install desired
 missing packages on startup.
 
 (To give proper attribution, I adapted this method from snippets in `this file
-<https://github.com/bbatsov/prelude/blob/master/core/prelude-packages.el>`
+<https://github.com/bbatsov/prelude/blob/master/core/prelude-packages.el>`_
 in emacs-prelude.)
 
 The first step is to define a list of packages you want installed on
 startup. In your .emacs.packages, after the package archives have been
 initialized, let's create a list and store our desired packages in them:
+
+.. code-block:: lisp
 
     ; .emacs.packages
     ; defvar is the correct way to declare global variables
@@ -139,6 +143,8 @@ Now that required-packages is defined, we can use it to install some
 packages! Let's add a few more lines to install these packages for us:
 
 Add the following to .emacs.packages:
+
+.. code-block:: lisp
 
     ; .emacs.packages
     (require 'cl)
@@ -187,6 +193,8 @@ So now we have packages installing automatically. How do we use them?
 Each package has it's own configuration, so it's best to read the
 README or documentation. However, almost all packages require you to
 require it first. Let's add a few lines to our .emacs.d/.emacs.loadpackages:
+
+.. code-block:: lisp
 
     ; .emacs.loadpackages
     ; loading package
@@ -328,4 +336,13 @@ Note: this includes code from part one
 What's Next
 ===========
 
-Next tutorial, we'll talk about 
+Next tutorial, we'll talk about writing our own methods and modifying behaviour ourselves.
+
+Further Reading / References
+============================
+
+* `package.el <http://www.emacswiki.org/emacs/ELPA>`_
+* `melpa <http://melpa.milkbox.net/#/>`_
+* `marmalade <http://marmalade-repo.org/>`_
+* `magit <http://magit.github.io/documentation.html>`_
+* `yasnippet <http://capitaomorte.github.io/yasnippet/>`_
