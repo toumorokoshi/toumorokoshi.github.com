@@ -37,6 +37,25 @@ So let's begin!
 The Tutorial
 ------------
 
+Emacs Lisp
+==========
+
+To follow these tutorials, you need to have a very rudimentary
+understanding of emacs lisp. Basically just remeber this::
+
+   (method arg1 arg2 ...) 
+
+Is how methods are called: the first element in a parentheses is the
+method being called, and the subsequent elements are it's arguments.
+
+You can also nest calls into calls, like this::
+
+    (foo (bar bar-argument) foo-argument)
+
+
+This nesting of statements is what starts the chain of parentheses
+that lisp and lisp dialects are famous for.
+
 Init-Files
 ==========
 
@@ -87,8 +106,10 @@ to Emacs (don't depend on third-party packages). Let's disable the
 menu, tool, and scroll bar now::
 
     ; ~/.emacs.d/.emacs.noexternals
-    
+
     ;; Remove scrollbars, menu bars, and toolbars
+    ; when is a special form of "if", with no else clause, it reads:
+    ; (when <condition> <code-to-execute-1> <code-to-execute2> ...)
     (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
     (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
     (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
@@ -126,15 +147,16 @@ compromise, I bind the following commands::
 
     ; ~/.emacs.noexternals
 
-    ;; Wind-move 
-    (global-set-key (kbd "C-c C-j") 'windmove-right)
-    (global-set-key (kbd "C-c C-k") 'windmove-left)
+    ;; Wind-move
+
+    (global-set-key (kbd "C-c C-j") 'windmove-left)
+    (global-set-key (kbd "C-c C-k") 'windmove-down)
     (global-set-key (kbd "C-c C-l") 'windmove-up)
-    (global-set-key (kbd "C-c C-;") 'windmove-down)
+    (global-set-key (kbd "C-c C-;") 'windmove-right)
 
 windmove-<direction> is a command that moves your window focus to the
 first window in the direction specified. I bind them to the chords C-c
-(jkl;), because C-c C-h is a help command.
+C-(jkl;), because C-c C-h is a help command.
 
 Using Hooks
 ===========
@@ -146,9 +168,9 @@ keys with their own configuration. This is not a common practice now,
 but can still happend.
 
 To help ensure your commands run in a particular order, Emacs provides
-hooks into it's startup. So let's modify our .emacs so
-.emacs.noexternals gets loaded at the very end, after everything else
-has run::
+hooks into it's startup (along with several other places, but we'll
+get into that later). So let's modify our .emacs so .emacs.noexternals
+gets loaded at the very end, after everything else has run::
 
     ; ~/.emacs
     
@@ -162,7 +184,7 @@ method after everything else in the init-file loaded.
 
 Note that in this example, I used a lambda/anonymous method versus an
 explicit function. It's typically the standard to do lambdas in hooks
-over defining a function and passing it.
+over, say, defining a function and passing it.
 
 Summary
 =======
@@ -195,10 +217,10 @@ Final Code
     (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
     ;; Wind-move 
-    (global-set-key (kbd "C-c C-j") 'windmove-right)
-    (global-set-key (kbd "C-c C-k") 'windmove-left)
+    (global-set-key (kbd "C-c C-j") 'windmove-left)
+    (global-set-key (kbd "C-c C-k") 'windmove-down)
     (global-set-key (kbd "C-c C-l") 'windmove-up)
-    (global-set-key (kbd "C-c C-;") 'windmove-down)
+    (global-set-key (kbd "C-c C-;") 'windmove-right)
 
 What's Next
 ===========

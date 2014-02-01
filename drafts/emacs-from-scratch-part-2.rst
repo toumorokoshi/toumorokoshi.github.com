@@ -1,25 +1,15 @@
-=================================================
-My Emacs From Scratch, Part 2: Package management
-=================================================
-:date: 2013-1-19
+==============================================
+Emacs From Scratch, Part 2: Package management
+==============================================
+:date: 2014-2-01
 :category: programming
 :tags: emacs, environment
 :author: Yusuke Tsutsumi
 
-Let me start by saying you're going down a difficult, but rewarding
-path. These tutorials are geared toward people who want the amazing
-functionality that emacs can provide, but want to really understand
-what's going on under the hood as well. If you want to just get
-started with a rocking environment and don't care about understanding
-the specifics, I'd suggest looking at `emacs-prelude
-<https://github.com/bbatsov/prelude>`
+This is a series of tutorials geared around building up your own
+customized environment, using emacs, from scratch.
 
-This is the beginning of a walkthrough on how to set up an emacs
-environment similar to mine. You can see a video here:
-
-`My Emacs Setup <http://www.youtube.com/watch?v=z0PET0Qq8CU>`
-
-Today we'll be talking about:
+You can find part 1 `here <{filename}/emacs/emacs-from-scratch-part-1.rst>`_
 
 --------------------------------
 Installing and Managing Packages
@@ -28,14 +18,15 @@ Installing and Managing Packages
 ### Requirements ###
 
 To follow along with this tutorial, all you need is an existing
-installation of Emacs 24. I note 24 specifically because if you have
+installation of Emacs 24, or package.el. I note 24 specifically because if you have
 Linux, your distribution might not have an Emacs package that is version 24 or higher.
 
 You can find out your emacs version with the 'M-x emacs-version' in
 your Emacs. If you don't have 24, Bozhidar Batsov wrote a great guide
 on `intalling emacs 24 <http://batsov.com/articles/2011/10/09/getting-started-with-emacs-24/>`.
 
-Conversely, you can install `package.el <http://repo.or.cz/w/emacs.git/blob_plain/1a0a666f941c99882093d7bd08ced15033bc3f0c:/lisp/emacs-lisp/package.el>`
+Conversely, you can install `package.el <http://repo.or.cz/w/emacs.git/blob_plain/1a0a666f941c99882093d7bd08ced15033bc3f0c:/lisp/emacs-lisp/package.el>`.
+Simple add it somewhere to your .emacs.d and load it as shown in part 1.
 
 Background
 ----------
@@ -44,7 +35,7 @@ Text editors tend to be limited in the initial functionality they
 provide. Even Emacs, which provides a larger set of base functionality
 and features than most, will probably not have everything you
 want. Luckily, like most other editors these days, Emacs provides
-methodology to extend your text editor. Vim and Sublime call them
+methodology to extend your text editor by taking code others have written. Vim and Sublime call them
 plugins, Emacs calls them *packages*.
 
 As of Emacs 24, packages management is now included by default. This means you have a way to:
@@ -66,13 +57,17 @@ And load .emacs.loadpackages files in your ~/.emacs:
 
     (load "~/.emacs.d/.emacs.loadpackages")
 
-Keeping functionality in separate files helps growing .emacs files (somewhat) manageable.
+We're going to split our code up into two parts: one file to define
+what packages we want to install, and another to load and set up those
+packages.
 
 Adding packages archives
 ------------------------
 
 Emacs 24's packages manager allows the adding of additional package
-archives. In your .emacs.packages, let's tell Emacs to add some more package archives:
+archives, the places where package.el looks for packages to
+install. In your .emacs.packages, let's tell Emacs to add some more
+package archives:
 
     ; .emacs.packages
     (require 'package)
@@ -88,7 +83,7 @@ So what are these package archives? Here's some info about them:
   by Milkypostman. It's the easiest package archive to add packages
   too, and is automatically updated when the package is. The go-to
   source for up to date, and the vast majority of, packages. However
-  it's worth noting that with cutting-edge comes instability, so there
+  it's worth noting that with cutting-edge comes instability, so that
   is a risk of stability one should be aware of. It's worth noting I've never been
   broken for any package I've installed via melpa, however.
 * `marmalade <http://marmalade-repo.org/>` is another third-party
@@ -114,51 +109,53 @@ install. I'm going to install `magit
 <http://magit.github.io/documentation.html>`, a very nice version
 control major mode for git, and `yasnippet
 <http://capitaomorte.github.io/yasnippet/>`, a package to easily
-parameterize and inject templates as needed (e.g. a java class template).
+parameterize and inject templates as needed (e.g. a java class template). 
+Remember, you can always find more package by using 'M-x list-packages'
 
-If you wanted to install it manually, all you would have to do is 'M-x
-package-install magit'. However, I believe in reproducability, so I'm
+If you wanted to install these manually, all you would have to do is 'M-x
+package-install <package>'. However, I believe in reproduceability, so I'm
 going to explain a method that will automatically install desired
 missing packages on startup.
 
-To give proper attribution, I adapted this method from snippets in `this file
+(To give proper attribution, I adapted this method from snippets in `this file
 <https://github.com/bbatsov/prelude/blob/master/core/prelude-packages.el>`
-in emacs-prelude.
+in emacs-prelude.)
 
 The first step is to define a list of packages you want installed on
-startup. In you .emacs.packages, after the package archives have been
+startup. In your .emacs.packages, after the package archives have been
 initialized, let's create a list and store our desired packages in them:
 
     ; .emacs.packages
+    ; defvar is the correct way to declare global variables
+    ; you might see setq as well, but setq is supposed to be use just to set variables, 
+    ; not create them.
     (defvar required-packages
       '(
         magit
         yasnippet
-      ) "A list of packages to ensure are installed at launch.")
-    )
+      ) "a list of packages to ensure are installed at launch.")
 
-Now that this variable is defined, we can use it to install some
-packages! I prefer to keep function and data separate where possible,
-so let's start using that .emacs.loadpackages from earlier!
+Now that required-packages is defined, we can use it to install some
+packages! Let's add a few more lines to install these packages for us:
 
-Add the following to .emacs.loadpackages:
+Add the following to .emacs.packages:
 
-    ;; .emacs.loadpackages
-    
-    ;; loading package list from another directory
-    (load "~/.emacs.d/.emacs.packages")
+    ; .emacs.packages
+    (require 'cl)
 
+    ; method to check if all packages are installed
     (defun packages-installed-p ()
       (loop for p in required-packages
             when (not (package-installed-p p)) do (return nil)
             finally (return t)))
 
+    ; if not all packages are installed, check one by one and install the missing ones.
     (unless (packages-installed-p)
-      ;; check for new packages (package versions)
+      ; check for new packages (package versions)
       (message "%s" "Emacs is now refreshing its package database...")
       (package-refresh-contents)
       (message "%s" " done.")
-      ;; install the missing packages
+      ; install the missing packages
       (dolist (p required-packages)
         (when (not (package-installed-p p))
           (package-install p))))
@@ -174,7 +171,161 @@ So what does this code do? Well:
         * refresh the package indices
         * install each non-installed package.
 
-So whenever I want to install a package, I make sure to add it to the
-list. If you share your .emacs configuration across machines, or have
-to start from scratch, this makes it very easy to build an environment
-again from scratch.
+So whenever I want to install a package, I just add it to the list. If
+you share your .emacs configuration across machines, or have to start
+from scratch, this makes it very easy to build an environment. Even if
+you completely blow away your existing packages.
+
+Give it a try! shut down your emacs now and start it back up, and you
+should install the magit and yasnippet packages.
+
+Loading and Configuring Packages
+--------------------------------
+
+So now we have packages installing automatically. How do we use them?
+
+Each package has it's own configuration, so it's best to read the
+README or documentation. However, almost all packages require you to
+require it first. Let's add a few lines to our .emacs.d/.emacs.loadpackages:
+
+    ; .emacs.loadpackages
+    ; loading package
+    (load "~/.emacs.d/.emacs.packages")
+
+    (require 'magit)
+    (define-key global-map (kbd "C-c m") 'magit-status)
+
+    (require 'yasnippet)
+    (yas-global-mode 1) 
+    (yas-load-directory "~/.emacs.d/snippets")
+    (add-hook 'term-mode-hook (lambda()
+        (setq yas-dont-activate t)))
+
+
+So each package section starts with a "require", which loads a
+particular package into the existing emacs environment. This is
+required before configuring anything related no that package. Notice
+that I also use the require as a section header, defining what package
+is related to what configuration.
+
+One thing to note here is that once a package is loaded via require,
+it's methods are globally available EVERYWHERE. There's no concept of
+importing just for the file in emacs lisp, you just add everything to
+this global context. However, most packages use a prefix, (such as
+'yas' for yasnippet commands) so it doesn't seem too cluttered.
+
+Here we also see another use of add-hook, but it's different this
+time: this time we hook it to a particular major mode. This means that
+this particular hook will activate when that major-mode is
+activated. This is useful when you want to activate specific behaviour
+for when you're editing a particular kind of text (e.g. binding a
+shortcut to open up a python interpreter if you're in a python major mode)
+
+As an aside, here's the configuration I'm setting here:
+
+* binding C-c m to magit-status: this is an example of a custom
+  shortcut for my environment. Wherever I am, I can hit C-c m and see
+  the status of the git repository I'm in (if I'm in one).
+* yas-global-mode: this ensures that yasnippet is activated
+  globally. Since yasnippet doesn't typically interfere with anything,
+  and I've found that any sort of text I'm modifying benefits from
+  snippets, It's a good default to have.
+* yas-load-directory: this allows me to load snippets from a specific
+  location. I have custom snippets I store in there.
+* (add-hook 'term-mode-hook...): this is a little hack that needs to
+  exist. Otherwise, tab-complete doesn't work in Emacs' terminal
+  emulators such as ansi-mode.
+
+Summary
+-------
+
+Here's what we learned:
+
+* emacs has a built-in (as of Emacs 24) package management system.
+* can install third-party repositories by adding entries to package-archives
+* can install packages manually with M-x install-package
+* packages can be loaded via (require '<package-name>)
+
+Final Code
+----------
+
+Note: this includes code from part one
+
+.emacs::
+
+    (load "~/.emacs.d/.emacs.loadpackages")
+    (add-hook 'after-init-hook '(lambda ()
+      (load "~/.emacs.d/.emacs.noexternals")
+    ))
+
+.emacs.d/.emacs.noexternals::  
+
+    ; ~/.emacs.d/.emacs.noexternals
+
+    ;; Remove scrollbars, menu bars, and toolbars
+    (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+    (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+    (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+
+    ;; Wind-move 
+    (global-set-key (kbd "C-c C-j") 'windmove-left)
+    (global-set-key (kbd "C-c C-k") 'windmove-down)
+    (global-set-key (kbd "C-c C-l") 'windmove-up)
+    (global-set-key (kbd "C-c C-;") 'windmove-right)
+
+.emacs.d/.emacs.packages::
+
+    ; ~/.emacs.d/.emacs.packages
+    (require 'cl)
+
+    ; .emacs.packages
+    (require 'package)
+    (add-to-list 'package-archives
+                 '("melpa" . "http://melpa.milkbox.net/packages/") t)
+    (add-to-list 'package-archives 
+                 '("marmalade" . "http://marmalade-repo.org/packages/") t)
+    (package-initialize)
+
+    (defvar required-packages
+      '(
+        magit
+        yasnippet
+      ) "a list of packages to ensure are installed at launch.")
+
+    ; method to check if all packages are installed
+    (defun packages-installed-p ()
+      (loop for p in required-packages
+            when (not (package-installed-p p)) do (return nil)
+            finally (return t)))
+
+    ; if not all packages are installed, check one by one and install the missing ones.
+    (unless (packages-installed-p)
+      ; check for new packages (package versions)
+      (message "%s" "Emacs is now refreshing its package database...")
+      (package-refresh-contents)
+      (message "%s" " done.")
+      ; install the missing packages
+      (dolist (p required-packages)
+        (when (not (package-installed-p p))
+          (package-install p))))
+
+
+.emacs.d/.emacs.loadpackages::
+
+    ; ~/.emacs.d/.emacs.loadpackages
+    ; loading package
+    (load "~/.emacs.d/.emacs.packages")
+
+    (require 'magit)
+    (define-key global-map (kbd "C-c m") 'magit-status)
+
+    (require 'yasnippet)
+    (yas-global-mode 1) 
+    (yas-load-directory "~/.emacs.d/snippets")
+    (add-hook 'term-mode-hook (lambda()
+        (setq yas-dont-activate t)))
+
+What's Next
+===========
+
+Next tutorial, we'll talk about 
