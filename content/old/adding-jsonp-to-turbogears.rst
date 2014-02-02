@@ -2,7 +2,7 @@ Adding JSONP to turbogears
 ##########################
 :date: 2012-11-09 08:34
 :author: Toumorokoshi
-:category: General
+:category: programming
 
 .. raw:: html
 

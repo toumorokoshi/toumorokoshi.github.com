@@ -2,7 +2,7 @@ Getting Python2.5 to Build with sqlite3 and zlib on Ubuntu Natty 2.5
 ####################################################################
 :date: 2011-09-19 19:21
 :author: Toumorokoshi
-:category: Coding, General
+:category: programming
 :tags: Python2.5, sqlite3, Ubuntu, zlib
 
 I had a really hard time finding this, so I'm posting it here:

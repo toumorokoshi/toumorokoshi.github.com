@@ -2,7 +2,7 @@ Installing Paint.net 3.5 and testing sprite animations
 ######################################################
 :date: 2013-01-25 08:16
 :author: Toumorokoshi
-:category: General
+:category: general
 :tags: animations, paint.net, sprites
 
 After doing some searching online, it looks like paint.net is a common

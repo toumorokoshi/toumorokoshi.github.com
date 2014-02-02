@@ -2,7 +2,7 @@ Slimy: another html5 slideshow
 ##############################
 :date: 2012-05-08 20:45
 :author: Toumorokoshi
-:category: Coding, General
+:category: programming
 :tags: slimy html5
 
 |image0|\ After seeing a coworker's presentation completely done using

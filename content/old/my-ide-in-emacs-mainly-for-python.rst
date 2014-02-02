@@ -2,7 +2,7 @@ My IDE in Emacs (mainly for Python)
 ###################################
 :date: 2011-08-23 00:26
 :author: Toumorokoshi
-:category: Emacs, General
+:category: programming
 :tags: Emacs, IDE, python
 
 I'm writing this article up to mainly keep track of the current state of

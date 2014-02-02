@@ -2,7 +2,7 @@ My Emacs Environment
 ####################
 :date: 2012-08-16 09:28
 :author: Toumorokoshi
-:category: General
+:category: programming
 
 http://www.youtube.com/watch?v=z0PET0Qq8CU&feature=plcp
 

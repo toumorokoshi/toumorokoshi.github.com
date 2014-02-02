@@ -2,7 +2,7 @@ Configuring HttpArchive + Webpagetest (Part 1: Introduction)
 ############################################################
 :date: 2011-06-23 22:40
 :author: Toumorokoshi
-:category: Coding, Installation/Configuration
+:category: programming
 :tags: HttpArchive, Webpagetest
 
 Testing is an integral part of developing code, and this is usually a

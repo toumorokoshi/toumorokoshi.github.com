@@ -2,7 +2,7 @@ Code folding in Emacs Viper-Mode
 ################################
 :date: 2011-08-17 23:06
 :author: Toumorokoshi
-:category: General
+:category: programming
 :tags: Emacs, folding, viper-mode
 
 Code folding is a feature I've never really used, and for the most part

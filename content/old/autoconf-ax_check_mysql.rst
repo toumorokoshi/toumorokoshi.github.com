@@ -2,7 +2,7 @@ Autoconf: ax_check_mysql
 ########################
 :date: 2011-06-27 16:19
 :author: Toumorokoshi
-:category: ax_check_mysql, Coding, My Stuff
+:category: programming
 :tags: autoconf, ax_check_mysql, mysql
 
 Just mentioning a little m4 script I wrote a little while ago.

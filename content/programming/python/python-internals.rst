@@ -1,8 +1,8 @@
 Python Internals
 ================
 :date: 2013-08-05
-:category: python
-:tags: programming python
+:category: programming
+:tags: python
 :author: Yusuke Tsutsumi
 
 The internals of Python are actually pretty straightforward, but it's

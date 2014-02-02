@@ -2,7 +2,7 @@ fine, PyDev is better than Emacs for Python. I'm still using Emacs though.
 ##########################################################################
 :date: 2012-08-13 09:09
 :author: Toumorokoshi
-:category: Coding, Emacs, Python
+:category: programming
 :tags: Eclipse, Emacs, PyDev
 
 Being part of a company that uses Python, I have a friend who loves

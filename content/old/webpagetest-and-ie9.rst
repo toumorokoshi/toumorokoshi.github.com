@@ -2,7 +2,7 @@ WebPageTest and IE9
 ###################
 :date: 2011-10-25 00:25
 :author: Toumorokoshi
-:category: General
+:category: programming
 
 Recently, I tried updating the browser for a WebPageTest instance to
 IE9. This proved to have some issues, specifically due to the pop-up

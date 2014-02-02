@@ -2,7 +2,7 @@ Configuring HttpArchive + Webpagetest (Part 3: HttpArchive)
 ###########################################################
 :date: 2011-06-24 19:43
 :author: Toumorokoshi
-:category: Coding, Installation/Configuration
+:category: programming
 :tags: HttpArchive, Webpagetest
 
 It's time to install HttpArchive! So just as with Webpagetest, there's

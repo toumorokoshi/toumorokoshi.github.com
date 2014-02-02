@@ -342,7 +342,7 @@ Next tutorial, we'll talk about writing our own methods and modifying behaviour 
 Further Reading / References
 ============================
 
-* `package.el <http://www.emacswiki.org/emacs/ELPA>`_
+* `package.el`_ 
 * `melpa <http://melpa.milkbox.net/#/>`_
 * `marmalade <http://marmalade-repo.org/>`_
 * `magit <http://magit.github.io/documentation.html>`_

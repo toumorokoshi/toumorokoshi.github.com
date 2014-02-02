@@ -2,7 +2,7 @@ Automatic Package installation using ELPA in Emacs 24
 #####################################################
 :date: 2012-02-16 23:59
 :author: Toumorokoshi
-:category: Uncategorized
+:category: programming
 
 Emacs 24 includes many improvements over 23, but there is one particular
 addition that makes me run around and go crazy with joy: a built-in

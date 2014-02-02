@@ -2,7 +2,7 @@ Search and replace multi-line expressions with SED
 ##################################################
 :date: 2011-10-26 23:55
 :author: Toumorokoshi
-:category: Coding, Installation/Configuration
+:category: programming
 :tags: sed, unix
 
 Now here's an interesting problem:

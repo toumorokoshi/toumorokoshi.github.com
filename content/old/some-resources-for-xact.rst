@@ -2,7 +2,7 @@ Some resources for XACT
 #######################
 :date: 2013-02-06 06:16
 :author: Toumorokoshi
-:category: General
+:category: programming
 :tags: Visual Studio, XACT, XNA
 
 XACT is a audio application used to manage audio for games using the XNA

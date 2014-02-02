@@ -2,7 +2,7 @@ ax_check_mysql introduction and example
 #######################################
 :date: 2011-08-20 18:30
 :author: Toumorokoshi
-:category: ax_check_mysql, Coding
+:category: programming
 :tags: autoconf, ax_check_mysql
 
 I previously mentioned \ `ax\_check\_mysql.m4`_ in one of my posts, an

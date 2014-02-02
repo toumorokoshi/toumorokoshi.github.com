@@ -2,7 +2,7 @@ Python Pet Peeves
 #################
 :date: 2012-01-26 19:14
 :author: Toumorokoshi
-:category: Coding, Python
+:category: programming
 
 As of this posting, Python has been my main programming language for
 over three years. Although I definitely feel that Python is not a good

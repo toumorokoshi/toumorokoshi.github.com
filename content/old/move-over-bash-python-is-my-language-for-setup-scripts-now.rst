@@ -2,7 +2,7 @@ Move over bash: Python is my language for setup scripts now.
 ############################################################
 :date: 2012-09-08 21:34
 :author: Toumorokoshi
-:category: General
+:category: programming
 :tags: Bash, python
 
 I know when people discuss using programming languages, there's two main

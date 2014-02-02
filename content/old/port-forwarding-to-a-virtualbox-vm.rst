@@ -1,8 +1,8 @@
 Port Forwarding To a VirtualBox VM
 ##################################
 :date: 2011-06-22 22:59
-:author: Toumorokoshi
-:category: Coding, Installation/Configuration
+:author: Yusuke Tsutsumi
+:category: general
 :tags: VirtualBox
 
 Posting this little tidbit for myself. Turns out VirtualBox has a lot of
