@@ -56,7 +56,7 @@ DISPLAY_PAGES_ON_MENU = True
 DISPLAY_ARTICLE_INFO_ON_INDEX = True
 
 SHOW_ABOUTME = True
-AVATAR = "images/profile.png"
+AVATAR = "/images/profile.png"
 ABOUT_ME = """ 
 Jack of some trades. Interested in build systems, testing,
 programming language design, and text editors.  
