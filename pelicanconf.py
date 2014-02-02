@@ -20,7 +20,8 @@ DEFAULT_LANG = 'en'
 # Social widget
 SOCIAL = (('GitHub', 'https://github.com/toumorokoshi'),
           ('StackOverflow', 'http://stackoverflow.com/users/288570/drakeanderson'),
-          ('LinkedIn', 'http://www.linkedin.com/profile/view?id=56043626'))
+          ('LinkedIn', 'http://www.linkedin.com/profile/view?id=56043626'),
+          ('Google+', 'https://plus.google.com/+YusukeTsutsumi/'))
 
 # LINKS = (('', ''),)
 
@@ -50,8 +51,8 @@ CUSTOM_CSS = 'static/custom.css'
 
 GITHUB_USER = 'toumorokoshi'
 GITHUB_REPO_COUNT = 3
-GITHUB_SKIP_FORK = 3
-GITHUB_SHOW_USER_LINK = 3
+GITHUB_SKIP_FORK = True
+GITHUB_SHOW_USER_LINK = True
 BOOTSTRAP_THEME = 'yeti'
 
 DISPLAY_PAGES_ON_MENU = True
