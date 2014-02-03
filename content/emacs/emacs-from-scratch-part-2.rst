@@ -50,12 +50,12 @@ The Code
 
 For this tutorial, let's add two separate files into our ~/.emacs.d/ directory:
 
-* .emacs.packages
-* .emacs.loadpackages
+* my-packages.el
+* my-loadpackages.el
 
 And load .emacs.loadpackages files in your ~/.emacs:
 
-    (load "~/.emacs.d/.emacs.loadpackages")
+    (load "~/.emacs.d/my-loadpackages.el")
 
 We're going to split our code up into two parts: one file to define
 what packages we want to install, and another to load and set up those
@@ -66,12 +66,12 @@ Adding packages archives
 
 Emacs 24's packages manager allows the adding of additional package
 archives, the places where package.el looks for packages to
-install. In your .emacs.packages, let's tell Emacs to add some more
+install. In your my-packages.el, let's tell Emacs to add some more
 package archives:
 
 .. code-block:: lisp
 
-    ; .emacs.packages
+    ; my-packages.el
     (require 'package)
     (add-to-list 'package-archives
                  '("melpa" . "http://melpa.milkbox.net/packages/") t)
@@ -125,12 +125,12 @@ missing packages on startup.
 in emacs-prelude.)
 
 The first step is to define a list of packages you want installed on
-startup. In your .emacs.packages, after the package archives have been
+startup. In your my-packages.el, after the package archives have been
 initialized, let's create a list and store our desired packages in them:
 
 .. code-block:: lisp
 
-    ; .emacs.packages
+    ; my-packages.el
     ; defvar is the correct way to declare global variables
     ; you might see setq as well, but setq is supposed to be use just to set variables, 
     ; not create them.
@@ -143,11 +143,11 @@ initialized, let's create a list and store our desired packages in them:
 Now that required-packages is defined, we can use it to install some
 packages! Let's add a few more lines to install these packages for us:
 
-Add the following to .emacs.packages:
+Add the following to my-packages.el:
 
 .. code-block:: lisp
 
-    ; .emacs.packages
+    ; my-packages.el
     (require 'cl)
 
     ; method to check if all packages are installed
@@ -193,13 +193,13 @@ So now we have packages installing automatically. How do we use them?
 
 Each package has it's own configuration, so it's best to read the
 README or documentation. However, almost all packages require you to
-require it first. Let's add a few lines to our .emacs.d/.emacs.loadpackages:
+require it first. Let's add a few lines to our .emacs.d/my-loadpackages.el:
 
 .. code-block:: lisp
 
-    ; .emacs.loadpackages
+    ; my-loadpackages.el
     ; loading package
-    (load "~/.emacs.d/.emacs.packages")
+    (load "~/.emacs.d/my-packages.el")
 
     (require 'magit)
     (define-key global-map (kbd "C-c m") 'magit-status)
@@ -262,14 +262,14 @@ Note: this includes code from part one
 
 .emacs::
 
-    (load "~/.emacs.d/.emacs.loadpackages")
+    (load "~/.emacs.d/my-loadpackages.el")
     (add-hook 'after-init-hook '(lambda ()
-      (load "~/.emacs.d/.emacs.noexternals")
+      (load "~/.emacs.d/my-noexternals.el")
     ))
 
-.emacs.d/.emacs.noexternals::  
+.emacs.d/my-noexternals.el::  
 
-    ; ~/.emacs.d/.emacs.noexternals
+    ; ~/.emacs.d/my-noexternals.el
 
     ;; Remove scrollbars, menu bars, and toolbars
     (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
@@ -282,12 +282,11 @@ Note: this includes code from part one
     (global-set-key (kbd "C-c C-l") 'windmove-up)
     (global-set-key (kbd "C-c C-;") 'windmove-right)
 
-.emacs.d/.emacs.packages::
+.emacs.d/my-packages.el::
 
-    ; ~/.emacs.d/.emacs.packages
+    ; ~/.emacs.d/my-packages.el
     (require 'cl)
 
-    ; .emacs.packages
     (require 'package)
     (add-to-list 'package-archives
                  '("melpa" . "http://melpa.milkbox.net/packages/") t)
@@ -319,11 +318,11 @@ Note: this includes code from part one
           (package-install p))))
 
 
-.emacs.d/.emacs.loadpackages::
+.emacs.d/my-loadpackages.el::
 
-    ; ~/.emacs.d/.emacs.loadpackages
+    ; ~/.emacs.d/my-loadpackages.el
     ; loading package
-    (load "~/.emacs.d/.emacs.packages")
+    (load "~/.emacs.d/my-packages.el")
 
     (require 'magit)
     (define-key global-map (kbd "C-c m") 'magit-status)

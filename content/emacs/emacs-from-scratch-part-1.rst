@@ -101,12 +101,15 @@ will make you way more efficient in the long run.
 
 You can name your files whatever you want, but I've found it's easy to
 find files if you prefix them. I prefix all of my init-files with
-".emacs.". So let's make a file now called ".emacs.noexternals". This
-signifies to me that these are configs for components that are native
-to Emacs (don't depend on third-party packages). Let's disable the
-menu, tool, and scroll bar now::
+"my-". This also has the advantage of signifying it's a personal
+configuration. 
 
-    ; ~/.emacs.d/.emacs.noexternals
+So let's make a file now called "my-noexternals". This signifies to me
+that these are configs for components that are native to Emacs (don't
+depend on third-party packages, or "externals"). Let's disable the menu, tool, and
+scroll bar now::
+
+    ; ~/.emacs.d/my-noexternals.el
 
     ;; Remove scrollbars, menu bars, and toolbars
     ; when is a special form of "if", with no else clause, it reads:
@@ -115,11 +118,11 @@ menu, tool, and scroll bar now::
     (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
     (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
-Now that we have that, we need to load our .emacs.noexternals file in
+Now that we have that, we need to load our my-noexternals.el file in
 our .emacs. Add the following line to ~/.emacs::
 
     ; ~/.emacs
-    (load "~/.emacs.d/.emacs.noexternals")
+    (load "~/.emacs.d/my-noexternals.el")
 
 And now when you start emacs, you'll have the bars disabled! Of
 course, you're welcome to enable whatever you like, I was just using
@@ -146,7 +149,7 @@ As a personal preference, I like
 navigating through my open windows with vim-like movement (hjkl). As a
 compromise, I bind the following commands::
 
-    ; ~/.emacs.noexternals
+    ; ~/my-noexternals.el
 
     ;; Wind-move
 
@@ -170,13 +173,13 @@ but can still happend.
 
 To help ensure your commands run in a particular order, Emacs provides
 hooks into it's startup (along with several other places, but we'll
-get into that later). So let's modify our .emacs so .emacs.noexternals
+get into that later). So let's modify our .emacs so my-noexternals.el
 gets loaded at the very end, after everything else has run::
 
     ; ~/.emacs
     
     (add-hook 'after-init-hook '(lambda ()
-      (load "~/.emacs.d/.emacs.noexternals")
+      (load "~/.emacs.d/my-noexternals.el")
     ))
 
 The "add-hook" command allows you to hook methods to run at a
@@ -205,12 +208,12 @@ Final Code
 .emacs::
 
     (add-hook 'after-init-hook '(lambda ()
-      (load "~/.emacs.d/.emacs.noexternals")
+      (load "~/.emacs.d/my-noexternals.el")
     ))
 
-.emacs.d/.emacs.noexternals::  
+.emacs.d/my-noexternals.el::  
 
-    ; ~/.emacs.d/.emacs.noexternals
+    ; ~/.emacs.d/my-noexternals.el
     
     ;; Remove scrollbars, menu bars, and toolbars
     (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
