@@ -73,3 +73,5 @@ understanding of programming in general.
 I'm one hundred percent sure I'm going to use StackOverflow again. But
 it's nice to know that I no longer need it, and my programming life
 doesn't freeze without it.
+
+**EDIT** Along with the Disqus below, there's also a lively discussion on `hackernews <https://news.ycombinator.com/item?id=7251169>`_.
