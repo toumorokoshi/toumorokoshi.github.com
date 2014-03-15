@@ -27,6 +27,14 @@ Product Development
 * (book) `The Phoenix Project <http://www.amazon.com/The-Phoenix-Project-Business-ebook/dp/B00AZRBLHO/ref=sr_1_1?s=digital-text&ie=UTF8&qid=1364790959&sr=1-1&keywords=the+phoenix+project>`_
 * (talk) `Development at the Speed and Scale of Google <http://www.infoq.com/presentations/Development-at-Google>`_
 
+Testing
+*******
+
+* (book) `How Google Tests Software <http://www.amazon.com/Google-Tests-Software-James-Whittaker/dp/0321803027>`_
+* (book) `Xunit Testing Patterns <http://www.amazon.com/xUnit-Test-Patterns-Refactoring-Code/dp/0131495054>`_
+* (Podcast) `History of Junit + Future of Testing with Kent Beck <http://www.se-radio.net/2010/09/episode-167-the-history-of-junit-and-the-future-of-testing-with-kent-beck/>`_
+* (Podcast) `Agile Testing with Lisa Crispin <http://www.se-radio.net/2010/06/episode-164-agile-testing-with-lisa-crispin/>`_
+
 
 Cooking and Learning
 --------------------
