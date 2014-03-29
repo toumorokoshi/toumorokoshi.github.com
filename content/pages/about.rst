@@ -13,3 +13,6 @@ I have a variety of interests in the software engineering field, mainly:
 * improving developer workflows and bootstrapping
 * making testing painless and easy
 * building an extremely powerful editor with an open-source base
+
+
+1 commit a day on GitHub since Dec 9th, 2013
