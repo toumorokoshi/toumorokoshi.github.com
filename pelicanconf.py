@@ -7,7 +7,7 @@ SITEURL = '.'
 TAGLINE = 'Yusuke Tsutsumi'
 # THEME = "pelican-bootstrap3"
 STATIC_PATHS = ('images', 'static')
-THEME = '/home/tsutsumi/workspace/pelican-bootstrap3/'
+THEME = 'pelican-bootstrap3'
 
 TIMEZONE = 'Europe/Paris'
 
@@ -60,9 +60,9 @@ DISPLAY_ARTICLE_INFO_ON_INDEX = True
 
 SHOW_ABOUTME = True
 AVATAR = "/images/profile.png"
-ABOUT_ME = """ 
+ABOUT_ME = """
 Jack of some trades. Interested in build systems, testing,
-programming language design, and text editors.  
+programming language design, and text editors.
 <br/>
 <br/>
 I work at Zillow.
