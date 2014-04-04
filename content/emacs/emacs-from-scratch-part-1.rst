@@ -9,6 +9,9 @@ Emacs From Scratch, Part 1: Extending Emacs basics
 This is a series of tutorials geared around building up your own
 customized environment, using emacs, from scratch.
 
+You can find `part 2 here <{filename}/emacs/emacs-from-scratch-part-2.rst>`_
+You can find `part 3 here <{filename}/emacs/emacs-from-scratch-part-3.rst>`_
+
 This tutorial is geared toward those who are starting with extending
 Emacs, and want to learn the pieces you need to know to really extend
 and build your custom environment. If you want to just get started
@@ -44,7 +47,7 @@ Emacs Lisp
 To follow these tutorials, you need to have a very rudimentary
 understanding of emacs lisp. Basically just remeber this::
 
-   (method arg1 arg2 ...) 
+   (method arg1 arg2 ...)
 
 Is how methods are called: the first element in a parentheses is the
 method being called, and the subsequent elements are it's arguments.
@@ -66,8 +69,8 @@ variety of other tools.
 
 Emacs has a few standard places to add an init-file, but those are
 already well documented in the `manual
-<http://www.gnu.org/software/emacs/manual/html_node/emacs/Init-File.html>`_. 
-If you want to know more, feel free to read there. 
+<http://www.gnu.org/software/emacs/manual/html_node/emacs/Init-File.html>`_.
+If you want to know more, feel free to read there.
 
 For the most part, however, there are two main locations where
 init-files lie: the .emacs file and the .emacs.d directory in the user
@@ -102,7 +105,7 @@ will make you way more efficient in the long run.
 You can name your files whatever you want, but I've found it's easy to
 find files if you prefix them. I prefix all of my init-files with
 "my-". This also has the advantage of signifying it's a personal
-configuration. 
+configuration.
 
 So let's make a file now called "my-noexternals". This signifies to me
 that these are configs for components that are native to Emacs (don't
@@ -177,7 +180,7 @@ get into that later). So let's modify our .emacs so my-noexternals.el
 gets loaded at the very end, after everything else has run::
 
     ; ~/.emacs
-    
+
     (add-hook 'after-init-hook '(lambda ()
       (load "~/.emacs.d/my-noexternals.el")
     ))
@@ -211,16 +214,16 @@ Final Code
       (load "~/.emacs.d/my-noexternals.el")
     ))
 
-.emacs.d/my-noexternals.el::  
+.emacs.d/my-noexternals.el::
 
     ; ~/.emacs.d/my-noexternals.el
-    
+
     ;; Remove scrollbars, menu bars, and toolbars
     (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
     (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
     (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
-    ;; Wind-move 
+    ;; Wind-move
     (global-set-key (kbd "C-c C-j") 'windmove-left)
     (global-set-key (kbd "C-c C-k") 'windmove-down)
     (global-set-key (kbd "C-c C-l") 'windmove-up)

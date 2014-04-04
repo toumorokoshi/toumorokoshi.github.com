@@ -8,7 +8,8 @@ Emacs From Scratch, Part 2: Package management
 
 This is a series of tutorials geared around building up your own
 customized environment, using emacs, from scratch.
-You can find part 1 `here <{filename}/emacs/emacs-from-scratch-part-1.rst>`_
+You can find `part 1 here <{filename}/emacs/emacs-from-scratch-part-1.rst>`_
+You can find `part 3 here <{filename}/emacs/emacs-from-scratch-part-3.rst>`_
 
 --------------------------------
 Installing and Managing Packages
@@ -75,7 +76,7 @@ package archives:
     (require 'package)
     (add-to-list 'package-archives
                  '("melpa" . "http://melpa.milkbox.net/packages/") t)
-    (add-to-list 'package-archives 
+    (add-to-list 'package-archives
                  '("marmalade" . "http://marmalade-repo.org/packages/") t)
     (package-initialize)
 
@@ -112,7 +113,7 @@ install. I'm going to install `magit
 <http://magit.github.io/documentation.html>`_, a very nice version
 control major mode for git, and `yasnippet
 <http://capitaomorte.github.io/yasnippet/>`_, a package to easily
-parameterize and inject templates as needed (e.g. a java class template). 
+parameterize and inject templates as needed (e.g. a java class template).
 Remember, you can always find more package by using 'M-x list-packages'
 
 If you wanted to install these manually, all you would have to do is 'M-x
@@ -132,7 +133,7 @@ initialized, let's create a list and store our desired packages in them:
 
     ; my-packages.el
     ; defvar is the correct way to declare global variables
-    ; you might see setq as well, but setq is supposed to be use just to set variables, 
+    ; you might see setq as well, but setq is supposed to be use just to set variables,
     ; not create them.
     (defvar required-packages
       '(
@@ -205,7 +206,7 @@ require it first. Let's add a few lines to our .emacs.d/my-loadpackages.el:
     (define-key global-map (kbd "C-c m") 'magit-status)
 
     (require 'yasnippet)
-    (yas-global-mode 1) 
+    (yas-global-mode 1)
     (yas-load-directory "~/.emacs.d/snippets")
     (add-hook 'term-mode-hook (lambda()
         (setq yas-dont-activate t)))
@@ -267,7 +268,7 @@ Note: this includes code from part one
       (load "~/.emacs.d/my-noexternals.el")
     ))
 
-.emacs.d/my-noexternals.el::  
+.emacs.d/my-noexternals.el::
 
     ; ~/.emacs.d/my-noexternals.el
 
@@ -276,7 +277,7 @@ Note: this includes code from part one
     (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
     (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
-    ;; Wind-move 
+    ;; Wind-move
     (global-set-key (kbd "C-c C-j") 'windmove-left)
     (global-set-key (kbd "C-c C-k") 'windmove-down)
     (global-set-key (kbd "C-c C-l") 'windmove-up)
@@ -290,7 +291,7 @@ Note: this includes code from part one
     (require 'package)
     (add-to-list 'package-archives
                  '("melpa" . "http://melpa.milkbox.net/packages/") t)
-    (add-to-list 'package-archives 
+    (add-to-list 'package-archives
                  '("marmalade" . "http://marmalade-repo.org/packages/") t)
     (package-initialize)
 
@@ -328,7 +329,7 @@ Note: this includes code from part one
     (define-key global-map (kbd "C-c m") 'magit-status)
 
     (require 'yasnippet)
-    (yas-global-mode 1) 
+    (yas-global-mode 1)
     (yas-load-directory "~/.emacs.d/snippets")
     (add-hook 'term-mode-hook (lambda()
         (setq yas-dont-activate t)))
@@ -341,7 +342,7 @@ Next tutorial, we'll talk about writing our own methods and modifying behaviour 
 Further Reading / References
 ============================
 
-* `package.el`_ 
+* `package.el`_
 * `melpa <http://melpa.milkbox.net/#/>`_
 * `marmalade <http://marmalade-repo.org/>`_
 * `magit <http://magit.github.io/documentation.html>`_
