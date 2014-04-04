@@ -66,5 +66,82 @@ our first function to my-methods.el:
     )
 
 This method takes in a variable 'c', takes the current buffer, and
-adds it to our hash. This is a short function, but it's a dense amount
-of functionality, so it's worth explaining a bit further.
+adds pair of (buffer-name, command-as-a-string) to our hash. This is a
+short function, but it's a dense amount of functionality, so it's
+worth explaining a bit further.
+
+defun
+-----
+
+Defun is the standard way to define a function. It uses the following syntax:
+
+.. code-block:: lisp
+
+    (defun <method_name> (<var_a> <var_b>)
+      <docstring>
+      <interactive?>
+      <method_body>
+    )
+
+Here's a description of each:
+
+* <method_name>: a symbol to populate with the method
+* <var_a>... : a list of symobols to populate with passed parameters
+* <docstring>: a string explaining what your method does
+* <interactive?>: options. we'll take about this more in a second
+* <method_body>: a lisp expression which has access to <var_a>... symbols described above.
+
+So pretty standard for a method definition in any language, except for (interactive?).
+
+interactive
+-----------
+
+So what is interactive? Well, it's an optional parameter, which, if
+passed in to defun, makes the method 'interactive'. Interactive
+basically means it's one of the command that can be run by 'M-x': it
+becomes a publicly exposed command that an Emacs user should be able
+to run.
+
+(interactive) by itself results in a command that does not ask the
+user for input. In other words, it's only useful for commands that
+have no variables.
+
+If we want the user to be able to type some input, we need to add in a
+string into interactive, like our example above::
+
+  (interactive "sShell Command:")
+
+So this will take in a single string. So how do we know it always
+takes a string and only a string? Well, it's the first 's' in the
+"sShell Command". The first character is called an 'interactive code':
+it's a way to express what the expected input is. Specifying the
+proper interactive code is important: codes such as 'D' (directory
+name) or 'C' (emacs command) can provide auto-completion, making your
+function all the more useful.
+
+Multiple arguments can be passed by delimiting with newlines:
+
+  (interactive "sA String:\nDA Directory")
+
+A full list of interactive codes can be found here: `interactive codes <http://www.gnu.org/software/emacs/manual/html_node/elisp/Interactive-Codes.html#Interactive-Codes>`_
+
+puthash/gethash/remhash
+-----------------------
+
+So the one thing that might be a little strange if you work in a
+primarily OOP environment: (puthash <map> <key> <value>) instead of
+something like <map>.put(<key> <value>).
+
+Emacs is a very strong functional language, which means that every
+thing is, essentially, a function or data. There is no real concept of
+object-oriented programming: if you want to modify an object, you call
+a method with the object as the argument, not an object calling a method.
+
+To work with a hash, elisp provides puthash/gethash/remhash. You can
+read more here: `hash-access
+<http://www.gnu.org/software/emacs/manual/html_node/elisp/Hash-Access.html#Hash-Access>`_
+
+So at thing point, you should have all the info you need to understand
+the add-method-to-buffer function.
+
+Now let's add a couple
