@@ -56,6 +56,8 @@ For this tutorial, let's add two separate files into our ~/.emacs.d/ directory:
 
 And load .emacs.loadpackages files in your ~/.emacs:
 
+.. code-block:: lisp
+
     (load "~/.emacs.d/my-loadpackages.el")
 
 We're going to split our code up into two parts: one file to define
@@ -261,14 +263,18 @@ Final Code
 
 Note: this includes code from part one
 
-.emacs::
+.emacs:
+
+.. code-block:: lisp
 
     (load "~/.emacs.d/my-loadpackages.el")
     (add-hook 'after-init-hook '(lambda ()
       (load "~/.emacs.d/my-noexternals.el")
     ))
 
-.emacs.d/my-noexternals.el::
+.emacs.d/my-noexternals.el:
+
+.. code-block:: lisp
 
     ; ~/.emacs.d/my-noexternals.el
 
@@ -283,7 +289,9 @@ Note: this includes code from part one
     (global-set-key (kbd "C-c C-l") 'windmove-up)
     (global-set-key (kbd "C-c C-;") 'windmove-right)
 
-.emacs.d/my-packages.el::
+.emacs.d/my-packages.el:
+
+.. code-block:: lisp
 
     ; ~/.emacs.d/my-packages.el
     (require 'cl)
@@ -319,7 +327,9 @@ Note: this includes code from part one
           (package-install p))))
 
 
-.emacs.d/my-loadpackages.el::
+.emacs.d/my-loadpackages.el:
+
+.. code-block:: lisp
 
     ; ~/.emacs.d/my-loadpackages.el
     ; loading package
