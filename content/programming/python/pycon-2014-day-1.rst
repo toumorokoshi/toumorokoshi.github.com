@@ -1,6 +1,6 @@
-========================================
-Pycon 2014: Day 1 recap
-========================================
+=======================
+Pycon 2014: Day 1 Recap
+=======================
 :date: 2014-04-11
 :category: programming
 :tags: python, pycon
@@ -23,13 +23,13 @@ ultimately putting more power into the hands of the people: a lack of
 information is how corporations are allowed to continue policies and
 practices that are unfair and don't benefit society.
 
-----------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
 Talk: All Your Ducks in A Row: Data Structures in the Standard Library and Beyond
-----------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
 
 Long title, but great talk from `Brandon Rhodes
 <https://twitter.com/brandon_rhodes>`_. Coming from an embedded-ish
-background, I've had curiousities about how Python's data structures
+background, I've had curiosities about how Python's data structures
 work internally. This talk discussed very interesting concepts like:
 
 * `C Structs <https://docs.python.org/3.4/library/struct.html?highlight=struct>`_ exists in Python
@@ -61,9 +61,9 @@ So it just makes me think that a lot of people are pushing Twisted
 forward. Definitely speaks in spades about a technology. Twisted very
 well may be the future for async (for Python 2 at least)
 
--------------------------------------------------------------------
-Talk: Realtime Predictive Analytics using Scikit-learn and RabbitMQ
--------------------------------------------------------------------
+--------------------------------------------------------------------
+Talk: Real-time Predictive Analytics using Scikit-learn and RabbitMQ
+--------------------------------------------------------------------
 
 Decided to diverge a bit and go to a machine learning talk from
 `Michael Becker <https://twitter.com/beckerfuffle>`_. Really awesome
@@ -90,11 +90,11 @@ dungeons. Like a lot of pieces in game programming, a heavy algorithm
 is required to generate the best results. James discussed a ton of generations algorithms from:
 
 * taking a square and cutting it a bunch of different ways randomly.
-* generating random noise and then connecting with a minimal spannig tree.
+* generating random noise and then connecting with a minimal spanning tree.
 
 He discussed use methods such as Poisson Disks, Cellular Automation,
 and Perlin Noise. I haven't had time to grok all of it just yet, but
-Definiteley going to investigate those next time (or really the first
+Definitely going to investigate those next time (or really the first
 time) I make a rogue-like game.
 
 --------------------
@@ -109,7 +109,7 @@ Python 3.4) really is.
 
 Regardless of what his goal was, it's really cool to see an Async
 library in Python. I'm just reading into in now, and I see that it's
-incredibly powerful: easily customizeable, providing a lot of the
+incredibly powerful: easily customizable, providing a lot of the
 facilities that you see in some of the more traditionally concurrent
 languages (such as the future idea). Definitely one huge reason to
 move to Python3 if possible.
@@ -121,7 +121,7 @@ Dinner: PyCon Dinner with Brandon Rhodes
 I signed up for the dinner not really knowing who Brandon Rhodes is,
 but my more community-literate Python colleagues tell me he's one of
 the must-see/hears. The dinner with him was definitely enjoyable. I
-ended up at a table with a lot of Pythonistas way more knowledgable
+ended up at a table with a lot of Pythonistas way more knowledgeable
 than me, which was really important as the dinner involved a
 three-round python trivia game. A lot of fun questions, and I learned
 a lot about Python 3 and python in general.
@@ -130,7 +130,7 @@ a lot about Python 3 and python in general.
 Conclusions
 -----------
 
-My first day at PyCon (albeit a jetlagged one less than five hours of
+My first day at PyCon (albeit a jet-lagged one less than five hours of
 sleep), was awesome. Aside from all the great talks, the breakfasts
 and lunches spent talking to other Python enthusiasts was an eye
 opener. I definitely learned a lot, including:
