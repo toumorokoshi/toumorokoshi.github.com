@@ -1,7 +1,7 @@
 ======================================================
 Emacs From Scratch, Part 3: Extending Emacs with Elisp
 ======================================================
-:date: 2014-04-03
+:date: 2014-04-10
 :category: programming
 :tags: emacs, environment
 :author: Yusuke Tsutsumi
@@ -62,8 +62,7 @@ our first function to my-methods.el:
     (defun my-command-on-save-buffer (c)
         "Run a command <c> every time the buffer is saved "
         (interactive "sShell command: ")
-        (puthash (buffer-file-name) c my-command-buffer-hooks)
-    )
+        (puthash (buffer-file-name) c my-command-buffer-hooks))
 
 This method takes in a variable 'c', takes the current buffer, and
 adds pair of (buffer-name, command-as-a-string) to our hash. This is a
@@ -80,8 +79,7 @@ Defun is the standard way to define a function. It uses the following syntax:
     (defun <method_name> (<var_a> <var_b>...)
       <docstring>
       <interactive?>
-      <method_body>
-    )
+      <method_body>)
 
 Here's a description of each:
 
@@ -96,7 +94,7 @@ So pretty standard for a method definition in any language, except for (interact
 interactive
 -----------
 
-So what is interactive? Well, it's an optional parameter, which, if
+So what is interactive? Well, it's an optional expression, which, if
 passed in to defun, makes the method 'interactive'. Interactive
 basically means it's one of the command that can be run by 'M-x': it
 becomes a publicly exposed command that an Emacs user should be able
@@ -132,8 +130,8 @@ So the one thing that might be a little strange if you work in a
 primarily OOP environment: (puthash <map> <key> <value>) instead of
 something like <map>.put(<key> <value>).
 
-Emacs is a very strong functional language, which means that every
-thing is, essentially, a function or data. There is no real concept of
+elisp is a functional language, which means that everything is,
+essentially, a function or data. There is no real concept of
 object-oriented programming: if you want to modify an object, you call
 a method with the object as the argument, not an object calling a method.
 
@@ -142,7 +140,7 @@ read more here: `hash-access
 <http://www.gnu.org/software/emacs/manual/html_node/elisp/Hash-Access.html#Hash-Access>`_
 
 So at this point, you should have all the info you need to understand
-the add-method-to-buffer function.
+the my-command-on-save-buffer option.
 
 Now let's add a couple more functions to complete our hook.
 
@@ -157,8 +155,7 @@ Add the following to you my-methods.el:
 
     (defun my-command-buffer-kill-hook ()
       "Remove a key from <command-buffer-hooks> if it exists"
-      (remhash (buffer-file-name) my-command-buffer-hooks)
-    )
+      (remhash (buffer-file-name) my-command-buffer-hooks))
 
 This function removes the current buffer from the hooks hash. Pretty
 straightforward with what we know now.
@@ -172,11 +169,8 @@ And this one:
     (defun my-command-buffer-run-hook ()
       "Run a command if it exists in the hook"
       (let ((hook (gethash (buffer-file-name) my-command-buffer-hooks)))
-        (when (not (eq hook nil))
-            (shell-command hook)
-        )
-      )
-    )
+        (when hook
+            (shell-command hook))))
 
 This is the actual function that runs the hook. Note the extra check wrappend in a with.
 (when is a shorthand for if with only one argument. It's more
@@ -203,10 +197,10 @@ state of the editor itself. By evaluating our code, we basically just
 added the functions we writing to the actual emacs instance we've been working in!
 
 Now this is what I'm saying when I love modern programming. Getting
-automated feedback faster is always better, and Emacs is the king of
-fast feedback. You don't even have to restart your process! You can
-modify the environment you're working in, as you're working on it, and
-see the changes instantly!
+automated feedback faster is always better, and Emacs is great at
+providing fast feedback on editor changes. You don't even have to
+restart your process! You can modify the environment you're working
+in, as you're working on it, and see the changes instantly!
 
 Anyway, let's try our new functions with a test file.
 
@@ -261,8 +255,7 @@ Note: this includes code from part one
     (load "~/.emacs.d/my-loadpackages.el")
     (load "~/.emacs.d/my-methods.el")
     (add-hook 'after-init-hook '(lambda ()
-      (load "~/.emacs.d/my-noexternals.el")
-    ))
+      (load "~/.emacs.d/my-noexternals.el")))
 
 .emacs.d/my-methods:
 
@@ -275,22 +268,17 @@ Note: this includes code from part one
     (defun my-command-on-save-buffer (c)
         "Run a command <c> every time the buffer is saved "
         (interactive "sShell command: ")
-        (puthash (buffer-file-name) c my-command-buffer-hooks)
-    )
+        (puthash (buffer-file-name) c my-command-buffer-hooks))
 
     (defun my-command-buffer-kill-hook ()
       "Remove a key from <command-buffer-hooks> if it exists"
-      (remhash (buffer-file-name) my-command-buffer-hooks)
-    )
+      (remhash (buffer-file-name) my-command-buffer-hooks))
 
     (defun my-command-buffer-run-hook ()
       "Run a command if it exists in the hook"
       (let ((hook (gethash (buffer-file-name) my-command-buffer-hooks)))
-        (when (not (eq hook nil))
-            (shell-command hook)
-        )
-      )
-    )
+        (when hook
+            (shell-command hook))))
 
     ;; add hooks
     (add-hook 'kill-buffer-hook 'my-command-buffer-kill-hook)
