@@ -7,10 +7,13 @@ Getting Dropbox Status's into Conky + Dzen2
 :author: Yusuke Tsutsumi
 
 I'm an avid xmonad user, and I've recently switched over to conky +
-dzen as my status bar. A recent issue I had is with getting dropbox
+dzen as my status bar. A recent issue I had is with getting Dropbox
 status information into my conky.
 
 I did some hacking and here's the result. I love the way it turned out:
+
+
+.. image:: |filename|/images/conky-dropbox-demo.png
 
 
 This is a pretty generic approach on adding anything into conky +
@@ -25,15 +28,15 @@ output. This abstraction makes it easy to get the text you want.
 
 I started writing a couple shell scripts that get me the info I need:
 
-*NOTE*
+.. parsed-literal::
 
-I used the dropbox command line tool to get this info. You'll
-need that installed. on arch, it's the 'dropbox-cli' package.
+  Note: I used the Dropbox command line tool to get this info. You'll
+  need that installed. on arch, it's the 'dropbox-cli' package.
 
 .. code-block:: bash
 
   # drobox-down
-  # echos the dropbox download speed
+  # echos the Dropbox download speed
   #!/usr/bin/env bash
 
   status=`dropbox status | grep Downloading`
@@ -48,7 +51,7 @@ need that installed. on arch, it's the 'dropbox-cli' package.
 .. code-block:: bash
 
   # drobox-up
-  # echos the dropbox upload speed
+  # echos the Dropbox upload speed
   #!/usr/bin/env bash
 
   status=`dropbox status | grep Uploading`
@@ -63,7 +66,7 @@ need that installed. on arch, it's the 'dropbox-cli' package.
 .. code-block:: bash
 
   #!/usr/bin/env bash
-  # dropbox-files
+  # Dropbox-files
   # lists a single filename if only a single file is being synced
   # otherwise, echos the number of files synced
 
@@ -87,20 +90,23 @@ need that installed. on arch, it's the 'dropbox-cli' package.
 2. Create your own xbm logo
 ---------------------------
 
-Now to get that cool dropbox icon in there. The thing to note about
+Now to get that cool Dropbox icon in there. The thing to note about
 conky + dzen specifically is that you can't pipe images into your bar
 (as far as I know, someone please correct me here). You're left with the
 options of xbm files, which are bitmap descriptions.
 
-Luckily, it's not too hard to generate your own. Gimp, the photoshop of linux,
-can save into xbm files for you. Simple open it up, export it, and you're done!
+Luckily, it's not too hard to generate your own. Gimp, the Photoshop of Linux,
+can save into xbm files for you. Simply open it up, export it, and you're done!
 
-*NOTE*: make sure to export the xbm to fit the size of your bar. I couldn't
-find a way of telling conky to scale the image (which makes sense, conky is just
-piping output dzen so it has no way of knowing the height). My bar is about 16 pixels high,
-so I exported 16 pixels.
+.. parsed-literal::
 
-You can also download the xbm I created if you'd like: `my dropbox xbm <https://github.com/toumorokoshi/yt.rc/blob/master/xmonad/icons/dropbox.xbm>`_
+  Note: make sure to export the xbm to fit the size of your bar. I
+  couldn't find a way of telling conky to scale the image (which makes
+  sense, conky is just piping output dzen so it has no way of knowing
+  the height). My bar is about 16 pixels high, so I exported 16
+  pixels.
+
+You can also download the xbm I created if you'd like: `my Dropbox xbm <https://github.com/toumorokoshi/yt.rc/blob/master/xmonad/icons/Dropbox.xbm>`_
 
 --------------------------------
 3. Add them to your conky script
@@ -110,7 +116,7 @@ Now that we have our shell scripts, and our icons, you can execute them in your 
 script. I got the arrows from the `nice icon set <http://awesome.naquadah.org/wiki/Nice_Icons>`_.
 If you're lazy you can also get them from `my rc files <https://github.com/toumorokoshi/yt.rc>`_.
 
-Once you have all your assets, add in the relevont pieces into your conky:
+Once you have all your assets, add in the relevant pieces into your conky:
 
 .. code-block:: bash
 
@@ -120,21 +126,21 @@ Once you have all your assets, add in the relevont pieces into your conky:
 
   lua_load $HOME/.xmonad/conky_scripts/conky_lua_scripts.lua
 
-  # note: dropbox needed dropbox-cli on arch
+  # note: Dropbox needed dropbox-cli on arch
 
   TEXT
   # ---- START DROPBOX STUFF ---
-  ^fg(\#007ee5) ^i($HOME/.xmonad/icons/dropbox.xbm) \
+  ^fg(\#007ee5) ^i($HOME/.xmonad/icons/Dropbox.xbm) \
   # ---- description of files changing ---
-  ^fg(\#FFFF00) ${execi 6 $HOME/.xmonad/conky_scripts/dropbox-files} ^fg()\
+  ^fg(\#FFFF00) ${execi 6 $HOME/.xmonad/conky_scripts/Dropbox-files} ^fg()\
   # ---- download speed info ---
-  ^fg(\#8888FF) ^i($HOME/.xmonad/icons/net_down_03.xbm) ${execi 6 $HOME/.xmonad/conky_scripts/dropbox-down} ^fg() / \
+  ^fg(\#8888FF) ^i($HOME/.xmonad/icons/net_down_03.xbm) ${execi 6 $HOME/.xmonad/conky_scripts/Dropbox-down} ^fg() / \
   # ---- upload speed info ---
-  ^fg(\#AA0000) ^i($HOME/.xmonad/icons/net_up_03.xbm) ${execi 6 $HOME/.xmonad/conky_scripts/dropbox-up} ^fg() \
+  ^fg(\#AA0000) ^i($HOME/.xmonad/icons/net_up_03.xbm) ${execi 6 $HOME/.xmonad/conky_scripts/Dropbox-up} ^fg() \
 
 Notes:
 
 * I changed the colors with ^fg(\#COLOR_HASH)
 * to split your conky on multiple lines, I use the delimiter '\\'
 
-And there you go! You have a nice, clean dropbox activity bar.
+And there you go! You have a nice, clean Dropbox activity bar.
