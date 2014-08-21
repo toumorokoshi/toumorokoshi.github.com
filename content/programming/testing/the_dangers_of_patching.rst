@@ -128,7 +128,7 @@ already contains a reference to the 'system' function:
 
 So even if you do patch a method, you won't necessarily patch all the
 uses of that method, depending on how they're imported in. This
-requires your patching must directly match how the object you want to
+means your patching must directly match how the object you want to
 mock is imported into the code to test.
 
 For example, we can fix the mock_test.py file above by changing the patch:
