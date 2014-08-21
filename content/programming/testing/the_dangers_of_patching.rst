@@ -167,9 +167,6 @@ actual functionality it's testing is also changed: you're no longer
 guaranteed that your code is identical because the same tests pass:
 because modifying your code *requires* you to change your test code.
 
-I haven't encountered code that uses patches that's easier to maintain
-than with mocks or real objects.
-
 Ultimately however, we don't live in an ideal world. Times will come
 when you have to test code that is hard to refactor into a method that
 works with only mocks or actual objects. But with code you control,
