@@ -1,15 +1,14 @@
 =======================
 The Dangers of Patching
 =======================
-:date: 2014-08-16
+:date: 2014-08-21
 :category: programming
 :tags: testing, patch, python
 :author: Yusuke Tsutsumi
-:status: draft
 
-If you've every used `Mock<https://pypi.python.org/pypi/mock>`_ (or
+If you've ever used `Mock <https://pypi.python.org/pypi/mock>`_ (or
 the built-in `mock in python
-3<https://docs.python.org/3/library/unittest.mock.html>`_), you'll
+3 <https://docs.python.org/3/library/unittest.mock.html>`_), you'll
 know how powerful of a tool it can be toward making unit testing on
 functions modifying state sane. Mocks in Python are effectively a probe
 that you can send into a deep, dark function:
@@ -69,12 +68,13 @@ Let's say I have a couple files like this:
 
    # mock_test.py
 
-   from platform import system
    from mymodule import is_my_os
-   import mock
+   try:
+       from unittest import mock  # py3
+   except ImportError:
+       import mock  # py2
 
-   mock.patch('platform.system') as mock_system:
-       mock_system.return_value == "my os"
+   with mock.patch('platform.system', return_value="my os"):
        assert is_my_os()
 
 .. code-block:: python
@@ -132,24 +132,28 @@ mock is imported into the code to test.
 For example, we can fix the mock_test.py file above by changing the patch:
 
 .. code-block:: python
-    # mock_test.py
 
-    from platform import system
-    from mymodule import is_my_os
-    import mock
+   # mock_test.py
 
-    with mock.patch('mymodule.system') as mock_system:
-        mock_system.return_value == "my os"
-        assert is_my_os()
+   from mymodule import is_my_os
+   try:
+       from unittest import mock  # py3
+   except ImportError:
+       import mock  # py2
+
+   with mock.patch('mymodule.system', return_value="my os"):
+       assert is_my_os()
+
+
 
 
 So in order to use a patch effectively, you have to be aware of *exact
 semantics* by which a method is both imported an invoked. And this
 leads up to the ultimate problem with patch:
 
------------------------------------------
-Really tightly coupled code and test code
------------------------------------------
+-------------------------------------------------
+Really tightly coupling tests with implementation
+-------------------------------------------------
 
 Patching in general, regardless of the implementation, tightly couples
 your test code and your regular code beyond the typical bounds of unit
@@ -161,10 +165,10 @@ actual functionality it's testing is also changed: you're no longer
 guaranteed that your code is identical because the same tests pass:
 because modifying your code *requires* you to change your test code.
 
-I haven't encounted code that uses patches that's easier to maintain
+I haven't encountered code that uses patches that's easier to maintain
 than with mocks or real objects.
 
 Ultimately however, we don't live in an ideal world. Times will come
 when you have to test code that is hard to refactor into a method that
 works with only mocks or actual objects. But with code you control,
-it's avoidable.
+it's almosty completely avoidable.
