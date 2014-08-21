@@ -89,7 +89,9 @@ Let's say I have a couple files like this:
 
 
 
-Now patch is patching the platform.system function, so this should pass. Let's try it::
+Now patch is patching the platform.system function, so this should pass. Let's try it:
+
+.. code-block:: python
 
     $ python mock_test.py
     Traceback (most recent call last):
