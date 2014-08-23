@@ -171,3 +171,129 @@ Ultimately however, we don't live in an ideal world. Times will come
 when you have to test code that is hard to refactor into a method that
 works with only mocks or actual objects. But with code you control,
 it's almosty completely avoidable.
+
+----------------------------
+So how do we avoid patching?
+----------------------------
+
+Patching is the result of coupled complex state, relying on multiple
+global variables. We can remedy this by doing the exact opposite:
+
+* decouple complex state
+* don't rely on global variables
+
+Let's take a look at some practices to help with this:
+
+Don't use global variables
+==========================
+
+for example, let's look at an object that creates a persistent db
+connection based on configuration parameters:
+
+.. code-block:: python
+
+    db_connection = db_connect(DB_URL)
+
+    class MyObject:
+
+        def __init__(self, name):
+            self.name = name
+
+        def save(self):
+            db_connection.write(self.to_dict())
+
+        def to_dict():
+            return { 'name': self.name }
+
+
+To test this object's save method, you would have either patch the
+db_connection object, or replace the DB_URL to reflect a test
+database. Either method is an extra step from testing what you really
+want on just the save method: the db method is called, and is passed the
+dictionary representation of the object.
+
+You can accomplish this without patch by passing in objects as you
+need them: by explicitely passing them in, it makes it really easy to mock:
+
+.. code-block:: python
+
+    class MyObject:
+
+        def __init__(self, name):
+            self.name = name
+
+        def save(self, db):
+            db.write(self.to_dict())
+
+        def to_dict():
+            return { 'name': self.name }
+
+     def test_myobject_save():
+         import mock
+         my_object = MyObject("foo")
+         db = mock.Mock()
+         my_object.save(db)
+         assert db.write.assert_called_with({
+             'name': 'foo'
+         })
+
+Decouple complex state
+======================
+
+Complex state coupling occurs when you attempt to hide a lot of the
+difficulty with creating objects from a user. Using the database above, as an example:
+
+.. code-block:: python
+
+    class MyObject:
+
+        def __init__(self, db_url, name):
+            self._db = db_connection(db_url)
+            self.name = name
+
+        def save(self):
+            self._db.write(self.to_dict())
+
+        def to_dict():
+            return { 'name': self.name }
+
+Now the only way to actually test this save method (aside from a full
+stack test) is to mock the db_connection method. It wouldn't work to
+assign the db attribute afterward (my_object._db = Mock()) because
+this would mean that the objects was already instantiated: your db
+connection already exists, creating extra overhead you won't used.
+
+Instead of trying to hide the complex state from the user of your
+class, let them actually choose the db object to pass in:
+
+.. code-block:: python
+
+    class MyObject:
+
+        def __init__(self, db, name):
+            self._db = db
+            self.name = name
+
+        def save(self):
+            self._db.write(self.to_dict())
+
+        def to_dict():
+            return { 'name': self.name }
+
+     def test_myobject_save():
+         import mock
+         db = mock.Mock()
+         my_object = MyObject(db, "foo")
+         my_object.save()
+         assert db.write.assert_called_with({
+             'name': 'foo'
+         })
+
+This not only allows us to test operations on complex objects, but
+also makes the class more flexible as well (e.g. compatible with more
+db objects than just the one that db_connection returns)
+
+Final thoughts
+==============
+
+Once again, patch exists for a reason. It's great to have a chainsow
