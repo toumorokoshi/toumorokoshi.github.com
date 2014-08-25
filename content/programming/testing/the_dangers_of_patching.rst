@@ -170,7 +170,7 @@ because modifying your code *requires* you to change your test code.
 Ultimately however, we don't live in an ideal world. Times will come
 when you have to test code that is hard to refactor into a method that
 works with only mocks or actual objects. But with code you control,
-it's almosty completely avoidable.
+it's almost completely avoidable.
 
 ----------------------------
 So how do we avoid patching?
@@ -213,7 +213,7 @@ want on just the save method: the db method is called, and is passed the
 dictionary representation of the object.
 
 You can accomplish this without patch by passing in objects as you
-need them: by explicitely passing them in, it makes it really easy to mock:
+need them: by explicitly passing them in, it makes it really easy to mock:
 
 .. code-block:: python
 
@@ -296,4 +296,8 @@ db objects than just the one that db_connection returns)
 Final thoughts
 ==============
 
-Once again, patch exists for a reason. It's great to have a chainsow
+Once again, patch exists for a reason. It's almost like a magic wand
+that allows you to test otherwise untestable code. But this magic wand
+comes with making your life harder the more you use it.
+
+So all in all: beware the dangers of patching.

@@ -1,10 +1,11 @@
-==========================================
-Book Report: Refactoring by Marting Fowler
-==========================================
+=========================================
+Book Report: Refactoring by Martin Fowler
+=========================================
 :date: 2014-08-23
 :category: programming
 :tags: refactoring
 :author: Yusuke Tsutsumi
+:status: draft
 
 Refactoring is a book covering the basics tenants of refactoring as
 dictated by Martin Fowler: a very smart person with some very good
