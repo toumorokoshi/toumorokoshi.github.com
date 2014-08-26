@@ -20,6 +20,8 @@ Patterns or Architecture
 ************************
 
 * (book) `xUnit Test Patterns <http://www.amazon.com/xUnit-Test-Patterns-Refactoring-ebook/dp/B004X1D36K/ref=sr_1_1?s=digital-text&ie=UTF8&qid=1364791092&sr=1-1&keywords=xunit+test+patterns>`_
+* (book) `Refactoring <http://martinfowler.com/books/refactoring.html>`_
+* (talk) `Designing Poetic APIs - PyCon 2014 <https://www.youtube.com/watch?v=JQYnFyG7A8c>`_
 
 Product Development
 *******************
@@ -40,3 +42,4 @@ Cooking and Learning
 --------------------
 
 * (book) `The Four Hour Chef <http://fourhourchef.com/>`_
+* (book) `Moonwalking with Einstein <http://joshuafoer.com/moonwalking-with-einstein/>`_
