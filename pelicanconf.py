@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*- #
 
 AUTHOR = 'Yusuke Tsutsumi'
-SITENAME = 'toumorokoshi'
+SITENAME = 'tsutsumi.io'
 SITEURL = '.'
 TAGLINE = 'Yusuke Tsutsumi'
 # THEME = "pelican-bootstrap3"
