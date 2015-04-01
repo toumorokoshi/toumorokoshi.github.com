@@ -5,7 +5,7 @@ import sys
 sys.path.append('.')
 from pelicanconf import *
 
-SITEURL = 'http://tsutsumi.io'
+SITEURL = 'http://y.tsutsumi.io'
 DELETE_OUTPUT_DIRECTORY = True
 
 # Following items are often useful when publishing
