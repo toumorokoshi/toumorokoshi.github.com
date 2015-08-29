@@ -46,11 +46,36 @@ despite the value.
 * the test is not given the time it needs, and continues to fall into
 disarray until it is ignored.
 
-Basically: low maintenance
+Basically: low maintenance tests last forever, high maintenance tests probably won't.
 
 ## Designing cheap tests
 
-Condensing the value metrics above, the most important factors in making
+So how do we make tests that require little to no maintenance? From what I've observed, there are two types of maintenance:
+
+* functional maintenance, which modifies the test to reflect changes in the code itself
+    * e.g. for a web page, the login form fields are modified
+* operational maintenance, which requires keeping a service dependency in a good state to test.
+    * e.g. for an office application with cloud sync, keeping the cloud syncing service up.
+
+Functional maintenance is unavoidable: as code changes, one must
+ensure that any tests that validate that code are kept up to date. In
+addition, for most tests, functional maintenance is relatively cheap
+in time: except in the cases of extreme redesigns or refactorings, the
+changes tend to be small in nature.
+
+Operational maintenance costs can very wildly, and it can become very
+expensive. Tests that have multiple dependencies can become a game of
+juggling an environment where all of those are functional. It becomes
+even harder if there's a small team maintaining this environment:
+executing the tests consistently requires a production-quality
+environment, and that's more difficult the more service there are to
+maintain.
+
+However, unlike functional maintenance, operational maintenance, for
+the most part, is avoidable. You can remove you dependencies from
+tests by mocking external dependencies like databases and APIs. Taking
+advantage of mocking in a language, or
+
 
 
 
