@@ -163,3 +163,5 @@ Summary
   is, and how critical it continues to work. A payment path needs high
   quality, so should have high coverage. The alignment of a button on
   a dialog three pages deep probably needs less quality assurance.
+
+How do you design your test suite?
