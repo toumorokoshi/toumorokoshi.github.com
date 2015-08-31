@@ -1,7 +1,7 @@
 ========================
 How I Design Test Suites
 ========================
-:date: 2015-09-03
+:date: 2015-08-30
 :category: programming
 :tags: testing
 :author: Yusuke Tsutsumi
@@ -123,6 +123,7 @@ A good model to visualize a good distribution is the "testing pyramid", as expla
 by `Martin Fowler <http://martinfowler.com/bliki/TestPyramid.html>`_ and `Google <http://googletesting.blogspot.com/2015/04/just-say-no-to-more-end-to-end-tests.html>`_:
 
 .. image:: |filename|/images/testingpyramid.png
+   :align: center
 
 The more expensive tests are fewer in number, while the cheaper tests
 are much more common.
