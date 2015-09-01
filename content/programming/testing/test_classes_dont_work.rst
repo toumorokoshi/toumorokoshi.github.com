@@ -21,7 +21,7 @@ speaking specifically about the following structure of an test:
 More or less, something like:
 
 
-.. code:: python
+.. code-block:: python
 
    class TestMyStuff:
 
@@ -51,7 +51,7 @@ clean: it makes sense to remove them from you test body. When looking at code,
 you only want to look at context that's relevant to you, otherwise it's harder
 to identify what should be focused on:
 
-.. code:: python
+.. code-block:: python
 
     def test_my_stuff():
         fixture = create_fixture()
@@ -83,7 +83,7 @@ Test fixtures. Tests depend on a variety of objects, and you don't
 want to have to multiple the setup of the same test fixtures across
 multiple classes. Even when you factor it out, it gets messy quick:
 
-.. code:: python
+.. code-block:: python
 
     class TestA():
         def setUp(self):
@@ -148,7 +148,7 @@ For Python as an example, `py.test
 somewhere, and can consume it implicitly in any test function:
 
 
-.. code:: python
+.. code-block:: python
 
     # example copied from the py.test fixture page.
     import pytest

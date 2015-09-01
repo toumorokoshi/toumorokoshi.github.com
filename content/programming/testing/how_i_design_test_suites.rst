@@ -6,10 +6,6 @@ How I Design Test Suites
 :tags: testing
 :author: Yusuke Tsutsumi
 
-------------------------
-How I Design Test Suites
-------------------------
-
 At Zillow, I've done a lot of work on the design and development of
 the test infrastructure we use for full-stack tests. It's always fun
 to watch your tool become popular, but even more interesting is the
