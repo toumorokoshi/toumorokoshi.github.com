@@ -4,22 +4,37 @@ Projects
 
 Here's a list of projects I'm working on
 
+
+Flask-Transmute
+===============
+
+`flask-transmute <https://github.com/toumorokoshi/flask-transmute>`_
+is a automatic api generation and documentation framework for Python, designed to
+work with Flask (and in the future, Tornado) applications.
+
+Uranium
+=======
+
+`Uranium <https://github.com/toumorokoshi/uranium>`_
+is a Python build system for Python projects.
+
+GreyHawk
+========
+
+`GreyHawk <https://github.com/toumorokoshi/greyhawk-language>`_, a
+strongly typed, interpreted language. It's a hobby project, so goes
+pretty slowly.
+
+------------
+Old Projects
+------------
+
+
 Sprinter
 ========
 
 `Sprinter <http://sprinter.readthedocs.org/en/latest/>`_ is a tool to
 help bootstrap developer environments and keep them in sync.
-
-Murasaki
-========
-
-`Murasaki <http://toumorokoshi.github.io/murasaki-language/>`_ (name
-is not final) is a programming language spec being designed. It has an
-implementation being worked on (very slowly) in LLVM.
-
-------------
-Old Projects
-------------
 
 Slimy: HTML5 Slideshow
 ======================

@@ -18,10 +18,11 @@ DEFAULT_LANG = 'en'
 #              ('StackOverflow', 'http://stackoverflow.com/users/288570/drakeanderson'))
 
 # Social widget
-SOCIAL = (('GitHub', 'https://github.com/toumorokoshi'),
-          ('StackOverflow', 'http://stackoverflow.com/users/288570/drakeanderson'),
-          ('LinkedIn', 'http://www.linkedin.com/profile/view?id=56043626'),
-          ('Google+', 'https://plus.google.com/+YusukeTsutsumi/'))
+SOCIAL = (
+    ('GitHub', 'https://github.com/toumorokoshi'),
+    ('Google+', 'https://plus.google.com/+YusukeTsutsumi/'),
+    ('LinkedIn', 'http://www.linkedin.com/profile/view?id=56043626')
+)
 
 # LINKS = (('', ''),)
 
@@ -61,9 +62,10 @@ DISPLAY_ARTICLE_INFO_ON_INDEX = True
 SHOW_ABOUTME = True
 AVATAR = "/images/profile.png"
 ABOUT_ME = """
-Jack of some trades. Interested in build systems, testing,
-programming language design, and text editors.
+Software Engineer at Zillow. I focus on tools and services for developer
+productivity, including build and testing.
 <br/>
 <br/>
-I work at Zillow.
+My other interests include programming language design, game development,
+and learning languages (the non-programming ones).
 """
