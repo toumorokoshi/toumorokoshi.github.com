@@ -33,12 +33,13 @@ TAG_CLOUD_MAX_ITEMS = 5
 # More configuration related
 DISQUS_SITENAME = 'tsutsumi'
 GOOGLE_ANALYTICS = 'UA-29270527-2'
+FEED_DOMAIN = "http://y.tsutsumi.io"
 # rss
 FEED_RSS = 'rss'
 # TAG_FEED_RSS = 'rsstag'
 # CATEGORY_FEED_RSS = 'rsscategory'
 # atom
-#FEED_ATOM = 'atom'
+FEED_ATOM = 'atom'
 
 
 DISPLAY_TAGS_ON_SIDEBAR = False
@@ -57,6 +58,11 @@ GITHUB_SHOW_USER_LINK = True
 BOOTSTRAP_THEME = 'yeti'
 
 DISPLAY_PAGES_ON_MENU = True
+DISPLAY_CATEGORIES_ON_MENU = False
+MENUITEMS = [
+    ("Programming Posts", "/category/programming.html"),
+    ("Language Posts", "/category/languages.html"),
+]
 DISPLAY_ARTICLE_INFO_ON_INDEX = True
 
 SHOW_ABOUTME = True
