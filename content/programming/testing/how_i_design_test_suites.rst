@@ -25,8 +25,6 @@ value / cost ratio. Things that increase the value of a test include:
 * speed: the faster the test is, the faster the feedback. The faster
   the feedback, the faster one can take action, and the more often we
   can execute the tests to get feedback.
-* coverage: the more the test covers, the more value it provides. Being able
-  to catch a wide net of bugs makes a test very valuable.
 
 In contrast, the things that increase the cost of a test include:
 
@@ -73,13 +71,13 @@ addition, for most tests, functional maintenance is relatively cheap
 in time: except in the cases of extreme redesigns or refactorings, the
 changes tend to be small in nature.
 
-Operational maintenance costs can very wildly, and it can become very
+Operational maintenance costs can vary wildly, and it can become very
 expensive. Tests that have multiple dependencies can become a game of
 juggling an environment where all of those are functional. It becomes
 even harder if there's a small team maintaining this environment:
 executing the tests consistently requires a production-quality
-environment, and that's more difficult the more service there are to
-maintain.
+environment. The more services in an environment, the more difficult
+that environment is to maintain.
 
 However, unlike functional maintenance, operational maintenance, for
 the most part, is avoidable. Taking advantage of heavy mocking, it's
@@ -87,7 +85,7 @@ possible to remove dependencies like databases and APIs. `Google
 Testing Blog has a good article about
 this <http://googletesting.blogspot.com/2012/10/hermetic-servers.html>`_.
 
-Summary: tests with fewer operations dependencies are cheaper to maintain.
+Summary: tests with fewer operational dependencies are cheaper to maintain.
 
 ---------------------------------------------------
 What kind of test distribution: the testing pyramid
