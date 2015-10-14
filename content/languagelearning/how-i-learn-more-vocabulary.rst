@@ -1,6 +1,6 @@
 How I Learn More Vocabulary
 ===========================
-:date: 2015-10-13
+:date: 2015-10-14
 :category: languages
 :tags: languages
 
@@ -60,7 +60,7 @@ http://pomax.nihongoresources.com/index.php?entry=1222520260. Even if
 you don't understand the grammar at all, the vocabulary alone helps
 you get a great context on a conversation.
 
-It's worth emphasizing the distinction between spoken and written
+It's worth emphasizing the distinction between spokend and written
 word frequency. My suggestion would be start with spoken.
 
 My suggestion would be to learn the first 100 or 200 words. This
@@ -71,7 +71,7 @@ Where to Find More Vocab
 ------------------------
 
 After you have a good base set of words, I would move on to learning
-vocab that really interests you. Find a book, TV show, or game that is
+vocab that really interests you. Find a book, tv show, or game that is
 available in your target language, and add any vocab you don't know
 into the flash cards as you go.
 
@@ -89,7 +89,7 @@ The beginning of this process was incredibly painful: I would play for
 maybe half an hour before I had over one hundred words to cover! But
 as time passed, I learned more, and the game began to move a bit more
 quickly. I also sometimes found places in the game where I was unable
-to pause. In that case, I used YouTube videos of others playing the
+to pause. In that case, I used youtube videos of others playing the
 game to supplement: `let's plays in German
 <https://www.youtube.com/results?search_query=let%27s+play+deutsch>`_
 
