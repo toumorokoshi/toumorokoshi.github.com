@@ -76,8 +76,8 @@ expensive. Tests that have multiple dependencies can become a game of
 juggling an environment where all of those are functional. It becomes
 even harder if there's a small team maintaining this environment:
 executing the tests consistently requires a production-quality
-environment. The more services in an environment, the more difficult
-that environment is to maintain.
+environment, and that's more difficult the more services there are to
+maintain.
 
 However, unlike functional maintenance, operational maintenance, for
 the most part, is avoidable. Taking advantage of heavy mocking, it's
