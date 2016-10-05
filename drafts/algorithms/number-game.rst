@@ -9,9 +9,9 @@ Goal of the Game
 - player 1 goes first
 - the player with more points wins.
 
--------------
+--------------
 The Complexity
--------------
+--------------
 
 Each round, a player has two possible choices. In other words, the
 total number of possible paths is 2^n. That is the brute force
