@@ -1,7 +1,7 @@
 =================
 Hierarchal Naming
 =================
-:date: 2016-10-05
+:date: 2016-05-29
 :category: programming
 :tags: design
 :author: Yusuke Tsutsumi
