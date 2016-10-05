@@ -1,7 +1,7 @@
 =================
 Hierarchal Naming
 =================
-:date: 2016-05-29
+:date: 2016-10-05
 :category: programming
 :tags: design
 :author: Yusuke Tsutsumi
@@ -39,9 +39,9 @@ This reads well, if our main goal was to make software read as close
 to english as possible. However, software has a goal that's more
 important than grammatical correctness: organization and searchability.
 
------------------------------------------------
-Class naming should be horrible English grammar
------------------------------------------------
+----------------------------------
+Naming should have qualifiers last
+----------------------------------
 
 Consider instead appending qualifying variables to the end, as with a namespace:
 
