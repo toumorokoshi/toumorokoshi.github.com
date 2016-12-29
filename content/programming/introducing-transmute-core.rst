@@ -1,9 +1,9 @@
 ==========================================================================
 Introducing transmute-core: quickly create REST APIs for any web framework
 ==========================================================================
-:date: 2016-12-26
+:date: 2017-12-28
 :category: programming
-:tags: python
+:tags: Python
 :author: Yusuke Tsutsumi
 
 A majority of my career has been spent on building web services in
@@ -13,7 +13,7 @@ speak `REST
 at least are rest-ish).
 
 With each new service, I found myself re-implementing work to
-make user-friendly REST apis:
+make user-friendly REST APIs:
 
 * validation of incoming data, and descriptive errors when a field does not
   match the type or is otherwise invalid.
@@ -30,7 +30,7 @@ scale API maintenance when you're dealing with forgetting some minute boilerplat
 This was further exacerbated by using different web frameworks for
 different projects. Every framework provides their own REST plugin or
 library, and often there's a lack of functional parity, or declaring
-an api is completely different and requires learning multiple
+an API is completely different and requires learning multiple
 approaches.
 
 So with this monumental pain, what if I told you can get an API that:
@@ -39,7 +39,7 @@ So with this monumental pain, what if I told you can get an API that:
 * supports multiple content types
 * has a fully documented UI
 
-Just by writing a vanilla python function? And what if I told you
+Just by writing a vanilla Python function? And what if I told you
 this can work for YOUR Python framework of choice in 100 statements
 of Python code?
 
@@ -60,34 +60,34 @@ HTTP Endpoints
 
 Here is an example of a GET endpoint in flask:
 
-.. code-block:: python
+.. code-block:: Python
 
-    from flask_transmute import transmute_route, annotate
+    import flask_transmute
 
     # flask-like decorator.
-    @transmute_route(app, paths='/multiply')
+    @flask_transmute.route(app, paths='/multiply')
     # tell transmute what types are, which ensures validations
-    @annotate({"left": int, "right": int, "return": int})
-    # the function is a vanilla python function
+    @flask_transmute.annotate({"left": int, "right": int, "return": int})
+    # the function is a vanilla Python function
     def multiply(left, right):
         return left * right
 
 
 And one in aiohttp, the web framework that uses Python 3's asyncio:
 
-.. code-block:: python
+.. code-block:: Python
 
-    from aiohttp_transmute import transmute_route, describe
+    import aiohttp_transmute
 
-    @describe(paths='/multiply')
+    @aiohttp_transmute.describe(paths='/multiply')
     # tell transmute what types are, which ensures validations
-    # python3.5+ supports annotations natively
+    # Python3.5+ supports annotations natively
     #
     # request is provided by aiohttp.
     def multiply(request, left: int, right: int) -> int:
         return left * right
 
-    transmute_route(app, multiply)
+    aiohttp_transmute.route(app, multiply)
 
 
 Both do the following:
@@ -99,21 +99,21 @@ Both do the following:
 - write back yaml or json, depending on the content type
 
 Note that we don't have to deal with the content type serialization,
-read from reuqest objects, or returning a valid response object:
+read from request objects, or returning a valid response object:
 that's all handled by transmute. This keeps the functions cleaner in
 general: it looks similar to any other Python function.
 
 Complex Schemas via Schematic (or any validation framework)
 ===========================================================
 
-Primitive types in the parameters are ok, but it's often true that
+Primitive types in the parameters are OK, but it's often true that
 more complex types are desired.
 
 Schema declaration and validation has multiple solutions
-already, so tranmsute defers this other libraries. By default transmute uses
+already, so transmute defers this other libraries. By default transmute uses
 `schematics <http://schematics.readthedocs.org/en/latest/>`_.>`_:
 
-.. code-block:: python
+.. code-block:: Python
 
     from schematics.models import Model
     from schematics.types import StringType, IntType
@@ -125,7 +125,7 @@ already, so tranmsute defers this other libraries. By default transmute uses
 
     # passing in a schematics model as the type enables
     # validation and creation of the object when converted
-    # to an api.
+    # to an API.
     @annotate({"card": Card})
     def submit_card(card):
         db.save_card(card)
@@ -135,7 +135,7 @@ case, transmute-core provides a transmute-context for users to customize and use
 their own implementation of transmute's serializers:
 
 
-.. code-block:: python
+.. code-block:: Python
 
    from transmute_core import TransmuteContext, default_context
 
@@ -151,16 +151,16 @@ their own implementation of transmute's serializers:
 Documentation via Swagger
 =========================
 
-`Swagger / OpenAPI <http://swagger.io/>`_ allows one to define a REST api using json. Transmute generates
-swagger json files based on the transmute routes added to an app, and transmute-core provides the static css and javascript
+`Swagger / OpenAPI <http://swagger.io/>`_ allows one to define a REST API using json. Transmute generates
+swagger json files based on the transmute routes added to an app, and transmute-core provides the static CSS and JavaScript
 files required to render a nice documentation interface for it:
 
-.. code-block:: python
+.. code-block:: Python
 
    from flask_transmute import add_swagger
 
    # reads all the transmute routes that have been added, extracts their
-   # swagger definitions, and generates a swagger json and an html page that renders it.
+   # swagger definitions, and generates a swagger json and an HTML page that renders it.
    add_swagger(app, "/swagger.json", "/swagger")
 
 .. image:: |filename|/images/transmute-core-swagger.png
@@ -169,7 +169,7 @@ files required to render a nice documentation interface for it:
 
     <br/><br/>
 
-This also means clients can be autogenerated as well: swagger has a
+This also means clients can be auto-generated as well: swagger has a
 large number of open source projects dedicated to parsing and
 generating swagger clients. However, I haven't explored this too
 deeply.
@@ -183,7 +183,7 @@ around transmute-core for your framework, as the style of how to add
 routes and how to extract values from requests may vary.
 
 A goal of transmute was to make the framework-specific code as thin as
-possible: this allows more re-use and common behaviour across the
+possible: this allows more re-use and common behavior across the
 frameworks, enabling developers across frameworks to improve
 functionality for everyone.
 
@@ -207,25 +207,27 @@ effort between what you want to build and actually building it.
 
 I love great, well designed APIs. And dealing with the minutiae of
 some detail I missed in boilerplate content type handling or object
-serialization was draining the enjoyement out of authoring them. Since
+serialization was draining the enjoyment out of authoring them. Since
 I've started using transmute for all of my projects, it's let me focus
 on what I care about most: actually writing the functional code, and
 designing the great interfaces that let people use them. For the most part,
 it feels like just writing another function in Python.
 
-The autodocumentation is freeing from both sides: as an author I can
+The auto-documentation is freeing from both sides: as an author I can
 keep my documentation in line with my implementation, because my
 implementation is the source. For consumers, they're immediately
 provided with a simple UI where they can rapidly iterate with the API
 call they would like to make.
 
 It's also great knowing I can use transmute in the next framework,
-whatever that may be: I can take all the work and behaviour that's
+whatever that may be: I can take all the work and behavior that's
 embedded in transmute, with a module or two's worth of code.
 
 ----------
 Conclusion
 ----------
 
-Give it a shot! Issues and PRs are welcome, and it'd love to someone
-apply transmute to another framework.
+`Give it a shot
+<http://transmute-core.readthedocs.io/en/latest/index.html>`_! Issues
+and PRs are welcome, and it'd love to someone apply transmute to
+another framework.
