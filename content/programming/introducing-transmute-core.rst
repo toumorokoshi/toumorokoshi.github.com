@@ -1,7 +1,7 @@
 ==========================================================================
 Introducing transmute-core: quickly create REST APIs for any web framework
 ==========================================================================
-:date: 2017-12-28
+:date: 2017-1-3
 :category: programming
 :tags: Python
 :author: Yusuke Tsutsumi
