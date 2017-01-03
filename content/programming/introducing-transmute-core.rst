@@ -1,6 +1,6 @@
-==========================================================================
-Introducing transmute-core: quickly create REST APIs for any web framework
-==========================================================================
+==================================================================================================
+Introducing transmute-core: quickly create documented, input validating APIs for any web framework
+==================================================================================================
 :date: 2017-1-3
 :category: programming
 :tags: Python
