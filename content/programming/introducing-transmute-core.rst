@@ -43,7 +43,7 @@ Just by writing a vanilla Python function? And what if I told you
 this can work for YOUR Python framework of choice in 100 statements
 of Python code?
 
-Well, that's what the transmute framework is. If you want this, read on.
+Well, that's what the transmute framework is.
 
 ------------
 How it works
@@ -60,7 +60,7 @@ HTTP Endpoints
 
 Here is an example of a GET endpoint in flask:
 
-.. code-block:: Python
+.. code-block:: python
 
     import flask_transmute
 
@@ -75,7 +75,7 @@ Here is an example of a GET endpoint in flask:
 
 And one in aiohttp, the web framework that uses Python 3's asyncio:
 
-.. code-block:: Python
+.. code-block:: python
 
     import aiohttp_transmute
 
@@ -111,9 +111,9 @@ more complex types are desired.
 
 Schema declaration and validation has multiple solutions
 already, so transmute defers this other libraries. By default transmute uses
-`schematics <http://schematics.readthedocs.org/en/latest/>`_.>`_:
+`schematics <http://schematics.readthedocs.org/en/latest/>`_.:
 
-.. code-block:: Python
+.. code-block:: python
 
     from schematics.models import Model
     from schematics.types import StringType, IntType
@@ -135,13 +135,13 @@ case, transmute-core provides a transmute-context for users to customize and use
 their own implementation of transmute's serializers:
 
 
-.. code-block:: Python
+.. code-block:: python
 
    from transmute_core import TransmuteContext, default_context
 
    context = TransmuteContext(serializers=MySerializer())
 
-   transmute_route(app, fn, context=context)
+   route(app, fn, context=context)
 
    # alternatively, you could modify the default context directly
    # (be careful about where this code is called: it needs
@@ -155,7 +155,7 @@ Documentation via Swagger
 swagger json files based on the transmute routes added to an app, and transmute-core provides the static CSS and JavaScript
 files required to render a nice documentation interface for it:
 
-.. code-block:: Python
+.. code-block:: python
 
    from flask_transmute import add_swagger
 
@@ -228,6 +228,6 @@ Conclusion
 ----------
 
 `Give it a shot
-<http://transmute-core.readthedocs.io/en/latest/index.html>`_! Issues
-and PRs are welcome, and it'd love to someone apply transmute to
+<http://transmute-core.readthedocs.io/en/latest/index.html>`_! `Issues
+and PRs <https://github.com/toumorokoshi/transmute-core>`_ are welcome, and I'd love to see someone apply transmute to
 another framework.
