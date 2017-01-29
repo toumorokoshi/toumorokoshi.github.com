@@ -1,15 +1,10 @@
 ====================================================================
 KeyError in self._handlers: a journey deep into Tornado's internals.
 ====================================================================
-:date: 2017-01-21
+:date: 2017-01-27
 :category: programming
 :tags: python
 :author: Yusuke Tsutsumi
-
-.. warn::
-
-    this no longer seems to be the behaviour for recent (4.0+ version of tornado).
-    this article is largely for educational purposes.
 
 If you've worked with tornado, you may have encountered a traceback of
 a somewhat bewildering error:
@@ -20,8 +15,6 @@ a somewhat bewildering error:
         File "/usr/local/lib/python2.7/site-packages/tornado/ioloop.py", line 832, in start
     fd_obj, handler_func = self._handlers[fd]
     KeyError: 16
-
-.. TODO: get some links for this sentence.
 
 A few other people have been confused as well. After some digging and a combination
 of learning about the event loop, fork, and epoll, the answer finally entered into focus.
@@ -64,8 +57,6 @@ What are these variables? you can read the IOLoop code yourself, but effectively
 
 What is an FD?
 ==============
-
-.. TODO: link for file descriptors.
 
 The handlers and events are both keyed off of `file descriptors <https://en.wikipedia.org/wiki/File_descriptor>`_. In a
 few words, file descriptors represent a handle to some open file. In
@@ -248,7 +239,39 @@ So, that allows a condition like this:
 
 So this will pretty much happen at some point anytime a new ioloop is not created for a child process.
 
-.. todo: code example
+Here's a repro script. I couldn't figure out a good way to kill this
+gracefully, so be warned this will need to be killed externally.
+
+.. code-block:: python
+
+    import logging
+    import select
+    import socket
+    import os
+    import time
+    import tornado.ioloop
+    import tornado.httpclient
+    import tornado.web
+
+    serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    serversocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    serversocket.bind(('127.0.0.1', 8080))
+    serversocket.listen(1)
+
+    logging.basicConfig()
+
+    loop = tornado.ioloop.IOLoop.current()
+
+    if os.fork():
+        handler = lambda *args, **kwargs: None
+        loop.add_handler(serversocket.fileno(), handler, select.EPOLLIN)
+        time.sleep(0.1)
+        client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        client.connect(('127.0.0.1', 8080))
+        client.send(b"foo")
+    else:
+        loop.start()
+
 
 How about gunicorn or tornado.multiprocess?
 ===========================================
