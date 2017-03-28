@@ -1,6 +1,6 @@
-====================================================================
-KeyError in self._handlers: a journey deep into Tornado's internals.
-====================================================================
+===================================================================
+KeyError in self._handlers: a journey deep into Tornado's internals
+===================================================================
 :date: 2017-01-27
 :category: programming
 :tags: python
