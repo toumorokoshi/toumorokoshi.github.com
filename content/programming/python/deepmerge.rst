@@ -11,7 +11,7 @@ controls around a merging system for basic Python data structures like dicts and
 
 It provides a few common cases for merging (like always merge + override, or raise an exception):
 
-.. code:: python
+.. code-block:: python
 
     from deepmerge import always_merger, merge_or_raise
 
@@ -50,7 +50,7 @@ It provides a few common cases for merging (like always merge + override, or rai
 deepmerge allows customization as well, for when you want to specify
 the merging strategy:
 
-.. code:: python
+.. code-block:: python
 
     from deepmerge import Merger
 
@@ -77,7 +77,7 @@ the merging strategy:
 For each strategy choice, pass in a list of strings specifying built in strategies,
 or a function defining your own:
 
-.. code:: python
+.. code-block:: python
 
     def merge_sets(merger, path, base, nxt):
         base |= nxt
