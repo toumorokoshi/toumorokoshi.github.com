@@ -20,9 +20,15 @@ DEFAULT_LANG = 'en'
 # Social widget
 SOCIAL = (
     ('GitHub', 'https://github.com/toumorokoshi'),
-    ('Google+', 'https://plus.google.com/+YusukeTsutsumi/'),
+    ('Twitter', 'https://twitter.com/tsutsumiyusuke'),
     ('LinkedIn', 'http://www.linkedin.com/profile/view?id=56043626')
 )
+
+MENUITEMS = [
+    ("Just Programming Posts", "/category/programming.html"),
+    ("Coder's Guide", "/codersguide/"),
+    ("Notebooks", "https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/"),
+]
 
 # LINKS = (('', ''),)
 
@@ -59,16 +65,12 @@ BOOTSTRAP_THEME = 'yeti'
 
 DISPLAY_PAGES_ON_MENU = True
 DISPLAY_CATEGORIES_ON_MENU = False
-MENUITEMS = [
-    ("Programming Posts", "/category/programming.html"),
-    ("Language Posts", "/category/languages.html"),
-]
 DISPLAY_ARTICLE_INFO_ON_INDEX = True
 
 SHOW_ABOUTME = True
 AVATAR = "/images/profile.png"
 ABOUT_ME = """
-Software Engineer at Zillow. I focus on tools and services for developer
+I work at Zillow. I focus on tools and services for developer
 productivity, including build and testing.
 <br/>
 <br/>
