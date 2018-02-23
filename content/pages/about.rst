@@ -23,4 +23,9 @@ source projects:
 
 https://github.com/toumorokoshi?tab=repositories
 
-1 commit a day on GitHub since Dec 9th, 2013
+
+My Talks
+********
+
+* [2016, Puget Sound Python]: `Zon: Zillow's Journey from Tests to Monitors <https://youtu.be/-ZL5M-t9lwY>`_
+* [2018, Pycascades]: `Taming the Hydra: How we Learned to Love Testing a Giant Python Codebase <https://www.youtube.com/watch?v=F5x4_KVtfcA>`_
