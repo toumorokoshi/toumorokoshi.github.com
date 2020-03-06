@@ -1,17 +1,17 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*- #
 
-AUTHOR = 'Yusuke Tsutsumi'
-SITENAME = 'y.tsutsumi.io'
-SITEURL = '.'
-TAGLINE = 'Yusuke Tsutsumi'
+AUTHOR = "Yusuke Tsutsumi"
+SITENAME = "y.tsutsumi.io"
+SITEURL = "."
+TAGLINE = "Yusuke Tsutsumi"
 # THEME = "pelican-bootstrap3"
-STATIC_PATHS = ('images', 'static')
-THEME = 'pelican-bootstrap3'
+STATIC_PATHS = ("images", "static")
+# THEME = "pelican-bootstrap3"
 
-TIMEZONE = 'Europe/Paris'
+TIMEZONE = "Europe/Paris"
 
-DEFAULT_LANG = 'en'
+DEFAULT_LANG = "en"
 
 # Blogroll
 # MENUITEMS = (('GitHub', 'https://github.com/toumorokoshi'),
@@ -19,15 +19,18 @@ DEFAULT_LANG = 'en'
 
 # Social widget
 SOCIAL = (
-    ('GitHub', 'https://github.com/toumorokoshi'),
-    ('Twitter', 'https://twitter.com/tsutsumiyusuke'),
-    ('LinkedIn', 'http://www.linkedin.com/profile/view?id=56043626')
+    ("GitHub", "https://github.com/toumorokoshi"),
+    ("Twitter", "https://twitter.com/tsutsumiyusuke"),
+    ("LinkedIn", "http://www.linkedin.com/profile/view?id=56043626"),
 )
 
 MENUITEMS = [
     ("Just Programming Posts", "/category/programming.html"),
     ("Coder's Guide", "/codersguide/"),
-    ("Notebooks", "https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/"),
+    (
+        "Notebooks",
+        "https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/",
+    ),
 ]
 
 # LINKS = (('', ''),)
@@ -37,31 +40,40 @@ DEFAULT_PAGINATION = 10
 TAG_CLOUD_MAX_ITEMS = 5
 
 # More configuration related
-DISQUS_SITENAME = 'tsutsumi'
-GOOGLE_ANALYTICS = 'UA-29270527-2'
+DISQUS_SITENAME = "tsutsumi"
+GOOGLE_ANALYTICS = "UA-29270527-2"
 FEED_DOMAIN = "http://y.tsutsumi.io"
 # rss
-FEED_RSS = 'rss'
+FEED_RSS = "rss"
 # TAG_FEED_RSS = 'rsstag'
 # CATEGORY_FEED_RSS = 'rsscategory'
 # atom
-FEED_ATOM = 'atom'
+FEED_ATOM = "atom"
 
 
 DISPLAY_TAGS_ON_SIDEBAR = False
 
-PLUGINS = [
-    'pelican_gist'
-]
+PLUGINS = ["pelican_gist", "pelican_export"]
+from pelican_export import configure_exporter
+
+configure_exporter(
+    export_type="wordpress",
+    export_configuration={
+        "url": "https://toumorokoshi.wordpress.com/xmlrpc.php",
+        "username": "tsutsumi.yusuke@gmail.com",
+        "password": "zfVNmGgkPnb##Z^$cbyGDJFKx9STeRX2x",
+        "post_status": "publish",
+    },
+)
 
 # pelican-bootstrap3 custom options
-CUSTOM_CSS = 'static/custom.css'
+CUSTOM_CSS = "static/custom.css"
 
-GITHUB_USER = 'toumorokoshi'
+GITHUB_USER = "toumorokoshi"
 GITHUB_REPO_COUNT = 3
 GITHUB_SKIP_FORK = True
 GITHUB_SHOW_USER_LINK = True
-BOOTSTRAP_THEME = 'yeti'
+BOOTSTRAP_THEME = "yeti"
 
 DISPLAY_PAGES_ON_MENU = True
 DISPLAY_CATEGORIES_ON_MENU = False
@@ -77,3 +89,5 @@ productivity, including build and testing.
 My other interests include programming language design, game development,
 and learning languages (the non-programming ones).
 """
+WITH_FUTURE_DATES = False
+

@@ -5,7 +5,6 @@ Book Report: The Whole Brain Child
 :category: books
 :tags: book-report
 :author: Yusuke Tsutsumi
-:status: draft
 
 `The Whole Brain Child <https://www.amazon.com/Whole-Brain-Child-Revolutionary-Strategies-Developing/dp/0553386697>`_ discusses strategies to teach children how to deal with difficult situations in an empathetic and rational way.
 
