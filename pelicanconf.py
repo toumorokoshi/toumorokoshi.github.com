@@ -5,9 +5,7 @@ AUTHOR = "Yusuke Tsutsumi"
 SITENAME = "y.tsutsumi.io"
 SITEURL = "."
 TAGLINE = "Yusuke Tsutsumi"
-# THEME = "pelican-bootstrap3"
 STATIC_PATHS = ("images", "static")
-# THEME = "pelican-bootstrap3"
 
 TIMEZONE = "Europe/Paris"
 
@@ -53,18 +51,7 @@ FEED_ATOM = "atom"
 
 DISPLAY_TAGS_ON_SIDEBAR = False
 
-PLUGINS = ["pelican_gist", "pelican_export"]
-from pelican_export import configure_exporter
-
-configure_exporter(
-    export_type="wordpress",
-    export_configuration={
-        "url": "https://toumorokoshi.wordpress.com/xmlrpc.php",
-        "username": "tsutsumi.yusuke@gmail.com",
-        "password": "zfVNmGgkPnb##Z^$cbyGDJFKx9STeRX2x",
-        "post_status": "publish",
-    },
-)
+PLUGINS = ["pelican_gist"]
 
 # pelican-bootstrap3 custom options
 CUSTOM_CSS = "static/custom.css"
@@ -90,4 +77,3 @@ My other interests include programming language design, game development,
 and learning languages (the non-programming ones).
 """
 WITH_FUTURE_DATES = False
-
