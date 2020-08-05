@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>y.tsutsumi.io - seven_languages</title>
+        <link rel="stylesheet" href="./theme/css/main.css" />
+        <link href="http://y.tsutsumi.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="y.tsutsumi.io Atom Feed" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="./">y.tsutsumi.io </a></h1>
+                <nav><ul>
+                    <li><a href="/category/programming.html">Just Programming Posts</a></li>
+                    <li><a href="/codersguide/">Coder's Guide</a></li>
+                    <li><a href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a></li>
+                    <li><a href="./pages/about-me.html">About Me</a></li>
+                    <li><a href="./pages/projects.html">Projects</a></li>
+                    <li><a href="./pages/resources.html">Resources</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="./seven-languages-in-seven-weeks-haskell-day-3.html">Seven Languages in Seven Weeks: Haskell Day 3</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2014-03-28T00:00:00+01:00">
+                Published: Fri 28 March 2014
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/yusuke-tsutsumi.html">Yusuke Tsutsumi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+<p>tags: <a href="./tag/haskell.html">haskell</a> <a href="./tag/seven_languages.html">seven_languages</a> </p>
+</footer><!-- /.post-info --><p>A few months ago, I tried my hand at <a class="reference external" href="http://pragprog.com/book/btlang/seven-languages-in-seven-weeks">Seven Languages in Seven Weeks</a>,
+and it was an incredibly enlightening experience.</p>
+<p>There was one excersize that kept me at odds for weeks though, so I
+thought I'd share my experience.</p>
+<div class="section" id="haskell-day-3-creating-and-writing-a-maze-solver">
+<h2>Haskell Day 3: Creating and writing a Maze Solver</h2>
+<p>The excersize calls for accomplishing two tasks:</p>
+<ul class="simple">
+<li>Creating a data structure for storing a maze</li>
+<li>Write a method to solve it</li>
+</ul>
+<p>I think there's a few ways to organize the data, but I chose a format that was fairly readable:</p>
+<pre class="literal-block">
+data Exits = North | West | East | South deriving (Show, Eq)
+data Node = NodePath (Int, Int) [Exits] | TerminalNode (Int, Int) deriving (Show, Eq)
+type Maze = [[Node]]
+testMaze :: Maze
+testMaze = [
+ [ (NodePath (0,0) [South]), (NodePath (1, 0) []), (NodePath (2, 0) []) ],
+ [ (NodePath (0,1) [East]), (NodePath (1, 1) [East]), (NodePath (2, 1) [North, South]) ],
+ [ (NodePath (0,2) []), (NodePath (1, 2) []), (TerminalNode (2, 2)) ]
+       ]
+</pre>
+<p>Basically, this creates a few types:</p>
+<ul class="simple">
+<li>Exits, to deal with the directions from which one can move from the current position</li>
+<li>Node, which consists of nodes with paths (a NodePath), and a Final node (TerminalNode).</li>
+<li>Maze, which is simply a two-dimensional array of nodes.</li>
+</ul>
+<p>I think there's liberties here as well, but I wanted to note my choice
+a NodePath and TerminalNode type: it seemed like creating completely
+different types altogether allowed me to rely on the strict type of
+Haskell better to solve my problems, instead of emebedding logic. But YRMV.</p>
+<p>One big downside: putting data in structures like this made it hard to
+get the data I want, and also rely on the typing. Ultimately I had to
+create several utility methods to help me:</p>
+<pre class="literal-block">
+-- getNode: Returns a node object given a maze and a position
+    getNode :: Maze -&gt; (Int, Int)-&gt; Node
+    getNode maze (x,y) = maze !! y !! x
+-- getExits: return all the exits for a node
+    getExits :: Node -&gt; [Exits]
+    getExits (NodePath _ exits) = exits
+    getExits (TerminalNode _) = []
+-- getPosition: return a (x,y) of the position of a node
+    getPosition :: Node -&gt; (Int, Int)
+    getPosition (NodePath (x,y) _) = (x, y)
+    getPosition (TerminalNode (x,y)) = (x, y)
+</pre>
+<p>I definitely must be doing something wrong here. The rigid typing of
+Haskell should allow me to take advantage of the inner data without
+creating accessors like this. But I'm not a Haskell expert, so I made
+do with what I understood.</p>
+<p>Finally, I have all the tools I need to write my solver. Here it is:</p>
+<pre class="literal-block">
+-- getNextNode: given a node, maze, and an exit, return the next node from the maze
+    getNextNode :: Node -&gt; Maze -&gt; Exits -&gt; Node
+    getNextNode node maze exit =
+        let (x, y) = getPosition node
+        in
+          case exit of
+            North -&gt; getNode maze (x, y - 1)
+            West -&gt; getNode maze (x - 1, y)
+            East -&gt; getNode maze (x + 1, y)
+            South -&gt; getNode maze (x, y + 1)
+-- If the element already exists in the path, we're at a dead end.
+-- solveRoute: returns a list of the valid routes to the exit
+    solveRoute :: Maze -&gt; Node -&gt; [Node] -&gt; Exits -&gt; Maybe [Node]
+    solveRoute maze node path exit =
+        let nextNode = getNextNode node maze exit
+        in
+          if (nextNode `elem` path)
+          then
+              Nothing
+          else
+              solveMaze maze nextNode (node:path)
+-- solveMaze: solve the maze by taking solveRoute, filtering the successful results, and taking the first one.
+    solveMaze :: Maze -&gt; Node -&gt; [Node] -&gt; Maybe [Node]
+    solveMaze maze node path =
+        case node of
+          TerminalNode _ -&gt; Just (node:path)
+          NodePath _ _-&gt;
+                   let nodes = (filter (\x -&gt; x /= Nothing) (map (solveRoute maze node path) (getExits node)))
+                   in
+                     if (length nodes &gt; 0)
+                     then
+                         head nodes
+                     else
+                        Nothing
+</pre>
+<p>This code probably seems a bit contrived. Basically here's what solveMaze does:</p>
+<ul class="simple">
+<li>delegates the logic to solveRoute if the node isn't a terminalNode</li>
+<li>solveRoute gets the exits for the node. it loops through them, takes
+the valid ones (the ones where the same position isn't in there
+twice), and passes them back into solveMaze</li>
+</ul>
+<p>So solveMaze and solveRoute call each other until they find a valid
+solution. I could have added them into the same method, but this
+seemed like a logical split that made the code a little easier to understand.</p>
+<p>This works. Give it a try:</p>
+<pre class="literal-block">
+mazeStart = getNode testMaze (0, 0)
+mazeSolution = solveMaze testMaze mazeStart []
+</pre>
+<p>One of the big issues I have with solution, however, is the fact that
+it doesn't use a list monad in any way. And I'm still a bit confused
+as to how it comes in handy here. From my understanding, a list monad
+flattens a list of lists into a single list. So ultimately, my
+solution might not be taking advantage of the real power of
+Haskell. It is purely functional though, so maybe it is.</p>
+<p>Here's the code in full:</p>
+<pre class="literal-block">
+module Day3 where
+    import Data.List
+    --    data Node = NodePath ((Int, Int), [Node]) | TerminalNode (Int, Int)
+        data Exits = North | West | East | South deriving (Show, Eq)
+        data Node = NodePath (Int, Int) [Exits] | TerminalNode (Int, Int) deriving (Show, Eq)
+        type Maze = [[Node]]
+        testMaze :: Maze
+        testMaze = [
+         [ (NodePath (0,0) [South]), (NodePath (1, 0) []), (NodePath (2, 0) []) ],
+         [ (NodePath (0,1) [East]), (NodePath (1, 1) [East]), (NodePath (2, 1) [North, South]) ],
+         [ (NodePath (0,2) []), (NodePath (1, 2) []), (TerminalNode (2, 2)) ]
+               ]
+    -- getNode
+        getNode :: Maze -&gt; (Int, Int)-&gt; Node
+        getNode maze (x,y) = maze !! y !! x
+    -- getExists
+        getExits :: Node -&gt; [Exits]
+        getExits (NodePath _ exits) = exits
+        getExits (TerminalNode _) = []
+    -- getPosition
+        getPosition :: Node -&gt; (Int, Int)
+        getPosition (NodePath (x,y) _) = (x, y)
+        getPosition (TerminalNode (x,y)) = (x, y)
+    -- getNextNode
+        getNextNode :: Node -&gt; Maze -&gt; Exits -&gt; Node
+        getNextNode node maze exit =
+            let (x, y) = getPosition node
+            in
+              case exit of
+                North -&gt; getNode maze (x, y - 1)
+                West -&gt; getNode maze (x - 1, y)
+                East -&gt; getNode maze (x + 1, y)
+                South -&gt; getNode maze (x, y + 1)
+    -- If the element already exists in the path, we're at a dead end.
+        solveRoute :: Maze -&gt; Node -&gt; [Node] -&gt; Exits -&gt; Maybe [Node]
+        solveRoute maze node path exit =
+            let nextNode = getNextNode node maze exit
+            in
+              if (nextNode `elem` path)
+              then
+                  Nothing
+              else
+                  solveMaze maze nextNode (node:path)
+    -- solveMaze 2
+        solveMaze :: Maze -&gt; Node -&gt; [Node] -&gt; Maybe [Node]
+        solveMaze maze node path =
+            case node of
+              TerminalNode _ -&gt; Just (node:path)
+              NodePath _ _-&gt;
+                       let nodes = (filter (\x -&gt; x /= Nothing) (map (solveRoute maze node path) (getExits node)))
+                       in
+                         if (length nodes &gt; 0)
+                         then
+                             head nodes
+                         else
+                             Nothing
+        mazeStart = getNode testMaze (0, 0)
+        mazeSolution = solveMaze testMaze mazeStart []
+</pre>
+</div>
+<p>There are <a href="./seven-languages-in-seven-weeks-haskell-day-3.html#disqus_thread">comments</a>.</p>                </article>
+            </aside><!-- /#featured -->
+        <section id="extras" class="body">
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="http://y.tsutsumi.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://github.com/toumorokoshi">GitHub</a></li>
+                            <li><a href="https://twitter.com/tsutsumiyusuke">Twitter</a></li>
+                            <li><a href="http://www.linkedin.com/profile/view?id=56043626">LinkedIn</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+    <script type="text/javascript">
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-29270527-2', 'auto');
+    ga('send', 'pageview');
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'tsutsumi';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

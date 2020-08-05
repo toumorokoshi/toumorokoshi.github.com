@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>Emacs From Scratch, Part 2: Package management</title>
+        <link rel="stylesheet" href="./theme/css/main.css" />
+        <link href="http://y.tsutsumi.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="y.tsutsumi.io Atom Feed" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="./">y.tsutsumi.io </a></h1>
+                <nav><ul>
+                    <li><a href="/category/programming.html">Just Programming Posts</a></li>
+                    <li><a href="/codersguide/">Coder's Guide</a></li>
+                    <li><a href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a></li>
+                    <li><a href="./pages/about-me.html">About Me</a></li>
+                    <li><a href="./pages/projects.html">Projects</a></li>
+                    <li><a href="./pages/resources.html">Resources</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="./emacs-from-scratch-part-2-package-management.html" rel="bookmark"
+           title="Permalink to Emacs From Scratch, Part 2: Package management">Emacs From Scratch, Part 2: Package management</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-02-01T00:00:00+01:00">
+                Published: Sat 01 February 2014
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/yusuke-tsutsumi.html">Yusuke Tsutsumi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+<p>tags: <a href="./tag/emacs.html">emacs</a> <a href="./tag/environment.html">environment</a> </p>
+</footer><!-- /.post-info -->      <p>This is a series of tutorials geared around building up your own
+customized environment, using emacs, from scratch.
+You can find <a class="reference external" href="emacs-from-scratch-part-1-extending-emacs-basics.html">part 1 here</a>
+You can find <a class="reference external" href="emacs-from-scratch-part-3-extending-emacs-with-elisp.html">part 3 here</a></p>
+<div class="section" id="installing-and-managing-packages">
+<h2>Installing and Managing Packages</h2>
+<div class="section" id="requirements">
+<h3>Requirements</h3>
+<p>To follow along with this tutorial, all you need is an existing
+installation of Emacs 24, or package.el. I note 24 specifically because if you have
+Linux, your distribution might not have an Emacs package that is version 24 or higher.</p>
+<p>You can find out your emacs version with the 'M-x emacs-version' in
+your Emacs. If you don't have 24, Bozhidar Batsov wrote a great guide
+on <a class="reference external" href="http://batsov.com/articles/2011/10/09/getting-started-with-emacs-24/">installing emacs 24</a>.</p>
+<p>Conversely, you can install <a class="reference external" href="http://repo.or.cz/w/emacs.git/blob_plain/1a0a666f941c99882093d7bd08ced15033bc3f0c:/lisp/emacs-lisp/package.el">package.el</a>.
+Simple add it somewhere to your .emacs.d and load it as shown in part 1.</p>
+</div>
+<div class="section" id="background">
+<h3>Background</h3>
+<p>Text editors tend to be limited in the initial functionality they
+provide. Even Emacs, which provides a larger set of base functionality
+and features than most, will probably not have everything you
+want. Luckily, like most other editors these days, Emacs provides
+methodology to extend your text editor by taking code others have written. Vim and Sublime call them
+plugins, Emacs calls them <em>packages</em>.</p>
+<p>As of Emacs 24, packages management is now included by default. This means you have a way to:</p>
+<ul class="simple">
+<li>install packages: M-x package-install &lt;package&gt;</li>
+<li>list all existing packages: M-x list-packages</li>
+</ul>
+<p>But we have a couple steps to go until we reach package management nirvana.</p>
+</div>
+<div class="section" id="the-code">
+<h3>The Code</h3>
+<p>For this tutorial, let's add two separate files into our ~/.emacs.d/ directory:</p>
+<ul class="simple">
+<li>my-packages.el</li>
+<li>my-loadpackages.el</li>
+</ul>
+<p>And load .emacs.loadpackages files in your ~/.emacs:</p>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="nb">load</span> <span class="s">&quot;~/.emacs.d/my-loadpackages.el&quot;</span><span class="p">)</span>
+</pre></div>
+<p>We're going to split our code up into two parts: one file to define
+what packages we want to install, and another to load and set up those
+packages.</p>
+</div>
+<div class="section" id="adding-packages-archives">
+<h3>Adding packages archives</h3>
+<p>Emacs 24's packages manager allows the adding of additional package
+archives, the places where package.el looks for packages to
+install. In your my-packages.el, let's tell Emacs to add some more
+package archives:</p>
+<div class="highlight"><pre><span></span><span class="c1">; my-packages.el</span>
+<span class="p">(</span><span class="nb">require</span> <span class="ss">&#39;package</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">add-to-list</span> <span class="ss">&#39;package-archives</span>
+             <span class="o">&#39;</span><span class="p">(</span><span class="s">&quot;melpa&quot;</span> <span class="o">.</span> <span class="s">&quot;http://melpa.milkbox.net/packages/&quot;</span><span class="p">)</span> <span class="no">t</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">add-to-list</span> <span class="ss">&#39;package-archives</span>
+             <span class="o">&#39;</span><span class="p">(</span><span class="s">&quot;marmalade&quot;</span> <span class="o">.</span> <span class="s">&quot;http://marmalade-repo.org/packages/&quot;</span><span class="p">)</span> <span class="no">t</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">package-initialize</span><span class="p">)</span>
+</pre></div>
+<p>So what are these package archives? Here's some info about them:</p>
+<ul class="simple">
+<li><a class="reference external" href="http://melpa.milkbox.net/#/">melpa</a> is a package archive managed
+by Milkypostman. It's the easiest package archive to add packages
+too, and is automatically updated when the package is. The go-to
+source for up to date, and the vast majority of, packages. However
+it's worth noting that with cutting-edge comes instability, so that
+is a risk of stability one should be aware of. It's worth noting I've never been
+broken for any package I've installed via melpa, however.</li>
+<li><a class="reference external" href="http://marmalade-repo.org/">marmalade</a> is another third-party
+package manager. Marmalade tends to be more stable, due to the
+requirement that developers explicitely upload new versions of their
+packages.</li>
+</ul>
+<p>I personally use both (and the built-in Emacs 24 package-archive), but
+if you don't want to use one or the other, remove the offending
+statements from above.</p>
+<p>The code above does the following:</p>
+<ul class="simple">
+<li>loads the package 'package' via the require keyword</li>
+<li>installs relevant package managers</li>
+<li>initializes the package system so definitions are loaded</li>
+</ul>
+</div>
+<div class="section" id="installing-and-loading-packages-on-startup">
+<h3>Installing and Loading Packages on Startup</h3>
+<p>Now that we have the package repositories we like, it's time to
+install some packages! First, choose a package you'd like to
+install. I'm going to install <a class="reference external" href="http://magit.github.io/documentation.html">magit</a>, a very nice version
+control major mode for git, and <a class="reference external" href="http://capitaomorte.github.io/yasnippet/">yasnippet</a>, a package to easily
+parameterize and inject templates as needed (e.g. a java class template).
+Remember, you can always find more package by using 'M-x list-packages'</p>
+<p>If you wanted to install these manually, all you would have to do is 'M-x
+package-install &lt;package&gt;'. However, I believe in reproduceability, so I'm
+going to explain a method that will automatically install desired
+missing packages on startup.</p>
+<p>(To give proper attribution, I adapted this method from snippets in <a class="reference external" href="https://github.com/bbatsov/prelude/blob/master/core/prelude-packages.el">this file</a>
+in emacs-prelude.)</p>
+<p>The first step is to define a list of packages you want installed on
+startup. In your my-packages.el, after the package archives have been
+initialized, let's create a list and store our desired packages in them:</p>
+<div class="highlight"><pre><span></span><span class="c1">; my-packages.el</span>
+<span class="c1">; defvar is the correct way to declare global variables</span>
+<span class="c1">; you might see setq as well, but setq is supposed to be use just to set variables,</span>
+<span class="c1">; not create them.</span>
+<span class="p">(</span><span class="nb">defvar</span> <span class="nv">required-packages</span>
+  <span class="o">&#39;</span><span class="p">(</span>
+    <span class="nv">magit</span>
+    <span class="nv">yasnippet</span>
+  <span class="p">)</span> <span class="s">&quot;a list of packages to ensure are installed at launch.&quot;</span><span class="p">)</span>
+</pre></div>
+<p>Now that required-packages is defined, we can use it to install some
+packages! Let's add a few more lines to install these packages for us:</p>
+<p>Add the following to my-packages.el:</p>
+<div class="highlight"><pre><span></span><span class="c1">; my-packages.el</span>
+<span class="p">(</span><span class="nb">require</span> <span class="ss">&#39;cl</span><span class="p">)</span>
+
+<span class="c1">; method to check if all packages are installed</span>
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">packages-installed-p</span> <span class="p">()</span>
+  <span class="p">(</span><span class="nb">loop</span> <span class="nv">for</span> <span class="nv">p</span> <span class="nv">in</span> <span class="nv">required-packages</span>
+        <span class="nb">when</span> <span class="p">(</span><span class="nb">not</span> <span class="p">(</span><span class="nv">package-installed-p</span> <span class="nv">p</span><span class="p">))</span> <span class="nb">do</span> <span class="p">(</span><span class="nb">return</span> <span class="no">nil</span><span class="p">)</span>
+        <span class="nv">finally</span> <span class="p">(</span><span class="nb">return</span> <span class="no">t</span><span class="p">)))</span>
+
+<span class="c1">; if not all packages are installed, check one by one and install the missing ones.</span>
+<span class="p">(</span><span class="nb">unless</span> <span class="p">(</span><span class="nv">packages-installed-p</span><span class="p">)</span>
+  <span class="c1">; check for new packages (package versions)</span>
+  <span class="p">(</span><span class="nv">message</span> <span class="s">&quot;%s&quot;</span> <span class="s">&quot;Emacs is now refreshing its package database...&quot;</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">package-refresh-contents</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">message</span> <span class="s">&quot;%s&quot;</span> <span class="s">&quot; done.&quot;</span><span class="p">)</span>
+  <span class="c1">; install the missing packages</span>
+  <span class="p">(</span><span class="nb">dolist</span> <span class="p">(</span><span class="nv">p</span> <span class="nv">required-packages</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">when</span> <span class="p">(</span><span class="nb">not</span> <span class="p">(</span><span class="nv">package-installed-p</span> <span class="nv">p</span><span class="p">))</span>
+      <span class="p">(</span><span class="nv">package-install</span> <span class="nv">p</span><span class="p">))))</span>
+</pre></div>
+<p>So what does this code do? Well:</p>
+<ul class="simple">
+<li>package-installed-p is from package.el and checks if a package is installed</li>
+<li>packages-installed-p checks if all desired packages are installed</li>
+<li><dl class="first docutils">
+<dt>the unless clause:</dt>
+<dd><ul class="first last">
+<li>first checks if all packages are installed. If they are, no need to do extra work.</li>
+<li><dl class="first docutils">
+<dt>if not all packages are installed:</dt>
+<dd><ul class="first last">
+<li>refresh the package indices</li>
+<li>install each non-installed package.</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p>So whenever I want to install a package, I just add it to the list. If
+you share your .emacs configuration across machines, or have to start
+from scratch, this makes it very easy to build an environment. Even if
+you completely blow away your existing packages.</p>
+<p>Give it a try! shut down your emacs now and start it back up, and you
+should install the magit and yasnippet packages.</p>
+</div>
+<div class="section" id="loading-and-configuring-packages">
+<h3>Loading and Configuring Packages</h3>
+<p>So now we have packages installing automatically. How do we use them?</p>
+<p>Each package has it's own configuration, so it's best to read the
+README or documentation. However, almost all packages require you to
+require it first. Let's add a few lines to our .emacs.d/my-loadpackages.el:</p>
+<div class="highlight"><pre><span></span><span class="c1">; my-loadpackages.el</span>
+<span class="c1">; loading package</span>
+<span class="p">(</span><span class="nb">load</span> <span class="s">&quot;~/.emacs.d/my-packages.el&quot;</span><span class="p">)</span>
+
+<span class="p">(</span><span class="nb">require</span> <span class="ss">&#39;magit</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">define-key</span> <span class="nv">global-map</span> <span class="p">(</span><span class="nv">kbd</span> <span class="s">&quot;C-c m&quot;</span><span class="p">)</span> <span class="ss">&#39;magit-status</span><span class="p">)</span>
+
+<span class="p">(</span><span class="nb">require</span> <span class="ss">&#39;yasnippet</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">yas-global-mode</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">yas-load-directory</span> <span class="s">&quot;~/.emacs.d/snippets&quot;</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">add-hook</span> <span class="ss">&#39;term-mode-hook</span> <span class="p">(</span><span class="k">lambda</span><span class="p">()</span>
+    <span class="p">(</span><span class="k">setq</span> <span class="nv">yas-dont-activate</span> <span class="no">t</span><span class="p">)))</span>
+</pre></div>
+<p>So each package section starts with a &quot;require&quot;, which loads a
+particular package into the existing emacs environment. This is
+required before configuring anything related no that package. Notice
+that I also use the require as a section header, defining what package
+is related to what configuration.</p>
+<p>One thing to note here is that once a package is loaded via require,
+it's methods are globally available EVERYWHERE. There's no concept of
+importing just for the file in emacs lisp, you just add everything to
+this global context. However, most packages use a prefix, (such as
+'yas' for yasnippet commands) so it doesn't seem too cluttered.</p>
+<p>Here we also see another use of add-hook, but it's different this
+time: this time we hook it to a particular major mode. This means that
+this particular hook will activate when that major-mode is
+activated. This is useful when you want to activate specific behaviour
+for when you're editing a particular kind of text (e.g. binding a
+shortcut to open up a python interpreter if you're in a python major mode)</p>
+<p>As an aside, here's the configuration I'm setting here:</p>
+<ul class="simple">
+<li>binding C-c m to magit-status: this is an example of a custom
+shortcut for my environment. Wherever I am, I can hit C-c m and see
+the status of the git repository I'm in (if I'm in one).</li>
+<li>yas-global-mode: this ensures that yasnippet is activated
+globally. Since yasnippet doesn't typically interfere with anything,
+and I've found that any sort of text I'm modifying benefits from
+snippets, It's a good default to have.</li>
+<li>yas-load-directory: this allows me to load snippets from a specific
+location. I have custom snippets I store in there.</li>
+<li>(add-hook 'term-mode-hook...): this is a little hack that needs to
+exist. Otherwise, tab-complete doesn't work in Emacs' terminal
+emulators such as ansi-mode.</li>
+</ul>
+</div>
+<div class="section" id="summary">
+<h3>Summary</h3>
+<p>Here's what we learned:</p>
+<ul class="simple">
+<li>emacs has a built-in (as of Emacs 24) package management system.</li>
+<li>can install third-party repositories by adding entries to package-archives</li>
+<li>can install packages manually with M-x install-package</li>
+<li>packages can be loaded via (require '&lt;package-name&gt;)</li>
+</ul>
+</div>
+<div class="section" id="final-code">
+<h3>Final Code</h3>
+<p>Note: this includes code from part one</p>
+<p>.emacs:</p>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="nb">load</span> <span class="s">&quot;~/.emacs.d/my-loadpackages.el&quot;</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">add-hook</span> <span class="ss">&#39;after-init-hook</span> <span class="o">&#39;</span><span class="p">(</span><span class="k">lambda</span> <span class="p">()</span>
+  <span class="p">(</span><span class="nb">load</span> <span class="s">&quot;~/.emacs.d/my-noexternals.el&quot;</span><span class="p">)</span>
+<span class="p">))</span>
+</pre></div>
+<p>.emacs.d/my-noexternals.el:</p>
+<div class="highlight"><pre><span></span><span class="c1">; ~/.emacs.d/my-noexternals.el</span>
+
+<span class="c1">;; Remove scrollbars, menu bars, and toolbars</span>
+<span class="p">(</span><span class="nb">when</span> <span class="p">(</span><span class="nb">fboundp</span> <span class="ss">&#39;menu-bar-mode</span><span class="p">)</span> <span class="p">(</span><span class="nv">menu-bar-mode</span> <span class="mi">-1</span><span class="p">))</span>
+<span class="p">(</span><span class="nb">when</span> <span class="p">(</span><span class="nb">fboundp</span> <span class="ss">&#39;tool-bar-mode</span><span class="p">)</span> <span class="p">(</span><span class="nv">tool-bar-mode</span> <span class="mi">-1</span><span class="p">))</span>
+<span class="p">(</span><span class="nb">when</span> <span class="p">(</span><span class="nb">fboundp</span> <span class="ss">&#39;scroll-bar-mode</span><span class="p">)</span> <span class="p">(</span><span class="nv">scroll-bar-mode</span> <span class="mi">-1</span><span class="p">))</span>
+
+<span class="c1">;; Wind-move</span>
+<span class="p">(</span><span class="nv">global-set-key</span> <span class="p">(</span><span class="nv">kbd</span> <span class="s">&quot;C-c C-j&quot;</span><span class="p">)</span> <span class="ss">&#39;windmove-left</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">global-set-key</span> <span class="p">(</span><span class="nv">kbd</span> <span class="s">&quot;C-c C-k&quot;</span><span class="p">)</span> <span class="ss">&#39;windmove-down</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">global-set-key</span> <span class="p">(</span><span class="nv">kbd</span> <span class="s">&quot;C-c C-l&quot;</span><span class="p">)</span> <span class="ss">&#39;windmove-up</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">global-set-key</span> <span class="p">(</span><span class="nv">kbd</span> <span class="s">&quot;C-c C-;&quot;</span><span class="p">)</span> <span class="ss">&#39;windmove-right</span><span class="p">)</span>
+</pre></div>
+<p>.emacs.d/my-packages.el:</p>
+<div class="highlight"><pre><span></span><span class="c1">; ~/.emacs.d/my-packages.el</span>
+<span class="p">(</span><span class="nb">require</span> <span class="ss">&#39;cl</span><span class="p">)</span>
+
+<span class="p">(</span><span class="nb">require</span> <span class="ss">&#39;package</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">add-to-list</span> <span class="ss">&#39;package-archives</span>
+             <span class="o">&#39;</span><span class="p">(</span><span class="s">&quot;melpa&quot;</span> <span class="o">.</span> <span class="s">&quot;http://melpa.milkbox.net/packages/&quot;</span><span class="p">)</span> <span class="no">t</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">add-to-list</span> <span class="ss">&#39;package-archives</span>
+             <span class="o">&#39;</span><span class="p">(</span><span class="s">&quot;marmalade&quot;</span> <span class="o">.</span> <span class="s">&quot;http://marmalade-repo.org/packages/&quot;</span><span class="p">)</span> <span class="no">t</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">package-initialize</span><span class="p">)</span>
+
+<span class="p">(</span><span class="nb">defvar</span> <span class="nv">required-packages</span>
+  <span class="o">&#39;</span><span class="p">(</span>
+    <span class="nv">magit</span>
+    <span class="nv">yasnippet</span>
+  <span class="p">)</span> <span class="s">&quot;a list of packages to ensure are installed at launch.&quot;</span><span class="p">)</span>
+
+<span class="c1">; method to check if all packages are installed</span>
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">packages-installed-p</span> <span class="p">()</span>
+  <span class="p">(</span><span class="nb">loop</span> <span class="nv">for</span> <span class="nv">p</span> <span class="nv">in</span> <span class="nv">required-packages</span>
+        <span class="nb">when</span> <span class="p">(</span><span class="nb">not</span> <span class="p">(</span><span class="nv">package-installed-p</span> <span class="nv">p</span><span class="p">))</span> <span class="nb">do</span> <span class="p">(</span><span class="nb">return</span> <span class="no">nil</span><span class="p">)</span>
+        <span class="nv">finally</span> <span class="p">(</span><span class="nb">return</span> <span class="no">t</span><span class="p">)))</span>
+
+<span class="c1">; if not all packages are installed, check one by one and install the missing ones.</span>
+<span class="p">(</span><span class="nb">unless</span> <span class="p">(</span><span class="nv">packages-installed-p</span><span class="p">)</span>
+  <span class="c1">; check for new packages (package versions)</span>
+  <span class="p">(</span><span class="nv">message</span> <span class="s">&quot;%s&quot;</span> <span class="s">&quot;Emacs is now refreshing its package database...&quot;</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">package-refresh-contents</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">message</span> <span class="s">&quot;%s&quot;</span> <span class="s">&quot; done.&quot;</span><span class="p">)</span>
+  <span class="c1">; install the missing packages</span>
+  <span class="p">(</span><span class="nb">dolist</span> <span class="p">(</span><span class="nv">p</span> <span class="nv">required-packages</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">when</span> <span class="p">(</span><span class="nb">not</span> <span class="p">(</span><span class="nv">package-installed-p</span> <span class="nv">p</span><span class="p">))</span>
+      <span class="p">(</span><span class="nv">package-install</span> <span class="nv">p</span><span class="p">))))</span>
+</pre></div>
+<p>.emacs.d/my-loadpackages.el:</p>
+<div class="highlight"><pre><span></span><span class="c1">; ~/.emacs.d/my-loadpackages.el</span>
+<span class="c1">; loading package</span>
+<span class="p">(</span><span class="nb">load</span> <span class="s">&quot;~/.emacs.d/my-packages.el&quot;</span><span class="p">)</span>
+
+<span class="p">(</span><span class="nb">require</span> <span class="ss">&#39;magit</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">define-key</span> <span class="nv">global-map</span> <span class="p">(</span><span class="nv">kbd</span> <span class="s">&quot;C-c m&quot;</span><span class="p">)</span> <span class="ss">&#39;magit-status</span><span class="p">)</span>
+
+<span class="p">(</span><span class="nb">require</span> <span class="ss">&#39;yasnippet</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">yas-global-mode</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">yas-load-directory</span> <span class="s">&quot;~/.emacs.d/snippets&quot;</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">add-hook</span> <span class="ss">&#39;term-mode-hook</span> <span class="p">(</span><span class="k">lambda</span><span class="p">()</span>
+    <span class="p">(</span><span class="k">setq</span> <span class="nv">yas-dont-activate</span> <span class="no">t</span><span class="p">)))</span>
+</pre></div>
+<div class="section" id="what-s-next">
+<h4>What's Next</h4>
+<p>Next tutorial, we'll talk about writing our own methods and modifying behaviour ourselves.</p>
+</div>
+<div class="section" id="further-reading-references">
+<h4>Further Reading / References</h4>
+<ul class="simple">
+<li><a class="reference external" href="http://repo.or.cz/w/emacs.git/blob_plain/1a0a666f941c99882093d7bd08ced15033bc3f0c:/lisp/emacs-lisp/package.el">package.el</a></li>
+<li><a class="reference external" href="http://melpa.milkbox.net/#/">melpa</a></li>
+<li><a class="reference external" href="http://marmalade-repo.org/">marmalade</a></li>
+<li><a class="reference external" href="http://magit.github.io/documentation.html">magit</a></li>
+<li><a class="reference external" href="http://capitaomorte.github.io/yasnippet/">yasnippet</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+    </div><!-- /.entry-content -->
+    <div class="comments">
+      <h2>Comments !</h2>
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        var disqus_shortname = 'tsutsumi';
+        var disqus_identifier = 'emacs-from-scratch-part-2-package-management.html';
+        var disqus_url = './emacs-from-scratch-part-2-package-management.html';
+        (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//tsutsumi.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the comments.</noscript>
+    </div>
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="http://y.tsutsumi.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://github.com/toumorokoshi">GitHub</a></li>
+                            <li><a href="https://twitter.com/tsutsumiyusuke">Twitter</a></li>
+                            <li><a href="http://www.linkedin.com/profile/view?id=56043626">LinkedIn</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+    <script type="text/javascript">
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-29270527-2', 'auto');
+    ga('send', 'pageview');
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'tsutsumi';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

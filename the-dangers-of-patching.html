@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>The Dangers of Patching</title>
+        <link rel="stylesheet" href="./theme/css/main.css" />
+        <link href="http://y.tsutsumi.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="y.tsutsumi.io Atom Feed" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="./">y.tsutsumi.io </a></h1>
+                <nav><ul>
+                    <li><a href="/category/programming.html">Just Programming Posts</a></li>
+                    <li><a href="/codersguide/">Coder's Guide</a></li>
+                    <li><a href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a></li>
+                    <li><a href="./pages/about-me.html">About Me</a></li>
+                    <li><a href="./pages/projects.html">Projects</a></li>
+                    <li><a href="./pages/resources.html">Resources</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="./the-dangers-of-patching.html" rel="bookmark"
+           title="Permalink to The Dangers of Patching">The Dangers of Patching</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-08-21T00:00:00+02:00">
+                Published: Thu 21 August 2014
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/yusuke-tsutsumi.html">Yusuke Tsutsumi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+<p>tags: <a href="./tag/testing.html">testing</a> <a href="./tag/patch.html">patch</a> <a href="./tag/python.html">python</a> </p>
+</footer><!-- /.post-info -->      <p>If you've ever used <a class="reference external" href="https://pypi.python.org/pypi/mock">Mock</a> (or
+the built-in <a class="reference external" href="https://docs.python.org/3/library/unittest.mock.html">mock in python
+3</a>), you'll
+know how powerful of a tool it can be toward making unit testing on
+functions modifying state sane. Mocks in Python are effectively a probe
+that you can send into a deep, dark function:</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">mock</span>
+
+<span class="k">def</span> <span class="nf">test_write_hello_world</span><span class="p">():</span>
+    <span class="n">my_filehandle</span> <span class="o">=</span> <span class="n">mock</span><span class="o">.</span><span class="n">Mock</span><span class="p">()</span>
+    <span class="n">write_hello_world_to_handle</span><span class="p">(</span><span class="n">my_filehandle</span><span class="p">)</span>
+    <span class="n">my_filehandle</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">assert_called_with</span><span class="p">(</span><span class="s2">&quot;hello world&quot;</span><span class="p">)</span>
+</pre></div>
+<p>You can send in a fake object, have it experience what it's like to be
+a real object, and you can ask it questions about what is was like.</p>
+<p>The above example doesn't really test a lot, but for more complex
+cases, it can be a lifesaver: you know exactly what was called and
+what wasn't, and if your object modifies some real world state that
+you don't want to (such as a database), it prevents you
+from performing dangerous operations.</p>
+<p>Another well-known feature of the mock module is patch: a function that
+gives you the ability to replace any object in python (in any module)
+with a mocked object. An example usage is like this:</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">mock</span>
+
+<span class="k">def</span> <span class="nf">test_linux</span><span class="p">():</span>
+    <span class="k">with</span> <span class="n">mock</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="s1">&#39;platform.system&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">system</span><span class="p">:</span>
+        <span class="n">system</span><span class="o">.</span><span class="n">return_value</span> <span class="o">=</span> <span class="s1">&#39;Linux&#39;</span>
+        <span class="kn">import</span> <span class="nn">platform</span>
+        <span class="k">assert</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;Linux&#39;</span>
+</pre></div>
+<p>Patch is powerful: it actually lets you replace modules, functions, and
+values, even if they're not imported in the current context!</p>
+<p>But just because a tool is powerful, doesn't mean you should use
+it. In reality, patch should be a last resort: you should only use it
+if there's no other way to test your code.</p>
+<p>But why? Patch is basically making mock even more flexible: you can
+literally mock anything you are aware of exists. There's a couple glaring issues:</p>
+<div class="section" id="it-s-not-foolproof">
+<h2>It's not foolproof</h2>
+<p>Let's say I have a couple files like this:</p>
+<div class="highlight"><pre><span></span><span class="c1"># mock_test.py</span>
+
+<span class="kn">from</span> <span class="nn">mymodule</span> <span class="kn">import</span> <span class="n">is_my_os</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">unittest</span> <span class="kn">import</span> <span class="n">mock</span>  <span class="c1"># py3</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">mock</span>  <span class="c1"># py2</span>
+
+<span class="k">with</span> <span class="n">mock</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="s1">&#39;platform.system&#39;</span><span class="p">,</span> <span class="n">return_value</span><span class="o">=</span><span class="s2">&quot;my os&quot;</span><span class="p">):</span>
+    <span class="k">assert</span> <span class="n">is_my_os</span><span class="p">()</span>
+</pre></div>
+<div class="highlight"><pre><span></span><span class="c1"># mymodule.py</span>
+<span class="kn">from</span> <span class="nn">platform</span> <span class="kn">import</span> <span class="n">system</span>
+
+<span class="k">def</span> <span class="nf">is_my_os</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">system</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;my os&quot;</span>
+</pre></div>
+<p>Now patch is patching the platform.system function, so this should pass. Let's try it:</p>
+<div class="highlight"><pre><span></span><span class="err">$</span> <span class="n">python</span> <span class="n">mock_test</span><span class="o">.</span><span class="n">py</span>
+<span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+  <span class="n">File</span> <span class="s2">&quot;./bin/python&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">42</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+    <span class="n">exec</span><span class="p">(</span><span class="nb">compile</span><span class="p">(</span><span class="n">__file__f</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="vm">__file__</span><span class="p">,</span> <span class="s2">&quot;exec&quot;</span><span class="p">))</span>
+  <span class="n">File</span> <span class="s2">&quot;/Users/tsutsumi/sandbox/mock_test.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">11</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="k">assert</span> <span class="n">is_my_os</span><span class="p">()</span>
+    <span class="ne">AssertionError</span>
+</pre></div>
+<p>That's not what we expected! So what happened here?</p>
+<p>Internally, every python module contains it's own scope. Every import,
+method declaration, and variable declaration, and expression modifies
+that scope in someway. So when you import anything, you are actually
+adding in a reference to that object into the global scope. So by the
+time we actually mock 'platform.system', the module's 'platform'
+already contains a reference to the 'system' function:</p>
+<div class="highlight"><pre><span></span><span class="err">$</span> <span class="n">python</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">platform</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">platform</span> <span class="kn">import</span> <span class="n">system</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">mock</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">with</span> <span class="n">mock</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="s1">&#39;platform.system&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">mock_system</span><span class="p">:</span>
+<span class="o">...</span>     <span class="nb">print</span><span class="p">(</span><span class="n">mock_system</span><span class="p">)</span>
+<span class="o">...</span>     <span class="nb">print</span><span class="p">(</span><span class="n">system</span><span class="p">)</span>
+<span class="o">...</span>     <span class="nb">print</span><span class="p">(</span><span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">)</span>
+<span class="o">...</span>
+<span class="o">&lt;</span><span class="n">MagicMock</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;system&#39;</span> <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;4307612752&#39;</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">function</span> <span class="n">system</span> <span class="n">at</span> <span class="mh">0x100bf9c80</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">MagicMock</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;system&#39;</span> <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;4307612752&#39;</span><span class="o">&gt;</span>
+<span class="o">&gt;&gt;&gt;</span>
+</pre></div>
+<p>So even if you do patch a method, you won't necessarily patch all the
+uses of that method, depending on how they're imported in. This
+means your patching must directly match how the object you want to
+mock is imported into the code to test.</p>
+<p>For example, we can fix the mock_test.py file above by changing the patch:</p>
+<div class="highlight"><pre><span></span><span class="c1"># mock_test.py</span>
+
+<span class="kn">from</span> <span class="nn">mymodule</span> <span class="kn">import</span> <span class="n">is_my_os</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">unittest</span> <span class="kn">import</span> <span class="n">mock</span>  <span class="c1"># py3</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">mock</span>  <span class="c1"># py2</span>
+
+<span class="k">with</span> <span class="n">mock</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="s1">&#39;mymodule.system&#39;</span><span class="p">,</span> <span class="n">return_value</span><span class="o">=</span><span class="s2">&quot;my os&quot;</span><span class="p">):</span>
+    <span class="k">assert</span> <span class="n">is_my_os</span><span class="p">()</span>
+</pre></div>
+<p>So in order to use a patch effectively, you have to be aware of <em>exact
+semantics</em> by which a method is both imported an invoked. And this
+leads up to the ultimate problem with patch:</p>
+</div>
+<div class="section" id="really-tightly-coupling-tests-with-implementation">
+<h2>Really tightly coupling tests with implementation</h2>
+<p>Patching in general, regardless of the implementation, tightly couples
+your test code and your regular code beyond the typical bounds of unit
+testing. Once you get patching involved, you have to not only be
+conscious of the effect of your code, but also it's
+implementation. Modifying the internal code of the method also
+requires modifying the test code. If your unit tests change, the
+actual functionality it's testing is also changed: you're no longer
+guaranteed that your code is identical because the same tests pass:
+because modifying your code <em>requires</em> you to change your test code.</p>
+<p>Ultimately however, we don't live in an ideal world. Times will come
+when you have to test code that is hard to refactor into a method that
+works with only mocks or actual objects. But with code you control,
+it's almost completely avoidable.</p>
+</div>
+<div class="section" id="so-how-do-we-avoid-patching">
+<h2>So how do we avoid patching?</h2>
+<p>Patching is the result of coupled complex state, relying on multiple
+global variables. We can remedy this by doing the exact opposite:</p>
+<ul class="simple">
+<li>decouple complex state</li>
+<li>don't rely on global variables</li>
+</ul>
+<p>Let's take a look at some practices to help with this:</p>
+<div class="section" id="don-t-use-global-variables">
+<h3>Don't use global variables</h3>
+<p>for example, let's look at an object that creates a persistent db
+connection based on configuration parameters:</p>
+<div class="highlight"><pre><span></span><span class="n">db_connection</span> <span class="o">=</span> <span class="n">db_connect</span><span class="p">(</span><span class="n">DB_URL</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">MyObject</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+
+    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">db_connection</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">():</span>
+        <span class="k">return</span> <span class="p">{</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="p">}</span>
+</pre></div>
+<p>To test this object's save method, you would have either patch the
+db_connection object, or replace the DB_URL to reflect a test
+database. Either method is an extra step from testing what you really
+want on just the save method: the db method is called, and is passed the
+dictionary representation of the object.</p>
+<p>You can accomplish this without patch by passing in objects as you
+need them: by explicitly passing them in, it makes it really easy to mock:</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyObject</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+
+    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db</span><span class="p">):</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">():</span>
+        <span class="k">return</span> <span class="p">{</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="p">}</span>
+
+ <span class="k">def</span> <span class="nf">test_myobject_save</span><span class="p">():</span>
+     <span class="kn">import</span> <span class="nn">mock</span>
+     <span class="n">my_object</span> <span class="o">=</span> <span class="n">MyObject</span><span class="p">(</span><span class="s2">&quot;foo&quot;</span><span class="p">)</span>
+     <span class="n">db</span> <span class="o">=</span> <span class="n">mock</span><span class="o">.</span><span class="n">Mock</span><span class="p">()</span>
+     <span class="n">my_object</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">db</span><span class="p">)</span>
+     <span class="k">assert</span> <span class="n">db</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">assert_called_with</span><span class="p">({</span>
+         <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;foo&#39;</span>
+     <span class="p">})</span>
+</pre></div>
+</div>
+<div class="section" id="decouple-complex-state">
+<h3>Decouple complex state</h3>
+<p>Complex state coupling occurs when you attempt to hide a lot of the
+difficulty with creating objects from a user. Using the database above, as an example:</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyObject</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_url</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_db</span> <span class="o">=</span> <span class="n">db_connection</span><span class="p">(</span><span class="n">db_url</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+
+    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_db</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">():</span>
+        <span class="k">return</span> <span class="p">{</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="p">}</span>
+</pre></div>
+<p>Now the only way to actually test this save method (aside from a full
+stack test) is to mock the db_connection method. It wouldn't work to
+assign the db attribute afterward (my_object._db = Mock()) because
+this would mean that the objects was already instantiated: your db
+connection already exists, creating extra overhead you won't used.</p>
+<p>Instead of trying to hide the complex state from the user of your
+class, let them actually choose the db object to pass in:</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyObject</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_db</span> <span class="o">=</span> <span class="n">db</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+
+    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_db</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">():</span>
+        <span class="k">return</span> <span class="p">{</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="p">}</span>
+
+ <span class="k">def</span> <span class="nf">test_myobject_save</span><span class="p">():</span>
+     <span class="kn">import</span> <span class="nn">mock</span>
+     <span class="n">db</span> <span class="o">=</span> <span class="n">mock</span><span class="o">.</span><span class="n">Mock</span><span class="p">()</span>
+     <span class="n">my_object</span> <span class="o">=</span> <span class="n">MyObject</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="s2">&quot;foo&quot;</span><span class="p">)</span>
+     <span class="n">my_object</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+     <span class="k">assert</span> <span class="n">db</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">assert_called_with</span><span class="p">({</span>
+         <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;foo&#39;</span>
+     <span class="p">})</span>
+</pre></div>
+<p>This not only allows us to test operations on complex objects, but
+also makes the class more flexible as well (e.g. compatible with more
+db objects than just the one that db_connection returns)</p>
+</div>
+<div class="section" id="final-thoughts">
+<h3>Final thoughts</h3>
+<p>Once again, patch exists for a reason. It's almost like a magic wand
+that allows you to test otherwise untestable code. But this magic wand
+comes with making your life harder the more you use it.</p>
+<p>So all in all: beware the dangers of patching.</p>
+</div>
+</div>
+
+    </div><!-- /.entry-content -->
+    <div class="comments">
+      <h2>Comments !</h2>
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        var disqus_shortname = 'tsutsumi';
+        var disqus_identifier = 'the-dangers-of-patching.html';
+        var disqus_url = './the-dangers-of-patching.html';
+        (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//tsutsumi.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the comments.</noscript>
+    </div>
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="http://y.tsutsumi.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://github.com/toumorokoshi">GitHub</a></li>
+                            <li><a href="https://twitter.com/tsutsumiyusuke">Twitter</a></li>
+                            <li><a href="http://www.linkedin.com/profile/view?id=56043626">LinkedIn</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+    <script type="text/javascript">
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-29270527-2', 'auto');
+    ga('send', 'pageview');
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'tsutsumi';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

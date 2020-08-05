@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>y.tsutsumi.io - Bash</title>
+        <link rel="stylesheet" href="./theme/css/main.css" />
+        <link href="http://y.tsutsumi.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="y.tsutsumi.io Atom Feed" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="./">y.tsutsumi.io </a></h1>
+                <nav><ul>
+                    <li><a href="/category/programming.html">Just Programming Posts</a></li>
+                    <li><a href="/codersguide/">Coder's Guide</a></li>
+                    <li><a href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a></li>
+                    <li><a href="./pages/about-me.html">About Me</a></li>
+                    <li><a href="./pages/projects.html">Projects</a></li>
+                    <li><a href="./pages/resources.html">Resources</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="./move-over-bash-python-is-my-language-for-setup-scripts-now.html">Move over bash: Python is my language for setup scripts now.</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2012-09-08T21:34:00+02:00">
+                Published: Sat 08 September 2012
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/toumorokoshi.html">Toumorokoshi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+<p>tags: <a href="./tag/bash.html">Bash</a> <a href="./tag/python.html">python</a> </p>
+</footer><!-- /.post-info --><p>I know when people discuss using programming languages, there's two main
+schools of thought:</p>
+<ul class="simple">
+<li>Use the same language for as much of your stack as possible</li>
+<li>Use the language that's most appropriate for each part of the stack
+as much of possible.</li>
+</ul>
+</p><p>Clearly, there's very strong advantages to both. Using the same language
+for everything provides you with a common language then anyone involved
+in your project can work on, they can dive into other parts fairly
+easily, and it's very easy to hire developers who have experience in one
+language, as at the end of the day, I think all developer's end up using
+one predominantly more than the rest.</p>
+<p>Using the proper language for each task, however, has it's merits as
+well. These function-specific languages make these parts a lot easier to
+write, and it's usually much faster too. A good example is trying to
+write a key-value store that can communicate through the web: Doing so
+in python gives you way too more function than you need. You need a
+low-level language that can handle memory management, and do so quickly.
+That's why <a class="reference external" href="http://http://memcached.org/">memcached</a>is written in c++.</p>
+<p>When it came to deployment and bootstrapping, I, like most unix-y
+people, thought bash. Why would I think otherwise? after all, every
+single bootstrap script I've ever seen was in bash, it has great
+integration with the shell, and that's all you really need. And it truly
+was all I ever needed... until I needed more.</p>
+<p>Now, I'm definitely no expert in bash, but every time I start to write a
+bash script, I truly remember how painful working with bash really is.
+Errors I've never seen before pop up at least a couple times every time
+I touch it, strange syntax issues, the methodology in which arguments
+are passed, the lack of libraries replaced by&nbsp;executables&nbsp;that may or
+may not exist on the system. After a half an hour of work on the script,
+I had an idea:</p>
+<p>Why not Python?</p>
+<p>And yes, why not Python? My whole team works with Python for pretty much
+everything else. People outside my team would just consume my script and
+would come to me if something was wrong anyway. So I started to write it
+in Python. And I accomplished what I wanted to do (perform multiple
+installations of Maven), within a half hour. Something I was only barely
+able to touch with bash in an hour.</p>
+<p>Once again, I'm not a bash expert, so I'm sure that play's a huge part
+in my opinion here. But I think it's interesting that once I broke out
+of my boxed-in thinking of using bash for all bootstrapping and python
+for only high-level services an tools, that the whole process became
+that much easier.</p>
+<p>And indeed, Python is actually a great language for writing setup
+scripts. Here's some examples:</p>
+<div class="section" id="extracting-tar-gz-files-without-touching-the-file-system">
+<h2>Extracting tar.gz files without touching the file system.</h2>
+</p><p>With python, you can download a file in memory, and extract it write
+there. no more wasted I/O!</p>
+<p><pre class="literal-block">
+import gzip, tarfilefrom StringIO import StringIOurl = MY_TARextractpath = MY_EXTRACT_PATHgz = gzip.GzipFile(fileobj=StringIO(urllib.urlopen(url).read()))tf = tarfile.TarFile(fileobj=gz)tf.extractall(path=extractpath)
+</pre>
+</p></div>
+<div class="section" id="symlinking-directory-management-and-more">
+<h2>Symlinking, directory management, and more!</h2>
+</p><p>You can use os.symlink on unix environments, and manage directories with
+the &quot;sh&quot; module. Moving directories from one place to another? then
+symlinking the executable into bin? no problem!</p>
+</div>
+<div class="section" id="optparse-a-setup-scripter-s-best-friend">
+<h2>Optparse: A setup scripter's best friend</h2>
+</p><p><a class="reference external" href="http://docs.python.org/library/optparse.html">http://docs.python.org/library/optparse.html</a></p>
+<p>Optparse provides you with the typical unix-like option parsing. Makes
+your setup feel just like a bash script, and no one would ever know!</p>
+<p>These are on top of what python provides you: dicts for key-value stores
+and representing complex metadata. Pretty much every Linux distribution
+has Python 2.6 or higher built in. Mac OS X now has 2.7. It's pretty
+much as ubiquitious as bash, and way less hassle!</p>
+<p>So, if you have some project and you're thinking about using bash. Just
+think about it: would it be easier in Python?</p>
+</div>
+<p>There are <a href="./move-over-bash-python-is-my-language-for-setup-scripts-now.html#disqus_thread">comments</a>.</p>                </article>
+            </aside><!-- /#featured -->
+        <section id="extras" class="body">
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="http://y.tsutsumi.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://github.com/toumorokoshi">GitHub</a></li>
+                            <li><a href="https://twitter.com/tsutsumiyusuke">Twitter</a></li>
+                            <li><a href="http://www.linkedin.com/profile/view?id=56043626">LinkedIn</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+    <script type="text/javascript">
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-29270527-2', 'auto');
+    ga('send', 'pageview');
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'tsutsumi';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

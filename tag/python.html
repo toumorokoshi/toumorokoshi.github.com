@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>y.tsutsumi.io - python</title>
+        <link rel="stylesheet" href="./theme/css/main.css" />
+        <link href="http://y.tsutsumi.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="y.tsutsumi.io Atom Feed" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="./">y.tsutsumi.io </a></h1>
+                <nav><ul>
+                    <li><a href="/category/programming.html">Just Programming Posts</a></li>
+                    <li><a href="/codersguide/">Coder's Guide</a></li>
+                    <li><a href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a></li>
+                    <li><a href="./pages/about-me.html">About Me</a></li>
+                    <li><a href="./pages/projects.html">Projects</a></li>
+                    <li><a href="./pages/resources.html">Resources</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="./aiohttp-vs-multithreaded-flask-for-high-io-applications.html">Aiohttp vs Multithreaded Flask for High I/O Applications</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2017-09-23T00:00:00+02:00">
+                Published: Sat 23 September 2017
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/yusuke-tsutsumi.html">Yusuke Tsutsumi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+<p>tags: <a href="./tag/python.html">python</a> </p>
+</footer><!-- /.post-info --><p>Over the past year, my team has been making the transition from Flask to
+<a class="reference external" href="http://aiohttp.readthedocs.io/en/stable/">aiohttp</a>. We're making this
+transition because of a lot of the situations where non-blocking I/O
+theoretically scales better:</p>
+<ul class="simple">
+<li>large numbers of simultaneous connections</li>
+<li>remote http requests with long response times</li>
+</ul>
+<p>There is agreement that asyncio scales better memory-wise: a green thread
+in Python consumes less memory than a system thread.</p>
+<p>However, performance for latency and load is a bit more contentious. The best way to find
+out is to run a practical experiment.</p>
+<p>To find out, I forked <a class="reference external" href="https://github.com/klen/py-frameworks-bench">py-frameworks-benchmark</a>, and designed an experiment.</p>
+<div class="section" id="the-experiment">
+<h2>The Experiment</h2>
+<p>The conditions of the web application, and the work performed, are identical:</p>
+<ul class="simple">
+<li>a route on a web server that: 1. returns the response as json 2. queries a</li>
+<li>http request to an nginx server returning back html.</li>
+<li>a <a class="reference external" href="https://github.com/wg/wrk">wrk</a> benchmark run, with 400 concurrent requests for 20 seconds</li>
+<li>running under gunicorn, with two worker processes.</li>
+<li>python3.6</li>
+</ul>
+</div>
+<div class="section" id="the-variants">
+<h2>The Variants</h2>
+<p>The variants are:</p>
+<ul class="simple">
+<li>aiohttp</li>
+<li>flask + meinheld</li>
+<li>flask + gevent</li>
+<li>flask + multithreading, varying from 10 to 1000.</li>
+</ul>
+<p>Results</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="20%" />
+<col width="8%" />
+<col width="10%" />
+<col width="10%" />
+<col width="10%" />
+<col width="10%" />
+<col width="10%" />
+<col width="11%" />
+<col width="11%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>variant</td>
+<td>min</td>
+<td>p50</td>
+<td>p99</td>
+<td>p99.9</td>
+<td>max</td>
+<td>mean</td>
+<td>duration</td>
+<td>requests</td>
+</tr>
+<tr><td>aiohttp</td>
+<td>163.27</td>
+<td>247.72</td>
+<td>352.75</td>
+<td>404.59</td>
+<td>1414.08</td>
+<td>257.59</td>
+<td>20.10</td>
+<td>30702</td>
+</tr>
+<tr><td>flask:gevent</td>
+<td>85.02</td>
+<td>945.17</td>
+<td>6587.19</td>
+<td>8177.32</td>
+<td>8192.75</td>
+<td>1207.66</td>
+<td>20.08</td>
+<td>7491</td>
+</tr>
+<tr><td>flask:meinheld</td>
+<td>124.99</td>
+<td>2526.55</td>
+<td>6753.13</td>
+<td>6857.55</td>
+<td>6857.55</td>
+<td>3036.93</td>
+<td>20.10</td>
+<td>190</td>
+</tr>
+<tr><td>flask:10</td>
+<td>163.05</td>
+<td>4419.11</td>
+<td>4505.59</td>
+<td>4659.46</td>
+<td>4667.55</td>
+<td>3880.05</td>
+<td>20.05</td>
+<td>1797</td>
+</tr>
+<tr><td>flask:20</td>
+<td>110.23</td>
+<td>2368.20</td>
+<td>3140.01</td>
+<td>3434.39</td>
+<td>3476.06</td>
+<td>2163.02</td>
+<td>20.09</td>
+<td>3364</td>
+</tr>
+<tr><td>flask:50</td>
+<td>122.17</td>
+<td>472.98</td>
+<td>3978.68</td>
+<td>8599.01</td>
+<td>9845.94</td>
+<td>541.13</td>
+<td>20.10</td>
+<td>4606</td>
+</tr>
+<tr><td>flask:100</td>
+<td>118.26</td>
+<td>499.16</td>
+<td>4428.77</td>
+<td>8714.60</td>
+<td>9987.37</td>
+<td>556.77</td>
+<td>20.10</td>
+<td>4555</td>
+</tr>
+<tr><td>flask:200</td>
+<td>112.06</td>
+<td>459.85</td>
+<td>4493.61</td>
+<td>8548.99</td>
+<td>9683.27</td>
+<td>527.02</td>
+<td>20.10</td>
+<td>4378</td>
+</tr>
+<tr><td>flask:400</td>
+<td>121.63</td>
+<td>526.72</td>
+<td>3195.23</td>
+<td>8069.06</td>
+<td>9686.35</td>
+<td>580.54</td>
+<td>20.06</td>
+<td>4336</td>
+</tr>
+<tr><td>flask:800</td>
+<td>127.94</td>
+<td>430.07</td>
+<td>4503.95</td>
+<td>8653.69</td>
+<td>9722.19</td>
+<td>514.47</td>
+<td>20.09</td>
+<td>4381</td>
+</tr>
+<tr><td>flask:1000</td>
+<td>184.76</td>
+<td>732.21</td>
+<td>1919.72</td>
+<td>5323.73</td>
+<td>7364.60</td>
+<td>786.26</td>
+<td>20.04</td>
+<td>4121</td>
+</tr>
+</tbody>
+</table>
+<p>You can probably get a sense that aiohttp can server more requests than any
+other. To get a real sense of how threads scale  we can put the request count on
+a chart:</p>
+<img alt="" src="images/async-vs-threads-chart.png" />
+<p>The interesting note is that the meinheld worker didn't scale very well at all.
+Gevent handled requests faster than any threading implementation.</p>
+<p>But nothing handled nearly as many requests as aiohttp.</p>
+<p>These are the results on my machine. I'd strongly suggest you try the experiment
+for yourself: the code is available in <a class="reference external" href="https://github.com/toumorokoshi/py-frameworks-bench">my fork</a>.</p>
+<p>If anyone has any improvements on the multithreading side, or can explain the discrepency in performance, I'd love to understand more.</p>
+</div>
+<p>There are <a href="./aiohttp-vs-multithreaded-flask-for-high-io-applications.html#disqus_thread">comments</a>.</p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="./deepmerge-deep-merge-dictionaries-lists-and-more-in-python.html" rel="bookmark"
+                           title="Permalink to deepmerge: deep merge dictionaries, lists and more in Python">deepmerge: deep merge dictionaries, lists and more in Python</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2017-04-24T00:00:00+02:00">
+                Published: Mon 24 April 2017
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/yusuke-tsutsumi.html">Yusuke Tsutsumi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+<p>tags: <a href="./tag/python.html">python</a> </p>
+</footer><!-- /.post-info -->                <p>Introducing <a class="reference external" href="https://github.com/toumorokoshi/deepmerge/">deepmerge</a>. It's a library designed to provide simple
+controls around a merging system for basic Python data structures like dicts and lists.</p>
+<p>It provides a few common cases for merging (like always merge + override, or raise an exception):</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">deepmerge</span> <span class="kn">import</span> <span class="n">always_merger</span><span class="p">,</span> <span class="n">merge_or_raise</span>
+
+<span class="n">base</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;b&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;c&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">&quot;nested …</span></pre></div>
+                <a class="readmore" href="./deepmerge-deep-merge-dictionaries-lists-and-more-in-python.html">read more</a>
+<p>There are <a href="./deepmerge-deep-merge-dictionaries-lists-and-more-in-python.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="./keyerror-in-self_handlers-a-journey-deep-into-tornados-internals.html" rel="bookmark"
+                           title="Permalink to KeyError in self._handlers: a journey deep into Tornado's internals">KeyError in self._handlers: a journey deep into Tornado's internals</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2017-01-27T00:00:00+01:00">
+                Published: Fri 27 January 2017
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/yusuke-tsutsumi.html">Yusuke Tsutsumi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+<p>tags: <a href="./tag/python.html">python</a> </p>
+</footer><!-- /.post-info -->                <p>If you've worked with tornado, you may have encountered a traceback of
+a somewhat bewildering error:</p>
+<div class="highlight"><pre><span></span><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+    <span class="n">File</span> <span class="s2">&quot;/usr/local/lib/python2.7/site-packages/tornado/ioloop.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">832</span><span class="p">,</span> <span class="ow">in</span> <span class="n">start</span>
+<span class="n">fd_obj</span><span class="p">,</span> <span class="n">handler_func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_handlers</span><span class="p">[</span><span class="n">fd</span><span class="p">]</span>
+<span class="ne">KeyError</span><span class="p">:</span> <span class="mi">16</span>
+</pre></div>
+<p>A few other people have been confused as …</p>
+                <a class="readmore" href="./keyerror-in-self_handlers-a-journey-deep-into-tornados-internals.html">read more</a>
+<p>There are <a href="./keyerror-in-self_handlers-a-journey-deep-into-tornados-internals.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="./introducing-transmute-core-quickly-create-documented-input-validating-apis-for-any-web-framework.html" rel="bookmark"
+                           title="Permalink to Introducing transmute-core: quickly create documented, input validating APIs for any web framework">Introducing transmute-core: quickly create documented, input validating APIs for any web framework</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2017-01-03T00:00:00+01:00">
+                Published: Tue 03 January 2017
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/yusuke-tsutsumi.html">Yusuke Tsutsumi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+<p>tags: <a href="./tag/python.html">Python</a> </p>
+</footer><!-- /.post-info -->                <p>A majority of my career has been spent on building web services in
+Python. Specifically, internal ones that have minimal or no UIs, and
+speak <a class="reference external" href="https://en.wikipedia.org/wiki/Representational_state_transfer">REST</a> (or
+at least are rest-ish).</p>
+<p>With each new service, I found myself re-implementing work to
+make user-friendly REST APIs:</p>
+<ul class="simple">
+<li>validation of incoming data, and …</li></ul>
+                <a class="readmore" href="./introducing-transmute-core-quickly-create-documented-input-validating-apis-for-any-web-framework.html">read more</a>
+<p>There are <a href="./introducing-transmute-core-quickly-create-documented-input-validating-apis-for-any-web-framework.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="./global-logging-with-flask.html" rel="bookmark"
+                           title="Permalink to Global logging with flask">Global logging with flask</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2016-12-22T00:00:00+01:00">
+                Published: Thu 22 December 2016
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/yusuke-tsutsumi.html">Yusuke Tsutsumi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+<p>tags: <a href="./tag/python.html">python</a> <a href="./tag/flask.html">flask</a> </p>
+</footer><!-- /.post-info -->                <p>As of December 2016, <a class="reference external" href="http://flask.pocoo.org/">Flask</a> has a built-in
+logger that it instantiates for you. Unfortunately, this misses the
+errors and other log messages in other libraries that may also be
+valuable.</p>
+<p>It would be nice to have a single logger, one that captures BOTH
+library AND app logs. For those …</p>
+                <a class="readmore" href="./global-logging-with-flask.html">read more</a>
+<p>There are <a href="./global-logging-with-flask.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="./the-dangers-of-patching.html" rel="bookmark"
+                           title="Permalink to The Dangers of Patching">The Dangers of Patching</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-08-21T00:00:00+02:00">
+                Published: Thu 21 August 2014
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/yusuke-tsutsumi.html">Yusuke Tsutsumi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+<p>tags: <a href="./tag/testing.html">testing</a> <a href="./tag/patch.html">patch</a> <a href="./tag/python.html">python</a> </p>
+</footer><!-- /.post-info -->                <p>If you've ever used <a class="reference external" href="https://pypi.python.org/pypi/mock">Mock</a> (or
+the built-in <a class="reference external" href="https://docs.python.org/3/library/unittest.mock.html">mock in python
+3</a>), you'll
+know how powerful of a tool it can be toward making unit testing on
+functions modifying state sane. Mocks in Python are effectively a probe
+that you can send into a deep, dark function:</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">mock</span>
+
+<span class="k">def …</span></pre></div>
+                <a class="readmore" href="./the-dangers-of-patching.html">read more</a>
+<p>There are <a href="./the-dangers-of-patching.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="./pycon-2014-day-2-recap.html" rel="bookmark"
+                           title="Permalink to Pycon 2014: Day 2 Recap">Pycon 2014: Day 2 Recap</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-04-12T00:00:00+02:00">
+                Published: Sat 12 April 2014
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/yusuke-tsutsumi.html">Yusuke Tsutsumi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+<p>tags: <a href="./tag/python.html">python</a> <a href="./tag/pycon.html">pycon</a> </p>
+</footer><!-- /.post-info -->                <p>The second day of PyCon was just as amazing as the first. The day
+started with a couple keynote speakers:</p>
+<div class="section" id="keynote-jessica-mckellar">
+<h2>Keynote: Jessica McKellar</h2>
+<p>Jessica McKellar gave a talking about the current state of the world
+for programming classes in U.S. grade schools, and the numbers weren't
+pretty. The number …</p></div>
+                <a class="readmore" href="./pycon-2014-day-2-recap.html">read more</a>
+<p>There are <a href="./pycon-2014-day-2-recap.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="./pycon-2014-day-1-recap.html" rel="bookmark"
+                           title="Permalink to Pycon 2014: Day 1 Recap">Pycon 2014: Day 1 Recap</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-04-11T00:00:00+02:00">
+                Published: Fri 11 April 2014
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/yusuke-tsutsumi.html">Yusuke Tsutsumi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+<p>tags: <a href="./tag/python.html">python</a> <a href="./tag/pycon.html">pycon</a> </p>
+</footer><!-- /.post-info -->                <p>Today was my first day at a PyCon conference, and the first day of
+PyCon 2014. I wanted to talk about some of my favorite events:</p>
+<div class="section" id="keynote-john-perry-barlow">
+<h2>Keynote: John Perry Barlow</h2>
+<p>I didn't know that the lyricist for <a class="reference external" href="http://en.wikipedia.org/wiki/Grateful_Dead">The Grateful Dead</a> also founded the
+<a class="reference external" href="http://en.wikipedia.org/wiki/Electronic_Frontier_Foundation">Electronic Frontier Foundation</a>. I
+think it shows …</p></div>
+                <a class="readmore" href="./pycon-2014-day-1-recap.html">read more</a>
+<p>There are <a href="./pycon-2014-day-1-recap.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="./introducing-sprinter-environment-management-made-easy.html" rel="bookmark"
+                           title="Permalink to Introducing Sprinter: environment management made easy">Introducing Sprinter: environment management made easy</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2013-09-29T00:00:00+02:00">
+                Published: Sun 29 September 2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/yusuke-tsutsumi.html">Yusuke Tsutsumi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+<p>tags: <a href="./tag/python.html">python</a> <a href="./tag/environment.html">environment</a> </p>
+</footer><!-- /.post-info -->                <p>Today, I wanted to talk about one of the more annoying problems that pops from time to time: setting up
+a new machine, and keeping existing machines in sync. Setting up new machines just the way you like them is
+hard. The longer you've been developing, the more programs, tools …</p>
+                <a class="readmore" href="./introducing-sprinter-environment-management-made-easy.html">read more</a>
+<p>There are <a href="./introducing-sprinter-environment-management-made-easy.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="./python-internals.html" rel="bookmark"
+                           title="Permalink to Python Internals">Python Internals</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2013-08-05T00:00:00+02:00">
+                Published: Mon 05 August 2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/yusuke-tsutsumi.html">Yusuke Tsutsumi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+<p>tags: <a href="./tag/python.html">python</a> </p>
+</footer><!-- /.post-info -->                <p>The internals of Python are actually pretty straightforward, but it's
+still worth a dive. I recently gave a talk at Zillow about it, so I'd
+thought I'd share some points here as well.</p>
+<p>Everything here prefixed with &gt;&gt;&gt; can be typed into the python
+interpreter (activated by typing 'python' in your …</p>
+                <a class="readmore" href="./python-internals.html">read more</a>
+<p>There are <a href="./python-internals.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+                </ol><!-- /#posts-list -->
+<p class="paginator">
+    Page 1 / 2
+        <a href="./tag/python2.html">&raquo;</a>
+</p>
+                </section><!-- /#content -->
+        <section id="extras" class="body">
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="http://y.tsutsumi.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://github.com/toumorokoshi">GitHub</a></li>
+                            <li><a href="https://twitter.com/tsutsumiyusuke">Twitter</a></li>
+                            <li><a href="http://www.linkedin.com/profile/view?id=56043626">LinkedIn</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+    <script type="text/javascript">
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-29270527-2', 'auto');
+    ga('send', 'pageview');
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'tsutsumi';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

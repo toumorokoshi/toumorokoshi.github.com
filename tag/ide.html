@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>y.tsutsumi.io - IDE</title>
+        <link rel="stylesheet" href="./theme/css/main.css" />
+        <link href="http://y.tsutsumi.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="y.tsutsumi.io Atom Feed" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="./">y.tsutsumi.io </a></h1>
+                <nav><ul>
+                    <li><a href="/category/programming.html">Just Programming Posts</a></li>
+                    <li><a href="/codersguide/">Coder's Guide</a></li>
+                    <li><a href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a></li>
+                    <li><a href="./pages/about-me.html">About Me</a></li>
+                    <li><a href="./pages/projects.html">Projects</a></li>
+                    <li><a href="./pages/resources.html">Resources</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="./my-ide-in-emacs-mainly-for-python.html">My IDE in Emacs (mainly for Python)</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2011-08-23T00:26:00+02:00">
+                Published: Tue 23 August 2011
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/toumorokoshi.html">Toumorokoshi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+<p>tags: <a href="./tag/emacs.html">Emacs</a> <a href="./tag/ide.html">IDE</a> <a href="./tag/python.html">python</a> </p>
+</footer><!-- /.post-info --><p>I'm writing this article up to mainly keep track of the current state of
+my IDE in Emacs, how to set one up, and to keep my to-do list.</p>
+<div class="section" id="implemented-features">
+<h2>Implemented Features</h2>
+</p><div class="section" id="default-emacs-library-includes">
+<h3>Default Emacs Library Includes</h3>
+</p><p>I use the following from the library that comes with Emacs (as of
+version 23)</p>
+<ul class="simple">
+<li>Viper-mode (viper-mode 3, though I'm sure 5 would be good too)</li>
+<li>Windmove (through keybindings, for moving around windows easier)</li>
+<li>hideshow (for code folding)</li>
+<li>ibuffer (for listing on buffers when buffer switching)</li>
+<li>ido (for listing of file in a directory in the minibuffer</li>
+</ul>
+</p><div></p><p>Code to instantiate:</p>
+<p><pre class="literal-block">
+(setq viper-mode t)(require 'viper)(load-library &quot;hideshow&quot;)(add-hook 'python-mode-hook 'hs-minor-mode)(require 'ido)(ido-mode 'both)
+</pre>
+</p><p></div></p></div>
+<div class="section" id="keybindings">
+<h3>Keybindings</h3>
+</p><p><pre class="literal-block">
+(global-set-key (kbd &quot;C-x C-l&quot;) 'windmove-right)(global-set-key (kbd &quot;C-x C-h&quot;) 'windmove-left)(global-set-key (kbd &quot;C-x C-k&quot;) 'windmove-up)(global-set-key (kbd &quot;C-x C-j&quot;) 'windmove-down)(global-set-key (kbd &quot;C-x C-;&quot;) 'hippie-expand)(global-set-key (kbd &quot;C-x C-g&quot;) 'find-name-dired)(global-set-key (kbd &quot;C-c C-t&quot;) 'ansi-term)
+</pre>
+</p></div>
+<div class="section" id="viper-keybindings-in-viper">
+<h3>Viper Keybindings (in .viper)</h3>
+</p><p><pre class="literal-block">
+(setq viper-expert-level '3)(setq viper-inhibit-startup-message 't)(setq-default indent-tabs-mode nil) ; I think this makes tabs into spaces(setq viper-shift-width 4) ; don't touch or else...;; Makes searching w/ regex default(setq viper-re-search t) ; don't touch or else...;; The following is for hideshow to work ALMOST similar to vi folding;; (there were keybindings I didn't like)(define-key viper-vi-global-user-map &quot;zt&quot; 'hs-toggle-hiding)(define-key viper-vi-global-user-map &quot;zM&quot; 'hs-hide-all)(define-key viper-vi-global-user-map &quot;zm&quot; 'hs-hide-block)(define-key viper-vi-global-user-map &quot;zR&quot; 'hs-show-all)(define-key viper-vi-global-user-map &quot;zr&quot; 'hs-show-block)
+</pre>
+</p></div>
+</div>
+<div class="section" id="features-implemented-using-external-files">
+<h2>Features implemented using external files</h2>
+</p><div class="section" id="yasnippet-for-bundling-and-snippets">
+<h3>Yasnippet (for bundling and snippets)</h3>
+</p><p>Yasnippet provides me features along the lives of textmates bundling,
+which I think definitely makes things faster in the long run. After all,
+who wants to write boilerplate code?</p>
+<p><a class="reference external" href="http://manual.macromates.com/en/bundles">http://manual.macromates.com/en/bundles</a></p>
+<p>Yasnippet site:</p>
+<p><a class="reference external" href="http://code.google.com/p/yasnippet/">http://code.google.com/p/yasnippet/</a></p>
+</div>
+<div class="section" id="lusty-explorer-el-for-a-great-tab-completion-file-navigator">
+<h3>lusty-explorer.el (for a great tab completion file navigator)</h3>
+</p><p>Followed this emacs-fu guide:</p>
+<p><a class="reference external" href="http://emacs-fu.blogspot.com/2010/07/navigating-through-files-and-buffers.html">http://emacs-fu.blogspot.com/2010/07/navigating-through-files-and-buffers.html</a></p>
+<p>And downloaded the .el here:</p>
+<p><a class="reference external" href="http://www.emacswiki.org/emacs/LustyExplorer">http://www.emacswiki.org/emacs/LustyExplorer</a></p>
+<p>Specifically I have the following in my .emacs:</p>
+<p><pre class="literal-block">
+(when (require 'lusty-explorer nil 'noerror)  ;; overrride the normal file-opening, buffer switching  (global-set-key (kbd &quot;C-x C-f&quot;) 'lusty-file-explorer)  (global-set-key (kbd &quot;C-x b&quot;)   'lusty-buffer-explorer))
+</pre>
+</p></div>
+</div>
+<div class="section" id="desired-features">
+<h2>Desired features</h2>
+</p><p>I have yet to implement this, but I would like:</p>
+<ul></p><p><li><p>Better file search (the ones I could find don't do what I'm looking for)</p>
+</li></p><ul class="simple">
+<li>Specifically, looking for a smart find that allow autocompletion</li>
+<li>Looking for something along the lines of eclipse</li>
+</ul>
+</p><p></ul></p></div>
+<p>There are <a href="./my-ide-in-emacs-mainly-for-python.html#disqus_thread">comments</a>.</p>                </article>
+            </aside><!-- /#featured -->
+        <section id="extras" class="body">
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="http://y.tsutsumi.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://github.com/toumorokoshi">GitHub</a></li>
+                            <li><a href="https://twitter.com/tsutsumiyusuke">Twitter</a></li>
+                            <li><a href="http://www.linkedin.com/profile/view?id=56043626">LinkedIn</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+    <script type="text/javascript">
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-29270527-2', 'auto');
+    ga('send', 'pageview');
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'tsutsumi';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

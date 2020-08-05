@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>MongoDB Streaming Pattern, Allowing for Batching</title>
+        <link rel="stylesheet" href="./theme/css/main.css" />
+        <link href="http://y.tsutsumi.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="y.tsutsumi.io Atom Feed" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="./">y.tsutsumi.io </a></h1>
+                <nav><ul>
+                    <li><a href="/category/programming.html">Just Programming Posts</a></li>
+                    <li><a href="/codersguide/">Coder's Guide</a></li>
+                    <li><a href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a></li>
+                    <li><a href="./pages/about-me.html">About Me</a></li>
+                    <li><a href="./pages/projects.html">Projects</a></li>
+                    <li><a href="./pages/resources.html">Resources</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="./mongodb-streaming-pattern-allowing-for-batching.html" rel="bookmark"
+           title="Permalink to MongoDB Streaming Pattern, Allowing for Batching">MongoDB Streaming Pattern, Allowing for Batching</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2017-06-09T00:00:00+02:00">
+                Published: Fri 09 June 2017
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/yusuke-tsutsumi.html">Yusuke Tsutsumi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+<p>tags: <a href="./tag/patterns.html">patterns</a> </p>
+</footer><!-- /.post-info -->      <p>An interesting problem arose at work today, regarding how to build an
+aggregate of changes to a MongoDB collection.</p>
+<p>A more general version of the problem is:</p>
+<ol class="arabic">
+<li><p class="first">you have a document which has multiple buckets it could
+belong to. Say, an animal which an arbitrary set of tags,
+such as [&quot;mammal&quot;, &quot;wings&quot;], and a discrete type location [&quot;backyard&quot;, &quot;frontyard&quot;, &quot;house&quot;].</p>
+<p>an example document could look like:</p>
+<pre class="literal-block">
+{ &quot;name&quot;: &quot;Cat&quot;,
+  &quot;location&quot;: &quot;house&quot;,
+  &quot;tags&quot;: [&quot;mammal&quot;, &quot;ears&quot;]
+}
+</pre>
+</li>
+<li><p class="first">Make it easy to retrieve the sum of each type, by tag. So:</p>
+<pre class="literal-block">
+{
+   &quot;tag&quot;: &quot;mammal&quot;,
+   &quot;location&quot;: {
+     &quot;house&quot;: 10,
+     &quot;backyard&quot;: 4,
+     &quot;frontyard&quot;: 2,
+   }
+}
+</pre>
+</li>
+</ol>
+<p>The animal location is updated regularly, so the aggregates
+can change over time.</p>
+<div class="section" id="a-first-attempt">
+<h2>A First Attempt</h2>
+<p>The simplest way to perform this is to rely on Mongo to retrieve all
+animals that match the tag by indexing the tag field, then handling
+the query and count in the application.</p>
+<p>This works well for small scales. However, performing the action in
+this way requires a scanning query per aggregate, and that must scan
+every document returned to perform the aggregate. So, O(matched_documents):</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">return_count_by_tag</span><span class="p">(</span><span class="n">tag_name</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;tag&quot;</span><span class="p">:</span> <span class="n">tag_name</span><span class="p">,</span>
+        <span class="s2">&quot;location&quot;</span><span class="p">:</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">db</span><span class="o">.</span><span class="n">animals</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s2">&quot;tag&quot;</span><span class="p">:</span> <span class="n">tag_name</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;location&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}):</span>
+        <span class="n">result</span><span class="p">[</span><span class="s2">&quot;type_count&quot;</span><span class="p">][</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;location&quot;</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">result</span>
+</pre></div>
+<p>In our case, we needed to return an answer for every tag, within a
+minute. We were able to scale the approach with this constraint in
+mind to 35,000 tags and 120,000 documents. At that point, the
+application was unable to build the aggregates fast enough.</p>
+</div>
+<div class="section" id="the-new-strategy">
+<h2>The New Strategy</h2>
+<p>The main disadvantage of the previous design is the calculation of the
+aggregate counts does not need to be on read: if we can ensure
+consistent count updates as the location actually changes per
+document, we can perform O(tag_count) updates per document instead.</p>
+<p>The comparative complexity over a minute is:</p>
+<ul class="simple">
+<li>old: len(distinct_tags) * len(average_animals_per_tag)</li>
+<li>new: len(updates_per_minute) * len(average_tag_count_per_animal)</li>
+</ul>
+<p>So, if we have:</p>
+<ul class="simple">
+<li>30,000 tags</li>
+<li>120,000 animals</li>
+<li>40 animals average per tag</li>
+<li>(40 * 30,000) / (120,000) = 10 tags per animal</li>
+<li>10000 updates a minute</li>
+</ul>
+<p>The number of documents touched is:</p>
+<p>old: 30k * 40 = 1.2 million reads
+new: 10k * 10 = 100,000 writes</p>
+<p>So, we can scale a bit better by handling writes over reads. This
+becomes an even better ratio if the updates occur at a less frequent
+cadence.</p>
+<p>So, the stream processing works by:</p>
+<ol class="arabic simple">
+<li>every desired changes is enqueued into a queue (in Mongo, this can
+be implemented as a capped collection)</li>
+<li>a worker process pulls from the queue, and processes the results.</li>
+</ol>
+<p>The worker process:</p>
+<ol class="arabic simple">
+<li><dl class="first docutils">
+<dt>reads a watermark value of where it had processed</dt>
+<dd>previously (Mongo ObjectIds increase relative to time and insertion
+order, so it can be used as the watermark)</dd>
+</dl>
+</li>
+<li>performs the work required</li>
+<li>saves works to the collection</li>
+<li>writes the watermark value of where it had finished processing.</li>
+</ol>
+<p>You could also delete records as you process them, but it can cause
+issues if you need to read a record again, or if multiple workers need them.
+need them.</p>
+</div>
+<div class="section" id="starting-from-scratch">
+<h2>Starting from Scratch</h2>
+<p>So how do we allow starting from scratch? Or, rebuilding the
+aggregates if an issue occurs?</p>
+<p>There could be a function that performs the whole collection
+calculation, dumps it to the collection, and sets the watermark to
+whatever the most recent object is in the queue.</p>
+<p>Unfortunately, this process and the worker process cannot run at the
+same time. If that happens, then the aggregate collection will be
+corrupted, as one could query an older version of the collection, have
+updates that are applied to the original aggregate copy, and are overwritten
+with a stale copy from the rebuild.</p>
+<p>Thus, we must ensure that the update worker does not run at the same
+time as the batch worker.</p>
+</div>
+<div class="section" id="a-locking-strategy">
+<h2>A locking strategy</h2>
+<p>In Mongo, the locking is decided by the database, and a user has no
+control over that. Thus, we must implement our own locking functionality by
+using Mongo primitives.</p>
+<p>The same record that holds the watermark could also hold the lock. To
+ensure that we can survive a worker dying halfway and not releasing,
+the lock, we can provide a lock owner, ensuring the same process type
+can begin an operation again:</p>
+<div class="highlight"><pre><span></span><span class="p">{</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;pet-aggregates&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;watermark: ObjectId(&quot;</span><span class="err">DEADBEEF</span><span class="s2">&quot;),</span>
+<span class="s2">  &quot;</span><span class="err">lock</span><span class="s2">&quot;: {</span>
+<span class="s2">      &quot;</span><span class="err">type</span><span class="s2">&quot;: &quot;</span><span class="err">update&quot;</span> <span class="err">//</span> <span class="err">could</span> <span class="err">also</span> <span class="err">be</span> <span class="err">type</span><span class="p">:</span> <span class="err">bulk</span>
+  <span class="p">}</span>
+<span class="err">}</span>
+</pre></div>
+<p>Using this type of lock, the possible failure scenarios are:</p>
+<ol class="arabic simple">
+<li><dl class="first docutils">
+<dt>update process lock, failure, and update doesn't run again:</dt>
+<dd>This requires manually looking at the issue, resolving, and restarting the queue.</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>bulk process lock, failure, and bulk doesn't run again:</dt>
+<dd>This requires manually looking at the issue, resolving, and restarting the queue.</dd>
+</dl>
+</li>
+</ol>
+</div>
+
+    </div><!-- /.entry-content -->
+    <div class="comments">
+      <h2>Comments !</h2>
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        var disqus_shortname = 'tsutsumi';
+        var disqus_identifier = 'mongodb-streaming-pattern-allowing-for-batching.html';
+        var disqus_url = './mongodb-streaming-pattern-allowing-for-batching.html';
+        (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//tsutsumi.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the comments.</noscript>
+    </div>
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="http://y.tsutsumi.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://github.com/toumorokoshi">GitHub</a></li>
+                            <li><a href="https://twitter.com/tsutsumiyusuke">Twitter</a></li>
+                            <li><a href="http://www.linkedin.com/profile/view?id=56043626">LinkedIn</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+    <script type="text/javascript">
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-29270527-2', 'auto');
+    ga('send', 'pageview');
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'tsutsumi';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

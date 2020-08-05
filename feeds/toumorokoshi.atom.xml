@@ -1,0 +1,930 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>y.tsutsumi.io - Toumorokoshi</title><link href="./" rel="alternate"></link><link href="http://y.tsutsumi.io/feeds/toumorokoshi.atom.xml" rel="self"></link><id>./</id><updated>2013-02-06T06:16:00+01:00</updated><entry><title>Some resources for XACT</title><link href="some-resources-for-xact.html" rel="alternate"></link><published>2013-02-06T06:16:00+01:00</published><updated>2013-02-06T06:16:00+01:00</updated><author><name>Toumorokoshi</name></author><id>tag:None,2013-02-06:some-resources-for-xact.html</id><summary type="html">&lt;p&gt;XACT is a audio application used to manage audio for games using the XNA
+framework. Here are some resources to help you get started.&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://www.microsoft.com/en-us/download/details.aspx?id=23714"&gt;Installing XNA 4.0&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;you may need Visual Studio 2010 express to use it:&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://www.microsoft.com/visualstudio/eng/downloads#d-2010-express"&gt;Visual Studio 2010 install links&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Make sure to install the C# express …&lt;/p&gt;</summary><content type="html">&lt;p&gt;XACT is a audio application used to manage audio for games using the XNA
+framework. Here are some resources to help you get started.&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://www.microsoft.com/en-us/download/details.aspx?id=23714"&gt;Installing XNA 4.0&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;you may need Visual Studio 2010 express to use it:&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://www.microsoft.com/visualstudio/eng/downloads#d-2010-express"&gt;Visual Studio 2010 install links&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Make sure to install the C# express version.&lt;/p&gt;
+&lt;p&gt;After that, try following &lt;a class="reference external" href="http://msdn.microsoft.com/en-us/library/bb203895(v=xnagamestudio.20).aspx"&gt;this tutorial&lt;/a&gt; to build XACT projects.&lt;/p&gt;
+&lt;/p&gt;</content><category term="programming"></category><category term="Visual Studio"></category><category term="XACT"></category><category term="XNA"></category></entry><entry><title>Installing Paint.net 3.5 and testing sprite animations</title><link href="installing-paintnet-35-and-testing-sprite-animations.html" rel="alternate"></link><published>2013-01-25T08:16:00+01:00</published><updated>2013-01-25T08:16:00+01:00</updated><author><name>Toumorokoshi</name></author><id>tag:None,2013-01-25:installing-paintnet-35-and-testing-sprite-animations.html</id><summary type="html">&lt;p&gt;After doing some searching online, it looks like paint.net is a common
+tool people use to create and animate sprites. Here's a small tutorial
+on how to get some basic sprite sheet testing running.&lt;/p&gt;
+&lt;div class="section" id="installing-paint-net"&gt;
+&lt;h2&gt;Installing paint.net&lt;/h2&gt;
+&lt;p&gt;To install it, simply go to&amp;nbsp;&lt;a class="reference external" href="http://www.getpaint.net/"&gt;http://www.getpaint.net/&lt;/a&gt;&amp;nbsp;(be careful …&lt;/p&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;After doing some searching online, it looks like paint.net is a common
+tool people use to create and animate sprites. Here's a small tutorial
+on how to get some basic sprite sheet testing running.&lt;/p&gt;
+&lt;div class="section" id="installing-paint-net"&gt;
+&lt;h2&gt;Installing paint.net&lt;/h2&gt;
+&lt;p&gt;To install it, simply go to&amp;nbsp;&lt;a class="reference external" href="http://www.getpaint.net/"&gt;http://www.getpaint.net/&lt;/a&gt;&amp;nbsp;(be careful about
+others sites you go to, I end up at a couple of malware sites before I
+arrived at the proper one).&lt;/p&gt;
+&lt;p&gt;The direct download URL
+is&amp;nbsp;&lt;a class="reference external" href="http://www.dotpdn.com/files/Paint.NET.3.5.10.Install.zip"&gt;http://www.dotpdn.com/files/Paint.NET.3.5.10.Install.zip&lt;/a&gt;. If that
+doesn't exist, try to navigate to getpaint.net and click download, and
+then &amp;quot;download paint.net 3.5&amp;quot;. Be careful! There's a lot of adword links
+that look like download pages.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="downloading-sprite-animation-plugins"&gt;
+&lt;h2&gt;Downloading sprite animation plugins&lt;/h2&gt;
+&lt;p&gt;Next, you need to download the plugin! There's a couple of sprite sheet
+plugins out there. I chose the spritesheet animation plugin:&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://forums.getpaint.net/index.php?/topic/14848-spritesheet-animation-plugin/"&gt;Spritesheet animation plugin&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Just download the &amp;quot;&lt;a class="reference external" href="http://forums.getpaint.net/index.php?app=core&amp;amp;module=attach&amp;amp;section=attach&amp;amp;attach_id=3006"&gt;PDNSpriteSheetAnimation.zip&lt;/a&gt;&amp;quot;, which will contain
+a dll file. Drag and drop that into C:\Program
+Files\Paint.Net\Effects. C: is of course,&amp;nbsp;interchangeable&amp;nbsp;with
+whatever drive you installed paint.net on.&lt;/p&gt;
+&lt;p&gt;After you've installed the plugin, restart paint.net. It is now
+available via:&lt;/p&gt;
+&lt;p&gt;Effects &amp;gt; Animations &amp;gt; SpriteSheetAnim :&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://toumorokoshi.files.wordpress.com/2013/01/animationexample.png"&gt;&lt;img alt="Image" src="http://toumorokoshi.files.wordpress.com/2013/01/animationexample.png?w=710" /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;And there you go! The plugin opens up and you can test various
+animations with it.&lt;/p&gt;
+&lt;p&gt;Credit for the sprite sheet in the picture goes to &lt;a class="reference external" href="http://10firstgames.wordpress.com/2012/02/25/hd-sprite-sheet/"&gt;10firstgame's
+wordpress blog&lt;/a&gt;.&lt;/p&gt;
+&lt;/p&gt;&lt;/div&gt;
+</content><category term="general"></category><category term="animations"></category><category term="paint.net"></category><category term="sprites"></category></entry><entry><title>Removing Headers from YUI IO request</title><link href="removing-headers-from-yui-io-request.html" rel="alternate"></link><published>2012-11-26T22:28:00+01:00</published><updated>2012-11-26T22:28:00+01:00</updated><author><name>Toumorokoshi</name></author><id>tag:None,2012-11-26:removing-headers-from-yui-io-request.html</id><content type="html">&lt;p&gt;&lt;a class="reference external" href="http://yuilibrary.com/projects/yui3/ticket/2529324"&gt;http://yuilibrary.com/projects/yui3/ticket/2529324&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;You just add a &amp;quot;headers&amp;quot;: { &amp;quot;YOUR_PARAM&amp;quot;: &amp;quot;disabled&amp;quot;} in the request.&lt;/p&gt;
+</content><category term="programming"></category><category term="YUI"></category></entry><entry><title>Adding JSONP to turbogears</title><link href="adding-jsonp-to-turbogears.html" rel="alternate"></link><published>2012-11-09T08:34:00+01:00</published><updated>2012-11-09T08:34:00+01:00</updated><author><name>Toumorokoshi</name></author><id>tag:None,2012-11-09:adding-jsonp-to-turbogears.html</id><summary type="html">&lt;p&gt;&lt;pre class="literal-block"&gt;
+from tg import json_encode, responsefrom tg.render import _get_tg_varsdef render_jsonp(template_name, template_vars, **kwargs):callback = template_name or kwargs.pop('callback', None) or 'callback'for key in _get_tg_vars():del template_vars[key]response.headers['Content-Type'] = 'text/javascript'return '%s(%s)' % (template_name, json_encode(template_vars))from myapp.config.app_cfg import base_configbase_config.render_functions['jsonp'] = render_jsonpbase_config.mimetype_lookup = {'.jsonp': 'text …&lt;/pre&gt;&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;pre class="literal-block"&gt;
+from tg import json_encode, responsefrom tg.render import _get_tg_varsdef render_jsonp(template_name, template_vars, **kwargs):callback = template_name or kwargs.pop('callback', None) or 'callback'for key in _get_tg_vars():del template_vars[key]response.headers['Content-Type'] = 'text/javascript'return '%s(%s)' % (template_name, json_encode(template_vars))from myapp.config.app_cfg import base_configbase_config.render_functions['jsonp'] = render_jsonpbase_config.mimetype_lookup = {'.jsonp': 'text/javascript'}
+&lt;/pre&gt;
+&lt;/p&gt;&lt;p&gt;courtesy of Pederson:&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://github.com/TurboGears/tg2/issues/2"&gt;https://github.com/TurboGears/tg2/issues/2&lt;/a&gt;&lt;/p&gt;
+</content><category term="programming"></category></entry><entry><title>Move over bash: Python is my language for setup scripts now.</title><link href="move-over-bash-python-is-my-language-for-setup-scripts-now.html" rel="alternate"></link><published>2012-09-08T21:34:00+02:00</published><updated>2012-09-08T21:34:00+02:00</updated><author><name>Toumorokoshi</name></author><id>tag:None,2012-09-08:move-over-bash-python-is-my-language-for-setup-scripts-now.html</id><summary type="html">&lt;p&gt;I know when people discuss using programming languages, there's two main
+schools of thought:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;Use the same language for as much of your stack as possible&lt;/li&gt;
+&lt;li&gt;Use the language that's most appropriate for each part of the stack
+as much of possible.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/p&gt;&lt;p&gt;Clearly, there's very strong advantages to both. Using …&lt;/p&gt;</summary><content type="html">&lt;p&gt;I know when people discuss using programming languages, there's two main
+schools of thought:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;Use the same language for as much of your stack as possible&lt;/li&gt;
+&lt;li&gt;Use the language that's most appropriate for each part of the stack
+as much of possible.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/p&gt;&lt;p&gt;Clearly, there's very strong advantages to both. Using the same language
+for everything provides you with a common language then anyone involved
+in your project can work on, they can dive into other parts fairly
+easily, and it's very easy to hire developers who have experience in one
+language, as at the end of the day, I think all developer's end up using
+one predominantly more than the rest.&lt;/p&gt;
+&lt;p&gt;Using the proper language for each task, however, has it's merits as
+well. These function-specific languages make these parts a lot easier to
+write, and it's usually much faster too. A good example is trying to
+write a key-value store that can communicate through the web: Doing so
+in python gives you way too more function than you need. You need a
+low-level language that can handle memory management, and do so quickly.
+That's why &lt;a class="reference external" href="http://http://memcached.org/"&gt;memcached&lt;/a&gt;is written in c++.&lt;/p&gt;
+&lt;p&gt;When it came to deployment and bootstrapping, I, like most unix-y
+people, thought bash. Why would I think otherwise? after all, every
+single bootstrap script I've ever seen was in bash, it has great
+integration with the shell, and that's all you really need. And it truly
+was all I ever needed... until I needed more.&lt;/p&gt;
+&lt;p&gt;Now, I'm definitely no expert in bash, but every time I start to write a
+bash script, I truly remember how painful working with bash really is.
+Errors I've never seen before pop up at least a couple times every time
+I touch it, strange syntax issues, the methodology in which arguments
+are passed, the lack of libraries replaced by&amp;nbsp;executables&amp;nbsp;that may or
+may not exist on the system. After a half an hour of work on the script,
+I had an idea:&lt;/p&gt;
+&lt;p&gt;Why not Python?&lt;/p&gt;
+&lt;p&gt;And yes, why not Python? My whole team works with Python for pretty much
+everything else. People outside my team would just consume my script and
+would come to me if something was wrong anyway. So I started to write it
+in Python. And I accomplished what I wanted to do (perform multiple
+installations of Maven), within a half hour. Something I was only barely
+able to touch with bash in an hour.&lt;/p&gt;
+&lt;p&gt;Once again, I'm not a bash expert, so I'm sure that play's a huge part
+in my opinion here. But I think it's interesting that once I broke out
+of my boxed-in thinking of using bash for all bootstrapping and python
+for only high-level services an tools, that the whole process became
+that much easier.&lt;/p&gt;
+&lt;p&gt;And indeed, Python is actually a great language for writing setup
+scripts. Here's some examples:&lt;/p&gt;
+&lt;div class="section" id="extracting-tar-gz-files-without-touching-the-file-system"&gt;
+&lt;h2&gt;Extracting tar.gz files without touching the file system.&lt;/h2&gt;
+&lt;/p&gt;&lt;p&gt;With python, you can download a file in memory, and extract it write
+there. no more wasted I/O!&lt;/p&gt;
+&lt;p&gt;&lt;pre class="literal-block"&gt;
+import gzip, tarfilefrom StringIO import StringIOurl = MY_TARextractpath = MY_EXTRACT_PATHgz = gzip.GzipFile(fileobj=StringIO(urllib.urlopen(url).read()))tf = tarfile.TarFile(fileobj=gz)tf.extractall(path=extractpath)
+&lt;/pre&gt;
+&lt;/p&gt;&lt;/div&gt;
+&lt;div class="section" id="symlinking-directory-management-and-more"&gt;
+&lt;h2&gt;Symlinking, directory management, and more!&lt;/h2&gt;
+&lt;/p&gt;&lt;p&gt;You can use os.symlink on unix environments, and manage directories with
+the &amp;quot;sh&amp;quot; module. Moving directories from one place to another? then
+symlinking the executable into bin? no problem!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="optparse-a-setup-scripter-s-best-friend"&gt;
+&lt;h2&gt;Optparse: A setup scripter's best friend&lt;/h2&gt;
+&lt;/p&gt;&lt;p&gt;&lt;a class="reference external" href="http://docs.python.org/library/optparse.html"&gt;http://docs.python.org/library/optparse.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Optparse provides you with the typical unix-like option parsing. Makes
+your setup feel just like a bash script, and no one would ever know!&lt;/p&gt;
+&lt;p&gt;These are on top of what python provides you: dicts for key-value stores
+and representing complex metadata. Pretty much every Linux distribution
+has Python 2.6 or higher built in. Mac OS X now has 2.7. It's pretty
+much as ubiquitious as bash, and way less hassle!&lt;/p&gt;
+&lt;p&gt;So, if you have some project and you're thinking about using bash. Just
+think about it: would it be easier in Python?&lt;/p&gt;
+&lt;/div&gt;
+</content><category term="programming"></category><category term="Bash"></category><category term="python"></category></entry><entry><title>My Emacs Environment</title><link href="my-emacs-environment.html" rel="alternate"></link><published>2012-08-16T09:28:00+02:00</published><updated>2012-08-16T09:28:00+02:00</updated><author><name>Toumorokoshi</name></author><id>tag:None,2012-08-16:my-emacs-environment.html</id><content type="html">&lt;p&gt;&lt;a class="reference external" href="http://www.youtube.com/watch?v=z0PET0Qq8CU&amp;amp;feature=plcp"&gt;http://www.youtube.com/watch?v=z0PET0Qq8CU&amp;amp;feature=plcp&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Here's a video of my Emacs environment, and some ways I use it with
+Python.&lt;/p&gt;
+&lt;/p&gt;</content><category term="programming"></category></entry><entry><title>fine, PyDev is better than Emacs for Python. I'm still using Emacs though.</title><link href="fine-pydev-is-better-than-emacs-for-python-im-still-using-emacs-though.html" rel="alternate"></link><published>2012-08-13T09:09:00+02:00</published><updated>2012-08-13T09:09:00+02:00</updated><author><name>Toumorokoshi</name></author><id>tag:None,2012-08-13:fine-pydev-is-better-than-emacs-for-python-im-still-using-emacs-though.html</id><summary type="html">&lt;p&gt;Being part of a company that uses Python, I have a friend who loves
+PyDev, an eclipse plugin that basically adapts the functionality of the
+eclipse IDE to Python. Even though I'm still an Emacs greenhorn, I swear
+my devotion to the text editor wouldn't waver.&lt;/p&gt;
+&lt;p&gt;Until I saw what …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Being part of a company that uses Python, I have a friend who loves
+PyDev, an eclipse plugin that basically adapts the functionality of the
+eclipse IDE to Python. Even though I'm still an Emacs greenhorn, I swear
+my devotion to the text editor wouldn't waver.&lt;/p&gt;
+&lt;p&gt;Until I saw what PyDev is capable of.&lt;/p&gt;
+&lt;p&gt;It's actually quite amazing: PyDev basically provides practically every
+useful eclipse feature for python. The list includes, but is not limited
+to:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;smart code completion with documentation&lt;/li&gt;
+&lt;li&gt;refactoring&lt;/li&gt;
+&lt;li&gt;code coverage&lt;/li&gt;
+&lt;li&gt;unit testing&lt;/li&gt;
+&lt;li&gt;automatic generation of methods and classes&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/p&gt;&lt;p&gt;Seriously, cheers to the devs who make this plugin: It's fantastic. It's
+definitely a tool that I would use completely if all I did was code
+Python.&lt;/p&gt;
+&lt;p&gt;But then I thought about why I was so vehement about switching from
+Emacs, even when I was faced with a simple, easy to use tool that does
+all the heavy lifting for me. And I realized it's because I don't just
+code Python.&lt;/p&gt;
+&lt;p&gt;In any given work day, here's my list of things I do:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;write services and tools in python&lt;/li&gt;
+&lt;li&gt;manage configuration files in XML and YAML&lt;/li&gt;
+&lt;li&gt;test deploys and verify using a bash shell or ssh&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/p&gt;&lt;p&gt;So all in all, authoring python code is not the only thing I do. It's
+arguably not the major thing I do with my days either. What I need is a
+text editor that is complex enough to assist me with modifying files
+with complex regular expressions and easy file navigation, but also
+versatile enough to do quick file discovery, and run commands in a
+shell. Emacs can do all that. And if something else pops up in the
+future, maybe Emacs isn't the best solution, but I know it'll have
+something that'll do the job.&amp;nbsp;The advantage of having a single set of
+hotkeys, a single environment do all of my daily task from, outweighs
+the advantage for me of using a specified IDE. And if some day I switch
+languages, Emacs will most likely contain a suite of tools, that I can
+just plug and play, or I can write my own with a fully-featured
+programming language.&lt;/p&gt;
+&lt;p&gt;And I think, ultimately, this is why anyone really uses Emacs. It's not
+only the problems your facing now. It's knowing that you're investing
+time into an environment that's flexible enough to face your diverse
+challenges in the future.&lt;/p&gt;
+</content><category term="programming"></category><category term="Eclipse"></category><category term="Emacs"></category><category term="PyDev"></category></entry><entry><title>Slimy: another html5 slideshow</title><link href="slimy-another-html5-slideshow.html" rel="alternate"></link><published>2012-05-08T20:45:00+02:00</published><updated>2012-05-08T20:45:00+02:00</updated><author><name>Toumorokoshi</name></author><id>tag:None,2012-05-08:slimy-another-html5-slideshow.html</id><summary type="html">&lt;p&gt;&lt;a class="reference external" href="https://code.google.com/p/slimy/"&gt;&lt;img alt="image0" src="https://toumorokoshi.files.wordpress.com/2012/05/slimy.png" /&gt;&lt;/a&gt;After seeing a coworker's presentation completely done using
+html5 and javascript, I really realized how much of a platform that
+html5 can be. Effectively, it's a ubiquitous platform by which any
+operating system can run code, with very little prior setup necessary. I
+really liked the concept of an html5 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;a class="reference external" href="https://code.google.com/p/slimy/"&gt;&lt;img alt="image0" src="https://toumorokoshi.files.wordpress.com/2012/05/slimy.png" /&gt;&lt;/a&gt;After seeing a coworker's presentation completely done using
+html5 and javascript, I really realized how much of a platform that
+html5 can be. Effectively, it's a ubiquitous platform by which any
+operating system can run code, with very little prior setup necessary. I
+really liked the concept of an html5 slideshow, so I looked around for
+one that suited my needs. There wasn't one, so I began to write my own.
+I present Slimy:&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://code.google.com/p/slimy/"&gt;http://code.google.com/p/slimy/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;You can see an example here:&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://slimy.googlecode.com/git/example.html"&gt;http://slimy.googlecode.com/git/example.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;I explored html5 slideshows quite a bit, and I had two main issues that
+got me interested in writing my own:&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;Every html5 slideshow I saw had online dependencies. I understand
+that the web is everywhere, but I still didn't want to rule out
+situations where internet access is not readily available. Simply
+saving the slideshow locally with a browser was a viable option, but
+I preferred to also clutter my&amp;nbsp;file system&amp;nbsp;as little as possible.&lt;/li&gt;
+&lt;li&gt;The markup wasn't always straightforward. I was recommended both the
+google html slideshow and rubyforge's &lt;a class="reference external" href="http://slideshow.rubyforge.org/"&gt;slideshow&lt;/a&gt;, but I didn't like
+the idea of having to learn a different proprietary markup,
+especially when html is about as simple as markup gets.&lt;/li&gt;
+&lt;li&gt;The slideshows included little fixes to make up for css3 technologies
+that weren't supported. I didn't like this. I was looking for
+something that doesn't sacrifice simplicity to try to make the code
+work for less standard-compliant or outdated browsers. My system
+works for the newest browsers, and I don't imagine that changing.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/p&gt;&lt;p&gt;Slimy focus's on encapsulation of the slideshow, and also functionality.
+My main goal is to make it as functional as&amp;nbsp;Google's html5&amp;nbsp;slideshow,
+but much simpler and elegant. I aim to keep it that way by including as
+few proprietary functionality as possible, instead relying on css3 and
+javascript such as css transitions. I do require jquery, but I think it
+makes the functional code significantly more elegant and readable.&lt;/p&gt;
+&lt;p&gt;I would love to see some feedback, and I am willing to add more
+functionality as requests come in. So please, give slimy a shot! I have
+a feeling you'll rarely use Powerpoint or any other slideshow
+application again.&lt;/p&gt;
+</content><category term="programming"></category><category term="slimy html5"></category></entry><entry><title>Passing perforce batch files</title><link href="passing-perforce-batch-files.html" rel="alternate"></link><published>2012-03-08T01:17:00+01:00</published><updated>2012-03-08T01:17:00+01:00</updated><author><name>Toumorokoshi</name></author><id>tag:None,2012-03-08:passing-perforce-batch-files.html</id><content type="html">&lt;p&gt;My coworker showed this to me today: if you want to use a perforce
+command from the command line, and pass it a batch of filenames from a
+command (such as find or grep), simply use:&lt;/p&gt;
+&lt;p&gt;&lt;pre class="literal-block"&gt;
+p4 COMMAND ${ENTER_COMMAND_HERE}
+&lt;/pre&gt;
+&lt;/p&gt;</content><category term="programming"></category></entry><entry><title>Automatic Package installation using ELPA in Emacs 24</title><link href="automatic-package-installation-using-elpa-in-emacs-24.html" rel="alternate"></link><published>2012-02-16T23:59:00+01:00</published><updated>2012-02-16T23:59:00+01:00</updated><author><name>Toumorokoshi</name></author><id>tag:None,2012-02-16:automatic-package-installation-using-elpa-in-emacs-24.html</id><summary type="html">&lt;p&gt;Emacs 24 includes many improvements over 23, but there is one particular
+addition that makes me run around and go crazy with joy: a built-in
+package management system, &lt;a class="reference external" href="http://tromey.com/elpa/"&gt;ELPA&lt;/a&gt; (Emacs 24 is still in development,
+&lt;a class="reference external" href="http://batsov.com/articles/2011/10/09/getting-started-with-emacs-24/"&gt;Bozhidar Batsov&lt;/a&gt;&amp;nbsp;has a good guide on how to get it set up). I switched …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Emacs 24 includes many improvements over 23, but there is one particular
+addition that makes me run around and go crazy with joy: a built-in
+package management system, &lt;a class="reference external" href="http://tromey.com/elpa/"&gt;ELPA&lt;/a&gt; (Emacs 24 is still in development,
+&lt;a class="reference external" href="http://batsov.com/articles/2011/10/09/getting-started-with-emacs-24/"&gt;Bozhidar Batsov&lt;/a&gt;&amp;nbsp;has a good guide on how to get it set up). I switched
+over to Emacs almost a year ago, searching for something that would give
+me an IDE with the following attributes:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;Functionality (context-based completion, on the fly syntax checking)&lt;/li&gt;
+&lt;li&gt;Customization&amp;nbsp;(key bindings, easily extensible)&lt;/li&gt;
+&lt;li&gt;Portability (minimal setup on new environments)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/p&gt;&lt;p&gt;There are a lot of nice extensions that do well for the first two.
+However, Portability was always tricky. To get some of the more power
+coding features in Emacs, one needed to install large packages, and
+there was no way to move these around short of zipping the whole thing
+up or finding and installing all these packages again.&lt;/p&gt;
+&lt;p&gt;ELPA completes the trifecta I have been looking for. It was now easy to
+have a list of packages to install. I have a GitHub repository to
+contain all of my .emacs setup, so I can just clone a repository with
+every new environment. To make the setup completely automatic, I needed
+a method to automatically install packages that did not exist. After a
+little research, I was able to figure it out:&lt;/p&gt;
+&lt;p&gt;&lt;pre class="literal-block"&gt;
+;; Packages to install first (check if emacs is 24 or higher)(if (&amp;gt;= emacs-major-version 24)  (progn  ;; Add a larger package list    (setq package-archives '((&amp;quot;ELPA&amp;quot; . &amp;quot;http://tromey.com/elpa/&amp;quot;)      (&amp;quot;gnu&amp;quot; . &amp;quot;http://elpa.gnu.org/packages/&amp;quot;)      (&amp;quot;marmalade&amp;quot; . &amp;quot;http://marmalade-repo.org/packages/&amp;quot;)))       (package-refresh-contents)       ;; Install flymake mode if it doesn't exist, then configure       (when (not (require 'flymake nil t))         (package-install 'flymake))       (global-set-key (kbd &amp;quot;C-; C-f&amp;quot;) 'flymake-mode)       ;; flymake-cursor       (when (not (require 'flymake-cursor nil t))         (package-install 'flymake-cursor))       ;; Install rainbow mode if it doesn't exist, then configure       (when (not (require 'rainbow-mode nil t))         (package-install 'rainbow-mode))       (defun all-css-modes() (css-mode)         (rainbow-mode))       (add-to-list 'auto-mode-alist '(&amp;quot;\.css$&amp;quot; . all-css-modes))    ))
+&lt;/pre&gt;
+&lt;/p&gt;&lt;p&gt;&lt;strong&gt;NOTE!!!&lt;/strong&gt; This must be run after ALL OTHER INITIALIZATIONS are run!
+You can do this by placing it within a hook:&lt;/p&gt;
+&lt;p&gt;&lt;pre class="literal-block"&gt;
+(add-hook 'after-init-hook '(lambda ()    (load &amp;quot;~/.emacs.loadpackages&amp;quot;))) ;; anything within the lambda will run after everything has initialized.
+&lt;/pre&gt;
+&lt;/p&gt;&lt;p&gt;As you can see, I've put the above logic into a file called
+&amp;quot;.emacs.loadpackages&amp;quot;. This is so I can remove it at easy if I want a
+more bare environment.&lt;/p&gt;
+&lt;p&gt;I'd like to talk about this a little bit in detail. The first line
+ensures that emacs is version 24 or higher:&lt;/p&gt;
+&lt;p&gt;&lt;pre class="literal-block"&gt;
+(if (&amp;gt;= emacs-major-version 24) PACKAGE_STUFF_HERE)
+&lt;/pre&gt;
+&lt;/p&gt;&lt;p&gt;I then add more repositories to the package manager, gnu and Marmalade
+(the base package is a bit limited, in my opinion)&lt;/p&gt;
+&lt;p&gt;&lt;pre class="literal-block"&gt;
+(setq package-archives '(    (&amp;quot;ELPA&amp;quot; . &amp;quot;http://tromey.com/elpa/&amp;quot;)    (&amp;quot;gnu&amp;quot; . &amp;quot;http://elpa.gnu.org/packages/&amp;quot;)    (&amp;quot;marmalade&amp;quot; . &amp;quot;http://marmalade-repo.org/packages/&amp;quot;)))
+&lt;/pre&gt;
+&lt;/p&gt;&lt;p&gt;This requires a refresh:&lt;/p&gt;
+&lt;p&gt;&lt;pre class="literal-block"&gt;
+(package-refresh-contents)
+&lt;/pre&gt;
+&lt;/p&gt;&lt;p&gt;And then onto the logic to see if a package exists! You can use require
+to see if a package exists, nullifying the error message it usually
+return by adding the true statement at the end. For example, this will
+return true when the package fly-make cursor is not installed:&lt;/p&gt;
+&lt;p&gt;&lt;pre class="literal-block"&gt;
+(not (require 'flymake-cursor nil t))
+&lt;/pre&gt;
+&lt;/p&gt;&lt;p&gt;You can then add this to a complete clause:&lt;/p&gt;
+&lt;p&gt;&lt;pre class="literal-block"&gt;
+(when (not (require 'flymake-cursor nil t))    (package-install 'flymake-cursor))
+&lt;/pre&gt;
+&lt;/p&gt;&lt;p&gt;And you're done!&lt;/p&gt;
+&lt;div class="section" id="issues"&gt;
+&lt;h2&gt;Issues:&lt;/h2&gt;
+&lt;/p&gt;&lt;p&gt;There a couple of things I'm still working on regarding this setup.
+Although I haven't gotten any environment breaking errors so far,
+there's not a lot of error checking, so I'm sure it can break if things
+are not completely right. In addition, this does not work very well for
+portable programmers, as Emacs will try to initialize ELPA, resulting in
+an exception due to not being able to contact the server.&lt;/p&gt;
+&lt;p&gt;Please leave comments and suggestions!&lt;/p&gt;
+&lt;/div&gt;
+</content><category term="programming"></category></entry><entry><title>Python Pet Peeves</title><link href="python-pet-peeves.html" rel="alternate"></link><published>2012-01-26T19:14:00+01:00</published><updated>2012-01-26T19:14:00+01:00</updated><author><name>Toumorokoshi</name></author><id>tag:None,2012-01-26:python-pet-peeves.html</id><summary type="html">&lt;p&gt;As of this posting, Python has been my main programming language for
+over three years. Although I definitely feel that Python is not a good
+fit for all programming projects, the speed and efficiency with which I
+can code in it has made it my go-to language whenever possible.&lt;/p&gt;
+&lt;p&gt;As …&lt;/p&gt;</summary><content type="html">&lt;p&gt;As of this posting, Python has been my main programming language for
+over three years. Although I definitely feel that Python is not a good
+fit for all programming projects, the speed and efficiency with which I
+can code in it has made it my go-to language whenever possible.&lt;/p&gt;
+&lt;p&gt;As such, I've seen a lot of Python code, and have had ample time to
+think about some of the more nuanced issues regarding coding standards.
+Here's a few of my pet peeves, and opinions about them:&lt;/p&gt;
+&lt;div class="section" id="from-module-import"&gt;
+&lt;h2&gt;from module import *&lt;/h2&gt;
+&lt;/p&gt;&lt;p&gt;When I first started python, I used this particular import for a lot of
+things. I'm using so many methods from this module, why not just import
+the whole thing? It was definitely a pain in the neck fixing those
+include issues.&lt;/p&gt;
+&lt;p&gt;Well, time in the industry has made me realize the error of my ways.
+This isn't just python related, this is related to any programming
+language. &lt;strong&gt;Includes/Import should always be as obvious as possible&lt;/strong&gt;.
+The correct import methodology, is to do as such:&lt;/p&gt;
+&lt;p&gt;&lt;pre class="literal-block"&gt;
+from module import w,x,y,z
+&lt;/pre&gt;
+&lt;/p&gt;&lt;p&gt;or, if you want to be even nicer:&lt;/p&gt;
+&lt;p&gt;&lt;pre class="literal-block"&gt;
+import modulemodule.x()
+&lt;/pre&gt;
+ &lt;/p&gt;
+
+
+But what if we're using ten methods from that module?&lt;p&gt;still gotta do it.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;What about 20 methods? still gotta do it.&lt;/p&gt;
+&lt;p&gt;What about 100 methods?&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;don't know how there's 100 methods in a single module, but &lt;em&gt;you still gotta do it&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;The reasoning is simple: you're providing a very helpful hint that
+future coders can use to debug your code years from now. That hint is :
+where the method is actually found.&lt;/p&gt;
+&lt;p&gt;While you yourself don't save any time off of doing this, you're saving
+hours of development time for future coders, giving them a roadmap to
+exactly what your function's stack actually is. Although this can be
+given by any IDE that has an understanding of the language and it's
+dependencies, one shouldn't assume that this is so. In my experience,
+when debugging, I have spent anywhere between a good ten to twenty
+minutes looking for methods, especially in python files with twenty
+lines of imports. To know exactly where a particular method or module
+comes from goes a long way to making one's code maintainable.&lt;/p&gt;
+&lt;p&gt;For example, suppose I was a programmer who had to debug, and was able
+to pinpoint the bug to a method that had been previously written, called
+a_func. The file calling it looks like:&lt;/p&gt;
+&lt;p&gt;&lt;pre class="literal-block"&gt;
+from foo import *from bar import *def b_func():    ...    a_func()    ...    return
+&lt;/pre&gt;
+&lt;/p&gt;&lt;p&gt;Now if I had no knowledge of the modules foo and bar, I would have to
+look through BOTH foo and bar, and see if either of those had the
+function a_func. This is only a minor inconvenience if your code only
+has two of these imports, but the larger a script gets, and the more
+includes it brings in over the years, could result in one having to look
+through several files in various locations, to debug one call. Precious
+time that could have been saved, had the original code just written:&lt;/p&gt;
+&lt;p&gt;&lt;pre class="literal-block"&gt;
+from bar import a_func
+&lt;/pre&gt;
+&lt;/p&gt;&lt;/div&gt;
+&lt;div class="section" id="use-ternary-s-but-only-where-it-makes-sense"&gt;
+&lt;h2&gt;Use ternary's, but only where it makes sense&lt;/h2&gt;
+&lt;/p&gt;&lt;p&gt;If you're not familiar with tenary operators, I'd suggest acquainting
+yourself now. After all, ternary operators only exist because the
+problem they solve is so prevalent in coding everywhere. Specifically,
+the strict point where you want a variable to be one of two things. In
+Python, ternary operators are represented differently than other
+programming languages (the typical ( condition ? do_this_if_true :
+do_this_if_false ) operation). Python has:&lt;/p&gt;
+&lt;p&gt;&lt;pre class="literal-block"&gt;
+do_this_if_true if condition else do_this_if_false
+&lt;/pre&gt;
+&lt;/p&gt;&lt;p&gt;Ternary's in general have several uses. The big one is providing a
+default value:&lt;/p&gt;
+&lt;p&gt;&lt;pre class="literal-block"&gt;
+var = (value if value else default_value)
+&lt;/pre&gt;
+&lt;/p&gt;&lt;p&gt;Basically, in any situation where you have:&lt;/p&gt;
+&lt;p&gt;&lt;pre class="literal-block"&gt;
+if this:  just_one_procedure()else: just_one_other_procedure()
+&lt;/pre&gt;
+&lt;/p&gt;&lt;p&gt;One should consider using a ternary. You can also nested ternarys,
+although I wouldn't suggest doing so for more than one level deep. This
+is especially useful when you have a variable assignment with four
+different possible outcomes:&lt;/p&gt;
+&lt;p&gt;&lt;pre class="literal-block"&gt;
+x = ( (1 if a else 0) if belse (2 if c else 3))
+&lt;/pre&gt;
+&lt;/p&gt;&lt;p&gt;To do so with regular if else statements, one would need ten lines of
+logic. Ternarys are a lesser known function within Python, and it
+belongs in any programmer's set of tools.&lt;/p&gt;
+&lt;/div&gt;
+</content><category term="programming"></category></entry><entry><title>Search and replace multi-line expressions with SED</title><link href="search-and-replace-multi-line-expressions-with-sed.html" rel="alternate"></link><published>2011-10-26T23:55:00+02:00</published><updated>2011-10-26T23:55:00+02:00</updated><author><name>Toumorokoshi</name></author><id>tag:None,2011-10-26:search-and-replace-multi-line-expressions-with-sed.html</id><summary type="html">&lt;p&gt;Now here's an interesting problem:&lt;/p&gt;
+&lt;p&gt;I wanted to do a recursive search and replace in unix, AND I wanted to
+do an expression that spans multiple lines. Here's what I came up with:&lt;/p&gt;
+&lt;p&gt;&lt;pre class="literal-block"&gt;
+find ./ -type f | xargs sed -E -i -n'1h;1!H;${;g;s/&amp;lt;\/fileSet&amp;gt;.*&amp;lt;fileSet&amp;gt;.*RevisionVersion.*&amp;lt;\/fileSet&amp;gt;.*&amp;lt;\/fileSets …&lt;/pre&gt;&lt;/p&gt;</summary><content type="html">&lt;p&gt;Now here's an interesting problem:&lt;/p&gt;
+&lt;p&gt;I wanted to do a recursive search and replace in unix, AND I wanted to
+do an expression that spans multiple lines. Here's what I came up with:&lt;/p&gt;
+&lt;p&gt;&lt;pre class="literal-block"&gt;
+find ./ -type f | xargs sed -E -i -n'1h;1!H;${;g;s/&amp;lt;\/fileSet&amp;gt;.*&amp;lt;fileSet&amp;gt;.*RevisionVersion.*&amp;lt;\/fileSet&amp;gt;.*&amp;lt;\/fileSets&amp;gt;/&amp;lt;\/fileSet&amp;gt;\n&amp;lt;\/fileSets&amp;gt;/g;p}'
+&lt;/pre&gt;
+&lt;/p&gt;&lt;p&gt;There a lot of examples showing you how to do this.&lt;/p&gt;
+&lt;p&gt;The first argument lists all files recursively. These are the piped to
+sed, which uses an inline search and replace (-i or --in-line), then
+using the expression '{}' which is then modified for multi-line
+expressions (1h;1!H;).&lt;/p&gt;
+</content><category term="programming"></category><category term="sed"></category><category term="unix"></category></entry><entry><title>WebPageTest and IE9</title><link href="webpagetest-and-ie9.html" rel="alternate"></link><published>2011-10-25T00:25:00+02:00</published><updated>2011-10-25T00:25:00+02:00</updated><author><name>Toumorokoshi</name></author><id>tag:None,2011-10-25:webpagetest-and-ie9.html</id><summary type="html">&lt;p&gt;Recently, I tried updating the browser for a WebPageTest instance to
+IE9. This proved to have some issues, specifically due to the pop-up
+dialogues that IE9 has now to tell you when something suspicious occurs.&lt;/p&gt;
+&lt;p&gt;Logging into WPT, I was greeted with an error on an IE9 browser opened
+by …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Recently, I tried updating the browser for a WebPageTest instance to
+IE9. This proved to have some issues, specifically due to the pop-up
+dialogues that IE9 has now to tell you when something suspicious occurs.&lt;/p&gt;
+&lt;p&gt;Logging into WPT, I was greeted with an error on an IE9 browser opened
+by URLblast. Something along the lines of:&lt;/p&gt;
+&lt;p&gt;&amp;quot;Are you sure you want to use this Non-Verified plugin?&amp;quot;&lt;/p&gt;
+&lt;p&gt;Of course, the non-verified plugin was the WebPageTest hook. In order to
+get that working, I modified the security settings on my browser to not
+care about non-verified plugins:&lt;/p&gt;
+&lt;p&gt;Internet Options (clicking on that gear icon in IE9) -&amp;gt; Security -&amp;gt;
+Custom Level.&lt;/p&gt;
+&lt;p&gt;I modified two settings:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&amp;quot;Download unsigned ActiveX controls&amp;quot; to Enable (not secure)&lt;/li&gt;
+&lt;li&gt;&amp;quot;Initialize and script ActiveX controls not marked as safe for
+scripting&amp;quot; to Enable (not secure)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/p&gt;&lt;p&gt;This then brought me to another error, with IE9 complaining about not
+using secure settings. Something like:&lt;/p&gt;
+&lt;p&gt;&amp;quot;Your current settings are insecure&amp;quot;&lt;/p&gt;
+&lt;p&gt;Well, after some searching, there's apparently a policy that you can set
+that disables this specific message:&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://windowsconnected.com/forums/p/959/3087.aspx#3087"&gt;http://windowsconnected.com/forums/p/959/3087.aspx#3087&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Basically it says:&lt;/p&gt;
+&lt;p&gt;Run gpedit.msc (if you type 'gpedit.msc' in the search bar it comes up)&lt;/p&gt;
+&lt;p&gt;Then Navigate to Computer Configuration -&amp;gt; Administrative Templates -&amp;gt;
+Windows Components -&amp;gt; Internet Exporer, and right click and enable the
+&amp;quot;Turn off the Security Settings Check feature&amp;quot; policy.&lt;/p&gt;
+&lt;p&gt;This gets rid of the error, but then WebPageTest just seems to freeze on
+a run. After some more searching, there was one final step in the
+solution. It seems that urlblast has to open the browser using the
+user's account. By default, urlblast creates and uses a specific account
+on which it opens a browser, not necessarily the user that is running
+urlblast. Having the account opening the browser be an administrator did
+the trick, and in my situation, I just had it be the same account
+running urlblast. This can be done with a change in urlblast.ini:&lt;/p&gt;
+&lt;p&gt;&lt;pre class="literal-block"&gt;
+Use Current Account=1
+&lt;/pre&gt;
+&lt;/p&gt;&lt;p&gt;And that did it for me!&lt;/p&gt;
+</content><category term="programming"></category></entry><entry><title>Getting Python2.5 to Build with sqlite3 and zlib on Ubuntu Natty 2.5</title><link href="getting-python25-to-build-with-sqlite3-and-zlib-on-ubuntu-natty-25.html" rel="alternate"></link><published>2011-09-19T19:21:00+02:00</published><updated>2011-09-19T19:21:00+02:00</updated><author><name>Toumorokoshi</name></author><id>tag:None,2011-09-19:getting-python25-to-build-with-sqlite3-and-zlib-on-ubuntu-natty-25.html</id><summary type="html">&lt;p&gt;I had a really hard time finding this, so I'm posting it here:&lt;/p&gt;
+&lt;p&gt;First one must install all the proper packages on Natty (these are the
+packages needed for zlib and sqlite in general, not just specifically
+for Python):&lt;/p&gt;
+&lt;p&gt;&lt;pre class="literal-block"&gt;
+sudo apt-get install zlibc zlib1g zlib1g-devsudo apt-get install sqlite3-dev
+&lt;/pre&gt;
+&lt;/p&gt;&lt;p&gt;Then one …&lt;/p&gt;</summary><content type="html">&lt;p&gt;I had a really hard time finding this, so I'm posting it here:&lt;/p&gt;
+&lt;p&gt;First one must install all the proper packages on Natty (these are the
+packages needed for zlib and sqlite in general, not just specifically
+for Python):&lt;/p&gt;
+&lt;p&gt;&lt;pre class="literal-block"&gt;
+sudo apt-get install zlibc zlib1g zlib1g-devsudo apt-get install sqlite3-dev
+&lt;/pre&gt;
+&lt;/p&gt;&lt;p&gt;Then one must add an LDFlag to the new lib directories (apparently Natty
+has a new directory for X86_64 lib files):&lt;/p&gt;
+&lt;p&gt;&lt;pre class="literal-block"&gt;
+after the ./configure open your Makefile and find the line withLDFLAGS =edit to LDFLAGS = -L/usr/lib//x86_64-linux-gnuand make
+&lt;/pre&gt;
+&lt;/p&gt;&lt;p&gt;Credit for the above snippet goes to Awin Abi and source is below:&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://groups.google.com/group/google-appengine/browse_thread/thread/a8bd0a71270a3ce6"&gt;http://groups.google.com/group/google-appengine/browse_thread/thread/a8bd0a71270a3ce6&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Basically, setting up Python2.5 ( and presumably any version of Python)
+properly involves downloading the proper package libraries , then
+building Python2.5 with those packages. In order to do this, the LDFlags
+variable must have the new library location (the
+/usr/lib/x86-64-linux-gnu) for Natty and 64-bit processors added.&lt;/p&gt;
+&lt;p&gt;I have not tried this on a 32-bit machine. This may not be required
+then, or you may need to point the flag to load the proper directory.&lt;/p&gt;
+</content><category term="programming"></category><category term="Python2.5"></category><category term="sqlite3"></category><category term="Ubuntu"></category><category term="zlib"></category></entry><entry><title>My IDE in Emacs (mainly for Python)</title><link href="my-ide-in-emacs-mainly-for-python.html" rel="alternate"></link><published>2011-08-23T00:26:00+02:00</published><updated>2011-08-23T00:26:00+02:00</updated><author><name>Toumorokoshi</name></author><id>tag:None,2011-08-23:my-ide-in-emacs-mainly-for-python.html</id><summary type="html">&lt;p&gt;I'm writing this article up to mainly keep track of the current state of
+my IDE in Emacs, how to set one up, and to keep my to-do list.&lt;/p&gt;
+&lt;div class="section" id="implemented-features"&gt;
+&lt;h2&gt;Implemented Features&lt;/h2&gt;
+&lt;/p&gt;&lt;div class="section" id="default-emacs-library-includes"&gt;
+&lt;h3&gt;Default Emacs Library Includes&lt;/h3&gt;
+&lt;/p&gt;&lt;p&gt;I use the following from the library that comes with Emacs (as of
+version 23 …&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;I'm writing this article up to mainly keep track of the current state of
+my IDE in Emacs, how to set one up, and to keep my to-do list.&lt;/p&gt;
+&lt;div class="section" id="implemented-features"&gt;
+&lt;h2&gt;Implemented Features&lt;/h2&gt;
+&lt;/p&gt;&lt;div class="section" id="default-emacs-library-includes"&gt;
+&lt;h3&gt;Default Emacs Library Includes&lt;/h3&gt;
+&lt;/p&gt;&lt;p&gt;I use the following from the library that comes with Emacs (as of
+version 23)&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;Viper-mode (viper-mode 3, though I'm sure 5 would be good too)&lt;/li&gt;
+&lt;li&gt;Windmove (through keybindings, for moving around windows easier)&lt;/li&gt;
+&lt;li&gt;hideshow (for code folding)&lt;/li&gt;
+&lt;li&gt;ibuffer (for listing on buffers when buffer switching)&lt;/li&gt;
+&lt;li&gt;ido (for listing of file in a directory in the minibuffer&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/p&gt;&lt;div&gt;&lt;/p&gt;&lt;p&gt;Code to instantiate:&lt;/p&gt;
+&lt;p&gt;&lt;pre class="literal-block"&gt;
+(setq viper-mode t)(require 'viper)(load-library &amp;quot;hideshow&amp;quot;)(add-hook 'python-mode-hook 'hs-minor-mode)(require 'ido)(ido-mode 'both)
+&lt;/pre&gt;
+&lt;/p&gt;&lt;p&gt;&lt;/div&gt;&lt;/p&gt;&lt;/div&gt;
+&lt;div class="section" id="keybindings"&gt;
+&lt;h3&gt;Keybindings&lt;/h3&gt;
+&lt;/p&gt;&lt;p&gt;&lt;pre class="literal-block"&gt;
+(global-set-key (kbd &amp;quot;C-x C-l&amp;quot;) 'windmove-right)(global-set-key (kbd &amp;quot;C-x C-h&amp;quot;) 'windmove-left)(global-set-key (kbd &amp;quot;C-x C-k&amp;quot;) 'windmove-up)(global-set-key (kbd &amp;quot;C-x C-j&amp;quot;) 'windmove-down)(global-set-key (kbd &amp;quot;C-x C-;&amp;quot;) 'hippie-expand)(global-set-key (kbd &amp;quot;C-x C-g&amp;quot;) 'find-name-dired)(global-set-key (kbd &amp;quot;C-c C-t&amp;quot;) 'ansi-term)
+&lt;/pre&gt;
+&lt;/p&gt;&lt;/div&gt;
+&lt;div class="section" id="viper-keybindings-in-viper"&gt;
+&lt;h3&gt;Viper Keybindings (in .viper)&lt;/h3&gt;
+&lt;/p&gt;&lt;p&gt;&lt;pre class="literal-block"&gt;
+(setq viper-expert-level '3)(setq viper-inhibit-startup-message 't)(setq-default indent-tabs-mode nil) ; I think this makes tabs into spaces(setq viper-shift-width 4) ; don't touch or else...;; Makes searching w/ regex default(setq viper-re-search t) ; don't touch or else...;; The following is for hideshow to work ALMOST similar to vi folding;; (there were keybindings I didn't like)(define-key viper-vi-global-user-map &amp;quot;zt&amp;quot; 'hs-toggle-hiding)(define-key viper-vi-global-user-map &amp;quot;zM&amp;quot; 'hs-hide-all)(define-key viper-vi-global-user-map &amp;quot;zm&amp;quot; 'hs-hide-block)(define-key viper-vi-global-user-map &amp;quot;zR&amp;quot; 'hs-show-all)(define-key viper-vi-global-user-map &amp;quot;zr&amp;quot; 'hs-show-block)
+&lt;/pre&gt;
+&lt;/p&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="features-implemented-using-external-files"&gt;
+&lt;h2&gt;Features implemented using external files&lt;/h2&gt;
+&lt;/p&gt;&lt;div class="section" id="yasnippet-for-bundling-and-snippets"&gt;
+&lt;h3&gt;Yasnippet (for bundling and snippets)&lt;/h3&gt;
+&lt;/p&gt;&lt;p&gt;Yasnippet provides me features along the lives of textmates bundling,
+which I think definitely makes things faster in the long run. After all,
+who wants to write boilerplate code?&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://manual.macromates.com/en/bundles"&gt;http://manual.macromates.com/en/bundles&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Yasnippet site:&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://code.google.com/p/yasnippet/"&gt;http://code.google.com/p/yasnippet/&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="lusty-explorer-el-for-a-great-tab-completion-file-navigator"&gt;
+&lt;h3&gt;lusty-explorer.el (for a great tab completion file navigator)&lt;/h3&gt;
+&lt;/p&gt;&lt;p&gt;Followed this emacs-fu guide:&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://emacs-fu.blogspot.com/2010/07/navigating-through-files-and-buffers.html"&gt;http://emacs-fu.blogspot.com/2010/07/navigating-through-files-and-buffers.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;And downloaded the .el here:&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://www.emacswiki.org/emacs/LustyExplorer"&gt;http://www.emacswiki.org/emacs/LustyExplorer&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Specifically I have the following in my .emacs:&lt;/p&gt;
+&lt;p&gt;&lt;pre class="literal-block"&gt;
+(when (require 'lusty-explorer nil 'noerror)  ;; overrride the normal file-opening, buffer switching  (global-set-key (kbd &amp;quot;C-x C-f&amp;quot;) 'lusty-file-explorer)  (global-set-key (kbd &amp;quot;C-x b&amp;quot;)   'lusty-buffer-explorer))
+&lt;/pre&gt;
+&lt;/p&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="desired-features"&gt;
+&lt;h2&gt;Desired features&lt;/h2&gt;
+&lt;/p&gt;&lt;p&gt;I have yet to implement this, but I would like:&lt;/p&gt;
+&lt;ul&gt;&lt;/p&gt;&lt;p&gt;&lt;li&gt;&lt;p&gt;Better file search (the ones I could find don't do what I'm looking for)&lt;/p&gt;
+&lt;/li&gt;&lt;/p&gt;&lt;ul class="simple"&gt;
+&lt;li&gt;Specifically, looking for a smart find that allow autocompletion&lt;/li&gt;
+&lt;li&gt;Looking for something along the lines of eclipse&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/p&gt;&lt;p&gt;&lt;/ul&gt;&lt;/p&gt;&lt;/div&gt;
+</content><category term="programming"></category><category term="Emacs"></category><category term="IDE"></category><category term="python"></category></entry><entry><title>ax_check_mysql introduction and example</title><link href="ax_check_mysql-introduction-and-example.html" rel="alternate"></link><published>2011-08-20T18:30:00+02:00</published><updated>2011-08-20T18:30:00+02:00</updated><author><name>Toumorokoshi</name></author><id>tag:None,2011-08-20:ax_check_mysql-introduction-and-example.html</id><summary type="html">&lt;p&gt;I previously mentioned&amp;nbsp;&lt;a class="reference external" href="http://www.gnu.org/software/autoconf-archive/ax_check_mysql.html"&gt;ax_check_mysql.m4&lt;/a&gt;&amp;nbsp;in one of my posts, an
+m4 macro written for autoconf. So here's a bit more information about
+it, and some examples on how to use it.&lt;/p&gt;
+&lt;div class="section" id="introduction"&gt;
+&lt;h2&gt;Introduction&lt;/h2&gt;
+&lt;/p&gt;&lt;p&gt;So ax_check_mysql is essentially an m4 macro for autoconf that was
+written with MySQL plugin developers in …&lt;/p&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;I previously mentioned&amp;nbsp;&lt;a class="reference external" href="http://www.gnu.org/software/autoconf-archive/ax_check_mysql.html"&gt;ax_check_mysql.m4&lt;/a&gt;&amp;nbsp;in one of my posts, an
+m4 macro written for autoconf. So here's a bit more information about
+it, and some examples on how to use it.&lt;/p&gt;
+&lt;div class="section" id="introduction"&gt;
+&lt;h2&gt;Introduction&lt;/h2&gt;
+&lt;/p&gt;&lt;p&gt;So ax_check_mysql is essentially an m4 macro for autoconf that was
+written with MySQL plugin developers in mind. When one runs the macro, a
+detected MySQL installation will give you the following information:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;The path to the directory containing the MySQL&amp;nbsp;executables&lt;/li&gt;
+&lt;li&gt;The path to the directory containing MySQL includes (if they exist)&lt;/li&gt;
+&lt;li&gt;The path to the directory where MySQL plugins go&lt;/li&gt;
+&lt;li&gt;The version of MySQL&lt;/li&gt;
+&lt;li&gt;Whether MySQL is 32 or 64 bit&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/p&gt;&lt;div&gt;&lt;p&gt;Basically providing most of the information, MySQL-wise, needed to
+install the plugin.&lt;/p&gt;
+&lt;/div&gt;&lt;/p&gt;&lt;p&gt;In the situation where an installation can not be detected or an
+incomplete one is found, arguments can also be entered manually with:&lt;/p&gt;
+&lt;p&gt;&lt;pre class="literal-block"&gt;
+--with-mysql
+&lt;/pre&gt;
+&lt;/p&gt;&lt;p&gt;(where the root directory of the MySQL installation is passed (such as
+/usr/local/mysql or some other custom directory) &amp;nbsp;and&lt;/p&gt;
+&lt;p&gt;&lt;pre class="literal-block"&gt;
+--with-mysql-command, --with-mysql-plugin, --with-mysql-include
+&lt;/pre&gt;
+&lt;/p&gt;&lt;p&gt;Which would just passing all the directories directly.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="examples"&gt;
+&lt;h2&gt;Examples&lt;/h2&gt;
+&lt;/p&gt;&lt;p&gt;One can include the macro in the same fashion as any other macro in the
+configure.ac file:&lt;/p&gt;
+&lt;p&gt;&lt;pre class="literal-block"&gt;
+AC_INIT(ax_check_mysql_example,version-1.0)m4_include([m4_ax_check_mysql.m4])AX_CHECK_MYSQL([no],[yes],[5.0],[no])AC_MSG_NOTICE($MYSQL)AC_MSG_NOTICE($MYSQL_COMMANDS)
+&lt;/pre&gt;
+&lt;/p&gt;&lt;p&gt;Now if I run this script on a computer with MySQL installed, you should
+something along the lines of:&lt;/p&gt;
+&lt;p&gt;&lt;pre class="literal-block"&gt;
+$ autoconf &amp;amp;&amp;amp; ./configurechecking for gcc... gccchecking whether the C compiler works... yeschecking for C compiler default output file name... a.outchecking for suffix of executables...checking whether we are cross compiling... nochecking for suffix of object files... ochecking whether we are using the GNU C compiler... yeschecking whether gcc accepts -g... yeschecking for gcc option to accept ISO C89... none neededchecking how to run the C preprocessor... gcc -Echecking for grep that handles long lines and -e... /bin/grepchecking for egrep... /bin/grep -Echecking for ANSI C header files... yeschecking for sys/types.h... yeschecking for sys/stat.h... yeschecking for stdlib.h... yeschecking for string.h... yeschecking for memory.h... yeschecking for strings.h... yeschecking for inttypes.h... yeschecking for stdint.h... yeschecking for unistd.h... yesTesting if MySQL was installed to common source/binary directorychecking for mysql... noTesting if MySQL was installed to common package manager directorychecking for mysql... yeschecking /usr/include/mysql/mysql_version.h/mysql_version.h usability... nochecking /usr/include/mysql/mysql_version.h/mysql_version.h presence...nochecking for /usr/include/mysql/mysql_version.h/mysql_version.h... nochecking /usr/include/mysql_version.h/mysql_version.h usability... nochecking /usr/include/mysql_version.h/mysql_version.h presence... nochecking for /usr/include/mysql_version.h/mysql_version.h... nochecking if /usr/lib/mysql/plugin/ exists...... yeschecking for mysql... /usr/bin/configure: WARNING: A package install was detected, but the include directory could not be found! MySQL development library may not be installed. If development library is installed please use --with-mysql-include --with-mysql-plugin --with-mysql-command to manually assign directory locationschecking MySQL Architecture... 32checking MySQL Version... 5.1.41checking if MySQL install supports Plugins... yeschecking if MySQL version is equal or greater than 5.0... yesconfigure: yesconfigure: /usr/bin/
+&lt;/pre&gt;
+&lt;/p&gt;&lt;p&gt;Note that the last two lines of output were echoing the MYSQL and
+MYSQL_COMMAND variables respectively, and that I do not have the
+development library installed. A full list of variables available are
+listed in the documentation.&lt;/p&gt;
+&lt;p&gt;One can pass four arguments when running the macro:&lt;/p&gt;
+&lt;p&gt;MYSQL-PLUGIN-NEEDED: if the MySQL version doesn't support plugins (&amp;lt;
+5.1), this will cause failure.&lt;/p&gt;
+&lt;p&gt;MYSQL-REQUIRED: say if MySQL is required or not.&lt;/p&gt;
+&lt;p&gt;MINIMUM-VERSION: minimum version required for MySQL (i.e. 5.0 or 5.5)&lt;/p&gt;
+&lt;p&gt;INCLUDES-REQUIRED: whether the MySQL includes are required (will fail if
+includes are not found)&lt;/p&gt;
+&lt;p&gt;For example, If I wanted MySQL 5.5 or higher, I could enter:&lt;/p&gt;
+&lt;p&gt;&lt;pre class="literal-block"&gt;
+AC_INIT(ax_check_mysql_example,version-1.0)m4_include([m4_ax_check_mysql.m4])AX_CHECK_MYSQL([no],[yes],[5.5],[no])
+&lt;/pre&gt;
+&lt;/p&gt;&lt;p&gt;And as my MySQL installation is 5.1.41, ./configure will fail:&lt;/p&gt;
+&lt;p&gt;&lt;pre class="literal-block"&gt;
+checking MySQL Architecture... 32checking MySQL Version... 5.1.41checking if MySQL install supports Plugins... yeschecking if MySQL version is equal or greater than 5.5... noconfigure: error: installed MySQL version is not above 5.5.&amp;nbsp;Please upgrade your version of MySQL
+&lt;/pre&gt;
+&lt;/p&gt;&lt;p&gt;Entering nothing in the version field will allow any version.&lt;/p&gt;
+&lt;p&gt;Warnings will be outputted instead of errors if components aren't
+required (such as includes or MySQL itself).&lt;/p&gt;
+&lt;p&gt;And there's a brief example! Feel free to comment or contact me
+(&lt;a class="reference external" href="mailto:tsutsumi.yusuke&amp;#64;gmail.com"&gt;tsutsumi.yusuke&amp;#64;gmail.com&lt;/a&gt;) if there are any questions/ comments.&lt;/p&gt;
+&lt;p&gt;The script is maintained by myself on github:&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://github.com/Toumorokoshi/ax_check_mysql"&gt;https://github.com/Toumorokoshi/ax_check_mysql&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+</content><category term="programming"></category><category term="autoconf"></category><category term="ax_check_mysql"></category></entry><entry><title>Code folding in Emacs Viper-Mode</title><link href="code-folding-in-emacs-viper-mode.html" rel="alternate"></link><published>2011-08-17T23:06:00+02:00</published><updated>2011-08-17T23:06:00+02:00</updated><author><name>Toumorokoshi</name></author><id>tag:None,2011-08-17:code-folding-in-emacs-viper-mode.html</id><summary type="html">&lt;p&gt;Code folding is a feature I've never really used, and for the most part
+seem to have done find without. I generally use search to navigate from
+place to place in my code, but I realize this isn't always the most
+efficient way to go, and code folding is very …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Code folding is a feature I've never really used, and for the most part
+seem to have done find without. I generally use search to navigate from
+place to place in my code, but I realize this isn't always the most
+efficient way to go, and code folding is very useful in a couple
+aspects:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;It helps focus me on what particular method or class I'm working on
+(way harder to tell when you've got several bunches of code in front
+of you at once)&lt;/li&gt;
+&lt;li&gt;Getting a good idea of the structure of the code (with everything
+folded, it's much easier to see)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/p&gt;&lt;p&gt;So I decided to play around with folding with my current development
+environment. I use Emacs as my base, but &lt;a class="reference external" href="http://www.emacswiki.org/emacs/ViperMode"&gt;viper-mode&lt;/a&gt; for the actual
+text editing.&lt;/p&gt;
+&lt;p&gt;Emacs has some pretty good folding tools built-in. Namely, these are
+&lt;a class="reference external" href="http://www.emacswiki.org/emacs/FoldingMode"&gt;FoldingMode&lt;/a&gt; and &lt;a class="reference external" href="http://www.emacswiki.org/emacs/HideShow"&gt;HideShow&lt;/a&gt;. I admit I didn't play around with
+FoldingMode a lot, as using it seems to involve manually adding the
+folding points, something which I think is unnecessary 90% of the time.
+Ideally, I'm looking for a folding extension that automatically
+determines folding points, and leaves things as hands-off for me as
+possible. One should be able to open a file, fold it up, and then open
+and fold as necessary. I'm not looking to waste time adding commented
+blocks of folding everywhere.&lt;/p&gt;
+&lt;p&gt;Thats where HideShow comes in. Armed with rules for an array of
+programming languages, HideShow automatically looks for these patterns
+and sets folding points appropriately. Exactly what I'm looking for.
+Simply loading hideshow using .emacs:&lt;/p&gt;
+&lt;p&gt;&lt;pre class="literal-block"&gt;
+(load-library &amp;quot;hideshow&amp;quot;)
+&lt;/pre&gt;
+&lt;/p&gt;&lt;p&gt;And activate the hideshow minor mode whenever you load the major mode of
+your choice (for me it's Python):&lt;/p&gt;
+&lt;p&gt;&lt;pre class="literal-block"&gt;
+(add-hook 'python-mode-hook 'hs-minor-mode)
+&lt;/pre&gt;
+&lt;/p&gt;&lt;p&gt;Now you have all the access to the wonderful world of dynamic folding!
+Unfortunately, I didn't really like the cumbersome keystrokes:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;C-c &amp;#64; M-C-s to unfold all&lt;/li&gt;
+&lt;li&gt;C-c &amp;#64; C-h to fold&lt;/li&gt;
+&lt;li&gt;C-c &amp;#64; C-s to unfold&lt;/li&gt;
+&lt;li&gt;C-c &amp;#64; M-C-h to fold all&lt;/li&gt;
+&lt;li&gt;C-c &amp;#64; C-c to toggle folding&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/p&gt;&lt;p&gt;Yeah, a six key-stroke succession is too much for me. So I assigned
+these bindings to almost the same folding commands as VIM:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;zm to unfold&lt;/li&gt;
+&lt;li&gt;zr to fold&lt;/li&gt;
+&lt;li&gt;zM to unfold all&lt;/li&gt;
+&lt;li&gt;zR to fold all&lt;/li&gt;
+&lt;li&gt;zt to toggle&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/p&gt;&lt;p&gt;To do this, I added configuration into the .viper file:&lt;/p&gt;
+&lt;p&gt;&lt;pre class="literal-block"&gt;
+(define-key viper-vi-global-user-map &amp;quot;zt&amp;quot; 'hs-toggle-hiding)(define-key viper-vi-global-user-map &amp;quot;zM&amp;quot; 'hs-hide-all)(define-key viper-vi-global-user-map &amp;quot;zm&amp;quot; 'hs-hide-block)(define-key viper-vi-global-user-map &amp;quot;zR&amp;quot; 'hs-show-all)(define-key viper-vi-global-user-map &amp;quot;zr&amp;quot; 'hs-show-block)
+&lt;/pre&gt;
+&lt;/p&gt;&lt;p&gt;(viper-vi-global-user-map tell viper it's for any buffer in any state
+with viper as a major mode). So far, this is working like a charm for
+me. Here's a screenshot with it at work:&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://toumorokoshi.files.wordpress.com/2011/08/foldingexample.png"&gt;&lt;img alt="image0" src="http://toumorokoshi.files.wordpress.com/2011/08/foldingexample.png" /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Feel free to comment if you have ideas/improvements!&lt;/p&gt;
+</content><category term="programming"></category><category term="Emacs"></category><category term="folding"></category><category term="viper-mode"></category></entry><entry><title>Autoconf: ax_check_mysql</title><link href="autoconf-ax_check_mysql.html" rel="alternate"></link><published>2011-06-27T16:19:00+02:00</published><updated>2011-06-27T16:19:00+02:00</updated><author><name>Toumorokoshi</name></author><id>tag:None,2011-06-27:autoconf-ax_check_mysql.html</id><summary type="html">&lt;p&gt;Just mentioning a little m4 script I wrote a little while ago.
+ax_check_mysql is used to find a valid MySQL installation, and gives
+you the binary, include, and plugin directories.&lt;/p&gt;
+&lt;p&gt;If you have an autoconf project, and you need MySQL, definitely consider
+it!&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://www.gnu.org/software/autoconf-archive/ax_check_mysql.html#ax_check_mysql"&gt;http://www.gnu.org/software/autoconf-archive/ax_check_mysql …&lt;/a&gt;&lt;/p&gt;</summary><content type="html">&lt;p&gt;Just mentioning a little m4 script I wrote a little while ago.
+ax_check_mysql is used to find a valid MySQL installation, and gives
+you the binary, include, and plugin directories.&lt;/p&gt;
+&lt;p&gt;If you have an autoconf project, and you need MySQL, definitely consider
+it!&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://www.gnu.org/software/autoconf-archive/ax_check_mysql.html#ax_check_mysql"&gt;http://www.gnu.org/software/autoconf-archive/ax_check_mysql.html#ax_check_mysql&lt;/a&gt;&lt;/p&gt;
+</content><category term="programming"></category><category term="autoconf"></category><category term="ax_check_mysql"></category><category term="mysql"></category></entry><entry><title>Configuring HttpArchive + Webpagetest (Part 3: HttpArchive)</title><link href="configuring-httparchive-webpagetest-part-3-httparchive.html" rel="alternate"></link><published>2011-06-24T19:43:00+02:00</published><updated>2011-06-24T19:43:00+02:00</updated><author><name>Toumorokoshi</name></author><id>tag:None,2011-06-24:configuring-httparchive-webpagetest-part-3-httparchive.html</id><summary type="html">&lt;p&gt;It's time to install HttpArchive! So just as with Webpagetest, there's
+some requirements for HttpArchive as well.&lt;/p&gt;
+&lt;p&gt;HttpArchive must run on a unix-based machine, as HttpArchive uses pcntl,
+a threading function in PHP currently available only on unix-based
+machines. For this guide I will be using Ubuntu.&lt;/p&gt;
+&lt;p&gt;The following will …&lt;/p&gt;</summary><content type="html">&lt;p&gt;It's time to install HttpArchive! So just as with Webpagetest, there's
+some requirements for HttpArchive as well.&lt;/p&gt;
+&lt;p&gt;HttpArchive must run on a unix-based machine, as HttpArchive uses pcntl,
+a threading function in PHP currently available only on unix-based
+machines. For this guide I will be using Ubuntu.&lt;/p&gt;
+&lt;p&gt;The following will be needed on your machine:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;Apache2+&lt;/li&gt;
+&lt;li&gt;PHP5 or above&lt;/li&gt;
+&lt;li&gt;MySQL&lt;/li&gt;
+&lt;li&gt;Subversion&lt;/li&gt;
+&lt;li&gt;pcntl (PHP)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/p&gt;&lt;p&gt;Most of these can be installed with a package manager. However with
+pnctl, one must manually download the source, and either configure PHP
+with the pcntl argument, or compile and install the pcntl extension
+manually. I found an Ubuntu forum post from skout23 that explains a very
+easy way to install pcntl for Ubuntu users. However I'm sure aside from
+the package manager, BSD based Linux users can do the exact same thing:
+&lt;a class="reference external" href="http://ubuntuforums.org/showthread.php?t=549953"&gt;http://ubuntuforums.org/showthread.php?t=549953&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Here's the relevant code for Ubuntu users:&lt;/p&gt;
+&lt;p&gt;&lt;pre class="literal-block"&gt;
+mkdir phpcd phpapt-get source php5cd php5-(WHATEVER_RELEASE)/ext/pcntlphpize./configuremake
+&lt;/pre&gt;
+&lt;/p&gt;&lt;p&gt;And don't forget to restart Apache afterward!&lt;/p&gt;
+&lt;p&gt;Once everything is configured properly, you can checkout the HttpArchive
+source from the googlecode repository:`` ``&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://httparchive.googlecode.com/svn/trunk/"&gt;http://httparchive.googlecode.com/svn/trunk/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;In addition, unless you want to download the downloads folder (which
+contains over 1GB of data from the sites that HttpArchive tracks), it
+would be best to checkout non-recursively, then check out all other
+folders:&lt;/p&gt;
+&lt;p&gt;&lt;pre class="literal-block"&gt;
+$svn co -N http://httparchive.googlecode.com/svn/trunk/ .$cd trunk$svn up images$svn up bulktest
+&lt;/pre&gt;
+&lt;/p&gt;&lt;p&gt;Next, we will modify the settings.inc folder with the following
+information:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;$gMysqlServer = &amp;quot;YOUR_SERVER&amp;quot;&lt;/li&gt;
+&lt;li&gt;$gMysqlDb = &amp;quot;YOUR_DATABASE&amp;quot;&lt;/li&gt;
+&lt;li&gt;$gMysqlUsername = &amp;quot;ACCOUNT_USERNAME&amp;quot;&lt;/li&gt;
+&lt;li&gt;$gMysqlPassword = &amp;quot;ACCOUNT_PASSWORD&amp;quot;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/p&gt;&lt;p&gt;Finally, Apache needs to interpret the .js files with PHP before being
+served to the user. There exists a directive inside the .htaccess file
+in the root of the repository that already accounts for this. However, I
+had issues with this particular part, so I had to add the directive into
+the php.conf file under /etc/apache2/mods-enabled (you will need root
+permissions to modify this file):&lt;/p&gt;
+&lt;p&gt;&lt;pre class="literal-block"&gt;
+&amp;lt;Filesmatch &amp;quot;(filmstrip|harviewer|interesting|interesting-images).js&amp;quot;&amp;gt;SetHandler application/x-httpd-php&amp;lt;/FilesMatch&amp;gt;
+&lt;/pre&gt;
+&lt;/p&gt;&lt;p&gt;And you've configured HttpArchive! Unfortunately it won't really work
+without any data, but we'll talk about the final steps in part 4:
+Configuring the two to work with each other!&lt;/p&gt;
+</content><category term="programming"></category><category term="HttpArchive"></category><category term="Webpagetest"></category></entry><entry><title>Configuring HttpArchive + Webpagetest (Part 2: Webpagetest)</title><link href="configuring-httparchive-webpagetest-part-2-webpagetest.html" rel="alternate"></link><published>2011-06-24T19:03:00+02:00</published><updated>2011-06-24T19:03:00+02:00</updated><author><name>Toumorokoshi</name></author><id>tag:None,2011-06-24:configuring-httparchive-webpagetest-part-2-webpagetest.html</id><summary type="html">&lt;p&gt;Welcome to part 2! This post discusses installing Webpagetest.org. In
+order to do so, we will need:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;A windows machine (XP or Windows 7 have been tested with this method)&lt;/li&gt;
+&lt;li&gt;Apache2.2 or higher&lt;/li&gt;
+&lt;li&gt;PHP5 or higher&lt;/li&gt;
+&lt;li&gt;IE of some sort (IE8 or 9 would be best)&lt;/li&gt;
+&lt;li&gt;ffmpeg&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/p&gt;&lt;p&gt;It …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Welcome to part 2! This post discusses installing Webpagetest.org. In
+order to do so, we will need:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;A windows machine (XP or Windows 7 have been tested with this method)&lt;/li&gt;
+&lt;li&gt;Apache2.2 or higher&lt;/li&gt;
+&lt;li&gt;PHP5 or higher&lt;/li&gt;
+&lt;li&gt;IE of some sort (IE8 or 9 would be best)&lt;/li&gt;
+&lt;li&gt;ffmpeg&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/p&gt;&lt;p&gt;It is possible to split up the web server and the testing server, but I
+put them both on the same machine for ease of use. In addition I found
+installing and configuring Apache and PHP together on windows was
+surprisingly difficult, so I suggest installing &lt;a class="reference external" href="http://www.apachefriends.org/en/xampp-windows.html"&gt;Xampp&lt;/a&gt;. It's a
+single-install program that includes many of the tools used for serving
+web pages and web development, such as Apache, PHP5, MySQL, and
+Filezilla. Windows 7 machines have IE 8 installed by default, but
+upgrading is straightforward for XP machines.&lt;/p&gt;
+&lt;p&gt;Once you have your machine set up properly, it's time to install
+Webpagetest! You can download the source here: &lt;a class="reference external" href="http://code.google.com/p/webpagetest/downloads/list"&gt;Webpagetest.org
+source&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;There are also installation instructions on the webpagetest.org google
+site. I would recommend following these fora a complete guide, but what
+I have written is a shorter version and will attain the same result.&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://sites.google.com/a/webpagetest.org/docs/private-instances"&gt;https://sites.google.com/a/webpagetest.org/docs/private-instances&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Configure Apache to point to the www directory of your source, or move
+the contents of the folder to the &amp;quot;htdocs&amp;quot; folder under Xampp (I found
+that the Virtualhost directive in Apache was having issues, so I just
+threw everything into the htdocs folder, where Xampp is initially
+configured to point to). I found that on the windows machine, giving
+read/write permissions to the directories needed was not an issue.&lt;/p&gt;
+&lt;p&gt;You will then have to configure everything properly. This involves
+basically copying and pasting everything in the settings folder to it's
+non-sample equivalent. I was able to do this because I wanted a basic
+instance, but keep in mind you may need to do more if you want more
+complex options.&lt;/p&gt;
+&lt;p&gt;Configuring the system to run the tests is best explained, verbatim from
+the private-instance setup site linked above:&lt;/p&gt;
+&lt;ol&gt;&lt;/p&gt;&lt;p&gt;&lt;li&gt;&lt;p&gt;Configure the test system to automatically log-on to an administrator
+account. Running &amp;quot;control userpasswords2&amp;quot; from the start menu is one way
+to configure it.&lt;/p&gt;
+&lt;/li&gt;&lt;/p&gt;&lt;p&gt;&lt;li&gt;&lt;p&gt;Disable any screen savers (the desktop needs to remain visible for the
+video capture to work)&lt;/p&gt;
+&lt;/li&gt;&lt;/p&gt;&lt;p&gt;&lt;li&gt;&lt;p&gt;Disable UAC (Vista or later - slide to &amp;quot;never notify&amp;quot;)&lt;/p&gt;
+&lt;/li&gt;&lt;/p&gt;&lt;p&gt;&lt;li&gt;&lt;p&gt;Uninstall IE Enhanced-Security Mode (Windows Server)&lt;/p&gt;
+&lt;/li&gt;&lt;/p&gt;&lt;p&gt;&lt;li&gt;&lt;p&gt;Copy the test software from the &lt;strong&gt;agent&lt;/strong&gt; folder to the system (to
+&amp;quot;c:\webpagetest&amp;quot; for this example)&lt;/p&gt;
+&lt;/li&gt;&lt;/p&gt;&lt;p&gt;&lt;li&gt;&lt;p&gt;Install the DUMMYNET ipfw driver&lt;/p&gt;
+&lt;/p&gt;&lt;ul class="simple"&gt;
+&lt;li&gt;Pull up the properties for the Network Adapter that is used to access
+the Internet&lt;/li&gt;
+&lt;li&gt;Click &amp;quot;Install&amp;quot;&lt;/li&gt;
+&lt;li&gt;Select &amp;quot;Service&amp;quot; and click &amp;quot;Add&amp;quot;&lt;/li&gt;
+&lt;li&gt;Click &amp;quot;Have Disk&amp;quot; and navigate to c:\webpagetest\dummynet&lt;/li&gt;
+&lt;li&gt;Select the ipfw+dummynet service (and click through any warnings
+about the driver being unsigned)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/p&gt;&lt;p&gt;&lt;/li&gt;&lt;/p&gt;&lt;p&gt;&lt;li&gt;&lt;p&gt;Create a shortcut to c:\webpagetest\dummynet\ipfw.cmd in the startup
+folder&lt;/p&gt;
+&lt;/li&gt;&lt;/p&gt;&lt;p&gt;&lt;li&gt;&lt;p&gt;Create a shortcut to c:\webpagetest\urlblast.exe in the startup folder&lt;/p&gt;
+&lt;/li&gt;&lt;/p&gt;&lt;p&gt;&lt;li&gt;&lt;p&gt;Make a copy of the settings file (urlblast.ini) based on the sample&lt;/p&gt;
+&lt;/li&gt;&lt;/p&gt;&lt;ul class="simple"&gt;
+&lt;li&gt;Give it the path to the server (default configuration points to a
+server on the local machine)&lt;/li&gt;
+&lt;li&gt;Configure the location to match the location defined on the server in
+locations.ini (if modified)&lt;/li&gt;
+&lt;li&gt;Configure the location key to match the server in locations.ini (if
+modified)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/p&gt;&lt;p&gt;&lt;li&gt;&lt;p&gt;Reboot to make sure everything starts up correctly&lt;/p&gt;
+&lt;/li&gt;&lt;/p&gt;&lt;p&gt;&lt;/ol&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt;On windows 7, ipfw will not properly install (it will not
+show up under installable services). If you want to use windows 7, you
+must add a &amp;quot;Location = LAN&amp;quot; directive under test in settings.inc in
+settings:&lt;/p&gt;
+&lt;p&gt;&lt;pre class="literal-block"&gt;
+[Test]Location = LAN
+&lt;/pre&gt;
+&lt;/p&gt;&lt;p&gt;After that, your instance should be set up! Now that wasn't so bad, was
+it?&lt;/p&gt;
+&lt;p&gt;Next time we'll talk about installing HttpArchive!&lt;/p&gt;
+</content><category term="programming"></category><category term="HttpArchive"></category><category term="Webpagetest"></category></entry><entry><title>Configuring HttpArchive + Webpagetest (Part 1: Introduction)</title><link href="configuring-httparchive-webpagetest-part-1-introduction.html" rel="alternate"></link><published>2011-06-23T22:40:00+02:00</published><updated>2011-06-23T22:40:00+02:00</updated><author><name>Toumorokoshi</name></author><id>tag:None,2011-06-23:configuring-httparchive-webpagetest-part-1-introduction.html</id><summary type="html">&lt;p&gt;Testing is an integral part of developing code, and this is usually a
+lesson that is learned the hard way. I can't name all the times that
+I've made a trivial mistake that goes unnoticed until the code has
+ballooned to the point where rooting around and figuring it out …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Testing is an integral part of developing code, and this is usually a
+lesson that is learned the hard way. I can't name all the times that
+I've made a trivial mistake that goes unnoticed until the code has
+ballooned to the point where rooting around and figuring it out is an
+impossibility. For even the best tester, it's a rare occurrence that
+every single possible exception is captured the first time around. On
+top of this, certain kinds of tests are also less frequently even
+considered. Among these are performance tests for web developers.
+Figuring out how quickly each part of a website responds is not an easy
+task, and is not a concern for must until it goes wrong. Luckily, there
+exists a pair of tools that provide a great look at these performance
+issues: &lt;a class="reference external" href="http://httparchive.org"&gt;HttpArchive&lt;/a&gt; and &lt;a class="reference external" href="http://webpagetest.org"&gt;Webpagetest&lt;/a&gt;.&lt;/p&gt;
+&lt;div class="section" id="webpagetest"&gt;
+&lt;h2&gt;Webpagetest&lt;/h2&gt;
+&lt;/p&gt;&lt;p&gt;Webpagetest is a tool for testing website performance. Originally a
+piece of in-house AOL software, the site is now available as both a
+public &lt;a class="reference external" href="http://www.webpagetest.org/"&gt;website&lt;/a&gt;, and &lt;a class="reference external" href="http://code.google.com/p/webpagetest/source/checkout"&gt;open-source&lt;/a&gt; for users to download. It is an
+amazing tool that provides various tools that measure website
+performance, from a waterfall chart (of both resources accessed and
+connections):&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://toumorokoshi.files.wordpress.com/2011/06/waterfall1.png"&gt;&lt;img alt="image0" src="http://toumorokoshi.files.wordpress.com/2011/06/waterfall1.png" /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;to Google's Pagespeed app (gives a rating out of 100 for page
+performance):&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://toumorokoshi.files.wordpress.com/2011/06/pagespeed.png"&gt;&lt;img alt="image1" src="http://toumorokoshi.files.wordpress.com/2011/06/pagespeed.png" /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;to actual screenshots of the page:&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://toumorokoshi.files.wordpress.com/2011/06/snapshot.png"&gt;&lt;img alt="image2" src="http://toumorokoshi.files.wordpress.com/2011/06/snapshot.png" /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;I would give it a shot on your own site to see how amazing of a product
+it really is. It is a comprehensive at look at a site, and a timeline
+for the time it takes to load, start to finish. Webpagetest by itself is
+a great tool for debugging a slow site, but there is another level with
+which one can examine the performance of a site: over time. If one could
+take the information from Webpagetest, store it in a database of some
+kind, and analyze the results, there would be another dimension through
+which one can analyze where the site was, how it is now, and predict the
+direction, performance wise, it is heading.&lt;/p&gt;
+&lt;p&gt;Well, that is exactly what HttpArchive is built to do!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="httparchive"&gt;
+&lt;h2&gt;HttpArchive&lt;/h2&gt;
+&lt;/p&gt;&lt;p&gt;HttpArchive is another open-source project, meant to be similar to
+&lt;a class="reference external" href="http://www.archive.org"&gt;archive.org&lt;/a&gt;, which snapshots various sites on the internet, providing
+a look back into the past. HttpArchive archives the performance of
+various websites, providing a different look back: at site
+performance.Using Webpagetest as a backbone, HttpArchive saves snapshots
+of information from webpagetest.org, and analyzes trends in various
+websites. For example, take a look at it's analysis of wordpress.com:&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://httparchive.org/viewsite.php?pageid=268424"&gt;http://httparchive.org/viewsite.php?pageid=268424&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;The site is able to give insight that is interesting to both developers
+and users alike!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="conclusion"&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;/p&gt;&lt;p&gt;The goal of this tutorial is to go over how to implement a private
+instance of Webpagetest and HttpArchive, and how to link the pair
+together. This will create a powerful and useful performance testing
+suite.&lt;/p&gt;
+&lt;p&gt;Stay tuned for part 2, where we'll go over installing and configuring
+Webpagetest!&lt;/p&gt;
+&lt;p&gt;Part3:&amp;nbsp; going over installing HttpArchive.&lt;/p&gt;
+&lt;p&gt;Part4: putting them together and conclusion.&lt;/p&gt;
+&lt;/div&gt;
+</content><category term="programming"></category><category term="HttpArchive"></category><category term="Webpagetest"></category></entry></feed>

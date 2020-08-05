@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>Configuring HttpArchive + Webpagetest (Part 3: HttpArchive)</title>
+        <link rel="stylesheet" href="./theme/css/main.css" />
+        <link href="http://y.tsutsumi.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="y.tsutsumi.io Atom Feed" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="./">y.tsutsumi.io </a></h1>
+                <nav><ul>
+                    <li><a href="/category/programming.html">Just Programming Posts</a></li>
+                    <li><a href="/codersguide/">Coder's Guide</a></li>
+                    <li><a href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a></li>
+                    <li><a href="./pages/about-me.html">About Me</a></li>
+                    <li><a href="./pages/projects.html">Projects</a></li>
+                    <li><a href="./pages/resources.html">Resources</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="./configuring-httparchive-webpagetest-part-3-httparchive.html" rel="bookmark"
+           title="Permalink to Configuring HttpArchive + Webpagetest (Part 3: HttpArchive)">Configuring HttpArchive + Webpagetest (Part 3: HttpArchive)</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2011-06-24T19:43:00+02:00">
+                Published: Fri 24 June 2011
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/toumorokoshi.html">Toumorokoshi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+<p>tags: <a href="./tag/httparchive.html">HttpArchive</a> <a href="./tag/webpagetest.html">Webpagetest</a> </p>
+</footer><!-- /.post-info -->      <p>It's time to install HttpArchive! So just as with Webpagetest, there's
+some requirements for HttpArchive as well.</p>
+<p>HttpArchive must run on a unix-based machine, as HttpArchive uses pcntl,
+a threading function in PHP currently available only on unix-based
+machines. For this guide I will be using Ubuntu.</p>
+<p>The following will be needed on your machine:</p>
+<ul class="simple">
+<li>Apache2+</li>
+<li>PHP5 or above</li>
+<li>MySQL</li>
+<li>Subversion</li>
+<li>pcntl (PHP)</li>
+</ul>
+</p><p>Most of these can be installed with a package manager. However with
+pnctl, one must manually download the source, and either configure PHP
+with the pcntl argument, or compile and install the pcntl extension
+manually. I found an Ubuntu forum post from skout23 that explains a very
+easy way to install pcntl for Ubuntu users. However I'm sure aside from
+the package manager, BSD based Linux users can do the exact same thing:
+<a class="reference external" href="http://ubuntuforums.org/showthread.php?t=549953">http://ubuntuforums.org/showthread.php?t=549953</a></p>
+<p>Here's the relevant code for Ubuntu users:</p>
+<p><pre class="literal-block">
+mkdir phpcd phpapt-get source php5cd php5-(WHATEVER_RELEASE)/ext/pcntlphpize./configuremake
+</pre>
+</p><p>And don't forget to restart Apache afterward!</p>
+<p>Once everything is configured properly, you can checkout the HttpArchive
+source from the googlecode repository:`` ``</p>
+<p><a class="reference external" href="http://httparchive.googlecode.com/svn/trunk/">http://httparchive.googlecode.com/svn/trunk/</a></p>
+<p>In addition, unless you want to download the downloads folder (which
+contains over 1GB of data from the sites that HttpArchive tracks), it
+would be best to checkout non-recursively, then check out all other
+folders:</p>
+<p><pre class="literal-block">
+$svn co -N http://httparchive.googlecode.com/svn/trunk/ .$cd trunk$svn up images$svn up bulktest
+</pre>
+</p><p>Next, we will modify the settings.inc folder with the following
+information:</p>
+<ul class="simple">
+<li>$gMysqlServer = &quot;YOUR_SERVER&quot;</li>
+<li>$gMysqlDb = &quot;YOUR_DATABASE&quot;</li>
+<li>$gMysqlUsername = &quot;ACCOUNT_USERNAME&quot;</li>
+<li>$gMysqlPassword = &quot;ACCOUNT_PASSWORD&quot;</li>
+</ul>
+</p><p>Finally, Apache needs to interpret the .js files with PHP before being
+served to the user. There exists a directive inside the .htaccess file
+in the root of the repository that already accounts for this. However, I
+had issues with this particular part, so I had to add the directive into
+the php.conf file under /etc/apache2/mods-enabled (you will need root
+permissions to modify this file):</p>
+<p><pre class="literal-block">
+&lt;Filesmatch &quot;(filmstrip|harviewer|interesting|interesting-images).js&quot;&gt;SetHandler application/x-httpd-php&lt;/FilesMatch&gt;
+</pre>
+</p><p>And you've configured HttpArchive! Unfortunately it won't really work
+without any data, but we'll talk about the final steps in part 4:
+Configuring the two to work with each other!</p>
+
+    </div><!-- /.entry-content -->
+    <div class="comments">
+      <h2>Comments !</h2>
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        var disqus_shortname = 'tsutsumi';
+        var disqus_identifier = 'configuring-httparchive-webpagetest-part-3-httparchive.html';
+        var disqus_url = './configuring-httparchive-webpagetest-part-3-httparchive.html';
+        (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//tsutsumi.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the comments.</noscript>
+    </div>
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="http://y.tsutsumi.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://github.com/toumorokoshi">GitHub</a></li>
+                            <li><a href="https://twitter.com/tsutsumiyusuke">Twitter</a></li>
+                            <li><a href="http://www.linkedin.com/profile/view?id=56043626">LinkedIn</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+    <script type="text/javascript">
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-29270527-2', 'auto');
+    ga('send', 'pageview');
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'tsutsumi';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

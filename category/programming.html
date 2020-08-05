@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>y.tsutsumi.io - programming</title>
+        <link rel="stylesheet" href="./theme/css/main.css" />
+        <link href="http://y.tsutsumi.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="y.tsutsumi.io Atom Feed" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="./">y.tsutsumi.io </a></h1>
+                <nav><ul>
+                    <li><a href="/category/programming.html">Just Programming Posts</a></li>
+                    <li><a href="/codersguide/">Coder's Guide</a></li>
+                    <li><a href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a></li>
+                    <li><a href="./pages/about-me.html">About Me</a></li>
+                    <li><a href="./pages/projects.html">Projects</a></li>
+                    <li><a href="./pages/resources.html">Resources</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="./using-rust-functions-in-llvms-jit.html">Using Rust functions in LLVM's JIT</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2018-09-30T00:00:00+02:00">
+                Published: Sun 30 September 2018
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/yusuke-tsutsumi.html">Yusuke Tsutsumi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+<p>tags: <a href="./tag/rust.html">rust</a> </p>
+</footer><!-- /.post-info --><p><a class="reference external" href="http://llvm.org/">LLVM</a> is an amazing framework for building high-performance programming languages,
+and Rust has some great bindings with <a class="reference external" href="https://crates.io/crates/llvm-sys">llvm-sys</a>. One challenge
+was getting functions authored in Rust exposed to LLVM. To make this happen, there's a few steps to walk through.</p>
+<div class="section" id="exposing-the-rust-functions-as-c-externs">
+<h2>1. Exposing the Rust functions as C externs</h2>
+<p>When LLVM interfaces with shared libraries, it uses the C ABI protocol to do so. Rust provides a way to build do this, out of the box, using the 'extern &quot;C&quot;' declaration:</p>
+<div class="highlight"><pre><span></span><span class="k">extern</span><span class="w"> </span><span class="s">&quot;C&quot;</span><span class="w"> </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">foo</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">println</span><span class="o">!</span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+<p>This instructs the Rust compiler that this should be exposed in a way where it can be found and used as a library. In the case of an executable binary, this is still the case.</p>
+<p>The big gotcha here is ensuring that you are declaring the function as public, AND you are declaring it as public in the main module too. If the function was located in a child module, you will need to re-export in the main file:</p>
+<div class="highlight"><pre><span></span><span class="c1">// src/my_mod.rs</span>
+
+<span class="k">extern</span><span class="w"> </span><span class="s">&quot;C&quot;</span><span class="w"> </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">foo</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">println</span><span class="o">!</span><span class="p">(</span><span class="s">&quot;I&#39;m a shared library call&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="c1">// main.rs</span>
+<span class="k">mod</span> <span class="nn">my_mod</span><span class="w"></span>
+<span class="c1">// note the pub here.</span>
+<span class="k">pub</span><span class="w"> </span><span class="k">use</span><span class="w"> </span><span class="bp">self</span>::<span class="n">my_mod</span>::<span class="n">foo</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>There are <a href="./using-rust-functions-in-llvms-jit.html#disqus_thread">comments</a>.</p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="./aiohttp-vs-multithreaded-flask-for-high-io-applications.html" rel="bookmark"
+                           title="Permalink to Aiohttp vs Multithreaded Flask for High I/O Applications">Aiohttp vs Multithreaded Flask for High I/O Applications</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2017-09-23T00:00:00+02:00">
+                Published: Sat 23 September 2017
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/yusuke-tsutsumi.html">Yusuke Tsutsumi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+<p>tags: <a href="./tag/python.html">python</a> </p>
+</footer><!-- /.post-info -->                <p>Over the past year, my team has been making the transition from Flask to
+<a class="reference external" href="http://aiohttp.readthedocs.io/en/stable/">aiohttp</a>. We're making this
+transition because of a lot of the situations where non-blocking I/O
+theoretically scales better:</p>
+<ul class="simple">
+<li>large numbers of simultaneous connections</li>
+<li>remote http requests with long response times</li>
+</ul>
+<p>There is agreement that asyncio …</p>
+                <a class="readmore" href="./aiohttp-vs-multithreaded-flask-for-high-io-applications.html">read more</a>
+<p>There are <a href="./aiohttp-vs-multithreaded-flask-for-high-io-applications.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="./mongodb-streaming-pattern-allowing-for-batching.html" rel="bookmark"
+                           title="Permalink to MongoDB Streaming Pattern, Allowing for Batching">MongoDB Streaming Pattern, Allowing for Batching</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2017-06-09T00:00:00+02:00">
+                Published: Fri 09 June 2017
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/yusuke-tsutsumi.html">Yusuke Tsutsumi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+<p>tags: <a href="./tag/patterns.html">patterns</a> </p>
+</footer><!-- /.post-info -->                <p>An interesting problem arose at work today, regarding how to build an
+aggregate of changes to a MongoDB collection.</p>
+<p>A more general version of the problem is:</p>
+<ol class="arabic">
+<li><p class="first">you have a document which has multiple buckets it could
+belong to. Say, an animal which an arbitrary set of tags,
+such as …</p></li></ol>
+                <a class="readmore" href="./mongodb-streaming-pattern-allowing-for-batching.html">read more</a>
+<p>There are <a href="./mongodb-streaming-pattern-allowing-for-batching.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="./deepmerge-deep-merge-dictionaries-lists-and-more-in-python.html" rel="bookmark"
+                           title="Permalink to deepmerge: deep merge dictionaries, lists and more in Python">deepmerge: deep merge dictionaries, lists and more in Python</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2017-04-24T00:00:00+02:00">
+                Published: Mon 24 April 2017
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/yusuke-tsutsumi.html">Yusuke Tsutsumi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+<p>tags: <a href="./tag/python.html">python</a> </p>
+</footer><!-- /.post-info -->                <p>Introducing <a class="reference external" href="https://github.com/toumorokoshi/deepmerge/">deepmerge</a>. It's a library designed to provide simple
+controls around a merging system for basic Python data structures like dicts and lists.</p>
+<p>It provides a few common cases for merging (like always merge + override, or raise an exception):</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">deepmerge</span> <span class="kn">import</span> <span class="n">always_merger</span><span class="p">,</span> <span class="n">merge_or_raise</span>
+
+<span class="n">base</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;b&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;c&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">&quot;nested …</span></pre></div>
+                <a class="readmore" href="./deepmerge-deep-merge-dictionaries-lists-and-more-in-python.html">read more</a>
+<p>There are <a href="./deepmerge-deep-merge-dictionaries-lists-and-more-in-python.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="./the-cid-pattern-a-strategy-to-keep-your-web-service-code-clean.html" rel="bookmark"
+                           title="Permalink to The CID Pattern: a strategy to keep your web service code clean">The CID Pattern: a strategy to keep your web service code clean</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2017-03-17T00:00:00+01:00">
+                Published: Fri 17 March 2017
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/yusuke-tsutsumi.html">Yusuke Tsutsumi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+<p>tags: <a href="./tag/design.html">design</a> </p>
+</footer><!-- /.post-info -->                <div class="section" id="the-problem">
+<h2>The Problem</h2>
+<p>Long term maintenance of a web application, will, at some point,
+require changes. Code grows with the functionality it serves, and
+an increase in functionality is inevitable.</p>
+<p>It is impossible to foresee what sort of changes are required, but there are
+changes that are common and are commonly …</p></div>
+                <a class="readmore" href="./the-cid-pattern-a-strategy-to-keep-your-web-service-code-clean.html">read more</a>
+<p>There are <a href="./the-cid-pattern-a-strategy-to-keep-your-web-service-code-clean.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="./keyerror-in-self_handlers-a-journey-deep-into-tornados-internals.html" rel="bookmark"
+                           title="Permalink to KeyError in self._handlers: a journey deep into Tornado's internals">KeyError in self._handlers: a journey deep into Tornado's internals</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2017-01-27T00:00:00+01:00">
+                Published: Fri 27 January 2017
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/yusuke-tsutsumi.html">Yusuke Tsutsumi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+<p>tags: <a href="./tag/python.html">python</a> </p>
+</footer><!-- /.post-info -->                <p>If you've worked with tornado, you may have encountered a traceback of
+a somewhat bewildering error:</p>
+<div class="highlight"><pre><span></span><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+    <span class="n">File</span> <span class="s2">&quot;/usr/local/lib/python2.7/site-packages/tornado/ioloop.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">832</span><span class="p">,</span> <span class="ow">in</span> <span class="n">start</span>
+<span class="n">fd_obj</span><span class="p">,</span> <span class="n">handler_func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_handlers</span><span class="p">[</span><span class="n">fd</span><span class="p">]</span>
+<span class="ne">KeyError</span><span class="p">:</span> <span class="mi">16</span>
+</pre></div>
+<p>A few other people have been confused as …</p>
+                <a class="readmore" href="./keyerror-in-self_handlers-a-journey-deep-into-tornados-internals.html">read more</a>
+<p>There are <a href="./keyerror-in-self_handlers-a-journey-deep-into-tornados-internals.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="./introducing-transmute-core-quickly-create-documented-input-validating-apis-for-any-web-framework.html" rel="bookmark"
+                           title="Permalink to Introducing transmute-core: quickly create documented, input validating APIs for any web framework">Introducing transmute-core: quickly create documented, input validating APIs for any web framework</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2017-01-03T00:00:00+01:00">
+                Published: Tue 03 January 2017
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/yusuke-tsutsumi.html">Yusuke Tsutsumi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+<p>tags: <a href="./tag/python.html">Python</a> </p>
+</footer><!-- /.post-info -->                <p>A majority of my career has been spent on building web services in
+Python. Specifically, internal ones that have minimal or no UIs, and
+speak <a class="reference external" href="https://en.wikipedia.org/wiki/Representational_state_transfer">REST</a> (or
+at least are rest-ish).</p>
+<p>With each new service, I found myself re-implementing work to
+make user-friendly REST APIs:</p>
+<ul class="simple">
+<li>validation of incoming data, and …</li></ul>
+                <a class="readmore" href="./introducing-transmute-core-quickly-create-documented-input-validating-apis-for-any-web-framework.html">read more</a>
+<p>There are <a href="./introducing-transmute-core-quickly-create-documented-input-validating-apis-for-any-web-framework.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="./global-logging-with-flask.html" rel="bookmark"
+                           title="Permalink to Global logging with flask">Global logging with flask</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2016-12-22T00:00:00+01:00">
+                Published: Thu 22 December 2016
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/yusuke-tsutsumi.html">Yusuke Tsutsumi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+<p>tags: <a href="./tag/python.html">python</a> <a href="./tag/flask.html">flask</a> </p>
+</footer><!-- /.post-info -->                <p>As of December 2016, <a class="reference external" href="http://flask.pocoo.org/">Flask</a> has a built-in
+logger that it instantiates for you. Unfortunately, this misses the
+errors and other log messages in other libraries that may also be
+valuable.</p>
+<p>It would be nice to have a single logger, one that captures BOTH
+library AND app logs. For those …</p>
+                <a class="readmore" href="./global-logging-with-flask.html">read more</a>
+<p>There are <a href="./global-logging-with-flask.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="./hierarchal-naming.html" rel="bookmark"
+                           title="Permalink to Hierarchal Naming">Hierarchal Naming</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2016-10-05T00:00:00+02:00">
+                Published: Wed 05 October 2016
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/yusuke-tsutsumi.html">Yusuke Tsutsumi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+<p>tags: <a href="./tag/design.html">design</a> </p>
+</footer><!-- /.post-info -->                <p>One of the most interesting artifacts of most programming languages using English conventions is variable naming. Today I contend that:</p>
+<div class="section" id="english-grammar-is-a-terrible-programming-default">
+<h2>English Grammar is a Terrible Programming Default</h2>
+<p>Consider how you would specify that a room is for guests in English,
+or a car is designed to be sporty. In both …</p></div>
+                <a class="readmore" href="./hierarchal-naming.html">read more</a>
+<p>There are <a href="./hierarchal-naming.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="./test-classes-dont-work.html" rel="bookmark"
+                           title="Permalink to Test Classes Don't Work">Test Classes Don't Work</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2015-09-01T00:00:00+02:00">
+                Published: Tue 01 September 2015
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/yusuke-tsutsumi.html">Yusuke Tsutsumi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+<p>tags: <a href="./tag/testing.html">testing</a> </p>
+</footer><!-- /.post-info -->                <p>Test Classes don't work as a test structure.</p>
+<p>It's worth clarifying what I mean by the test class. I'm
+speaking specifically about the following structure of an test:</p>
+<ul class="simple">
+<li>having a test class, that contains the setup and teardown method for test fixtures</li>
+<li>putting multiple tests in that class</li>
+<li>having the …</li></ul>
+                <a class="readmore" href="./test-classes-dont-work.html">read more</a>
+<p>There are <a href="./test-classes-dont-work.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+                </ol><!-- /#posts-list -->
+<p class="paginator">
+    Page 1 / 5
+        <a href="./category/programming2.html">&raquo;</a>
+</p>
+                </section><!-- /#content -->
+        <section id="extras" class="body">
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="http://y.tsutsumi.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://github.com/toumorokoshi">GitHub</a></li>
+                            <li><a href="https://twitter.com/tsutsumiyusuke">Twitter</a></li>
+                            <li><a href="http://www.linkedin.com/profile/view?id=56043626">LinkedIn</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+    <script type="text/javascript">
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-29270527-2', 'auto');
+    ga('send', 'pageview');
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'tsutsumi';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

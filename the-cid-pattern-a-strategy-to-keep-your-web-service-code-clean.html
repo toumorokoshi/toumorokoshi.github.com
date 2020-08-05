@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>The CID Pattern: a strategy to keep your web service code clean</title>
+        <link rel="stylesheet" href="./theme/css/main.css" />
+        <link href="http://y.tsutsumi.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="y.tsutsumi.io Atom Feed" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="./">y.tsutsumi.io </a></h1>
+                <nav><ul>
+                    <li><a href="/category/programming.html">Just Programming Posts</a></li>
+                    <li><a href="/codersguide/">Coder's Guide</a></li>
+                    <li><a href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a></li>
+                    <li><a href="./pages/about-me.html">About Me</a></li>
+                    <li><a href="./pages/projects.html">Projects</a></li>
+                    <li><a href="./pages/resources.html">Resources</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="./the-cid-pattern-a-strategy-to-keep-your-web-service-code-clean.html" rel="bookmark"
+           title="Permalink to The CID Pattern: a strategy to keep your web service code clean">The CID Pattern: a strategy to keep your web service code clean</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2017-03-17T00:00:00+01:00">
+                Published: Fri 17 March 2017
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/yusuke-tsutsumi.html">Yusuke Tsutsumi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+<p>tags: <a href="./tag/design.html">design</a> </p>
+</footer><!-- /.post-info -->      <div class="section" id="the-problem">
+<h2>The Problem</h2>
+<p>Long term maintenance of a web application, will, at some point,
+require changes. Code grows with the functionality it serves, and
+an increase in functionality is inevitable.</p>
+<p>It is impossible to foresee what sort of changes are required, but there are
+changes that are common and are commonly expensive:</p>
+<ul class="simple">
+<li>changing the back-end datastore of one or more pieces of data</li>
+<li>adding additional interfaces for a consumer to request or modify data</li>
+</ul>
+<p>It is possible to prevent some of these changes with some foresight,
+but it is unlikely to prevent all of them. As such, we can try to
+encapsulate and limit the impact of these changes on other code bases.</p>
+<p>Thus, every time I start on a new project, I practice CID: (Consumer-Internal-Datasource)</p>
+</div>
+<div class="section" id="cid-explained">
+<h2>CID Explained</h2>
+<p>CID is an acronym for the three layers of abstraction that should be
+built out from the beginning of an application. The layers are described as:</p>
+<ul class="simple">
+<li>The consumer level: the interface that your consumers interact with</li>
+<li>The internal level: the interface that application developers interact with most of the time</li>
+<li>The datasource level: the interface that handles communication with the database and other APIs</li>
+</ul>
+<p>Let's go into each of these in detail.</p>
+<div class="section" id="consumer-the-user-facing-side">
+<h3>Consumer: the user facing side</h3>
+<p>The client level handles translating and verifying the client format,
+to something that makes more sense internally. In the beginning, this
+level could be razor thin, as the client format probably matches the
+internal format completely. However, other responsibilities that might
+occur at this layer are:</p>
+<ul class="simple">
+<li>schema validation</li>
+<li>converting to whatever format the consumer desires, such a json</li>
+<li>speaking whatever transport protocol is desired, such as HTTP or a Kafka stream</li>
+</ul>
+<p>As the application grows, the internal format might change, or a new
+API version may need to be introduced, with it's own schema. At that
+point, it makes sense to split the client schema and the internal
+schema, so ending up with something like:</p>
+<pre class="code python literal-block">
+<span class="k">class</span> <span class="nc">PetV1</span><span class="p">():</span>
+    <span class="n">to_internal</span><span class="p">()</span>  <span class="c1"># converts Pet to the internal representation.</span>
+    <span class="n">from_internal</span><span class="p">()</span> <span class="c1"># in case you need to return pet objects back as V1</span>
+
+<span class="k">class</span> <span class="nc">PetV2</span><span class="p">():</span>
+    <span class="n">to_internal</span><span class="p">()</span>  <span class="c1"># converts Pet to the internal representation.</span>
+    <span class="n">from_internal</span><span class="p">()</span>  <span class="c1"># in case you need to return pet objects back as V2</span>
+
+<span class="k">class</span> <span class="nc">PetInt</span><span class="p">():</span>
+    <span class="c1"># the internal representation, used within the internal level.</span>
+</pre>
+</div>
+<div class="section" id="datastore-translates-internal-to-datastore">
+<h3>Datastore: translates internal to datastore</h3>
+<p>Some of the worst refactorings I've encountered are the ones involving
+switching datastores. It's a linear problem: as the database
+interactions increase, so do the lines of code that are needed to
+perform that interaction, and each line must be modified in switching
+or alternating the way datastores are called.</p>
+<p>It's also difficult to get a read on where the most expensive queries
+lie. When your application has free form queries all over the code, it
+requires someone to look at each call and interpret the cost, as ensure
+performance is acceptable for the new source.</p>
+<p>If any layer should be abstracted, it's the datastore. Abstracting the
+datastore in a client object makes multiple refactors simpler:</p>
+<ul class="simple">
+<li>adding an index and modifying queries to hit that index</li>
+<li>switching datasources</li>
+<li>putting the database behind another web service</li>
+<li>adding timeouts and circuit breakers</li>
+</ul>
+</div>
+<div class="section" id="internal-the-functional-developer-side">
+<h3>Internal: the functional developer side</h3>
+<p>The client and datastore layers abstract away any refactoring that
+only affects the way the user interacts with the application, or the
+way data is stored. That leaves the final layer to focus on just the
+behavior.</p>
+<p>The internal layer stitches together client and datastore, and
+performs whatever other transformations or logic needs to be
+performed. By abstracting out any modification to the schema that had
+to be done on the client or datastore (including keeping multiple
+representation for the API), you're afforded a layer that deals exclusively
+with application behavior.</p>
+</div>
+</div>
+<div class="section" id="an-example-of-a-cid-application">
+<h2>An Example of a CID application</h2>
+<p>A theoretical organization for a CID application is:</p>
+<pre class="literal-block">
+root:
+  consumers:
+    - HTTPPetV1
+    - HTTPPetV2
+    - SQSPetV1
+  internal:
+    # only a single internal representation is needed.
+    - Pet
+  datasource:
+    # showcasing a migration from Postgres to MongoDB
+    - PetPostgres
+    - PetMongoDB
+</pre>
+</div>
+<div class="section" id="example-where-cid-helps">
+<h2>Example Where CID helps</h2>
+<p>So I've spent a long time discussing the layers and their
+responsibilities. If we go through all of this trouble, where does
+this actually help?</p>
+<div class="section" id="adding-a-new-api-version">
+<h3>Adding a new API version</h3>
+<ul class="simple">
+<li>add a new API schema</li>
+<li>convert to internal representation</li>
+</ul>
+</div>
+<div class="section" id="modifying-the-underlying-database">
+<h3>Modifying the underlying database</h3>
+<ul class="simple">
+<li>modify the datasource client.</li>
+</ul>
+</div>
+<div class="section" id="complex-internal-representations">
+<h3>Complex Internal Representations</h3>
+<p>If you need to keep some details in a Postgres database, and store
+other values within memcache for common queries, this can be
+encapsulated in the datasource layer.</p>
+<p>All too often the internal representations attempt to detail with this
+type of complexity, which makes it much harder to understand the
+application code.</p>
+</div>
+<div class="section" id="maintaining-multiple-api-versions">
+<h3>Maintaining Multiple API versions</h3>
+<p>Without clearly separating how an object is structured internally from
+how consumers consume it, the details of the consumer leaks into the
+internal representation.</p>
+<p>For example, attempting to support two API version, someone writes
+some branched code to get the data they want. this pattern continues
+for multiple parts of the code dealing with that data, until it
+becomes hard to get a complete understanding of what in V1 is
+consumed, and what in V2 is consumed.</p>
+</div>
+</div>
+<div class="section" id="final-thoughts">
+<h2>Final Thoughts</h2>
+<p>David Wheeler is quoted for saying:</p>
+<blockquote>
+All problems in computer science can be solved by another level of indirection.</blockquote>
+<p>Indirection is handy because it encapsulates: you do not need a
+complete understanding of the implementation to move forward.</p>
+<p>At the same time, too much indirection causes the inability to
+understand the complete effect of a change.</p>
+<p>Balance is key, and using CID helps guide indirection where
+it could help the most.</p>
+</div>
+
+    </div><!-- /.entry-content -->
+    <div class="comments">
+      <h2>Comments !</h2>
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        var disqus_shortname = 'tsutsumi';
+        var disqus_identifier = 'the-cid-pattern-a-strategy-to-keep-your-web-service-code-clean.html';
+        var disqus_url = './the-cid-pattern-a-strategy-to-keep-your-web-service-code-clean.html';
+        (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//tsutsumi.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the comments.</noscript>
+    </div>
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="http://y.tsutsumi.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://github.com/toumorokoshi">GitHub</a></li>
+                            <li><a href="https://twitter.com/tsutsumiyusuke">Twitter</a></li>
+                            <li><a href="http://www.linkedin.com/profile/view?id=56043626">LinkedIn</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+    <script type="text/javascript">
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-29270527-2', 'auto');
+    ga('send', 'pageview');
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'tsutsumi';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

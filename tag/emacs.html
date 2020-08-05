@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>y.tsutsumi.io - emacs</title>
+        <link rel="stylesheet" href="./theme/css/main.css" />
+        <link href="http://y.tsutsumi.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="y.tsutsumi.io Atom Feed" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="./">y.tsutsumi.io </a></h1>
+                <nav><ul>
+                    <li><a href="/category/programming.html">Just Programming Posts</a></li>
+                    <li><a href="/codersguide/">Coder's Guide</a></li>
+                    <li><a href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a></li>
+                    <li><a href="./pages/about-me.html">About Me</a></li>
+                    <li><a href="./pages/projects.html">Projects</a></li>
+                    <li><a href="./pages/resources.html">Resources</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="./emacs-from-scratch-part-3-extending-emacs-with-elisp.html">Emacs From Scratch, Part 3: Extending Emacs with Elisp</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2014-04-10T00:00:00+02:00">
+                Published: Thu 10 April 2014
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/yusuke-tsutsumi.html">Yusuke Tsutsumi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+<p>tags: <a href="./tag/emacs.html">emacs</a> <a href="./tag/environment.html">environment</a> </p>
+</footer><!-- /.post-info --><p>This is a series of tutorials geared around building up your own
+customized environment, using emacs, from scratch.</p>
+<p>You can find <a class="reference external" href="emacs-from-scratch-part-1-extending-emacs-basics.html">part 1 here</a>
+You can find <a class="reference external" href="emacs-from-scratch-part-2-package-management.html">part 2 here</a></p>
+<div class="section" id="extending-emacs-with-elisp">
+<h2>Extending Emacs with Elisp</h2>
+<p>If you've followed the previous tutorials, you're familiar with
+loading configuration, and you now have a system that can download
+packages for you from the various Emacs package repositories. Now
+let's dive into where Emacs get's really fun: extending Emacs
+yourself.</p>
+<p>One of the things I love about modern programming is the idea of
+feedback as quickly as possible: it's great to see the result of the
+changes of your code instantly. So let's try writing a generic way to
+do this. We'll write a function that adds a hook to an Emacs buffer,
+so when it saves, a shell command will run. (e.g. 'python myscript.py' for a
+python script, or running unit tests, etc)</p>
+<p>Create a file called my-methods.el, adding it to your .emacs.d/
+directory. To write our command, we'll need to do the following:</p>
+<ul class="simple">
+<li>a hash to store (buffer, command) pairs to run</li>
+<li>create a method to add a (buffer, command) pair to our hash</li>
+<li>look in our hash if a buffer is saved, and run the command if the buffer exists in the hash</li>
+<li>remove entries from our hash if the buffer is killed</li>
+</ul>
+<p>So let's start by adding our hash:</p>
+<div class="highlight"><pre><span></span><span class="c1">; my-methods.el</span>
+<span class="p">(</span><span class="k">setq</span> <span class="nv">my-command-buffer-hooks</span> <span class="p">(</span><span class="nb">make-hash-table</span><span class="p">))</span>
+</pre></div>
+<p>(setq &lt;name&gt; &lt;value&gt;) will set a variable &lt;name&gt; to a value
+&lt;value&gt;. This is one way of instantiating a variable in elisp. There
+are other ways, such as <a class="reference external" href="http://www.gnu.org/software/emacs/manual/html_node/elisp/Defining-Variables.html">defvar</a>,
+but I chose setq because we are simply defining an internal variable
+for usage. Other variations which define variables typically provide
+some other purpose, such as a user-customizable value or a constant.</p>
+<p>Now that we have our hash table, let's start adding to it! We'll write
+our first function to my-methods.el:</p>
+<div class="highlight"><pre><span></span><span class="c1">; my-methods.el</span>
+
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">my-command-on-save-buffer</span> <span class="p">(</span><span class="nv">c</span><span class="p">)</span>
+    <span class="s">&quot;Run a command &lt;c&gt; every time the buffer is saved &quot;</span>
+    <span class="p">(</span><span class="nv">interactive</span> <span class="s">&quot;sShell command: &quot;</span><span class="p">)</span>
+    <span class="p">(</span><span class="nv">puthash</span> <span class="p">(</span><span class="nv">buffer-file-name</span><span class="p">)</span> <span class="nv">c</span> <span class="nv">my-command-buffer-hooks</span><span class="p">))</span>
+</pre></div>
+<p>This method takes in a variable 'c', takes the current buffer, and
+adds pair of (buffer-name, command-as-a-string) to our hash. This is a
+short function, but it's a dense amount of functionality, so it's
+worth explaining a bit further.</p>
+<div class="section" id="defun">
+<h3>defun</h3>
+<p>Defun is the standard way to define a function. It uses the following syntax:</p>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="nb">defun</span> <span class="nv">&lt;method_name&gt;</span> <span class="p">(</span><span class="nv">&lt;var_a&gt;</span> <span class="nv">&lt;var_b&gt;...</span><span class="p">)</span>
+  <span class="nv">&lt;docstring&gt;</span>
+  <span class="nv">&lt;interactive?&gt;</span>
+  <span class="nv">&lt;method_body&gt;</span><span class="p">)</span>
+</pre></div>
+<p>Here's a description of each:</p>
+<ul class="simple">
+<li>&lt;method_name&gt;: a symbol to populate with the method</li>
+<li>&lt;var_a&gt; &lt;var_b&gt;... : a list of symbols to populate with passed parameters</li>
+<li>&lt;docstring&gt;: a string explaining what your method does</li>
+<li>&lt;interactive?&gt;: options. we'll take about this more in a second</li>
+<li>&lt;method_body&gt;: a lisp expression which has access to &lt;var_a&gt; &lt;var_b&gt;... symbols described above.</li>
+</ul>
+<p>So pretty standard for a method definition in any language, except for (interactive?).</p>
+</div>
+<div class="section" id="interactive">
+<h3>interactive</h3>
+<p>So what is interactive? Well, it's an optional expression, which, if
+passed in to defun, makes the method 'interactive'. Interactive
+basically means it's one of the command that can be run by 'M-x': it
+becomes a publicly exposed command that an Emacs user should be able
+to run.</p>
+<p>(interactive) by itself results in a command that does not ask the
+user for input. In other words, it's only useful for commands that
+have no variables.</p>
+<p>If we want the user to be able to type some input, we need to add in a
+string into interactive, like our example above:</p>
+<pre class="literal-block">
+(interactive &quot;sShell Command:&quot;)
+</pre>
+<p>So this will take in a single string. So how do we know it always
+takes a string and only a string? Well, it's the first 's' in the
+&quot;sShell Command&quot;. The first character is called an 'interactive code':
+it's a way to express what the expected input is. Specifying the
+proper interactive code is important: codes such as 'D' (directory
+name) or 'C' (emacs command) can provide auto-completion, making your
+function all the more useful.</p>
+<p>Multiple arguments can be passed by delimiting with newlines:</p>
+<pre class="literal-block">
+(interactive &quot;sA String:\nDA Directory&quot;)
+</pre>
+<p>A full list of interactive codes can be found here: <a class="reference external" href="http://www.gnu.org/software/emacs/manual/html_node/elisp/Interactive-Codes.html#Interactive-Codes">interactive codes</a></p>
+</div>
+<div class="section" id="puthash-gethash-remhash">
+<h3>puthash/gethash/remhash</h3>
+<p>So the one thing that might be a little strange if you work in a
+primarily OOP environment: (puthash &lt;map&gt; &lt;key&gt; &lt;value&gt;) instead of
+something like &lt;map&gt;.put(&lt;key&gt; &lt;value&gt;).</p>
+<p>elisp is a functional language, which means that everything is,
+essentially, a function or data. There is no real concept of
+object-oriented programming: if you want to modify an object, you call
+a method with the object as the argument, not an object calling a method.</p>
+<p>To work with a hash, elisp provides puthash/gethash/remhash. You can
+read more here: <a class="reference external" href="http://www.gnu.org/software/emacs/manual/html_node/elisp/Hash-Access.html#Hash-Access">hash-access</a></p>
+<p>So at this point, you should have all the info you need to understand
+the my-command-on-save-buffer option.</p>
+<p>Now let's add a couple more functions to complete our hook.</p>
+</div>
+<div class="section" id="my-command-on-buffer-run-hook">
+<h3>my-command-on-buffer-run-hook</h3>
+<p>Add the following to you my-methods.el:</p>
+<div class="highlight"><pre><span></span><span class="c1">; .emacs.d/my-methods.el</span>
+
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">my-command-buffer-kill-hook</span> <span class="p">()</span>
+  <span class="s">&quot;Remove a key from &lt;command-buffer-hooks&gt; if it exists&quot;</span>
+  <span class="p">(</span><span class="nb">remhash</span> <span class="p">(</span><span class="nv">buffer-file-name</span><span class="p">)</span> <span class="nv">my-command-buffer-hooks</span><span class="p">))</span>
+</pre></div>
+<p>This function removes the current buffer from the hooks hash. Pretty
+straightforward with what we know now.</p>
+<p>And this one:</p>
+<div class="highlight"><pre><span></span><span class="c1">; .emacs.d/my-methods.el</span>
+
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">my-command-buffer-run-hook</span> <span class="p">()</span>
+  <span class="s">&quot;Run a command if it exists in the hook&quot;</span>
+  <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nv">hook</span> <span class="p">(</span><span class="nb">gethash</span> <span class="p">(</span><span class="nv">buffer-file-name</span><span class="p">)</span> <span class="nv">my-command-buffer-hooks</span><span class="p">)))</span>
+    <span class="p">(</span><span class="nb">when</span> <span class="nv">hook</span>
+        <span class="p">(</span><span class="nv">shell-command</span> <span class="nv">hook</span><span class="p">))))</span>
+</pre></div>
+<p>This is the actual function that runs the hook. Note the extra check wrappend in a with.
+(when is a shorthand for if with only one argument. It's more
+lisp-esque to provide shorthands like this).</p>
+<p>Finally we need to add the hooks so that these function actually run:</p>
+<div class="highlight"><pre><span></span><span class="c1">; .emacs.d/my-methods.el</span>
+
+<span class="c1">;; add hooks</span>
+<span class="p">(</span><span class="nv">add-hook</span> <span class="ss">&#39;kill-buffer-hook</span> <span class="ss">&#39;my-command-buffer-kill-hook</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">add-hook</span> <span class="ss">&#39;after-save-hook</span> <span class="ss">&#39;my-command-buffer-run-hook</span><span class="p">)</span>
+</pre></div>
+<p>Emacs provides a nice hook implementation. pass in the hook name you
+want to listen to, and the function name you want to call.</p>
+<p>And that's it! give it a shot. In fact, let's try it our Emacs
+now. open up my-methods.el and type: M-x eval-buffer. Voila! you know
+have your my-command-on-save-buffer. Emacs has the ability to evaluate
+code with it's lisp interpreter, which allows modifying the global
+state of the editor itself. By evaluating our code, we basically just
+added the functions we writing to the actual emacs instance we've been working in!</p>
+<p>Now this is what I'm saying when I love modern programming. Getting
+automated feedback faster is always better, and Emacs is great at
+providing fast feedback on editor changes. You don't even have to
+restart your process! You can modify the environment you're working
+in, as you're working on it, and see the changes instantly!</p>
+<p>Anyway, let's try our new functions with a test file.</p>
+<p>Open a file /tmp/tmp.txt, save it (C-x C-s), and run: M-x
+my-command-on-buffer-save. It'll ask you far a shell argument.</p>
+<img alt="" src="images/emacs-from-scratch-part-3-myhook.png" />
+<p>Type in the following:</p>
+<div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="s1">&#39;hello world&#39;</span>
+</pre></div>
+<p>Now type something and save your file. boom! The output should be in
+the mini-buffer (you can see the full output in the *Shell Command Output* buffer).</p>
+<img alt="" src="images/emacs-from-scratch-part-3-echo.png" />
+<p>Congrats! You've just written your first functional elisp function. And it's pretty useful too.</p>
+<p>If you want to learn more about developing elisp code, you can't go
+wrong with the <a class="reference external" href="http://www.gnu.org/software/emacs/manual/html_node/elisp/index.html#Top">elisp manual</a>.
+Like most languages, some things are not going to be the most
+intuitive in the beginning. However, as you become more comfortable
+elisp will start to feel like just another amazing feature of Emacs.</p>
+<p>The other way to learn a lot is by looking at other people's emacs
+packages and files. Go to <a class="reference external" href="http://melpa.milkbox.net/#/">melpa</a>, find
+a package you like, and click the 'source' link, and start reading!</p>
+</div>
+<div class="section" id="summary">
+<h3>Summary</h3>
+<p>Here's what we learned:</p>
+<ul class="simple">
+<li>elisp is a functional languages: everything is done through functions</li>
+<li>defun is used te define methods, and can have docstrings and can be interactive</li>
+<li>elisp uses hashes, and uses puthash/gethash/remhash</li>
+<li>Emacs can evaluate code and modify it's interpreter on the fly</li>
+</ul>
+</div>
+<div class="section" id="final-code">
+<h3>Final Code</h3>
+<p>Note: this includes code from part one</p>
+<p>.emacs:</p>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="nb">load</span> <span class="s">&quot;~/.emacs.d/my-loadpackages.el&quot;</span><span class="p">)</span>
+<span class="p">(</span><span class="nb">load</span> <span class="s">&quot;~/.emacs.d/my-methods.el&quot;</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">add-hook</span> <span class="ss">&#39;after-init-hook</span> <span class="o">&#39;</span><span class="p">(</span><span class="k">lambda</span> <span class="p">()</span>
+  <span class="p">(</span><span class="nb">load</span> <span class="s">&quot;~/.emacs.d/my-noexternals.el&quot;</span><span class="p">)))</span>
+</pre></div>
+<p>.emacs.d/my-methods:</p>
+<div class="highlight"><pre><span></span><span class="c1">;  ~/.emacs.d/my-methods.el</span>
+
+<span class="p">(</span><span class="k">setq</span> <span class="nv">my-command-buffer-hooks</span> <span class="p">(</span><span class="nb">make-hash-table</span><span class="p">))</span>
+
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">my-command-on-save-buffer</span> <span class="p">(</span><span class="nv">c</span><span class="p">)</span>
+    <span class="s">&quot;Run a command &lt;c&gt; every time the buffer is saved &quot;</span>
+    <span class="p">(</span><span class="nv">interactive</span> <span class="s">&quot;sShell command: &quot;</span><span class="p">)</span>
+    <span class="p">(</span><span class="nv">puthash</span> <span class="p">(</span><span class="nv">buffer-file-name</span><span class="p">)</span> <span class="nv">c</span> <span class="nv">my-command-buffer-hooks</span><span class="p">))</span>
+
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">my-command-buffer-kill-hook</span> <span class="p">()</span>
+  <span class="s">&quot;Remove a key from &lt;command-buffer-hooks&gt; if it exists&quot;</span>
+  <span class="p">(</span><span class="nb">remhash</span> <span class="p">(</span><span class="nv">buffer-file-name</span><span class="p">)</span> <span class="nv">my-command-buffer-hooks</span><span class="p">))</span>
+
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">my-command-buffer-run-hook</span> <span class="p">()</span>
+  <span class="s">&quot;Run a command if it exists in the hook&quot;</span>
+  <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nv">hook</span> <span class="p">(</span><span class="nb">gethash</span> <span class="p">(</span><span class="nv">buffer-file-name</span><span class="p">)</span> <span class="nv">my-command-buffer-hooks</span><span class="p">)))</span>
+    <span class="p">(</span><span class="nb">when</span> <span class="nv">hook</span>
+        <span class="p">(</span><span class="nv">shell-command</span> <span class="nv">hook</span><span class="p">))))</span>
+
+<span class="c1">;; add hooks</span>
+<span class="p">(</span><span class="nv">add-hook</span> <span class="ss">&#39;kill-buffer-hook</span> <span class="ss">&#39;my-command-buffer-kill-hook</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">add-hook</span> <span class="ss">&#39;after-save-hook</span> <span class="ss">&#39;my-command-buffer-run-hook</span><span class="p">)</span>
+</pre></div>
+<p>.emacs.d/my-noexternals.el:</p>
+<div class="highlight"><pre><span></span><span class="c1">; ~/.emacs.d/my-noexternals.el</span>
+
+<span class="c1">;; Remove scrollbars, menu bars, and toolbars</span>
+<span class="p">(</span><span class="nb">when</span> <span class="p">(</span><span class="nb">fboundp</span> <span class="ss">&#39;menu-bar-mode</span><span class="p">)</span> <span class="p">(</span><span class="nv">menu-bar-mode</span> <span class="mi">-1</span><span class="p">))</span>
+<span class="p">(</span><span class="nb">when</span> <span class="p">(</span><span class="nb">fboundp</span> <span class="ss">&#39;tool-bar-mode</span><span class="p">)</span> <span class="p">(</span><span class="nv">tool-bar-mode</span> <span class="mi">-1</span><span class="p">))</span>
+<span class="p">(</span><span class="nb">when</span> <span class="p">(</span><span class="nb">fboundp</span> <span class="ss">&#39;scroll-bar-mode</span><span class="p">)</span> <span class="p">(</span><span class="nv">scroll-bar-mode</span> <span class="mi">-1</span><span class="p">))</span>
+
+<span class="c1">;; Wind-move</span>
+<span class="p">(</span><span class="nv">global-set-key</span> <span class="p">(</span><span class="nv">kbd</span> <span class="s">&quot;C-c C-j&quot;</span><span class="p">)</span> <span class="ss">&#39;windmove-left</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">global-set-key</span> <span class="p">(</span><span class="nv">kbd</span> <span class="s">&quot;C-c C-k&quot;</span><span class="p">)</span> <span class="ss">&#39;windmove-down</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">global-set-key</span> <span class="p">(</span><span class="nv">kbd</span> <span class="s">&quot;C-c C-l&quot;</span><span class="p">)</span> <span class="ss">&#39;windmove-up</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">global-set-key</span> <span class="p">(</span><span class="nv">kbd</span> <span class="s">&quot;C-c C-;&quot;</span><span class="p">)</span> <span class="ss">&#39;windmove-right</span><span class="p">)</span>
+</pre></div>
+<p>.emacs.d/my-packages.el:</p>
+<div class="highlight"><pre><span></span><span class="c1">; ~/.emacs.d/my-packages.el</span>
+<span class="p">(</span><span class="nb">require</span> <span class="ss">&#39;cl</span><span class="p">)</span>
+
+<span class="p">(</span><span class="nb">require</span> <span class="ss">&#39;package</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">add-to-list</span> <span class="ss">&#39;package-archives</span>
+             <span class="o">&#39;</span><span class="p">(</span><span class="s">&quot;melpa&quot;</span> <span class="o">.</span> <span class="s">&quot;http://melpa.milkbox.net/packages/&quot;</span><span class="p">)</span> <span class="no">t</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">add-to-list</span> <span class="ss">&#39;package-archives</span>
+             <span class="o">&#39;</span><span class="p">(</span><span class="s">&quot;marmalade&quot;</span> <span class="o">.</span> <span class="s">&quot;http://marmalade-repo.org/packages/&quot;</span><span class="p">)</span> <span class="no">t</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">package-initialize</span><span class="p">)</span>
+
+<span class="p">(</span><span class="nb">defvar</span> <span class="nv">required-packages</span>
+  <span class="o">&#39;</span><span class="p">(</span>
+    <span class="nv">magit</span>
+    <span class="nv">yasnippet</span>
+  <span class="p">)</span> <span class="s">&quot;a list of packages to ensure are installed at launch.&quot;</span><span class="p">)</span>
+
+<span class="c1">; method to check if all packages are installed</span>
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">packages-installed-p</span> <span class="p">()</span>
+  <span class="p">(</span><span class="nb">loop</span> <span class="nv">for</span> <span class="nv">p</span> <span class="nv">in</span> <span class="nv">required-packages</span>
+        <span class="nb">when</span> <span class="p">(</span><span class="nb">not</span> <span class="p">(</span><span class="nv">package-installed-p</span> <span class="nv">p</span><span class="p">))</span> <span class="nb">do</span> <span class="p">(</span><span class="nb">return</span> <span class="no">nil</span><span class="p">)</span>
+        <span class="nv">finally</span> <span class="p">(</span><span class="nb">return</span> <span class="no">t</span><span class="p">)))</span>
+
+<span class="c1">; if not all packages are installed, check one by one and install the missing ones.</span>
+<span class="p">(</span><span class="nb">unless</span> <span class="p">(</span><span class="nv">packages-installed-p</span><span class="p">)</span>
+  <span class="c1">; check for new packages (package versions)</span>
+  <span class="p">(</span><span class="nv">message</span> <span class="s">&quot;%s&quot;</span> <span class="s">&quot;Emacs is now refreshing its package database...&quot;</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">package-refresh-contents</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">message</span> <span class="s">&quot;%s&quot;</span> <span class="s">&quot; done.&quot;</span><span class="p">)</span>
+  <span class="c1">; install the missing packages</span>
+  <span class="p">(</span><span class="nb">dolist</span> <span class="p">(</span><span class="nv">p</span> <span class="nv">required-packages</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">when</span> <span class="p">(</span><span class="nb">not</span> <span class="p">(</span><span class="nv">package-installed-p</span> <span class="nv">p</span><span class="p">))</span>
+      <span class="p">(</span><span class="nv">package-install</span> <span class="nv">p</span><span class="p">))))</span>
+</pre></div>
+<p>.emacs.d/my-loadpackages.el:</p>
+<div class="highlight"><pre><span></span><span class="c1">; ~/.emacs.d/my-loadpackages.el</span>
+<span class="c1">; loading package</span>
+<span class="p">(</span><span class="nb">load</span> <span class="s">&quot;~/.emacs.d/my-packages.el&quot;</span><span class="p">)</span>
+
+<span class="p">(</span><span class="nb">require</span> <span class="ss">&#39;magit</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">define-key</span> <span class="nv">global-map</span> <span class="p">(</span><span class="nv">kbd</span> <span class="s">&quot;C-c m&quot;</span><span class="p">)</span> <span class="ss">&#39;magit-status</span><span class="p">)</span>
+
+<span class="p">(</span><span class="nb">require</span> <span class="ss">&#39;yasnippet</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">yas-global-mode</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">yas-load-directory</span> <span class="s">&quot;~/.emacs.d/snippets&quot;</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">add-hook</span> <span class="ss">&#39;term-mode-hook</span> <span class="p">(</span><span class="k">lambda</span><span class="p">()</span>
+    <span class="p">(</span><span class="k">setq</span> <span class="nv">yas-dont-activate</span> <span class="no">t</span><span class="p">)))</span>
+</pre></div>
+<div class="section" id="what-s-next">
+<h4>What's Next</h4>
+<p>That's it for now! You should now have the basic set of knowledge to
+start hacking and trying things yourself:</p>
+<ul class="simple">
+<li>an automated way to install packages and define the ones you want</li>
+<li>a place to load the packages, and augment behaviour</li>
+<li>an introduction to coding new functions yourself</li>
+</ul>
+<p>If there's other things you want to me to cover or discuss, leave a
+comment with your suggestions.</p>
+<p>Happy hacking!</p>
+</div>
+<div class="section" id="further-reading-references">
+<h4>Further Reading / References</h4>
+<ul class="simple">
+<li><a class="reference external" href="http://www.gnu.org/software/emacs/manual/html_node/elisp/index.html#Top">elisp manual</a></li>
+<li><a class="reference external" href="http://www.gnu.org/software/emacs/manual/html_node/elisp/Hash-Access.html#Hash-Access">hash-access</a></li>
+<li><a class="reference external" href="http://www.gnu.org/software/emacs/manual/html_node/elisp/Interactive-Codes.html#Interactive-Codes">interactive codes</a></li>
+</ul>
+</div>
+</div>
+</div>
+<p>There are <a href="./emacs-from-scratch-part-3-extending-emacs-with-elisp.html#disqus_thread">comments</a>.</p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="./emacs-from-scratch-part-2-package-management.html" rel="bookmark"
+                           title="Permalink to Emacs From Scratch, Part 2: Package management">Emacs From Scratch, Part 2: Package management</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-02-01T00:00:00+01:00">
+                Published: Sat 01 February 2014
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/yusuke-tsutsumi.html">Yusuke Tsutsumi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+<p>tags: <a href="./tag/emacs.html">emacs</a> <a href="./tag/environment.html">environment</a> </p>
+</footer><!-- /.post-info -->                <p>This is a series of tutorials geared around building up your own
+customized environment, using emacs, from scratch.
+You can find <a class="reference external" href="emacs-from-scratch-part-1-extending-emacs-basics.html">part 1 here</a>
+You can find <a class="reference external" href="emacs-from-scratch-part-3-extending-emacs-with-elisp.html">part 3 here</a></p>
+<div class="section" id="installing-and-managing-packages">
+<h2>Installing and Managing Packages</h2>
+<div class="section" id="requirements">
+<h3>Requirements</h3>
+<p>To follow along with this tutorial, all you need is an existing
+installation of Emacs …</p></div></div>
+                <a class="readmore" href="./emacs-from-scratch-part-2-package-management.html">read more</a>
+<p>There are <a href="./emacs-from-scratch-part-2-package-management.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="./emacs-from-scratch-part-1-extending-emacs-basics.html" rel="bookmark"
+                           title="Permalink to Emacs From Scratch, Part 1: Extending Emacs basics">Emacs From Scratch, Part 1: Extending Emacs basics</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-01-22T00:00:00+01:00">
+                Published: Wed 22 January 2014
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/yusuke-tsutsumi.html">Yusuke Tsutsumi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+<p>tags: <a href="./tag/emacs.html">emacs</a> <a href="./tag/environment.html">environment</a> </p>
+</footer><!-- /.post-info -->                <p>This is a series of tutorials geared around building up your own
+customized environment, using emacs, from scratch.</p>
+<p>You can find <a class="reference external" href="emacs-from-scratch-part-2-package-management.html">part 2 here</a>
+You can find <a class="reference external" href="emacs-from-scratch-part-3-extending-emacs-with-elisp.html">part 3 here</a></p>
+<p>This tutorial is geared toward those who are starting with extending
+Emacs, and want to learn the pieces you need …</p>
+                <a class="readmore" href="./emacs-from-scratch-part-1-extending-emacs-basics.html">read more</a>
+<p>There are <a href="./emacs-from-scratch-part-1-extending-emacs-basics.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="./increment-decrement-for-emacs.html" rel="bookmark"
+                           title="Permalink to Increment-Decrement for Emacs">Increment-Decrement for Emacs</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2013-04-17T00:00:00+02:00">
+                Published: Wed 17 April 2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/yusuke-tsutsumi.html">Yusuke Tsutsumi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+<p>tags: <a href="./tag/emacs.html">emacs</a> <a href="./tag/el-get.html">el-get</a> </p>
+</footer><!-- /.post-info -->                <p>Here's a small increment/decrement function I wrote, because I like how vim has one:</p>
+<div class="highlight"><pre><span></span><span class="c1">;; check if string is an integer</span>
+<span class="p">(</span><span class="nf">defun</span> <span class="nv">string-integer-p</span> <span class="p">(</span><span class="nf">string</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">string-match</span> <span class="s">&quot;\\`[-+]?[0-9]+\\&#39;&quot;</span> <span class="nv">string</span><span class="p">)</span>
+      <span class="nv">t</span>
+    <span class="nv">nil</span><span class="p">))</span>
+
+<span class="c1">;; Decrement Int</span>
+<span class="p">(</span><span class="nf">defun</span> <span class="nv">decrement</span> <span class="p">()</span>
+  <span class="s">&quot;Decrement the integer that the cursor is on.&quot;</span>
+  <span class="p">(</span><span class="nf">interactive</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">x</span> <span class="p">(</span><span class="nf">thing-at-point</span> <span class="ss">&#39;symbol</span><span class="p">)))</span>
+    <span class="p">(</span><span class="nf">when</span> <span class="p">(</span><span class="nf">string-integer-p</span> <span class="nv">x …</span></pre></div>
+                <a class="readmore" href="./increment-decrement-for-emacs.html">read more</a>
+<p>There are <a href="./increment-decrement-for-emacs.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="./automatic-package-installation-for-emacs-24-part-2.html" rel="bookmark"
+                           title="Permalink to Automatic Package Installation for Emacs 24 - Part 2">Automatic Package Installation for Emacs 24 - Part 2</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2013-03-24T00:00:00+01:00">
+                Published: Sun 24 March 2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/yusuke-tsutsumi.html">Yusuke Tsutsumi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+<p>tags: <a href="./tag/emacs.html">emacs</a> <a href="./tag/el-get.html">el-get</a> </p>
+</footer><!-- /.post-info -->                <p><em>EDIT 07/01/2014</em>: I don't recommend setting up packages like this anymore. I recommend reading
+<a class="reference external" href="emacs-from-scratch-part-2-package-management.html">this post instead</a></p>
+<p>About a year ago I wrote about <a class="reference external" href="automatic-package-installation-using-elpa-in-emacs-24.html">installing packages on startup, automatically for Emacs 24</a>. This used the native ELPA, looked for packages that weren't already installed, and used package-install to …</p>
+                <a class="readmore" href="./automatic-package-installation-for-emacs-24-part-2.html">read more</a>
+<p>There are <a href="./automatic-package-installation-for-emacs-24-part-2.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="./fine-pydev-is-better-than-emacs-for-python-im-still-using-emacs-though.html" rel="bookmark"
+                           title="Permalink to fine, PyDev is better than Emacs for Python. I'm still using Emacs though.">fine, PyDev is better than Emacs for Python. I'm still using Emacs though.</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2012-08-13T09:09:00+02:00">
+                Published: Mon 13 August 2012
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/toumorokoshi.html">Toumorokoshi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+<p>tags: <a href="./tag/eclipse.html">Eclipse</a> <a href="./tag/emacs.html">Emacs</a> <a href="./tag/pydev.html">PyDev</a> </p>
+</footer><!-- /.post-info -->                <p>Being part of a company that uses Python, I have a friend who loves
+PyDev, an eclipse plugin that basically adapts the functionality of the
+eclipse IDE to Python. Even though I'm still an Emacs greenhorn, I swear
+my devotion to the text editor wouldn't waver.</p>
+<p>Until I saw what …</p>
+                <a class="readmore" href="./fine-pydev-is-better-than-emacs-for-python-im-still-using-emacs-though.html">read more</a>
+<p>There are <a href="./fine-pydev-is-better-than-emacs-for-python-im-still-using-emacs-though.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="./my-ide-in-emacs-mainly-for-python.html" rel="bookmark"
+                           title="Permalink to My IDE in Emacs (mainly for Python)">My IDE in Emacs (mainly for Python)</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2011-08-23T00:26:00+02:00">
+                Published: Tue 23 August 2011
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/toumorokoshi.html">Toumorokoshi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+<p>tags: <a href="./tag/emacs.html">Emacs</a> <a href="./tag/ide.html">IDE</a> <a href="./tag/python.html">python</a> </p>
+</footer><!-- /.post-info -->                <p>I'm writing this article up to mainly keep track of the current state of
+my IDE in Emacs, how to set one up, and to keep my to-do list.</p>
+<div class="section" id="implemented-features">
+<h2>Implemented Features</h2>
+</p><div class="section" id="default-emacs-library-includes">
+<h3>Default Emacs Library Includes</h3>
+</p><p>I use the following from the library that comes with Emacs (as of
+version 23 …</p></div></div>
+                <a class="readmore" href="./my-ide-in-emacs-mainly-for-python.html">read more</a>
+<p>There are <a href="./my-ide-in-emacs-mainly-for-python.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="./code-folding-in-emacs-viper-mode.html" rel="bookmark"
+                           title="Permalink to Code folding in Emacs Viper-Mode">Code folding in Emacs Viper-Mode</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2011-08-17T23:06:00+02:00">
+                Published: Wed 17 August 2011
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/toumorokoshi.html">Toumorokoshi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+<p>tags: <a href="./tag/emacs.html">Emacs</a> <a href="./tag/folding.html">folding</a> <a href="./tag/viper-mode.html">viper-mode</a> </p>
+</footer><!-- /.post-info -->                <p>Code folding is a feature I've never really used, and for the most part
+seem to have done find without. I generally use search to navigate from
+place to place in my code, but I realize this isn't always the most
+efficient way to go, and code folding is very …</p>
+                <a class="readmore" href="./code-folding-in-emacs-viper-mode.html">read more</a>
+<p>There are <a href="./code-folding-in-emacs-viper-mode.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+                </ol><!-- /#posts-list -->
+                </section><!-- /#content -->
+        <section id="extras" class="body">
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="http://y.tsutsumi.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://github.com/toumorokoshi">GitHub</a></li>
+                            <li><a href="https://twitter.com/tsutsumiyusuke">Twitter</a></li>
+                            <li><a href="http://www.linkedin.com/profile/view?id=56043626">LinkedIn</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+    <script type="text/javascript">
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-29270527-2', 'auto');
+    ga('send', 'pageview');
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'tsutsumi';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

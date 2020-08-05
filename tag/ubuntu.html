@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>y.tsutsumi.io - Ubuntu</title>
+        <link rel="stylesheet" href="./theme/css/main.css" />
+        <link href="http://y.tsutsumi.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="y.tsutsumi.io Atom Feed" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="./">y.tsutsumi.io </a></h1>
+                <nav><ul>
+                    <li><a href="/category/programming.html">Just Programming Posts</a></li>
+                    <li><a href="/codersguide/">Coder's Guide</a></li>
+                    <li><a href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a></li>
+                    <li><a href="./pages/about-me.html">About Me</a></li>
+                    <li><a href="./pages/projects.html">Projects</a></li>
+                    <li><a href="./pages/resources.html">Resources</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="./getting-python25-to-build-with-sqlite3-and-zlib-on-ubuntu-natty-25.html">Getting Python2.5 to Build with sqlite3 and zlib on Ubuntu Natty 2.5</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2011-09-19T19:21:00+02:00">
+                Published: Mon 19 September 2011
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/toumorokoshi.html">Toumorokoshi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+<p>tags: <a href="./tag/python25.html">Python2.5</a> <a href="./tag/sqlite3.html">sqlite3</a> <a href="./tag/ubuntu.html">Ubuntu</a> <a href="./tag/zlib.html">zlib</a> </p>
+</footer><!-- /.post-info --><p>I had a really hard time finding this, so I'm posting it here:</p>
+<p>First one must install all the proper packages on Natty (these are the
+packages needed for zlib and sqlite in general, not just specifically
+for Python):</p>
+<p><pre class="literal-block">
+sudo apt-get install zlibc zlib1g zlib1g-devsudo apt-get install sqlite3-dev
+</pre>
+</p><p>Then one must add an LDFlag to the new lib directories (apparently Natty
+has a new directory for X86_64 lib files):</p>
+<p><pre class="literal-block">
+after the ./configure open your Makefile and find the line withLDFLAGS =edit to LDFLAGS = -L/usr/lib//x86_64-linux-gnuand make
+</pre>
+</p><p>Credit for the above snippet goes to Awin Abi and source is below:</p>
+<p><a class="reference external" href="http://groups.google.com/group/google-appengine/browse_thread/thread/a8bd0a71270a3ce6">http://groups.google.com/group/google-appengine/browse_thread/thread/a8bd0a71270a3ce6</a></p>
+<p>Basically, setting up Python2.5 ( and presumably any version of Python)
+properly involves downloading the proper package libraries , then
+building Python2.5 with those packages. In order to do this, the LDFlags
+variable must have the new library location (the
+/usr/lib/x86-64-linux-gnu) for Natty and 64-bit processors added.</p>
+<p>I have not tried this on a 32-bit machine. This may not be required
+then, or you may need to point the flag to load the proper directory.</p>
+<p>There are <a href="./getting-python25-to-build-with-sqlite3-and-zlib-on-ubuntu-natty-25.html#disqus_thread">comments</a>.</p>                </article>
+            </aside><!-- /#featured -->
+        <section id="extras" class="body">
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="http://y.tsutsumi.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://github.com/toumorokoshi">GitHub</a></li>
+                            <li><a href="https://twitter.com/tsutsumiyusuke">Twitter</a></li>
+                            <li><a href="http://www.linkedin.com/profile/view?id=56043626">LinkedIn</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+    <script type="text/javascript">
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-29270527-2', 'auto');
+    ga('send', 'pageview');
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'tsutsumi';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

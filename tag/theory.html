@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>y.tsutsumi.io - theory</title>
+        <link rel="stylesheet" href="./theme/css/main.css" />
+        <link href="http://y.tsutsumi.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="y.tsutsumi.io Atom Feed" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="./">y.tsutsumi.io </a></h1>
+                <nav><ul>
+                    <li><a href="/category/programming.html">Just Programming Posts</a></li>
+                    <li><a href="/codersguide/">Coder's Guide</a></li>
+                    <li><a href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a></li>
+                    <li><a href="./pages/about-me.html">About Me</a></li>
+                    <li><a href="./pages/projects.html">Projects</a></li>
+                    <li><a href="./pages/resources.html">Resources</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="./the-inevitable-cons-of-overloading-methods.html">The inevitable cons of overloading methods</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2013-05-12T00:00:00+02:00">
+                Published: Sun 12 May 2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/yusuke-tsutsumi.html">Yusuke Tsutsumi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+<p>tags: <a href="./tag/theory.html">theory</a> </p>
+</footer><!-- /.post-info --><div class="section" id="day-1">
+<h2>Day 1</h2>
+<p>You see a simple method that draws a triangle. Currently, it takes in
+a specific size:</p>
+<blockquote>
+drawTriangle(float size);</blockquote>
+<p>You've been told that in the past, we only needed one kind of
+triangle. Now we need to be able to choose the color. No biggie, we
+have the power to overload methods in our language! We'll simply add
+an extra parameter, and have the method overload:</p>
+<blockquote>
+<p>drawTriangle(float size) { drawTriangle(size, WHITE) }</p>
+<p>drawTriangle(float size, Color color);</p>
+</blockquote>
+</div>
+<div class="section" id="day-14">
+<h2>Day 14</h2>
+<p>Now we have a new problem. We need a triangle that changes from one
+color to another, a gradient. You think to yourself: I can either
+overload the method, or I can make a new method. Which is better?</p>
+<p>I can create a new method, but it seems like this still fits in the
+'drawTriangle' category. It's fine. Let's add it:</p>
+<blockquote>
+<p>drawTriangle(float size) { drawTriangle(size, WHITE) }</p>
+<p>drawTriangle(float size, Color color);</p>
+<p>drawTriangle(float size, Color firstColor, Color secondColor);</p>
+</blockquote>
+<p>Future developers will understand for sure.</p>
+</div>
+<div class="section" id="day-35">
+<h2>Day 35</h2>
+<p>So I've overridden this method a few more times. I've had to add
+rotation speed, and a size increase rate. Sometimes I need both, so
+I've added a few more methods to handle the combinations I need. I've
+also added method to pass all the options just in case.</p>
+<p>Darn! The method signatures will collide if I add the size increase
+rate, because it clashes with rotationSpeed. I guess I'll have to add
+an extra method like color to keep the signatures different. I could
+use the full method, but that's a lot of time.</p>
+<blockquote>
+<p>drawTriangle(float size);</p>
+<p>drawTriangle(float size, float rotationSpeed);</p>
+<p>drawTriangle(float size, Color color);</p>
+<p>drawTriangle(float size, Color color, float increaseRate);</p>
+<p>drawTriangle(float size, float rotationSpeed, float increaseRate);</p>
+<p>drawTriangle(float size, Color firstColor, Color secondColor);</p>
+<p>drawTriangle(float size, float rotationSpeed, Color firstColor, Color secondColor, float increaseRate);</p>
+</blockquote>
+<p>It's okay, I can keep track of these. It's tricker than I want, but nothing I can't handle.</p>
+</div>
+<div class="section" id="day-145">
+<h2>Day 145</h2>
+<p>Okay... It's my first day on the job. The old developer who maintained
+this left three months ago. I've been asked to creating a new triangle
+drawing application. Luckily this library can already draw these
+rectangles. Let me take a look...</p>
+<p>Woah. There's nine methods for drawing a triangle? Which should I use?
+Which one is he using in this case? Does this mean every time I see
+this method, I'm going to either already be familiar with the specific
+overrided version of that method, or dig through the code until I
+understand? This is going to be a long day...</p>
+</div>
+<div class="section" id="summary">
+<h2>Summary</h2>
+<p>Overriding methods works great for those cases where you can keep the
+variations to a minimum. When you need arbitrary combinations of
+various properties, you're better off either building a new method
+that more accurately describes what you're trying to do, or use
+getters and setters later on to configure your piece to what you want.</p>
+<ul class="simple">
+<li>the gradient triangle should have had a separate method, to help alleviate any confusion as to what the second color does.</li>
+<li>rotationSpeed could have been set elsewhere as well. no need to add into the constructor unless every triangle should have it set explicitely.</li>
+</ul>
+</div>
+<p>There are <a href="./the-inevitable-cons-of-overloading-methods.html#disqus_thread">comments</a>.</p>                </article>
+            </aside><!-- /#featured -->
+        <section id="extras" class="body">
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="http://y.tsutsumi.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://github.com/toumorokoshi">GitHub</a></li>
+                            <li><a href="https://twitter.com/tsutsumiyusuke">Twitter</a></li>
+                            <li><a href="http://www.linkedin.com/profile/view?id=56043626">LinkedIn</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+    <script type="text/javascript">
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-29270527-2', 'auto');
+    ga('send', 'pageview');
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'tsutsumi';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

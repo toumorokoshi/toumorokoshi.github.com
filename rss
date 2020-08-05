@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0"><channel><title>y.tsutsumi.io</title><link>./</link><description></description><lastBuildDate>Sun, 30 Sep 2018 00:00:00 +0200</lastBuildDate><item><title>Using Rust functions in LLVM's JIT</title><link>using-rust-functions-in-llvms-jit.html</link><description>&lt;p&gt;&lt;a class="reference external" href="http://llvm.org/"&gt;LLVM&lt;/a&gt; is an amazing framework for building high-performance programming languages,
+and Rust has some great bindings with &lt;a class="reference external" href="https://crates.io/crates/llvm-sys"&gt;llvm-sys&lt;/a&gt;. One challenge
+was getting functions authored in Rust exposed to LLVM. To make this happen, there's a few steps to walk through.&lt;/p&gt;
+&lt;div class="section" id="exposing-the-rust-functions-as-c-externs"&gt;
+&lt;h2&gt;1. Exposing the Rust functions as C externs&lt;/h2&gt;
+&lt;p&gt;When LLVM …&lt;/p&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Yusuke Tsutsumi</dc:creator><pubDate>Sun, 30 Sep 2018 00:00:00 +0200</pubDate><guid isPermaLink="false">tag:None,2018-09-30:using-rust-functions-in-llvms-jit.html</guid><category>programming</category><category>rust</category></item><item><title>Book Report: The Whole Brain Child</title><link>book-report-the-whole-brain-child.html</link><description>&lt;p&gt;&lt;a class="reference external" href="https://www.amazon.com/Whole-Brain-Child-Revolutionary-Strategies-Developing/dp/0553386697"&gt;The Whole Brain Child&lt;/a&gt; discusses strategies to teach children how to deal with difficult situations in an empathetic and rational way.&lt;/p&gt;
+&lt;p&gt;Despite the focus on teaching children, the book included a lot of great insights for adults as well. In general, it is a great guidebook on how to deal …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Yusuke Tsutsumi</dc:creator><pubDate>Sun, 22 Apr 2018 00:00:00 +0200</pubDate><guid isPermaLink="false">tag:None,2018-04-22:book-report-the-whole-brain-child.html</guid><category>books</category><category>book-report</category></item><item><title>Book Report: The Millionaire Next Door</title><link>book-report-the-millionaire-next-door.html</link><description>&lt;p&gt;&lt;a class="reference external" href="https://www.amazon.com/Millionaire-Next-Door-Surprising-Americas/dp/1589795474"&gt;The Millionaire Next Door&lt;/a&gt; is a explanation of the behavior and attributes of those who have achieved a significant amount of wealth. Contrary to the title, it does not just examine millionaires: instead, it looks at those who have a significant amount of net worth, multiple times their income.&lt;/p&gt;
+&lt;div class="section" id="how-much-net-worth-should-you-have"&gt;
+&lt;h2&gt;How …&lt;/h2&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Yusuke Tsutsumi</dc:creator><pubDate>Tue, 20 Feb 2018 00:00:00 +0100</pubDate><guid isPermaLink="false">tag:None,2018-02-20:book-report-the-millionaire-next-door.html</guid><category>books</category><category>book-report</category></item><item><title>Aiohttp vs Multithreaded Flask for High I/O Applications</title><link>aiohttp-vs-multithreaded-flask-for-high-io-applications.html</link><description>&lt;p&gt;Over the past year, my team has been making the transition from Flask to
+&lt;a class="reference external" href="http://aiohttp.readthedocs.io/en/stable/"&gt;aiohttp&lt;/a&gt;. We're making this
+transition because of a lot of the situations where non-blocking I/O
+theoretically scales better:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;large numbers of simultaneous connections&lt;/li&gt;
+&lt;li&gt;remote http requests with long response times&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;There is agreement that asyncio …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Yusuke Tsutsumi</dc:creator><pubDate>Sat, 23 Sep 2017 00:00:00 +0200</pubDate><guid isPermaLink="false">tag:None,2017-09-23:aiohttp-vs-multithreaded-flask-for-high-io-applications.html</guid><category>programming</category><category>python</category></item><item><title>MongoDB Streaming Pattern, Allowing for Batching</title><link>mongodb-streaming-pattern-allowing-for-batching.html</link><description>&lt;p&gt;An interesting problem arose at work today, regarding how to build an
+aggregate of changes to a MongoDB collection.&lt;/p&gt;
+&lt;p&gt;A more general version of the problem is:&lt;/p&gt;
+&lt;ol class="arabic"&gt;
+&lt;li&gt;&lt;p class="first"&gt;you have a document which has multiple buckets it could
+belong to. Say, an animal which an arbitrary set of tags,
+such as …&lt;/p&gt;&lt;/li&gt;&lt;/ol&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Yusuke Tsutsumi</dc:creator><pubDate>Fri, 09 Jun 2017 00:00:00 +0200</pubDate><guid isPermaLink="false">tag:None,2017-06-09:mongodb-streaming-pattern-allowing-for-batching.html</guid><category>programming</category><category>patterns</category></item><item><title>deepmerge: deep merge dictionaries, lists and more in Python</title><link>deepmerge-deep-merge-dictionaries-lists-and-more-in-python.html</link><description>&lt;p&gt;Introducing &lt;a class="reference external" href="https://github.com/toumorokoshi/deepmerge/"&gt;deepmerge&lt;/a&gt;. It's a library designed to provide simple
+controls around a merging system for basic Python data structures like dicts and lists.&lt;/p&gt;
+&lt;p&gt;It provides a few common cases for merging (like always merge + override, or raise an exception):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;deepmerge&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;always_merger&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;merge_or_raise&lt;/span&gt;
+
+&lt;span class="n"&gt;base&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="s2"&gt;&amp;quot;a&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;b&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+    &lt;span class="s2"&gt;&amp;quot;c&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s2"&gt;&amp;quot;nested …&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Yusuke Tsutsumi</dc:creator><pubDate>Mon, 24 Apr 2017 00:00:00 +0200</pubDate><guid isPermaLink="false">tag:None,2017-04-24:deepmerge-deep-merge-dictionaries-lists-and-more-in-python.html</guid><category>programming</category><category>python</category></item><item><title>The CID Pattern: a strategy to keep your web service code clean</title><link>the-cid-pattern-a-strategy-to-keep-your-web-service-code-clean.html</link><description>&lt;div class="section" id="the-problem"&gt;
+&lt;h2&gt;The Problem&lt;/h2&gt;
+&lt;p&gt;Long term maintenance of a web application, will, at some point,
+require changes. Code grows with the functionality it serves, and
+an increase in functionality is inevitable.&lt;/p&gt;
+&lt;p&gt;It is impossible to foresee what sort of changes are required, but there are
+changes that are common and are commonly …&lt;/p&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Yusuke Tsutsumi</dc:creator><pubDate>Fri, 17 Mar 2017 00:00:00 +0100</pubDate><guid isPermaLink="false">tag:None,2017-03-17:the-cid-pattern-a-strategy-to-keep-your-web-service-code-clean.html</guid><category>programming</category><category>design</category></item><item><title>KeyError in self._handlers: a journey deep into Tornado's internals</title><link>keyerror-in-self_handlers-a-journey-deep-into-tornados-internals.html</link><description>&lt;p&gt;If you've worked with tornado, you may have encountered a traceback of
+a somewhat bewildering error:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;Traceback&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;most&lt;/span&gt; &lt;span class="n"&gt;recent&lt;/span&gt; &lt;span class="n"&gt;call&lt;/span&gt; &lt;span class="n"&gt;last&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;File&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;/usr/local/lib/python2.7/site-packages/tornado/ioloop.py&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt; &lt;span class="mi"&gt;832&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;start&lt;/span&gt;
+&lt;span class="n"&gt;fd_obj&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;handler_func&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;_handlers&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;fd&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="ne"&gt;KeyError&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;16&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;A few other people have been confused as …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Yusuke Tsutsumi</dc:creator><pubDate>Fri, 27 Jan 2017 00:00:00 +0100</pubDate><guid isPermaLink="false">tag:None,2017-01-27:keyerror-in-self_handlers-a-journey-deep-into-tornados-internals.html</guid><category>programming</category><category>python</category></item><item><title>Building a Windows Gaming VM for Steam Link: 2016 Edition</title><link>building-a-windows-gaming-vm-for-steam-link-2016-edition.html</link><description>&lt;p&gt;In 2016, I bought a Steam Link, allowing me to play games on my TV
+without having to lug a whole physical machine over.  The main
+requirement of Steam Link is the link and the PC on the same network:
+this allows encoded streaming from the PC to the link …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Yusuke Tsutsumi</dc:creator><pubDate>Fri, 06 Jan 2017 00:00:00 +0100</pubDate><guid isPermaLink="false">tag:None,2017-01-06:building-a-windows-gaming-vm-for-steam-link-2016-edition.html</guid><category>ops</category><category>kvm</category><category>vm</category></item><item><title>Introducing transmute-core: quickly create documented, input validating APIs for any web framework</title><link>introducing-transmute-core-quickly-create-documented-input-validating-apis-for-any-web-framework.html</link><description>&lt;p&gt;A majority of my career has been spent on building web services in
+Python. Specifically, internal ones that have minimal or no UIs, and
+speak &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Representational_state_transfer"&gt;REST&lt;/a&gt; (or
+at least are rest-ish).&lt;/p&gt;
+&lt;p&gt;With each new service, I found myself re-implementing work to
+make user-friendly REST APIs:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;validation of incoming data, and …&lt;/li&gt;&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Yusuke Tsutsumi</dc:creator><pubDate>Tue, 03 Jan 2017 00:00:00 +0100</pubDate><guid isPermaLink="false">tag:None,2017-01-03:introducing-transmute-core-quickly-create-documented-input-validating-apis-for-any-web-framework.html</guid><category>programming</category><category>Python</category></item><item><title>Global logging with flask</title><link>global-logging-with-flask.html</link><description>&lt;p&gt;As of December 2016, &lt;a class="reference external" href="http://flask.pocoo.org/"&gt;Flask&lt;/a&gt; has a built-in
+logger that it instantiates for you. Unfortunately, this misses the
+errors and other log messages in other libraries that may also be
+valuable.&lt;/p&gt;
+&lt;p&gt;It would be nice to have a single logger, one that captures BOTH
+library AND app logs. For those …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Yusuke Tsutsumi</dc:creator><pubDate>Thu, 22 Dec 2016 00:00:00 +0100</pubDate><guid isPermaLink="false">tag:None,2016-12-22:global-logging-with-flask.html</guid><category>programming</category><category>python</category><category>flask</category></item><item><title>Hierarchal Naming</title><link>hierarchal-naming.html</link><description>&lt;p&gt;One of the most interesting artifacts of most programming languages using English conventions is variable naming. Today I contend that:&lt;/p&gt;
+&lt;div class="section" id="english-grammar-is-a-terrible-programming-default"&gt;
+&lt;h2&gt;English Grammar is a Terrible Programming Default&lt;/h2&gt;
+&lt;p&gt;Consider how you would specify that a room is for guests in English,
+or a car is designed to be sporty. In both …&lt;/p&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Yusuke Tsutsumi</dc:creator><pubDate>Wed, 05 Oct 2016 00:00:00 +0200</pubDate><guid isPermaLink="false">tag:None,2016-10-05:hierarchal-naming.html</guid><category>programming</category><category>design</category></item><item><title>How I Learn More Vocabulary</title><link>how-i-learn-more-vocabulary.html</link><description>&lt;p&gt;When it comes to reaching language proficiency, vocabulary is
+important. To reach proficiency as &lt;cite&gt;quickly&lt;/cite&gt; as possible, the &lt;cite&gt;choice&lt;/cite&gt; of
+vocabulary is important.&lt;/p&gt;
+&lt;p&gt;I'm going to explain my approach a bit.&lt;/p&gt;
+&lt;div class="section" id="how-to-learn-vocabulary"&gt;
+&lt;h2&gt;How To Learn Vocabulary&lt;/h2&gt;
+&lt;p&gt;Vocabulary from a spoken standpoint requires quick recall without a
+reference, which is really only …&lt;/p&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Yusuke Tsutsumi</dc:creator><pubDate>Wed, 14 Oct 2015 00:00:00 +0200</pubDate><guid isPermaLink="false">tag:None,2015-10-14:how-i-learn-more-vocabulary.html</guid><category>languages</category><category>languages</category></item><item><title>Hacking Language Learning</title><link>hacking-language-learning.html</link><description>&lt;p&gt;Let's start with a disclaimer: I'm not a teacher, and I have no
+experience in teaching languages. I've been trying to learn quite a
+few though. Everything stated here is in my own, anecdotal case study
+opinion.&lt;/p&gt;
+&lt;p&gt;If the goal is some level or proficiency, I feel like the standard …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Yusuke Tsutsumi</dc:creator><pubDate>Thu, 03 Sep 2015 00:00:00 +0200</pubDate><guid isPermaLink="false">tag:None,2015-09-03:hacking-language-learning.html</guid><category>languages</category><category>languages</category></item><item><title>Test Classes Don't Work</title><link>test-classes-dont-work.html</link><description>&lt;p&gt;Test Classes don't work as a test structure.&lt;/p&gt;
+&lt;p&gt;It's worth clarifying what I mean by the test class. I'm
+speaking specifically about the following structure of an test:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;having a test class, that contains the setup and teardown method for test fixtures&lt;/li&gt;
+&lt;li&gt;putting multiple tests in that class&lt;/li&gt;
+&lt;li&gt;having the …&lt;/li&gt;&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Yusuke Tsutsumi</dc:creator><pubDate>Tue, 01 Sep 2015 00:00:00 +0200</pubDate><guid isPermaLink="false">tag:None,2015-09-01:test-classes-dont-work.html</guid><category>programming</category><category>testing</category></item><item><title>How I Design Test Suites</title><link>how-i-design-test-suites.html</link><description>&lt;p&gt;At Zillow, I've done a lot of work on the design and development of
+the test infrastructure we use for full-stack tests. It's always fun
+to watch your tool become popular, but even more interesting is the
+discussions around test suite design that come with it.&lt;/p&gt;
+&lt;p&gt;Many discussions later, I …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Yusuke Tsutsumi</dc:creator><pubDate>Sun, 30 Aug 2015 00:00:00 +0200</pubDate><guid isPermaLink="false">tag:None,2015-08-30:how-i-design-test-suites.html</guid><category>programming</category><category>testing</category></item><item><title>Book Report: Refactoring by Martin Fowler</title><link>book-report-refactoring-by-martin-fowler.html</link><description>&lt;p&gt;Refactoring is a book covering the basics tenants of refactoring as
+dictated by Martin Fowler: a very smart person with some very good
+ideas about code in general.&lt;/p&gt;
+&lt;p&gt;First, the interesting thing about the definition of refactoring (as
+defined by this book) is that it doesn't encompass all code
+cleanup …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Yusuke Tsutsumi</dc:creator><pubDate>Mon, 25 Aug 2014 00:00:00 +0200</pubDate><guid isPermaLink="false">tag:None,2014-08-25:book-report-refactoring-by-martin-fowler.html</guid><category>programming</category><category>refactoring</category></item><item><title>The Dangers of Patching</title><link>the-dangers-of-patching.html</link><description>&lt;p&gt;If you've ever used &lt;a class="reference external" href="https://pypi.python.org/pypi/mock"&gt;Mock&lt;/a&gt; (or
+the built-in &lt;a class="reference external" href="https://docs.python.org/3/library/unittest.mock.html"&gt;mock in python
+3&lt;/a&gt;), you'll
+know how powerful of a tool it can be toward making unit testing on
+functions modifying state sane. Mocks in Python are effectively a probe
+that you can send into a deep, dark function:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;mock&lt;/span&gt;
+
+&lt;span class="k"&gt;def …&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Yusuke Tsutsumi</dc:creator><pubDate>Thu, 21 Aug 2014 00:00:00 +0200</pubDate><guid isPermaLink="false">tag:None,2014-08-21:the-dangers-of-patching.html</guid><category>programming</category><category>testing</category><category>patch</category><category>python</category></item><item><title>Getting Dropbox Status's into Conky + Dzen2</title><link>getting-dropbox-statuss-into-conky-dzen2.html</link><description>&lt;p&gt;I'm an avid xmonad user, and I've recently switched over to conky +
+dzen as my status bar. A recent issue I had is with getting Dropbox
+status information into my conky.&lt;/p&gt;
+&lt;p&gt;I did some hacking and here's the result. I love the way it turned out:&lt;/p&gt;
+&lt;img alt="" src="images/conky-dropbox-demo.png" /&gt;
+&lt;p&gt;This is a pretty …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Yusuke Tsutsumi</dc:creator><pubDate>Tue, 08 Jul 2014 00:00:00 +0200</pubDate><guid isPermaLink="false">tag:None,2014-07-08:getting-dropbox-statuss-into-conky-dzen2.html</guid><category>ops</category><category>conky</category><category>dropbox</category><category>arch</category></item><item><title>Tips on getting a programming internship interview</title><link>tips-on-getting-a-programming-internship-interview.html</link><description>&lt;p&gt;Someone asked me about how to get a programming internship from a
+career fair. I've had a bit of experience at career fairs on the
+interviewer side, and I thought I'd outline some of the points for me
+personally.&lt;/p&gt;
+&lt;p&gt;If your interested in how to do well on an actual …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Yusuke Tsutsumi</dc:creator><pubDate>Tue, 01 Jul 2014 00:00:00 +0200</pubDate><guid isPermaLink="false">tag:None,2014-07-01:tips-on-getting-a-programming-internship-interview.html</guid><category>programming</category><category>internship</category></item><item><title>Getting Started with Monogame</title><link>getting-started-with-monogame.html</link><description>&lt;p&gt;This is a quick guide on getting a base project started with
+Monogame. I've tried to use tools that are platform agnostic, so
+hopefully this will work no matter if you're on Windows, OSX, or
+Linux. Let's get started!&lt;/p&gt;
+&lt;div class="section" id="step-1-install-monodevelop"&gt;
+&lt;h2&gt;Step 1: Install Monodevelop&lt;/h2&gt;
+&lt;p&gt;Monogame is built off of the &lt;a class="reference external" href="http://www.mono-project.com/Main_Page"&gt;Mono …&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Yusuke Tsutsumi</dc:creator><pubDate>Sat, 17 May 2014 00:00:00 +0200</pubDate><guid isPermaLink="false">tag:None,2014-05-17:getting-started-with-monogame.html</guid><category>programming</category><category>monogame</category><category>xamarin</category></item><item><title>Pycon 2014: Day 2 Recap</title><link>pycon-2014-day-2-recap.html</link><description>&lt;p&gt;The second day of PyCon was just as amazing as the first. The day
+started with a couple keynote speakers:&lt;/p&gt;
+&lt;div class="section" id="keynote-jessica-mckellar"&gt;
+&lt;h2&gt;Keynote: Jessica McKellar&lt;/h2&gt;
+&lt;p&gt;Jessica McKellar gave a talking about the current state of the world
+for programming classes in U.S. grade schools, and the numbers weren't
+pretty. The number …&lt;/p&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Yusuke Tsutsumi</dc:creator><pubDate>Sat, 12 Apr 2014 00:00:00 +0200</pubDate><guid isPermaLink="false">tag:None,2014-04-12:pycon-2014-day-2-recap.html</guid><category>programming</category><category>python</category><category>pycon</category></item><item><title>Pycon 2014: Day 1 Recap</title><link>pycon-2014-day-1-recap.html</link><description>&lt;p&gt;Today was my first day at a PyCon conference, and the first day of
+PyCon 2014. I wanted to talk about some of my favorite events:&lt;/p&gt;
+&lt;div class="section" id="keynote-john-perry-barlow"&gt;
+&lt;h2&gt;Keynote: John Perry Barlow&lt;/h2&gt;
+&lt;p&gt;I didn't know that the lyricist for &lt;a class="reference external" href="http://en.wikipedia.org/wiki/Grateful_Dead"&gt;The Grateful Dead&lt;/a&gt; also founded the
+&lt;a class="reference external" href="http://en.wikipedia.org/wiki/Electronic_Frontier_Foundation"&gt;Electronic Frontier Foundation&lt;/a&gt;. I
+think it shows …&lt;/p&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Yusuke Tsutsumi</dc:creator><pubDate>Fri, 11 Apr 2014 00:00:00 +0200</pubDate><guid isPermaLink="false">tag:None,2014-04-11:pycon-2014-day-1-recap.html</guid><category>programming</category><category>python</category><category>pycon</category></item><item><title>Emacs From Scratch, Part 3: Extending Emacs with Elisp</title><link>emacs-from-scratch-part-3-extending-emacs-with-elisp.html</link><description>&lt;p&gt;This is a series of tutorials geared around building up your own
+customized environment, using emacs, from scratch.&lt;/p&gt;
+&lt;p&gt;You can find &lt;a class="reference external" href="emacs-from-scratch-part-1-extending-emacs-basics.html"&gt;part 1 here&lt;/a&gt;
+You can find &lt;a class="reference external" href="emacs-from-scratch-part-2-package-management.html"&gt;part 2 here&lt;/a&gt;&lt;/p&gt;
+&lt;div class="section" id="extending-emacs-with-elisp"&gt;
+&lt;h2&gt;Extending Emacs with Elisp&lt;/h2&gt;
+&lt;p&gt;If you've followed the previous tutorials, you're familiar with
+loading configuration, and you now have a …&lt;/p&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Yusuke Tsutsumi</dc:creator><pubDate>Thu, 10 Apr 2014 00:00:00 +0200</pubDate><guid isPermaLink="false">tag:None,2014-04-10:emacs-from-scratch-part-3-extending-emacs-with-elisp.html</guid><category>programming</category><category>emacs</category><category>environment</category></item><item><title>Adding Brew Apps to GUI Path in OSX Mavericks</title><link>adding-brew-apps-to-gui-path-in-osx-mavericks.html</link><description>&lt;p&gt;In case someone has trouble with this: A way to add brew apps to a path invokable by a gui is by exporting the environment variable path in /etc/launchd.conf:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# /etc/launchd.conf
+setenv PATH /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Users/yusuket …&lt;/pre&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Yusuke Tsutsumi</dc:creator><pubDate>Mon, 31 Mar 2014 00:00:00 +0200</pubDate><guid isPermaLink="false">tag:None,2014-03-31:adding-brew-apps-to-gui-path-in-osx-mavericks.html</guid><category>ops</category><category>osx</category><category>mavericks</category><category>brew</category></item><item><title>Seven Languages in Seven Weeks: Haskell Day 3</title><link>seven-languages-in-seven-weeks-haskell-day-3.html</link><description>&lt;p&gt;A few months ago, I tried my hand at &lt;a class="reference external" href="http://pragprog.com/book/btlang/seven-languages-in-seven-weeks"&gt;Seven Languages in Seven Weeks&lt;/a&gt;,
+and it was an incredibly enlightening experience.&lt;/p&gt;
+&lt;p&gt;There was one excersize that kept me at odds for weeks though, so I
+thought I'd share my experience.&lt;/p&gt;
+&lt;div class="section" id="haskell-day-3-creating-and-writing-a-maze-solver"&gt;
+&lt;h2&gt;Haskell Day 3: Creating and writing a Maze Solver&lt;/h2&gt;
+&lt;p&gt;The …&lt;/p&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Yusuke Tsutsumi</dc:creator><pubDate>Fri, 28 Mar 2014 00:00:00 +0100</pubDate><guid isPermaLink="false">tag:None,2014-03-28:seven-languages-in-seven-weeks-haskell-day-3.html</guid><category>programming</category><category>haskell</category><category>seven_languages</category></item><item><title>Data As Code</title><link>data-as-code.html</link><description>&lt;p&gt;I followed through the exercises of &lt;a class="reference external" href="http://pragprog.com/book/btlang/seven-languages-in-seven-weeks"&gt;Seven Languages in Seven Weeks&lt;/a&gt; a
+while back, and there was a really interesting concept introduced by
+clojure (which really extends it's idea from lisp): that code is data
+and data is code. The idea that a programming language's syntax is
+flexible enough where …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Yusuke Tsutsumi</dc:creator><pubDate>Sat, 08 Mar 2014 00:00:00 +0100</pubDate><guid isPermaLink="false">tag:None,2014-03-08:data-as-code.html</guid><category>programming</category><category>data</category><category>code</category></item><item><title>I No Longer Need StackOverflow</title><link>i-no-longer-need-stackoverflow.html</link><description>&lt;p&gt;So I guess &lt;a class="reference external" href="http://techcrunch.com/2014/02/16/stackoverflow-goes-down-programmers-around-the-world-panic-its-back-up-now/"&gt;StackOverflow was down today&lt;/a&gt;. It
+was only for an hour, but if social media tells you anything, you
+would believe
+it &lt;a class="reference external" href="https://twitter.com/lexisla/status/435140222234279936"&gt;stopped&lt;/a&gt;
+&lt;a class="reference external" href="https://twitter.com/jterrace/status/435136180393234432"&gt;the&lt;/a&gt;
+&lt;a class="reference external" href="https://twitter.com/pauly4it/status/435130384838164480"&gt;whole&lt;/a&gt;
+&lt;a class="reference external" href="https://twitter.com/y0urworldonfire/status/435129205668319232"&gt;programming&lt;/a&gt;
+&lt;a class="reference external" href="https://twitter.com/Trollkemada/status/435128989904932864"&gt;world&lt;/a&gt;
+&lt;a class="reference external" href="https://twitter.com/richeym/status/435127686189445120"&gt;cold&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Quite a few of these were probably made in jest, but it made me
+realize something. I had just spent …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Yusuke Tsutsumi</dc:creator><pubDate>Sun, 16 Feb 2014 00:00:00 +0100</pubDate><guid isPermaLink="false">tag:None,2014-02-16:i-no-longer-need-stackoverflow.html</guid><category>programming</category><category>stackoverflow</category></item><item><title>Emacs From Scratch, Part 2: Package management</title><link>emacs-from-scratch-part-2-package-management.html</link><description>&lt;p&gt;This is a series of tutorials geared around building up your own
+customized environment, using emacs, from scratch.
+You can find &lt;a class="reference external" href="emacs-from-scratch-part-1-extending-emacs-basics.html"&gt;part 1 here&lt;/a&gt;
+You can find &lt;a class="reference external" href="emacs-from-scratch-part-3-extending-emacs-with-elisp.html"&gt;part 3 here&lt;/a&gt;&lt;/p&gt;
+&lt;div class="section" id="installing-and-managing-packages"&gt;
+&lt;h2&gt;Installing and Managing Packages&lt;/h2&gt;
+&lt;div class="section" id="requirements"&gt;
+&lt;h3&gt;Requirements&lt;/h3&gt;
+&lt;p&gt;To follow along with this tutorial, all you need is an existing
+installation of Emacs …&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Yusuke Tsutsumi</dc:creator><pubDate>Sat, 01 Feb 2014 00:00:00 +0100</pubDate><guid isPermaLink="false">tag:None,2014-02-01:emacs-from-scratch-part-2-package-management.html</guid><category>programming</category><category>emacs</category><category>environment</category></item><item><title>Emacs From Scratch, Part 1: Extending Emacs basics</title><link>emacs-from-scratch-part-1-extending-emacs-basics.html</link><description>&lt;p&gt;This is a series of tutorials geared around building up your own
+customized environment, using emacs, from scratch.&lt;/p&gt;
+&lt;p&gt;You can find &lt;a class="reference external" href="emacs-from-scratch-part-2-package-management.html"&gt;part 2 here&lt;/a&gt;
+You can find &lt;a class="reference external" href="emacs-from-scratch-part-3-extending-emacs-with-elisp.html"&gt;part 3 here&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;This tutorial is geared toward those who are starting with extending
+Emacs, and want to learn the pieces you need …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Yusuke Tsutsumi</dc:creator><pubDate>Wed, 22 Jan 2014 00:00:00 +0100</pubDate><guid isPermaLink="false">tag:None,2014-01-22:emacs-from-scratch-part-1-extending-emacs-basics.html</guid><category>programming</category><category>emacs</category><category>environment</category></item><item><title>Introducing Sprinter: environment management made easy</title><link>introducing-sprinter-environment-management-made-easy.html</link><description>&lt;p&gt;Today, I wanted to talk about one of the more annoying problems that pops from time to time: setting up
+a new machine, and keeping existing machines in sync. Setting up new machines just the way you like them is
+hard. The longer you've been developing, the more programs, tools …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Yusuke Tsutsumi</dc:creator><pubDate>Sun, 29 Sep 2013 00:00:00 +0200</pubDate><guid isPermaLink="false">tag:None,2013-09-29:introducing-sprinter-environment-management-made-easy.html</guid><category>programming</category><category>python</category><category>environment</category></item><item><title>Python Internals</title><link>python-internals.html</link><description>&lt;p&gt;The internals of Python are actually pretty straightforward, but it's
+still worth a dive. I recently gave a talk at Zillow about it, so I'd
+thought I'd share some points here as well.&lt;/p&gt;
+&lt;p&gt;Everything here prefixed with &amp;gt;&amp;gt;&amp;gt; can be typed into the python
+interpreter (activated by typing 'python' in your …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Yusuke Tsutsumi</dc:creator><pubDate>Mon, 05 Aug 2013 00:00:00 +0200</pubDate><guid isPermaLink="false">tag:None,2013-08-05:python-internals.html</guid><category>programming</category><category>python</category></item><item><title>DRY Principles through Python Decorators</title><link>dry-principles-through-python-decorators.html</link><description>&lt;p&gt;Python &lt;a class="reference external" href="http://docs.python.org/3/glossary.html#term-decorator"&gt;decorators&lt;/a&gt; are a
+powerful tool to remove redundancy. Along with modularizing
+functionality into appropriate bite-sized methods, it makes even the
+most complex workflows into concise functionality.&lt;/p&gt;
+&lt;p&gt;For example, let's look at the &lt;a class="reference external" href="https://www.djangoproject.com/"&gt;Django web framework&lt;/a&gt;, which handles
+requests by methods which receive a method object and return a
+response …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Yusuke Tsutsumi</dc:creator><pubDate>Fri, 24 May 2013 00:00:00 +0200</pubDate><guid isPermaLink="false">tag:None,2013-05-24:dry-principles-through-python-decorators.html</guid><category>programming</category><category>python</category></item><item><title>The inevitable cons of overloading methods</title><link>the-inevitable-cons-of-overloading-methods.html</link><description>&lt;div class="section" id="day-1"&gt;
+&lt;h2&gt;Day 1&lt;/h2&gt;
+&lt;p&gt;You see a simple method that draws a triangle. Currently, it takes in
+a specific size:&lt;/p&gt;
+&lt;blockquote&gt;
+drawTriangle(float size);&lt;/blockquote&gt;
+&lt;p&gt;You've been told that in the past, we only needed one kind of
+triangle. Now we need to be able to choose the color. No biggie, we
+have the …&lt;/p&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Yusuke Tsutsumi</dc:creator><pubDate>Sun, 12 May 2013 00:00:00 +0200</pubDate><guid isPermaLink="false">tag:None,2013-05-12:the-inevitable-cons-of-overloading-methods.html</guid><category>programming</category><category>theory</category></item><item><title>Increment-Decrement for Emacs</title><link>increment-decrement-for-emacs.html</link><description>&lt;p&gt;Here's a small increment/decrement function I wrote, because I like how vim has one:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;;; check if string is an integer&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;defun&lt;/span&gt; &lt;span class="nv"&gt;string-integer-p&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;string&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;if &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;string-match&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;\\`[-+]?[0-9]+\\&amp;#39;&amp;quot;&lt;/span&gt; &lt;span class="nv"&gt;string&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="nv"&gt;t&lt;/span&gt;
+    &lt;span class="nv"&gt;nil&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+&lt;span class="c1"&gt;;; Decrement Int&lt;/span&gt;
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;defun&lt;/span&gt; &lt;span class="nv"&gt;decrement&lt;/span&gt; &lt;span class="p"&gt;()&lt;/span&gt;
+  &lt;span class="s"&gt;&amp;quot;Decrement the integer that the cursor is on.&amp;quot;&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;interactive&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;let &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nf"&gt;x&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;thing-at-point&lt;/span&gt; &lt;span class="ss"&gt;&amp;#39;symbol&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;when&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;string-integer-p&lt;/span&gt; &lt;span class="nv"&gt;x …&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Yusuke Tsutsumi</dc:creator><pubDate>Wed, 17 Apr 2013 00:00:00 +0200</pubDate><guid isPermaLink="false">tag:None,2013-04-17:increment-decrement-for-emacs.html</guid><category>programming</category><category>emacs</category><category>el-get</category></item><item><title>Automatic Package Installation for Emacs 24 - Part 2</title><link>automatic-package-installation-for-emacs-24-part-2.html</link><description>&lt;p&gt;&lt;em&gt;EDIT 07/01/2014&lt;/em&gt;: I don't recommend setting up packages like this anymore. I recommend reading
+&lt;a class="reference external" href="emacs-from-scratch-part-2-package-management.html"&gt;this post instead&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;About a year ago I wrote about &lt;a class="reference external" href="automatic-package-installation-using-elpa-in-emacs-24.html"&gt;installing packages on startup, automatically for Emacs 24&lt;/a&gt;. This used the native ELPA, looked for packages that weren't already installed, and used package-install to …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Yusuke Tsutsumi</dc:creator><pubDate>Sun, 24 Mar 2013 00:00:00 +0100</pubDate><guid isPermaLink="false">tag:None,2013-03-24:automatic-package-installation-for-emacs-24-part-2.html</guid><category>programming</category><category>emacs</category><category>el-get</category></item><item><title>Some resources for XACT</title><link>some-resources-for-xact.html</link><description>&lt;p&gt;XACT is a audio application used to manage audio for games using the XNA
+framework. Here are some resources to help you get started.&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://www.microsoft.com/en-us/download/details.aspx?id=23714"&gt;Installing XNA 4.0&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;you may need Visual Studio 2010 express to use it:&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://www.microsoft.com/visualstudio/eng/downloads#d-2010-express"&gt;Visual Studio 2010 install links&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Make sure to install the C# express …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Toumorokoshi</dc:creator><pubDate>Wed, 06 Feb 2013 06:16:00 +0100</pubDate><guid isPermaLink="false">tag:None,2013-02-06:some-resources-for-xact.html</guid><category>programming</category><category>Visual Studio</category><category>XACT</category><category>XNA</category></item><item><title>Installing Paint.net 3.5 and testing sprite animations</title><link>installing-paintnet-35-and-testing-sprite-animations.html</link><description>&lt;p&gt;After doing some searching online, it looks like paint.net is a common
+tool people use to create and animate sprites. Here's a small tutorial
+on how to get some basic sprite sheet testing running.&lt;/p&gt;
+&lt;div class="section" id="installing-paint-net"&gt;
+&lt;h2&gt;Installing paint.net&lt;/h2&gt;
+&lt;p&gt;To install it, simply go to&amp;nbsp;&lt;a class="reference external" href="http://www.getpaint.net/"&gt;http://www.getpaint.net/&lt;/a&gt;&amp;nbsp;(be careful …&lt;/p&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Toumorokoshi</dc:creator><pubDate>Fri, 25 Jan 2013 08:16:00 +0100</pubDate><guid isPermaLink="false">tag:None,2013-01-25:installing-paintnet-35-and-testing-sprite-animations.html</guid><category>general</category><category>animations</category><category>paint.net</category><category>sprites</category></item><item><title>Removing Headers from YUI IO request</title><link>removing-headers-from-yui-io-request.html</link><description>&lt;p&gt;&lt;a class="reference external" href="http://yuilibrary.com/projects/yui3/ticket/2529324"&gt;http://yuilibrary.com/projects/yui3/ticket/2529324&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;You just add a &amp;quot;headers&amp;quot;: { &amp;quot;YOUR_PARAM&amp;quot;: &amp;quot;disabled&amp;quot;} in the request.&lt;/p&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Toumorokoshi</dc:creator><pubDate>Mon, 26 Nov 2012 22:28:00 +0100</pubDate><guid isPermaLink="false">tag:None,2012-11-26:removing-headers-from-yui-io-request.html</guid><category>programming</category><category>YUI</category></item><item><title>Adding JSONP to turbogears</title><link>adding-jsonp-to-turbogears.html</link><description>&lt;p&gt;&lt;pre class="literal-block"&gt;
+from tg import json_encode, responsefrom tg.render import _get_tg_varsdef render_jsonp(template_name, template_vars, **kwargs):callback = template_name or kwargs.pop('callback', None) or 'callback'for key in _get_tg_vars():del template_vars[key]response.headers['Content-Type'] = 'text/javascript'return '%s(%s)' % (template_name, json_encode(template_vars))from myapp.config.app_cfg import base_configbase_config.render_functions['jsonp'] = render_jsonpbase_config.mimetype_lookup = {'.jsonp': 'text …&lt;/pre&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Toumorokoshi</dc:creator><pubDate>Fri, 09 Nov 2012 08:34:00 +0100</pubDate><guid isPermaLink="false">tag:None,2012-11-09:adding-jsonp-to-turbogears.html</guid><category>programming</category></item><item><title>Move over bash: Python is my language for setup scripts now.</title><link>move-over-bash-python-is-my-language-for-setup-scripts-now.html</link><description>&lt;p&gt;I know when people discuss using programming languages, there's two main
+schools of thought:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;Use the same language for as much of your stack as possible&lt;/li&gt;
+&lt;li&gt;Use the language that's most appropriate for each part of the stack
+as much of possible.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/p&gt;&lt;p&gt;Clearly, there's very strong advantages to both. Using …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Toumorokoshi</dc:creator><pubDate>Sat, 08 Sep 2012 21:34:00 +0200</pubDate><guid isPermaLink="false">tag:None,2012-09-08:move-over-bash-python-is-my-language-for-setup-scripts-now.html</guid><category>programming</category><category>Bash</category><category>python</category></item><item><title>My Emacs Environment</title><link>my-emacs-environment.html</link><description>&lt;p&gt;&lt;a class="reference external" href="http://www.youtube.com/watch?v=z0PET0Qq8CU&amp;amp;feature=plcp"&gt;http://www.youtube.com/watch?v=z0PET0Qq8CU&amp;amp;feature=plcp&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Here's a video of my Emacs environment, and some ways I use it with
+Python.&lt;/p&gt;
+&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Toumorokoshi</dc:creator><pubDate>Thu, 16 Aug 2012 09:28:00 +0200</pubDate><guid isPermaLink="false">tag:None,2012-08-16:my-emacs-environment.html</guid><category>programming</category></item><item><title>fine, PyDev is better than Emacs for Python. I'm still using Emacs though.</title><link>fine-pydev-is-better-than-emacs-for-python-im-still-using-emacs-though.html</link><description>&lt;p&gt;Being part of a company that uses Python, I have a friend who loves
+PyDev, an eclipse plugin that basically adapts the functionality of the
+eclipse IDE to Python. Even though I'm still an Emacs greenhorn, I swear
+my devotion to the text editor wouldn't waver.&lt;/p&gt;
+&lt;p&gt;Until I saw what …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Toumorokoshi</dc:creator><pubDate>Mon, 13 Aug 2012 09:09:00 +0200</pubDate><guid isPermaLink="false">tag:None,2012-08-13:fine-pydev-is-better-than-emacs-for-python-im-still-using-emacs-though.html</guid><category>programming</category><category>Eclipse</category><category>Emacs</category><category>PyDev</category></item><item><title>Slimy: another html5 slideshow</title><link>slimy-another-html5-slideshow.html</link><description>&lt;p&gt;&lt;a class="reference external" href="https://code.google.com/p/slimy/"&gt;&lt;img alt="image0" src="https://toumorokoshi.files.wordpress.com/2012/05/slimy.png" /&gt;&lt;/a&gt;After seeing a coworker's presentation completely done using
+html5 and javascript, I really realized how much of a platform that
+html5 can be. Effectively, it's a ubiquitous platform by which any
+operating system can run code, with very little prior setup necessary. I
+really liked the concept of an html5 …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Toumorokoshi</dc:creator><pubDate>Tue, 08 May 2012 20:45:00 +0200</pubDate><guid isPermaLink="false">tag:None,2012-05-08:slimy-another-html5-slideshow.html</guid><category>programming</category><category>slimy html5</category></item><item><title>Passing perforce batch files</title><link>passing-perforce-batch-files.html</link><description>&lt;p&gt;My coworker showed this to me today: if you want to use a perforce
+command from the command line, and pass it a batch of filenames from a
+command (such as find or grep), simply use:&lt;/p&gt;
+&lt;p&gt;&lt;pre class="literal-block"&gt;
+p4 COMMAND ${ENTER_COMMAND_HERE}
+&lt;/pre&gt;
+&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Toumorokoshi</dc:creator><pubDate>Thu, 08 Mar 2012 01:17:00 +0100</pubDate><guid isPermaLink="false">tag:None,2012-03-08:passing-perforce-batch-files.html</guid><category>programming</category></item><item><title>Automatic Package installation using ELPA in Emacs 24</title><link>automatic-package-installation-using-elpa-in-emacs-24.html</link><description>&lt;p&gt;Emacs 24 includes many improvements over 23, but there is one particular
+addition that makes me run around and go crazy with joy: a built-in
+package management system, &lt;a class="reference external" href="http://tromey.com/elpa/"&gt;ELPA&lt;/a&gt; (Emacs 24 is still in development,
+&lt;a class="reference external" href="http://batsov.com/articles/2011/10/09/getting-started-with-emacs-24/"&gt;Bozhidar Batsov&lt;/a&gt;&amp;nbsp;has a good guide on how to get it set up). I switched …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Toumorokoshi</dc:creator><pubDate>Thu, 16 Feb 2012 23:59:00 +0100</pubDate><guid isPermaLink="false">tag:None,2012-02-16:automatic-package-installation-using-elpa-in-emacs-24.html</guid><category>programming</category></item><item><title>Python Pet Peeves</title><link>python-pet-peeves.html</link><description>&lt;p&gt;As of this posting, Python has been my main programming language for
+over three years. Although I definitely feel that Python is not a good
+fit for all programming projects, the speed and efficiency with which I
+can code in it has made it my go-to language whenever possible.&lt;/p&gt;
+&lt;p&gt;As …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Toumorokoshi</dc:creator><pubDate>Thu, 26 Jan 2012 19:14:00 +0100</pubDate><guid isPermaLink="false">tag:None,2012-01-26:python-pet-peeves.html</guid><category>programming</category></item><item><title>Search and replace multi-line expressions with SED</title><link>search-and-replace-multi-line-expressions-with-sed.html</link><description>&lt;p&gt;Now here's an interesting problem:&lt;/p&gt;
+&lt;p&gt;I wanted to do a recursive search and replace in unix, AND I wanted to
+do an expression that spans multiple lines. Here's what I came up with:&lt;/p&gt;
+&lt;p&gt;&lt;pre class="literal-block"&gt;
+find ./ -type f | xargs sed -E -i -n'1h;1!H;${;g;s/&amp;lt;\/fileSet&amp;gt;.*&amp;lt;fileSet&amp;gt;.*RevisionVersion.*&amp;lt;\/fileSet&amp;gt;.*&amp;lt;\/fileSets …&lt;/pre&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Toumorokoshi</dc:creator><pubDate>Wed, 26 Oct 2011 23:55:00 +0200</pubDate><guid isPermaLink="false">tag:None,2011-10-26:search-and-replace-multi-line-expressions-with-sed.html</guid><category>programming</category><category>sed</category><category>unix</category></item><item><title>WebPageTest and IE9</title><link>webpagetest-and-ie9.html</link><description>&lt;p&gt;Recently, I tried updating the browser for a WebPageTest instance to
+IE9. This proved to have some issues, specifically due to the pop-up
+dialogues that IE9 has now to tell you when something suspicious occurs.&lt;/p&gt;
+&lt;p&gt;Logging into WPT, I was greeted with an error on an IE9 browser opened
+by …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Toumorokoshi</dc:creator><pubDate>Tue, 25 Oct 2011 00:25:00 +0200</pubDate><guid isPermaLink="false">tag:None,2011-10-25:webpagetest-and-ie9.html</guid><category>programming</category></item><item><title>Getting Python2.5 to Build with sqlite3 and zlib on Ubuntu Natty 2.5</title><link>getting-python25-to-build-with-sqlite3-and-zlib-on-ubuntu-natty-25.html</link><description>&lt;p&gt;I had a really hard time finding this, so I'm posting it here:&lt;/p&gt;
+&lt;p&gt;First one must install all the proper packages on Natty (these are the
+packages needed for zlib and sqlite in general, not just specifically
+for Python):&lt;/p&gt;
+&lt;p&gt;&lt;pre class="literal-block"&gt;
+sudo apt-get install zlibc zlib1g zlib1g-devsudo apt-get install sqlite3-dev
+&lt;/pre&gt;
+&lt;/p&gt;&lt;p&gt;Then one …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Toumorokoshi</dc:creator><pubDate>Mon, 19 Sep 2011 19:21:00 +0200</pubDate><guid isPermaLink="false">tag:None,2011-09-19:getting-python25-to-build-with-sqlite3-and-zlib-on-ubuntu-natty-25.html</guid><category>programming</category><category>Python2.5</category><category>sqlite3</category><category>Ubuntu</category><category>zlib</category></item><item><title>My IDE in Emacs (mainly for Python)</title><link>my-ide-in-emacs-mainly-for-python.html</link><description>&lt;p&gt;I'm writing this article up to mainly keep track of the current state of
+my IDE in Emacs, how to set one up, and to keep my to-do list.&lt;/p&gt;
+&lt;div class="section" id="implemented-features"&gt;
+&lt;h2&gt;Implemented Features&lt;/h2&gt;
+&lt;/p&gt;&lt;div class="section" id="default-emacs-library-includes"&gt;
+&lt;h3&gt;Default Emacs Library Includes&lt;/h3&gt;
+&lt;/p&gt;&lt;p&gt;I use the following from the library that comes with Emacs (as of
+version 23 …&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Toumorokoshi</dc:creator><pubDate>Tue, 23 Aug 2011 00:26:00 +0200</pubDate><guid isPermaLink="false">tag:None,2011-08-23:my-ide-in-emacs-mainly-for-python.html</guid><category>programming</category><category>Emacs</category><category>IDE</category><category>python</category></item><item><title>ax_check_mysql introduction and example</title><link>ax_check_mysql-introduction-and-example.html</link><description>&lt;p&gt;I previously mentioned&amp;nbsp;&lt;a class="reference external" href="http://www.gnu.org/software/autoconf-archive/ax_check_mysql.html"&gt;ax_check_mysql.m4&lt;/a&gt;&amp;nbsp;in one of my posts, an
+m4 macro written for autoconf. So here's a bit more information about
+it, and some examples on how to use it.&lt;/p&gt;
+&lt;div class="section" id="introduction"&gt;
+&lt;h2&gt;Introduction&lt;/h2&gt;
+&lt;/p&gt;&lt;p&gt;So ax_check_mysql is essentially an m4 macro for autoconf that was
+written with MySQL plugin developers in …&lt;/p&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Toumorokoshi</dc:creator><pubDate>Sat, 20 Aug 2011 18:30:00 +0200</pubDate><guid isPermaLink="false">tag:None,2011-08-20:ax_check_mysql-introduction-and-example.html</guid><category>programming</category><category>autoconf</category><category>ax_check_mysql</category></item><item><title>Code folding in Emacs Viper-Mode</title><link>code-folding-in-emacs-viper-mode.html</link><description>&lt;p&gt;Code folding is a feature I've never really used, and for the most part
+seem to have done find without. I generally use search to navigate from
+place to place in my code, but I realize this isn't always the most
+efficient way to go, and code folding is very …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Toumorokoshi</dc:creator><pubDate>Wed, 17 Aug 2011 23:06:00 +0200</pubDate><guid isPermaLink="false">tag:None,2011-08-17:code-folding-in-emacs-viper-mode.html</guid><category>programming</category><category>Emacs</category><category>folding</category><category>viper-mode</category></item><item><title>Autoconf: ax_check_mysql</title><link>autoconf-ax_check_mysql.html</link><description>&lt;p&gt;Just mentioning a little m4 script I wrote a little while ago.
+ax_check_mysql is used to find a valid MySQL installation, and gives
+you the binary, include, and plugin directories.&lt;/p&gt;
+&lt;p&gt;If you have an autoconf project, and you need MySQL, definitely consider
+it!&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://www.gnu.org/software/autoconf-archive/ax_check_mysql.html#ax_check_mysql"&gt;http://www.gnu.org/software/autoconf-archive/ax_check_mysql …&lt;/a&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Toumorokoshi</dc:creator><pubDate>Mon, 27 Jun 2011 16:19:00 +0200</pubDate><guid isPermaLink="false">tag:None,2011-06-27:autoconf-ax_check_mysql.html</guid><category>programming</category><category>autoconf</category><category>ax_check_mysql</category><category>mysql</category></item><item><title>Configuring HttpArchive + Webpagetest (Part 3: HttpArchive)</title><link>configuring-httparchive-webpagetest-part-3-httparchive.html</link><description>&lt;p&gt;It's time to install HttpArchive! So just as with Webpagetest, there's
+some requirements for HttpArchive as well.&lt;/p&gt;
+&lt;p&gt;HttpArchive must run on a unix-based machine, as HttpArchive uses pcntl,
+a threading function in PHP currently available only on unix-based
+machines. For this guide I will be using Ubuntu.&lt;/p&gt;
+&lt;p&gt;The following will …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Toumorokoshi</dc:creator><pubDate>Fri, 24 Jun 2011 19:43:00 +0200</pubDate><guid isPermaLink="false">tag:None,2011-06-24:configuring-httparchive-webpagetest-part-3-httparchive.html</guid><category>programming</category><category>HttpArchive</category><category>Webpagetest</category></item><item><title>Configuring HttpArchive + Webpagetest (Part 2: Webpagetest)</title><link>configuring-httparchive-webpagetest-part-2-webpagetest.html</link><description>&lt;p&gt;Welcome to part 2! This post discusses installing Webpagetest.org. In
+order to do so, we will need:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;A windows machine (XP or Windows 7 have been tested with this method)&lt;/li&gt;
+&lt;li&gt;Apache2.2 or higher&lt;/li&gt;
+&lt;li&gt;PHP5 or higher&lt;/li&gt;
+&lt;li&gt;IE of some sort (IE8 or 9 would be best)&lt;/li&gt;
+&lt;li&gt;ffmpeg&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/p&gt;&lt;p&gt;It …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Toumorokoshi</dc:creator><pubDate>Fri, 24 Jun 2011 19:03:00 +0200</pubDate><guid isPermaLink="false">tag:None,2011-06-24:configuring-httparchive-webpagetest-part-2-webpagetest.html</guid><category>programming</category><category>HttpArchive</category><category>Webpagetest</category></item><item><title>Configuring HttpArchive + Webpagetest (Part 1: Introduction)</title><link>configuring-httparchive-webpagetest-part-1-introduction.html</link><description>&lt;p&gt;Testing is an integral part of developing code, and this is usually a
+lesson that is learned the hard way. I can't name all the times that
+I've made a trivial mistake that goes unnoticed until the code has
+ballooned to the point where rooting around and figuring it out …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Toumorokoshi</dc:creator><pubDate>Thu, 23 Jun 2011 22:40:00 +0200</pubDate><guid isPermaLink="false">tag:None,2011-06-23:configuring-httparchive-webpagetest-part-1-introduction.html</guid><category>programming</category><category>HttpArchive</category><category>Webpagetest</category></item><item><title>Port Forwarding To a VirtualBox VM</title><link>port-forwarding-to-a-virtualbox-vm.html</link><description>&lt;p&gt;Posting this little tidbit for myself. Turns out VirtualBox has a lot of
+interesting NAT options:&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://www.virtualbox.org/manual/ch06.html#natforward"&gt;Nat Forwarding - VirtualBox&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;To forward a port from a host machine to a VM, all you need to do is
+find VBoxManager (.exe at the end for windows) and type:&lt;/p&gt;
+&lt;p&gt;&lt;tt class="docutils literal"&gt;VBoxManage modifyvm &amp;quot;VM name …&lt;/tt&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Yusuke Tsutsumi</dc:creator><pubDate>Wed, 22 Jun 2011 22:59:00 +0200</pubDate><guid isPermaLink="false">tag:None,2011-06-22:port-forwarding-to-a-virtualbox-vm.html</guid><category>general</category><category>VirtualBox</category></item></channel></rss>

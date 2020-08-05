@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>y.tsutsumi.io - general</title><link href="./" rel="alternate"></link><link href="http://y.tsutsumi.io/feeds/general.atom.xml" rel="self"></link><id>./</id><updated>2013-01-25T08:16:00+01:00</updated><entry><title>Installing Paint.net 3.5 and testing sprite animations</title><link href="installing-paintnet-35-and-testing-sprite-animations.html" rel="alternate"></link><published>2013-01-25T08:16:00+01:00</published><updated>2013-01-25T08:16:00+01:00</updated><author><name>Toumorokoshi</name></author><id>tag:None,2013-01-25:installing-paintnet-35-and-testing-sprite-animations.html</id><summary type="html">&lt;p&gt;After doing some searching online, it looks like paint.net is a common
+tool people use to create and animate sprites. Here's a small tutorial
+on how to get some basic sprite sheet testing running.&lt;/p&gt;
+&lt;div class="section" id="installing-paint-net"&gt;
+&lt;h2&gt;Installing paint.net&lt;/h2&gt;
+&lt;p&gt;To install it, simply go to&amp;nbsp;&lt;a class="reference external" href="http://www.getpaint.net/"&gt;http://www.getpaint.net/&lt;/a&gt;&amp;nbsp;(be careful …&lt;/p&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;After doing some searching online, it looks like paint.net is a common
+tool people use to create and animate sprites. Here's a small tutorial
+on how to get some basic sprite sheet testing running.&lt;/p&gt;
+&lt;div class="section" id="installing-paint-net"&gt;
+&lt;h2&gt;Installing paint.net&lt;/h2&gt;
+&lt;p&gt;To install it, simply go to&amp;nbsp;&lt;a class="reference external" href="http://www.getpaint.net/"&gt;http://www.getpaint.net/&lt;/a&gt;&amp;nbsp;(be careful about
+others sites you go to, I end up at a couple of malware sites before I
+arrived at the proper one).&lt;/p&gt;
+&lt;p&gt;The direct download URL
+is&amp;nbsp;&lt;a class="reference external" href="http://www.dotpdn.com/files/Paint.NET.3.5.10.Install.zip"&gt;http://www.dotpdn.com/files/Paint.NET.3.5.10.Install.zip&lt;/a&gt;. If that
+doesn't exist, try to navigate to getpaint.net and click download, and
+then &amp;quot;download paint.net 3.5&amp;quot;. Be careful! There's a lot of adword links
+that look like download pages.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="downloading-sprite-animation-plugins"&gt;
+&lt;h2&gt;Downloading sprite animation plugins&lt;/h2&gt;
+&lt;p&gt;Next, you need to download the plugin! There's a couple of sprite sheet
+plugins out there. I chose the spritesheet animation plugin:&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://forums.getpaint.net/index.php?/topic/14848-spritesheet-animation-plugin/"&gt;Spritesheet animation plugin&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Just download the &amp;quot;&lt;a class="reference external" href="http://forums.getpaint.net/index.php?app=core&amp;amp;module=attach&amp;amp;section=attach&amp;amp;attach_id=3006"&gt;PDNSpriteSheetAnimation.zip&lt;/a&gt;&amp;quot;, which will contain
+a dll file. Drag and drop that into C:\Program
+Files\Paint.Net\Effects. C: is of course,&amp;nbsp;interchangeable&amp;nbsp;with
+whatever drive you installed paint.net on.&lt;/p&gt;
+&lt;p&gt;After you've installed the plugin, restart paint.net. It is now
+available via:&lt;/p&gt;
+&lt;p&gt;Effects &amp;gt; Animations &amp;gt; SpriteSheetAnim :&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://toumorokoshi.files.wordpress.com/2013/01/animationexample.png"&gt;&lt;img alt="Image" src="http://toumorokoshi.files.wordpress.com/2013/01/animationexample.png?w=710" /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;And there you go! The plugin opens up and you can test various
+animations with it.&lt;/p&gt;
+&lt;p&gt;Credit for the sprite sheet in the picture goes to &lt;a class="reference external" href="http://10firstgames.wordpress.com/2012/02/25/hd-sprite-sheet/"&gt;10firstgame's
+wordpress blog&lt;/a&gt;.&lt;/p&gt;
+&lt;/p&gt;&lt;/div&gt;
+</content><category term="general"></category><category term="animations"></category><category term="paint.net"></category><category term="sprites"></category></entry><entry><title>Port Forwarding To a VirtualBox VM</title><link href="port-forwarding-to-a-virtualbox-vm.html" rel="alternate"></link><published>2011-06-22T22:59:00+02:00</published><updated>2011-06-22T22:59:00+02:00</updated><author><name>Yusuke Tsutsumi</name></author><id>tag:None,2011-06-22:port-forwarding-to-a-virtualbox-vm.html</id><summary type="html">&lt;p&gt;Posting this little tidbit for myself. Turns out VirtualBox has a lot of
+interesting NAT options:&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://www.virtualbox.org/manual/ch06.html#natforward"&gt;Nat Forwarding - VirtualBox&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;To forward a port from a host machine to a VM, all you need to do is
+find VBoxManager (.exe at the end for windows) and type:&lt;/p&gt;
+&lt;p&gt;&lt;tt class="docutils literal"&gt;VBoxManage modifyvm &amp;quot;VM name …&lt;/tt&gt;&lt;/p&gt;</summary><content type="html">&lt;p&gt;Posting this little tidbit for myself. Turns out VirtualBox has a lot of
+interesting NAT options:&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://www.virtualbox.org/manual/ch06.html#natforward"&gt;Nat Forwarding - VirtualBox&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;To forward a port from a host machine to a VM, all you need to do is
+find VBoxManager (.exe at the end for windows) and type:&lt;/p&gt;
+&lt;p&gt;&lt;tt class="docutils literal"&gt;VBoxManage modifyvm &amp;quot;VM name&amp;quot; &lt;span class="pre"&gt;--natpf1&lt;/span&gt; &lt;span class="pre"&gt;&amp;quot;guestssh,tcp,,2222,,22&lt;/span&gt;&lt;/tt&gt;&lt;/p&gt;
+&lt;p&gt;And now you have forwarded port 2222 of your host machine to 22 of your
+VM.&lt;/p&gt;
+&lt;p&gt;Would love to know how to delete these rules though.&lt;/p&gt;
+&lt;p&gt;EDIT: just found it, awesome: &lt;a class="reference external" href="http://www.virtualbox.org/manual/ch08.html#vboxmanage-modifyvm"&gt;VBoxManage Command Reference&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;--natpf&amp;lt;1-N&amp;gt;&lt;/span&gt; delete &amp;lt;name&amp;gt;&lt;/tt&gt;&lt;/p&gt;
+</content><category term="general"></category><category term="VirtualBox"></category></entry></feed>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>Configuring HttpArchive + Webpagetest (Part 2: Webpagetest)</title>
+        <link rel="stylesheet" href="./theme/css/main.css" />
+        <link href="http://y.tsutsumi.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="y.tsutsumi.io Atom Feed" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="./">y.tsutsumi.io </a></h1>
+                <nav><ul>
+                    <li><a href="/category/programming.html">Just Programming Posts</a></li>
+                    <li><a href="/codersguide/">Coder's Guide</a></li>
+                    <li><a href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a></li>
+                    <li><a href="./pages/about-me.html">About Me</a></li>
+                    <li><a href="./pages/projects.html">Projects</a></li>
+                    <li><a href="./pages/resources.html">Resources</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="./configuring-httparchive-webpagetest-part-2-webpagetest.html" rel="bookmark"
+           title="Permalink to Configuring HttpArchive + Webpagetest (Part 2: Webpagetest)">Configuring HttpArchive + Webpagetest (Part 2: Webpagetest)</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2011-06-24T19:03:00+02:00">
+                Published: Fri 24 June 2011
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/toumorokoshi.html">Toumorokoshi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+<p>tags: <a href="./tag/httparchive.html">HttpArchive</a> <a href="./tag/webpagetest.html">Webpagetest</a> </p>
+</footer><!-- /.post-info -->      <p>Welcome to part 2! This post discusses installing Webpagetest.org. In
+order to do so, we will need:</p>
+<ul class="simple">
+<li>A windows machine (XP or Windows 7 have been tested with this method)</li>
+<li>Apache2.2 or higher</li>
+<li>PHP5 or higher</li>
+<li>IE of some sort (IE8 or 9 would be best)</li>
+<li>ffmpeg</li>
+</ul>
+</p><p>It is possible to split up the web server and the testing server, but I
+put them both on the same machine for ease of use. In addition I found
+installing and configuring Apache and PHP together on windows was
+surprisingly difficult, so I suggest installing <a class="reference external" href="http://www.apachefriends.org/en/xampp-windows.html">Xampp</a>. It's a
+single-install program that includes many of the tools used for serving
+web pages and web development, such as Apache, PHP5, MySQL, and
+Filezilla. Windows 7 machines have IE 8 installed by default, but
+upgrading is straightforward for XP machines.</p>
+<p>Once you have your machine set up properly, it's time to install
+Webpagetest! You can download the source here: <a class="reference external" href="http://code.google.com/p/webpagetest/downloads/list">Webpagetest.org
+source</a>.</p>
+<p>There are also installation instructions on the webpagetest.org google
+site. I would recommend following these fora a complete guide, but what
+I have written is a shorter version and will attain the same result.</p>
+<p><a class="reference external" href="https://sites.google.com/a/webpagetest.org/docs/private-instances">https://sites.google.com/a/webpagetest.org/docs/private-instances</a></p>
+<p>Configure Apache to point to the www directory of your source, or move
+the contents of the folder to the &quot;htdocs&quot; folder under Xampp (I found
+that the Virtualhost directive in Apache was having issues, so I just
+threw everything into the htdocs folder, where Xampp is initially
+configured to point to). I found that on the windows machine, giving
+read/write permissions to the directories needed was not an issue.</p>
+<p>You will then have to configure everything properly. This involves
+basically copying and pasting everything in the settings folder to it's
+non-sample equivalent. I was able to do this because I wanted a basic
+instance, but keep in mind you may need to do more if you want more
+complex options.</p>
+<p>Configuring the system to run the tests is best explained, verbatim from
+the private-instance setup site linked above:</p>
+<ol></p><p><li><p>Configure the test system to automatically log-on to an administrator
+account. Running &quot;control userpasswords2&quot; from the start menu is one way
+to configure it.</p>
+</li></p><p><li><p>Disable any screen savers (the desktop needs to remain visible for the
+video capture to work)</p>
+</li></p><p><li><p>Disable UAC (Vista or later - slide to &quot;never notify&quot;)</p>
+</li></p><p><li><p>Uninstall IE Enhanced-Security Mode (Windows Server)</p>
+</li></p><p><li><p>Copy the test software from the <strong>agent</strong> folder to the system (to
+&quot;c:\webpagetest&quot; for this example)</p>
+</li></p><p><li><p>Install the DUMMYNET ipfw driver</p>
+</p><ul class="simple">
+<li>Pull up the properties for the Network Adapter that is used to access
+the Internet</li>
+<li>Click &quot;Install&quot;</li>
+<li>Select &quot;Service&quot; and click &quot;Add&quot;</li>
+<li>Click &quot;Have Disk&quot; and navigate to c:\webpagetest\dummynet</li>
+<li>Select the ipfw+dummynet service (and click through any warnings
+about the driver being unsigned)</li>
+</ul>
+</p><p></li></p><p><li><p>Create a shortcut to c:\webpagetest\dummynet\ipfw.cmd in the startup
+folder</p>
+</li></p><p><li><p>Create a shortcut to c:\webpagetest\urlblast.exe in the startup folder</p>
+</li></p><p><li><p>Make a copy of the settings file (urlblast.ini) based on the sample</p>
+</li></p><ul class="simple">
+<li>Give it the path to the server (default configuration points to a
+server on the local machine)</li>
+<li>Configure the location to match the location defined on the server in
+locations.ini (if modified)</li>
+<li>Configure the location key to match the server in locations.ini (if
+modified)</li>
+</ul>
+</p><p><li><p>Reboot to make sure everything starts up correctly</p>
+</li></p><p></ol></p><p><strong>Note:</strong>On windows 7, ipfw will not properly install (it will not
+show up under installable services). If you want to use windows 7, you
+must add a &quot;Location = LAN&quot; directive under test in settings.inc in
+settings:</p>
+<p><pre class="literal-block">
+[Test]Location = LAN
+</pre>
+</p><p>After that, your instance should be set up! Now that wasn't so bad, was
+it?</p>
+<p>Next time we'll talk about installing HttpArchive!</p>
+
+    </div><!-- /.entry-content -->
+    <div class="comments">
+      <h2>Comments !</h2>
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        var disqus_shortname = 'tsutsumi';
+        var disqus_identifier = 'configuring-httparchive-webpagetest-part-2-webpagetest.html';
+        var disqus_url = './configuring-httparchive-webpagetest-part-2-webpagetest.html';
+        (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//tsutsumi.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the comments.</noscript>
+    </div>
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="http://y.tsutsumi.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://github.com/toumorokoshi">GitHub</a></li>
+                            <li><a href="https://twitter.com/tsutsumiyusuke">Twitter</a></li>
+                            <li><a href="http://www.linkedin.com/profile/view?id=56043626">LinkedIn</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+    <script type="text/javascript">
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-29270527-2', 'auto');
+    ga('send', 'pageview');
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'tsutsumi';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

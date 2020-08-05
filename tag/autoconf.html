@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>y.tsutsumi.io - autoconf</title>
+        <link rel="stylesheet" href="./theme/css/main.css" />
+        <link href="http://y.tsutsumi.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="y.tsutsumi.io Atom Feed" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="./">y.tsutsumi.io </a></h1>
+                <nav><ul>
+                    <li><a href="/category/programming.html">Just Programming Posts</a></li>
+                    <li><a href="/codersguide/">Coder's Guide</a></li>
+                    <li><a href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a></li>
+                    <li><a href="./pages/about-me.html">About Me</a></li>
+                    <li><a href="./pages/projects.html">Projects</a></li>
+                    <li><a href="./pages/resources.html">Resources</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="./ax_check_mysql-introduction-and-example.html">ax_check_mysql introduction and example</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2011-08-20T18:30:00+02:00">
+                Published: Sat 20 August 2011
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/toumorokoshi.html">Toumorokoshi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+<p>tags: <a href="./tag/autoconf.html">autoconf</a> <a href="./tag/ax_check_mysql.html">ax_check_mysql</a> </p>
+</footer><!-- /.post-info --><p>I previously mentioned&nbsp;<a class="reference external" href="http://www.gnu.org/software/autoconf-archive/ax_check_mysql.html">ax_check_mysql.m4</a>&nbsp;in one of my posts, an
+m4 macro written for autoconf. So here's a bit more information about
+it, and some examples on how to use it.</p>
+<div class="section" id="introduction">
+<h2>Introduction</h2>
+</p><p>So ax_check_mysql is essentially an m4 macro for autoconf that was
+written with MySQL plugin developers in mind. When one runs the macro, a
+detected MySQL installation will give you the following information:</p>
+<ul class="simple">
+<li>The path to the directory containing the MySQL&nbsp;executables</li>
+<li>The path to the directory containing MySQL includes (if they exist)</li>
+<li>The path to the directory where MySQL plugins go</li>
+<li>The version of MySQL</li>
+<li>Whether MySQL is 32 or 64 bit</li>
+</ul>
+</p><div><p>Basically providing most of the information, MySQL-wise, needed to
+install the plugin.</p>
+</div></p><p>In the situation where an installation can not be detected or an
+incomplete one is found, arguments can also be entered manually with:</p>
+<p><pre class="literal-block">
+--with-mysql
+</pre>
+</p><p>(where the root directory of the MySQL installation is passed (such as
+/usr/local/mysql or some other custom directory) &nbsp;and</p>
+<p><pre class="literal-block">
+--with-mysql-command, --with-mysql-plugin, --with-mysql-include
+</pre>
+</p><p>Which would just passing all the directories directly.</p>
+</div>
+<div class="section" id="examples">
+<h2>Examples</h2>
+</p><p>One can include the macro in the same fashion as any other macro in the
+configure.ac file:</p>
+<p><pre class="literal-block">
+AC_INIT(ax_check_mysql_example,version-1.0)m4_include([m4_ax_check_mysql.m4])AX_CHECK_MYSQL([no],[yes],[5.0],[no])AC_MSG_NOTICE($MYSQL)AC_MSG_NOTICE($MYSQL_COMMANDS)
+</pre>
+</p><p>Now if I run this script on a computer with MySQL installed, you should
+something along the lines of:</p>
+<p><pre class="literal-block">
+$ autoconf &amp;&amp; ./configurechecking for gcc... gccchecking whether the C compiler works... yeschecking for C compiler default output file name... a.outchecking for suffix of executables...checking whether we are cross compiling... nochecking for suffix of object files... ochecking whether we are using the GNU C compiler... yeschecking whether gcc accepts -g... yeschecking for gcc option to accept ISO C89... none neededchecking how to run the C preprocessor... gcc -Echecking for grep that handles long lines and -e... /bin/grepchecking for egrep... /bin/grep -Echecking for ANSI C header files... yeschecking for sys/types.h... yeschecking for sys/stat.h... yeschecking for stdlib.h... yeschecking for string.h... yeschecking for memory.h... yeschecking for strings.h... yeschecking for inttypes.h... yeschecking for stdint.h... yeschecking for unistd.h... yesTesting if MySQL was installed to common source/binary directorychecking for mysql... noTesting if MySQL was installed to common package manager directorychecking for mysql... yeschecking /usr/include/mysql/mysql_version.h/mysql_version.h usability... nochecking /usr/include/mysql/mysql_version.h/mysql_version.h presence...nochecking for /usr/include/mysql/mysql_version.h/mysql_version.h... nochecking /usr/include/mysql_version.h/mysql_version.h usability... nochecking /usr/include/mysql_version.h/mysql_version.h presence... nochecking for /usr/include/mysql_version.h/mysql_version.h... nochecking if /usr/lib/mysql/plugin/ exists...... yeschecking for mysql... /usr/bin/configure: WARNING: A package install was detected, but the include directory could not be found! MySQL development library may not be installed. If development library is installed please use --with-mysql-include --with-mysql-plugin --with-mysql-command to manually assign directory locationschecking MySQL Architecture... 32checking MySQL Version... 5.1.41checking if MySQL install supports Plugins... yeschecking if MySQL version is equal or greater than 5.0... yesconfigure: yesconfigure: /usr/bin/
+</pre>
+</p><p>Note that the last two lines of output were echoing the MYSQL and
+MYSQL_COMMAND variables respectively, and that I do not have the
+development library installed. A full list of variables available are
+listed in the documentation.</p>
+<p>One can pass four arguments when running the macro:</p>
+<p>MYSQL-PLUGIN-NEEDED: if the MySQL version doesn't support plugins (&lt;
+5.1), this will cause failure.</p>
+<p>MYSQL-REQUIRED: say if MySQL is required or not.</p>
+<p>MINIMUM-VERSION: minimum version required for MySQL (i.e. 5.0 or 5.5)</p>
+<p>INCLUDES-REQUIRED: whether the MySQL includes are required (will fail if
+includes are not found)</p>
+<p>For example, If I wanted MySQL 5.5 or higher, I could enter:</p>
+<p><pre class="literal-block">
+AC_INIT(ax_check_mysql_example,version-1.0)m4_include([m4_ax_check_mysql.m4])AX_CHECK_MYSQL([no],[yes],[5.5],[no])
+</pre>
+</p><p>And as my MySQL installation is 5.1.41, ./configure will fail:</p>
+<p><pre class="literal-block">
+checking MySQL Architecture... 32checking MySQL Version... 5.1.41checking if MySQL install supports Plugins... yeschecking if MySQL version is equal or greater than 5.5... noconfigure: error: installed MySQL version is not above 5.5.&nbsp;Please upgrade your version of MySQL
+</pre>
+</p><p>Entering nothing in the version field will allow any version.</p>
+<p>Warnings will be outputted instead of errors if components aren't
+required (such as includes or MySQL itself).</p>
+<p>And there's a brief example! Feel free to comment or contact me
+(<a class="reference external" href="mailto:tsutsumi.yusuke&#64;gmail.com">tsutsumi.yusuke&#64;gmail.com</a>) if there are any questions/ comments.</p>
+<p>The script is maintained by myself on github:</p>
+<p><a class="reference external" href="https://github.com/Toumorokoshi/ax_check_mysql">https://github.com/Toumorokoshi/ax_check_mysql</a></p>
+</div>
+<p>There are <a href="./ax_check_mysql-introduction-and-example.html#disqus_thread">comments</a>.</p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="./autoconf-ax_check_mysql.html" rel="bookmark"
+                           title="Permalink to Autoconf: ax_check_mysql">Autoconf: ax_check_mysql</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2011-06-27T16:19:00+02:00">
+                Published: Mon 27 June 2011
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/toumorokoshi.html">Toumorokoshi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+<p>tags: <a href="./tag/autoconf.html">autoconf</a> <a href="./tag/ax_check_mysql.html">ax_check_mysql</a> <a href="./tag/mysql.html">mysql</a> </p>
+</footer><!-- /.post-info -->                <p>Just mentioning a little m4 script I wrote a little while ago.
+ax_check_mysql is used to find a valid MySQL installation, and gives
+you the binary, include, and plugin directories.</p>
+<p>If you have an autoconf project, and you need MySQL, definitely consider
+it!</p>
+<p><a class="reference external" href="http://www.gnu.org/software/autoconf-archive/ax_check_mysql.html#ax_check_mysql">http://www.gnu.org/software/autoconf-archive/ax_check_mysql …</a></p>
+                <a class="readmore" href="./autoconf-ax_check_mysql.html">read more</a>
+<p>There are <a href="./autoconf-ax_check_mysql.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+                </ol><!-- /#posts-list -->
+                </section><!-- /#content -->
+        <section id="extras" class="body">
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="http://y.tsutsumi.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://github.com/toumorokoshi">GitHub</a></li>
+                            <li><a href="https://twitter.com/tsutsumiyusuke">Twitter</a></li>
+                            <li><a href="http://www.linkedin.com/profile/view?id=56043626">LinkedIn</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+    <script type="text/javascript">
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-29270527-2', 'auto');
+    ga('send', 'pageview');
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'tsutsumi';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>deepmerge: deep merge dictionaries, lists and more in Python</title>
+        <link rel="stylesheet" href="./theme/css/main.css" />
+        <link href="http://y.tsutsumi.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="y.tsutsumi.io Atom Feed" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="./">y.tsutsumi.io </a></h1>
+                <nav><ul>
+                    <li><a href="/category/programming.html">Just Programming Posts</a></li>
+                    <li><a href="/codersguide/">Coder's Guide</a></li>
+                    <li><a href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a></li>
+                    <li><a href="./pages/about-me.html">About Me</a></li>
+                    <li><a href="./pages/projects.html">Projects</a></li>
+                    <li><a href="./pages/resources.html">Resources</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="./deepmerge-deep-merge-dictionaries-lists-and-more-in-python.html" rel="bookmark"
+           title="Permalink to deepmerge: deep merge dictionaries, lists and more in Python">deepmerge: deep merge dictionaries, lists and more in Python</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2017-04-24T00:00:00+02:00">
+                Published: Mon 24 April 2017
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/yusuke-tsutsumi.html">Yusuke Tsutsumi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+<p>tags: <a href="./tag/python.html">python</a> </p>
+</footer><!-- /.post-info -->      <p>Introducing <a class="reference external" href="https://github.com/toumorokoshi/deepmerge/">deepmerge</a>. It's a library designed to provide simple
+controls around a merging system for basic Python data structures like dicts and lists.</p>
+<p>It provides a few common cases for merging (like always merge + override, or raise an exception):</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">deepmerge</span> <span class="kn">import</span> <span class="n">always_merger</span><span class="p">,</span> <span class="n">merge_or_raise</span>
+
+<span class="n">base</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;b&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;c&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">&quot;nested&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;nested_dict&quot;</span><span class="p">:</span> <span class="s2">&quot;value&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;nested_list&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">nxt</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;new_key&quot;</span><span class="p">:</span> <span class="s2">&quot;new_value&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;nested&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;nested_dict&quot;</span><span class="p">:</span> <span class="s2">&quot;new_value&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;nested_list&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;b&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;new_nested_key&quot;</span><span class="p">:</span> <span class="s2">&quot;value&quot;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">always_merge</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">nxt</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">base</span> <span class="o">==</span> <span class="p">{</span>
+      <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;b&quot;</span><span class="p">],</span>
+      <span class="s2">&quot;c&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="s2">&quot;new_key&quot;</span><span class="p">:</span> <span class="s2">&quot;new_value&quot;</span>
+      <span class="s2">&quot;nested&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="s2">&quot;nested_dict&quot;</span><span class="p">:</span> <span class="s2">&quot;new_value&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;nested_list&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">],</span>
+          <span class="s2">&quot;new_nested_key&quot;</span><span class="p">:</span> <span class="s2">&quot;value&quot;</span>
+      <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+<p>deepmerge allows customization as well, for when you want to specify
+the merging strategy:</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">deepmerge</span> <span class="kn">import</span> <span class="n">Merger</span>
+
+<span class="n">my_merger</span> <span class="o">=</span> <span class="n">Merger</span><span class="p">(</span>
+    <span class="c1"># pass in a list of tuples,with the</span>
+    <span class="c1"># strategies you are looking to apply</span>
+    <span class="c1"># to each type.</span>
+    <span class="p">[</span>
+        <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;prepend&quot;</span><span class="p">]),</span>
+        <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;merge&quot;</span><span class="p">])</span>
+    <span class="p">],</span>
+    <span class="c1"># next, choose the fallback strategies,</span>
+    <span class="c1"># applied to all other types:</span>
+    <span class="p">[</span><span class="s2">&quot;override&quot;</span><span class="p">],</span>
+    <span class="c1"># finally, choose the strategies in</span>
+    <span class="c1"># the case where the types conflict:</span>
+    <span class="p">[</span><span class="s2">&quot;override&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="n">base</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;foo&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;bar&quot;</span><span class="p">]}</span>
+<span class="nb">next</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;bar&quot;</span><span class="p">:</span> <span class="s2">&quot;baz&quot;</span><span class="p">}</span>
+<span class="n">my_merger</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="nb">next</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">base</span> <span class="o">==</span> <span class="p">{</span><span class="s2">&quot;foo&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;bar&quot;</span><span class="p">],</span> <span class="s2">&quot;bar&quot;</span><span class="p">:</span> <span class="s2">&quot;baz&quot;</span><span class="p">}</span>
+</pre></div>
+<p>For each strategy choice, pass in a list of strings specifying built in strategies,
+or a function defining your own:</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">merge_sets</span><span class="p">(</span><span class="n">merger</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">nxt</span><span class="p">):</span>
+    <span class="n">base</span> <span class="o">|=</span> <span class="n">nxt</span>
+    <span class="k">return</span> <span class="n">base</span>
+
+<span class="k">def</span> <span class="nf">merge_list</span><span class="p">(</span><span class="n">merger</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">nxt</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nxt</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">base</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nxt</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">base</span>
+
+<span class="k">return</span> <span class="n">Merger</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">merge_list</span><span class="p">),</span>
+        <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="s2">&quot;merge&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="nb">set</span><span class="p">,</span> <span class="n">merge_sets</span><span class="p">)</span>
+    <span class="p">],</span>
+    <span class="p">[],</span>
+    <span class="p">[],</span>
+<span class="p">)</span>
+</pre></div>
+<p>That's it! Give and try, and Pull Requests are always encouraged.</p>
+
+    </div><!-- /.entry-content -->
+    <div class="comments">
+      <h2>Comments !</h2>
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        var disqus_shortname = 'tsutsumi';
+        var disqus_identifier = 'deepmerge-deep-merge-dictionaries-lists-and-more-in-python.html';
+        var disqus_url = './deepmerge-deep-merge-dictionaries-lists-and-more-in-python.html';
+        (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//tsutsumi.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the comments.</noscript>
+    </div>
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="http://y.tsutsumi.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://github.com/toumorokoshi">GitHub</a></li>
+                            <li><a href="https://twitter.com/tsutsumiyusuke">Twitter</a></li>
+                            <li><a href="http://www.linkedin.com/profile/view?id=56043626">LinkedIn</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+    <script type="text/javascript">
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-29270527-2', 'auto');
+    ga('send', 'pageview');
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'tsutsumi';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

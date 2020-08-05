@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>Automatic Package installation using ELPA in Emacs 24</title>
+        <link rel="stylesheet" href="./theme/css/main.css" />
+        <link href="http://y.tsutsumi.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="y.tsutsumi.io Atom Feed" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="./">y.tsutsumi.io </a></h1>
+                <nav><ul>
+                    <li><a href="/category/programming.html">Just Programming Posts</a></li>
+                    <li><a href="/codersguide/">Coder's Guide</a></li>
+                    <li><a href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a></li>
+                    <li><a href="./pages/about-me.html">About Me</a></li>
+                    <li><a href="./pages/projects.html">Projects</a></li>
+                    <li><a href="./pages/resources.html">Resources</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="./automatic-package-installation-using-elpa-in-emacs-24.html" rel="bookmark"
+           title="Permalink to Automatic Package installation using ELPA in Emacs 24">Automatic Package installation using ELPA in Emacs 24</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2012-02-16T23:59:00+01:00">
+                Published: Thu 16 February 2012
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/toumorokoshi.html">Toumorokoshi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+
+</footer><!-- /.post-info -->      <p>Emacs 24 includes many improvements over 23, but there is one particular
+addition that makes me run around and go crazy with joy: a built-in
+package management system, <a class="reference external" href="http://tromey.com/elpa/">ELPA</a> (Emacs 24 is still in development,
+<a class="reference external" href="http://batsov.com/articles/2011/10/09/getting-started-with-emacs-24/">Bozhidar Batsov</a>&nbsp;has a good guide on how to get it set up). I switched
+over to Emacs almost a year ago, searching for something that would give
+me an IDE with the following attributes:</p>
+<ul class="simple">
+<li>Functionality (context-based completion, on the fly syntax checking)</li>
+<li>Customization&nbsp;(key bindings, easily extensible)</li>
+<li>Portability (minimal setup on new environments)</li>
+</ul>
+</p><p>There are a lot of nice extensions that do well for the first two.
+However, Portability was always tricky. To get some of the more power
+coding features in Emacs, one needed to install large packages, and
+there was no way to move these around short of zipping the whole thing
+up or finding and installing all these packages again.</p>
+<p>ELPA completes the trifecta I have been looking for. It was now easy to
+have a list of packages to install. I have a GitHub repository to
+contain all of my .emacs setup, so I can just clone a repository with
+every new environment. To make the setup completely automatic, I needed
+a method to automatically install packages that did not exist. After a
+little research, I was able to figure it out:</p>
+<p><pre class="literal-block">
+;; Packages to install first (check if emacs is 24 or higher)(if (&gt;= emacs-major-version 24)  (progn  ;; Add a larger package list    (setq package-archives '((&quot;ELPA&quot; . &quot;http://tromey.com/elpa/&quot;)      (&quot;gnu&quot; . &quot;http://elpa.gnu.org/packages/&quot;)      (&quot;marmalade&quot; . &quot;http://marmalade-repo.org/packages/&quot;)))       (package-refresh-contents)       ;; Install flymake mode if it doesn't exist, then configure       (when (not (require 'flymake nil t))         (package-install 'flymake))       (global-set-key (kbd &quot;C-; C-f&quot;) 'flymake-mode)       ;; flymake-cursor       (when (not (require 'flymake-cursor nil t))         (package-install 'flymake-cursor))       ;; Install rainbow mode if it doesn't exist, then configure       (when (not (require 'rainbow-mode nil t))         (package-install 'rainbow-mode))       (defun all-css-modes() (css-mode)         (rainbow-mode))       (add-to-list 'auto-mode-alist '(&quot;\.css$&quot; . all-css-modes))    ))
+</pre>
+</p><p><strong>NOTE!!!</strong> This must be run after ALL OTHER INITIALIZATIONS are run!
+You can do this by placing it within a hook:</p>
+<p><pre class="literal-block">
+(add-hook 'after-init-hook '(lambda ()    (load &quot;~/.emacs.loadpackages&quot;))) ;; anything within the lambda will run after everything has initialized.
+</pre>
+</p><p>As you can see, I've put the above logic into a file called
+&quot;.emacs.loadpackages&quot;. This is so I can remove it at easy if I want a
+more bare environment.</p>
+<p>I'd like to talk about this a little bit in detail. The first line
+ensures that emacs is version 24 or higher:</p>
+<p><pre class="literal-block">
+(if (&gt;= emacs-major-version 24) PACKAGE_STUFF_HERE)
+</pre>
+</p><p>I then add more repositories to the package manager, gnu and Marmalade
+(the base package is a bit limited, in my opinion)</p>
+<p><pre class="literal-block">
+(setq package-archives '(    (&quot;ELPA&quot; . &quot;http://tromey.com/elpa/&quot;)    (&quot;gnu&quot; . &quot;http://elpa.gnu.org/packages/&quot;)    (&quot;marmalade&quot; . &quot;http://marmalade-repo.org/packages/&quot;)))
+</pre>
+</p><p>This requires a refresh:</p>
+<p><pre class="literal-block">
+(package-refresh-contents)
+</pre>
+</p><p>And then onto the logic to see if a package exists! You can use require
+to see if a package exists, nullifying the error message it usually
+return by adding the true statement at the end. For example, this will
+return true when the package fly-make cursor is not installed:</p>
+<p><pre class="literal-block">
+(not (require 'flymake-cursor nil t))
+</pre>
+</p><p>You can then add this to a complete clause:</p>
+<p><pre class="literal-block">
+(when (not (require 'flymake-cursor nil t))    (package-install 'flymake-cursor))
+</pre>
+</p><p>And you're done!</p>
+<div class="section" id="issues">
+<h2>Issues:</h2>
+</p><p>There a couple of things I'm still working on regarding this setup.
+Although I haven't gotten any environment breaking errors so far,
+there's not a lot of error checking, so I'm sure it can break if things
+are not completely right. In addition, this does not work very well for
+portable programmers, as Emacs will try to initialize ELPA, resulting in
+an exception due to not being able to contact the server.</p>
+<p>Please leave comments and suggestions!</p>
+</div>
+
+    </div><!-- /.entry-content -->
+    <div class="comments">
+      <h2>Comments !</h2>
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        var disqus_shortname = 'tsutsumi';
+        var disqus_identifier = 'automatic-package-installation-using-elpa-in-emacs-24.html';
+        var disqus_url = './automatic-package-installation-using-elpa-in-emacs-24.html';
+        (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//tsutsumi.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the comments.</noscript>
+    </div>
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="http://y.tsutsumi.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://github.com/toumorokoshi">GitHub</a></li>
+                            <li><a href="https://twitter.com/tsutsumiyusuke">Twitter</a></li>
+                            <li><a href="http://www.linkedin.com/profile/view?id=56043626">LinkedIn</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+    <script type="text/javascript">
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-29270527-2', 'auto');
+    ga('send', 'pageview');
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'tsutsumi';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

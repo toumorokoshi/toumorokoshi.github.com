@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>Automatic Package Installation for Emacs 24 - Part 2</title>
+        <link rel="stylesheet" href="./theme/css/main.css" />
+        <link href="http://y.tsutsumi.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="y.tsutsumi.io Atom Feed" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="./">y.tsutsumi.io </a></h1>
+                <nav><ul>
+                    <li><a href="/category/programming.html">Just Programming Posts</a></li>
+                    <li><a href="/codersguide/">Coder's Guide</a></li>
+                    <li><a href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a></li>
+                    <li><a href="./pages/about-me.html">About Me</a></li>
+                    <li><a href="./pages/projects.html">Projects</a></li>
+                    <li><a href="./pages/resources.html">Resources</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="./automatic-package-installation-for-emacs-24-part-2.html" rel="bookmark"
+           title="Permalink to Automatic Package Installation for Emacs 24 - Part 2">Automatic Package Installation for Emacs 24 - Part 2</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2013-03-24T00:00:00+01:00">
+                Published: Sun 24 March 2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/yusuke-tsutsumi.html">Yusuke Tsutsumi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+<p>tags: <a href="./tag/emacs.html">emacs</a> <a href="./tag/el-get.html">el-get</a> </p>
+</footer><!-- /.post-info -->      <p><em>EDIT 07/01/2014</em>: I don't recommend setting up packages like this anymore. I recommend reading
+<a class="reference external" href="emacs-from-scratch-part-2-package-management.html">this post instead</a></p>
+<p>About a year ago I wrote about <a class="reference external" href="automatic-package-installation-using-elpa-in-emacs-24.html">installing packages on startup, automatically for Emacs 24</a>. This used the native ELPA, looked for packages that weren't already installed, and used package-install to install them.</p>
+<p>Unfortunately, I realized that this method wasn't nearly as functional as I wanted it to be. I'll save my opinions for later. If you're just looking for a great way to install packages for Emacs, I'll just write it out here.</p>
+<div class="section" id="what-i-do">
+<h2>What I do</h2>
+<p>Here's a baseline example of how to manage your packages:</p>
+<div class="highlight"><pre><span></span>    <span class="c1">;; Check for el-get, install if not exists</span>
+    <span class="p">(</span><span class="nf">add-to-list</span> <span class="ss">&#39;load-path</span> <span class="s">&quot;~/.emacs.d/el-get/el-get&quot;</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">unless</span> <span class="p">(</span><span class="nf">require</span> <span class="ss">&#39;el-get</span> <span class="nv">nil</span> <span class="nv">t</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">url-retrieve</span>
+ <span class="s">&quot;https://raw.github.com/dimitri/el-get/master/el-get-install.el&quot;</span>
+ <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">s</span><span class="p">)</span>
+   <span class="p">(</span><span class="nf">goto-char</span> <span class="p">(</span><span class="nf">point-max</span><span class="p">))</span>
+   <span class="p">(</span><span class="nf">eval-print-last-sexp</span><span class="p">))))</span>
+
+    <span class="c1">;; Set up packages</span>
+    <span class="p">(</span><span class="nf">setq</span> <span class="nv">el-get-sources</span>
+<span class="o">&#39;</span><span class="p">((</span><span class="nf">:name</span> <span class="nv">flymake</span>
+   <span class="nv">:description</span> <span class="s">&quot;Continuous syntax checking for Emacs.&quot;</span>
+   <span class="nv">:type</span> <span class="nv">github</span>
+   <span class="nv">:pkgname</span> <span class="s">&quot;illusori/emacs-flymake&quot;</span><span class="p">)</span>
+
+  <span class="p">(</span><span class="nf">:name</span> <span class="nv">multiple-cursors</span>
+   <span class="nv">:description</span> <span class="s">&quot;An experiment in adding multiple cursors to emacs&quot;</span>
+   <span class="nv">:type</span> <span class="nv">github</span>
+   <span class="nv">:pkgname</span> <span class="s">&quot;magnars/multiple-cursors.el&quot;</span>
+   <span class="nv">:features</span> <span class="nv">multiple-cursors</span><span class="p">)</span>
+
+  <span class="p">(</span><span class="nf">:name</span> <span class="nv">scala-mode</span>
+   <span class="nv">:description</span> <span class="s">&quot;Major mode for editing Scala code.&quot;</span>
+   <span class="nv">:type</span> <span class="nv">git</span>
+   <span class="nv">:url</span> <span class="s">&quot;https://github.com/scala/scala-dist.git&quot;</span>
+   <span class="nv">:build</span> <span class="o">`</span><span class="p">((</span><span class="s">&quot;make -C tool-support/src/emacs&quot;</span> <span class="o">,</span><span class="p">(</span><span class="nf">concat</span> <span class="s">&quot;ELISP_COMMAND=&quot;</span> <span class="nv">el-get-emacs</span><span class="p">)))</span>
+   <span class="nv">:load-path</span> <span class="p">(</span><span class="s">&quot;tool-support/src/emacs&quot;</span><span class="p">)</span>
+   <span class="nv">:features</span> <span class="nv">scala-mode-auto</span><span class="p">)</span>
+
+    <span class="p">(</span><span class="nf">:name</span> <span class="nv">rainbow-mode</span> <span class="nv">:type</span> <span class="nv">elpa</span><span class="p">)</span>
+
+  <span class="p">(</span><span class="nf">:name</span> <span class="nv">js2-mode</span>
+   <span class="nv">:website</span> <span class="s">&quot;https://github.com/mooz/js2-mode#readme&quot;</span>
+   <span class="nv">:description</span> <span class="s">&quot;An improved JavaScript editing mode&quot;</span>
+   <span class="nv">:type</span> <span class="nv">github</span>
+   <span class="nv">:pkgname</span> <span class="s">&quot;mooz/js2-mode&quot;</span>
+   <span class="nv">:prepare</span> <span class="p">(</span><span class="nf">autoload</span> <span class="ss">&#39;js2-mode</span> <span class="s">&quot;js2-mode&quot;</span> <span class="nv">nil</span> <span class="nv">t</span><span class="p">))))</span>
+
+    <span class="c1">;; install any packages not installed yet</span>
+    <span class="p">(</span><span class="nf">mapc</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">f</span><span class="p">)</span>
+      <span class="p">(</span><span class="k">let </span><span class="p">((</span><span class="nf">name</span> <span class="p">(</span><span class="nf">plist-get</span> <span class="nv">f</span> <span class="nv">:name</span><span class="p">)))</span>
+           <span class="p">(</span><span class="nf">when</span> <span class="p">(</span><span class="nb">not </span><span class="p">(</span><span class="nf">require</span> <span class="nv">name</span> <span class="nv">nil</span> <span class="nv">t</span><span class="p">))</span> <span class="p">(</span><span class="nf">el-get-install</span> <span class="nv">name</span><span class="p">))))</span>
+    <span class="nv">el-get-sources</span><span class="p">)</span>
+</pre></div>
+<p>What does this do? Well:</p>
+<ul class="simple">
+<li>Checks for installation of el-get, my package manager of choice, and installs it if one doesn't exist</li>
+<li>Sets a list of package definitions into el-get-sources</li>
+<li>Looks through the whole list of el-get-sources, ad runs el-get-install if the package isn't installed (verified via the 'require' command)</li>
+</ul>
+<p>If I find a new package I want, whether it's on github, elpa, or
+otherwise, I first check if the package info already exists in
+<a class="reference external" href="https://github.com/dimitri/el-get/tree/master/recipes">el-get's huge list of recipes</a>, or I write
+it up myself. As an example, install an elpa package is as simple as:</p>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="nf">:name</span> <span class="nv">rainbow-mode</span> <span class="nv">:type</span> <span class="nv">elpa</span><span class="p">)</span>
+</pre></div>
+<p>How about a git repository? In that case it's just:</p>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="nf">:name</span> <span class="nv">scala-mode</span> <span class="nv">:type</span> <span class="nv">git</span> <span class="nv">:url</span> <span class="s">&quot;http://github.com/scala/scala-dist.git&quot;</span><span class="p">)</span>
+</pre></div>
+<p>Or a shortened github version:</p>
+<div class="highlight"><pre><span></span><span class="p">(</span><span class="nf">:name</span> <span class="nv">scala-mode</span> <span class="nv">:type</span> <span class="nv">github</span> <span class="nv">:pkgname</span> <span class="s">&quot;scala/scala-dist.git&quot;</span><span class="p">)</span>
+</pre></div>
+<p>Also in my system, I put my el-get-sources list into a different file and load it, it makes it way easier to manager than a huge chunk of data halfway through a bunch of code:</p>
+<div class="highlight"><pre><span></span><span class="c1">;; e.g. put the &quot;el-get-sources&quot; list in .emacs.elgetpackages</span>
+<span class="p">(</span><span class="nb">load </span><span class="s">&quot;~/.emacs.d/.emacs.elgetpackages&quot;</span><span class="p">)</span>
+</pre></div>
+<p>Try it out for yourself! Watch as all of your favorite packages get installed on startup. Note that the install order might be different, as the cloning and installing process is performed asynchronously.</p>
+</div>
+<div class="section" id="why-i-do-it-this-way">
+<h2>Why I do it this way</h2>
+<p>So why do I el-get now instead of package.el and ELPA?</p>
+<p>When I started using ELPA. I was really satisfied. It was so easy to find and discover new packages, and installing them was a snap! However, with the rate at which emacs plugin development occurs, the packages are outdated quickly. In the world of github, and an incredibly active community, I found that my main issue was being able to install the most recent version of packages out there, and keeping them up to date.</p>
+<p>ELPA is only as up to date as the package developers make it, and depending on the library, that's not a lot. In addition, there are quite a lot of libraries out there which haven't made it yet into a package.el repository.</p>
+<p>So why wait? When adding a new package to your distributable emacs configuration is one line away, you don't have to.</p>
+<p>el-get provides basically everything I'm looking for:</p>
+<ul class="simple">
+<li>a specific 'github' type for github repos. An absolute necessity, a lot of really good emacs extensions are on github.</li>
+<li>generic git cloning. Great for the other libraries stores elsewhere</li>
+<li>it even hooks into elpa for other packages!</li>
+</ul>
+<p>Although I rarely use package.el or ELPA anymore. If I can find the github equivalent, I'll use that instead. You'd be surprised how outdated existing libraries become.</p>
+<p>This also provides the flexibility of allowing me to use my own version of various libraries, if need be. I no longer have to wait for pull requests to enjoy my fixes: I can just use my own repository, and switch back when the main repository catches up.</p>
+<p>So if you want to stay on the cutting-edge, and not worry about the hassle of installing every single package you use on every machine you have, give this a shot.</p>
+</div>
+
+    </div><!-- /.entry-content -->
+    <div class="comments">
+      <h2>Comments !</h2>
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        var disqus_shortname = 'tsutsumi';
+        var disqus_identifier = 'automatic-package-installation-for-emacs-24-part-2.html';
+        var disqus_url = './automatic-package-installation-for-emacs-24-part-2.html';
+        (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//tsutsumi.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the comments.</noscript>
+    </div>
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="http://y.tsutsumi.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://github.com/toumorokoshi">GitHub</a></li>
+                            <li><a href="https://twitter.com/tsutsumiyusuke">Twitter</a></li>
+                            <li><a href="http://www.linkedin.com/profile/view?id=56043626">LinkedIn</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+    <script type="text/javascript">
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-29270527-2', 'auto');
+    ga('send', 'pageview');
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'tsutsumi';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

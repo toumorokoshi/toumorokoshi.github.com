@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>How I Design Test Suites</title>
+        <link rel="stylesheet" href="./theme/css/main.css" />
+        <link href="http://y.tsutsumi.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="y.tsutsumi.io Atom Feed" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="./">y.tsutsumi.io </a></h1>
+                <nav><ul>
+                    <li><a href="/category/programming.html">Just Programming Posts</a></li>
+                    <li><a href="/codersguide/">Coder's Guide</a></li>
+                    <li><a href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a></li>
+                    <li><a href="./pages/about-me.html">About Me</a></li>
+                    <li><a href="./pages/projects.html">Projects</a></li>
+                    <li><a href="./pages/resources.html">Resources</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="./how-i-design-test-suites.html" rel="bookmark"
+           title="Permalink to How I Design Test Suites">How I Design Test Suites</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2015-08-30T00:00:00+02:00">
+                Published: Sun 30 August 2015
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/yusuke-tsutsumi.html">Yusuke Tsutsumi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+<p>tags: <a href="./tag/testing.html">testing</a> </p>
+</footer><!-- /.post-info -->      <p>At Zillow, I've done a lot of work on the design and development of
+the test infrastructure we use for full-stack tests. It's always fun
+to watch your tool become popular, but even more interesting is the
+discussions around test suite design that come with it.</p>
+<p>Many discussions later, I have a good idea of what I want in a test suite.
+Here's what I think about:</p>
+<div class="section" id="tests-are-a-question-of-cost">
+<h2>Tests are a question of cost</h2>
+<p>At the end of the day, tests have a cost. Each and every test has a
+value / cost ratio. Things that increase the value of a test include:</p>
+<ul class="simple">
+<li>consistency: given the same inputs, give the same results, every time.</li>
+<li>speed: the faster the test is, the faster the feedback. The faster
+the feedback, the faster one can take action, and the more often we
+can execute the tests to get feedback.</li>
+</ul>
+<p>In contrast, the things that increase the cost of a test include:</p>
+<ul class="simple">
+<li>maintenance time: maintenance takes time, and development time is expensive.
+probably the biggest cost to consider.</li>
+<li>cpu / memory to execute the test: although arguably cheap in this world
+of cloud providers, cpu and memory are real concerns, and tests that use
+a lot of these resources are expensive.</li>
+<li>the time to execute the test: time is a huge cost, especially as the
+technology world we live in demands for more changes, more
+quickly. Depending on how fast you ship, tests that take too long will
+be prohibitively expensive, and thus not used.</li>
+</ul>
+<p>When I look at the value of a test, I look at these factors. In
+practice, I've found that the most important metric of them all is
+maintenance time: test that have little to no maintenance survive
+refactors, rewrites, and pretty much anything that could happen to
+code besides deprecation.</p>
+<p>On the other hand, the more the test requires maintenance, the more likely
+it'll suffer one of two outcomes:</p>
+<ul class="simple">
+<li>the test is thrown out because it takes too much time to maintain,
+despite the value.</li>
+<li>the test is not given the time it needs, and continues to fall into
+disarray until it is ignored.</li>
+</ul>
+<p>Basically: low maintenance tests last forever, high maintenance tests probably won't.</p>
+</div>
+<div class="section" id="designing-cheap-tests">
+<h2>Designing cheap tests</h2>
+<p>So how do we make tests that require little to no maintenance? From what I've observed, there are two types of maintenance:</p>
+<ul class="simple">
+<li><dl class="first docutils">
+<dt>functional maintenance, which modifies the test to reflect changes in the code itself</dt>
+<dd><ul class="first last">
+<li>e.g. for a web page, the login form fields are modified</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>operational maintenance, which requires keeping a service dependency in a good state to test.</dt>
+<dd><ul class="first last">
+<li>e.g. for an office application with cloud sync, keeping the cloud syncing service up.</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p>Functional maintenance is unavoidable: as code changes, one must
+ensure that any tests that validate that code are kept up to date. In
+addition, for most tests, functional maintenance is relatively cheap
+in time: except in the cases of extreme redesigns or refactorings, the
+changes tend to be small in nature.</p>
+<p>Operational maintenance costs can vary wildly, and it can become very
+expensive. Tests that have multiple dependencies can become a game of
+juggling an environment where all of those are functional. It becomes
+even harder if there's a small team maintaining this environment:
+executing the tests consistently requires a production-quality
+environment, and that's more difficult the more services there are to
+maintain.</p>
+<p>However, unlike functional maintenance, operational maintenance, for
+the most part, is avoidable. Taking advantage of heavy mocking, it's
+possible to remove dependencies like databases and APIs. <a class="reference external" href="http://googletesting.blogspot.com/2012/10/hermetic-servers.html">Google
+Testing Blog has a good article about
+this</a>.</p>
+<p>Summary: tests with fewer operational dependencies are cheaper to maintain.</p>
+</div>
+<div class="section" id="what-kind-of-test-distribution-the-testing-pyramid">
+<h2>What kind of test distribution: the testing pyramid</h2>
+<p>When testing software, there are multiple levels at which one could author tests:</p>
+<ul class="simple">
+<li>at the &quot;unit&quot; level, typically written in the same language and validating a single function or behaviour</li>
+<li>at the integration level, typically written in the same language, and validating the communication between your code and an external application</li>
+<li>at the end-to-end level, not necessarily written in the same language, and validating a complete workflow that a user would be performing.</li>
+</ul>
+<p>Although all are important and should be included in a test suite,
+each test is not created equally. Going back to the idea that tests
+with the least maintenance will last the longest, we should be trying
+to have as many of those as possible.</p>
+<p>Unit tests are the cheapest. They:</p>
+<ul class="simple">
+<li>have no dependencies (or else they would at least be considered an integration test),</li>
+<li>run quickly (no waiting for network, or other delay from communication)</li>
+</ul>
+<p>If we could capture all behaviour of our application with just unit
+tests, that would be perfect. Unfortunately, many things can go wrong
+when composing multiple pieces of these units together, so some level
+of integration and end-to-end tests will be needed. But the larger
+tests should be fewer in number, since they are harder to maintain.</p>
+<p>A good model to visualize a good distribution is the &quot;testing pyramid&quot;, as explained
+by <a class="reference external" href="http://martinfowler.com/bliki/TestPyramid.html">Martin Fowler</a> and <a class="reference external" href="http://googletesting.blogspot.com/2015/04/just-say-no-to-more-end-to-end-tests.html">Google</a>:</p>
+<img alt="" class="align-center" src="images/testingpyramid.png" />
+<p>The more expensive tests are fewer in number, while the cheaper tests
+are much more common.</p>
+</div>
+<div class="section" id="how-many-tests-should-be-in-a-suite">
+<h2>How many tests should be in a suite</h2>
+<p>Adequate test coverage varies wildly between applications: medical
+software than monitors heart rate should probably have a lot more
+coverage than a non-critical social media website. The only common
+rule of thumb I've found is: add the absolute minimum number of tests
+to achieve your desired confidence in quality.</p>
+<p>Testing is important, but at the end of the day, it's not a
+user-facing feature. On the other hand, quality is. Adding additional
+tests does increase quality, but it comes at the cost of development
+and maintenance time toward other features that help your application
+provide value. A properly sized testing suite comes right at the line
+of too little testing, and hover around that. This gives developers
+as much time as possible on features, while ensuring that an
+important feature (quality) is not neglected.</p>
+</div>
+<div class="section" id="summary">
+<h2>Summary</h2>
+<ul class="simple">
+<li>the best tests are the cheapest tests: low maintenance and executes quickly and low CPU/RAM resources</li>
+<li>the cheapest tests have the fewest number of dependencies on other applications, like DBs or APIs</li>
+<li>try to keep test coverage as low level as possible, and cheap tests are worth 10x expensive ones.</li>
+<li>expensive tests validate the whole infrastructune, so they're almost
+always necessary: refer to the test pyramid for a rough sketch of a good distribution.</li>
+<li>never add more or less coverage than you need: more coverage results
+in more maintenance that detracts from development time, and less coverage means an application
+whose quality is not up to the desired standards.</li>
+<li>how much coverage do I need? Depends on how critical the application
+is, and how critical it continues to work. A payment path needs high
+quality, so should have high coverage. The alignment of a button on
+a dialog three pages deep probably needs less quality assurance.</li>
+</ul>
+<p>How do you design your test suite?</p>
+</div>
+
+    </div><!-- /.entry-content -->
+    <div class="comments">
+      <h2>Comments !</h2>
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        var disqus_shortname = 'tsutsumi';
+        var disqus_identifier = 'how-i-design-test-suites.html';
+        var disqus_url = './how-i-design-test-suites.html';
+        (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//tsutsumi.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the comments.</noscript>
+    </div>
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="http://y.tsutsumi.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://github.com/toumorokoshi">GitHub</a></li>
+                            <li><a href="https://twitter.com/tsutsumiyusuke">Twitter</a></li>
+                            <li><a href="http://www.linkedin.com/profile/view?id=56043626">LinkedIn</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+    <script type="text/javascript">
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-29270527-2', 'auto');
+    ga('send', 'pageview');
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'tsutsumi';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

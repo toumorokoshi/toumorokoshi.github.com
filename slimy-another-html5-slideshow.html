@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>Slimy: another html5 slideshow</title>
+        <link rel="stylesheet" href="./theme/css/main.css" />
+        <link href="http://y.tsutsumi.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="y.tsutsumi.io Atom Feed" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="./">y.tsutsumi.io </a></h1>
+                <nav><ul>
+                    <li><a href="/category/programming.html">Just Programming Posts</a></li>
+                    <li><a href="/codersguide/">Coder's Guide</a></li>
+                    <li><a href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a></li>
+                    <li><a href="./pages/about-me.html">About Me</a></li>
+                    <li><a href="./pages/projects.html">Projects</a></li>
+                    <li><a href="./pages/resources.html">Resources</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="./slimy-another-html5-slideshow.html" rel="bookmark"
+           title="Permalink to Slimy: another html5 slideshow">Slimy: another html5 slideshow</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2012-05-08T20:45:00+02:00">
+                Published: Tue 08 May 2012
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/toumorokoshi.html">Toumorokoshi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+<p>tags: <a href="./tag/slimy-html5.html">slimy html5</a> </p>
+</footer><!-- /.post-info -->      <p><a class="reference external" href="https://code.google.com/p/slimy/"><img alt="image0" src="https://toumorokoshi.files.wordpress.com/2012/05/slimy.png" /></a>After seeing a coworker's presentation completely done using
+html5 and javascript, I really realized how much of a platform that
+html5 can be. Effectively, it's a ubiquitous platform by which any
+operating system can run code, with very little prior setup necessary. I
+really liked the concept of an html5 slideshow, so I looked around for
+one that suited my needs. There wasn't one, so I began to write my own.
+I present Slimy:</p>
+<p><a class="reference external" href="http://code.google.com/p/slimy/">http://code.google.com/p/slimy/</a></p>
+<p>You can see an example here:</p>
+<p><a class="reference external" href="http://slimy.googlecode.com/git/example.html">http://slimy.googlecode.com/git/example.html</a></p>
+<p>I explored html5 slideshows quite a bit, and I had two main issues that
+got me interested in writing my own:</p>
+<ol class="arabic simple">
+<li>Every html5 slideshow I saw had online dependencies. I understand
+that the web is everywhere, but I still didn't want to rule out
+situations where internet access is not readily available. Simply
+saving the slideshow locally with a browser was a viable option, but
+I preferred to also clutter my&nbsp;file system&nbsp;as little as possible.</li>
+<li>The markup wasn't always straightforward. I was recommended both the
+google html slideshow and rubyforge's <a class="reference external" href="http://slideshow.rubyforge.org/">slideshow</a>, but I didn't like
+the idea of having to learn a different proprietary markup,
+especially when html is about as simple as markup gets.</li>
+<li>The slideshows included little fixes to make up for css3 technologies
+that weren't supported. I didn't like this. I was looking for
+something that doesn't sacrifice simplicity to try to make the code
+work for less standard-compliant or outdated browsers. My system
+works for the newest browsers, and I don't imagine that changing.</li>
+</ol>
+</p><p>Slimy focus's on encapsulation of the slideshow, and also functionality.
+My main goal is to make it as functional as&nbsp;Google's html5&nbsp;slideshow,
+but much simpler and elegant. I aim to keep it that way by including as
+few proprietary functionality as possible, instead relying on css3 and
+javascript such as css transitions. I do require jquery, but I think it
+makes the functional code significantly more elegant and readable.</p>
+<p>I would love to see some feedback, and I am willing to add more
+functionality as requests come in. So please, give slimy a shot! I have
+a feeling you'll rarely use Powerpoint or any other slideshow
+application again.</p>
+
+    </div><!-- /.entry-content -->
+    <div class="comments">
+      <h2>Comments !</h2>
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        var disqus_shortname = 'tsutsumi';
+        var disqus_identifier = 'slimy-another-html5-slideshow.html';
+        var disqus_url = './slimy-another-html5-slideshow.html';
+        (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//tsutsumi.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the comments.</noscript>
+    </div>
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="http://y.tsutsumi.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://github.com/toumorokoshi">GitHub</a></li>
+                            <li><a href="https://twitter.com/tsutsumiyusuke">Twitter</a></li>
+                            <li><a href="http://www.linkedin.com/profile/view?id=56043626">LinkedIn</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+    <script type="text/javascript">
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-29270527-2', 'auto');
+    ga('send', 'pageview');
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'tsutsumi';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

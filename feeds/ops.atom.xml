@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>y.tsutsumi.io - ops</title><link href="./" rel="alternate"></link><link href="http://y.tsutsumi.io/feeds/ops.atom.xml" rel="self"></link><id>./</id><updated>2017-01-06T00:00:00+01:00</updated><entry><title>Building a Windows Gaming VM for Steam Link: 2016 Edition</title><link href="building-a-windows-gaming-vm-for-steam-link-2016-edition.html" rel="alternate"></link><published>2017-01-06T00:00:00+01:00</published><updated>2017-01-06T00:00:00+01:00</updated><author><name>Yusuke Tsutsumi</name></author><id>tag:None,2017-01-06:building-a-windows-gaming-vm-for-steam-link-2016-edition.html</id><summary type="html">&lt;p&gt;In 2016, I bought a Steam Link, allowing me to play games on my TV
+without having to lug a whole physical machine over.  The main
+requirement of Steam Link is the link and the PC on the same network:
+this allows encoded streaming from the PC to the link …&lt;/p&gt;</summary><content type="html">&lt;p&gt;In 2016, I bought a Steam Link, allowing me to play games on my TV
+without having to lug a whole physical machine over.  The main
+requirement of Steam Link is the link and the PC on the same network:
+this allows encoded streaming from the PC to the link, and the link
+sending back input it is receiving from various bluetooth and USB
+devices (controllers, keyboards, mice).&lt;/p&gt;
+&lt;p&gt;The Steam Link combined with Steam and it's Big Picture UI is a very
+decent replacement for a console: a large game selection, decent UI
+for navigating the catalogue and purchasing / installing new games.&lt;/p&gt;
+&lt;p&gt;Unfortunately for those running Linux: Steam is most valuable on Windows: the game
+selection for Linux doesn't come close to the catalogue on Windows.&lt;/p&gt;
+&lt;p&gt;You can dual boot to solve this issue, but it then prevents someone
+else from playing the Steam Link when the Linux partition is in
+use. Thus, a project was born:&lt;/p&gt;
+&lt;div class="section" id="create-a-windows-gaming-vm-that-works-well-with-steam-link"&gt;
+&lt;h2&gt;Create a Windows Gaming VM that works well with Steam Link&lt;/h2&gt;
+&lt;p&gt;More precisely, the requirements are:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;A Windows VM
+* exposed on the same network as the Link
+* performance comparable to a dual boot
+* controllable without it's own keyboard / mouse&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Here's some information about my host:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;Motherboard: MSI X79A-GD65 (This doesn't matter too much though)&lt;/li&gt;
+&lt;li&gt;CPU: i7-3820, 3.6GHZ&lt;/li&gt;
+&lt;li&gt;GPU: GTX 1060 (for Windows)&lt;/li&gt;
+&lt;li&gt;RAM: 32GB (1333MHz)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Really, as long as you have a recent motherboard that supports VT-X
+and VT-D (the native virtualization technology needed for native
+passthroughs), you should be ok.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="implementation"&gt;
+&lt;h2&gt;Implementation&lt;/h2&gt;
+&lt;p&gt;I was able to accomplish this by:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://wiki.archlinux.org/index.php/PCI_passthrough_via_OVMF"&gt;https://wiki.archlinux.org/index.php/PCI_passthrough_via_OVMF&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://synergy-project.org/"&gt;Synergy&lt;/a&gt; (server on Linux, client on Windows):&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;It's left as an excersize as a reader to learn more about how those work. The only real caveat
+was networking&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="vm-networking"&gt;
+&lt;h2&gt;VM Networking&lt;/h2&gt;
+&lt;p&gt;The VM networking was the trickiest aspect. This is due to an uncommon
+requiremental combination of:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;the VM being available on the local network (via some IP)&lt;/li&gt;
+&lt;li&gt;the VM being able to communicate to the host machine&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The two can be accomplished separately. Using KVM, &lt;a class="reference external" href="http://virt.kernelnewbies.org/MacVTap"&gt;macvtap&lt;/a&gt; with a bridged configuration
+worked great for exposing the VM, but it can not resolve the IP to the host. I was able to
+find a stackoverflow article&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="the-results"&gt;
+&lt;h2&gt;The Results&lt;/h2&gt;
+&lt;p&gt;The results are pretty good. With a native Windows OS,
+I was getting roughly 12ms latency from the Steam Link.
+With the VM, I'm getting roughly the same.&lt;/p&gt;
+&lt;p&gt;For other reasons, I had to add another switch in between my Steam
+Link and PC. That had a much larger negative impact: 22ms now vs 12ms
+before.&lt;/p&gt;
+&lt;/div&gt;
+</content><category term="ops"></category><category term="kvm"></category><category term="vm"></category></entry><entry><title>Getting Dropbox Status's into Conky + Dzen2</title><link href="getting-dropbox-statuss-into-conky-dzen2.html" rel="alternate"></link><published>2014-07-08T00:00:00+02:00</published><updated>2014-07-08T00:00:00+02:00</updated><author><name>Yusuke Tsutsumi</name></author><id>tag:None,2014-07-08:getting-dropbox-statuss-into-conky-dzen2.html</id><summary type="html">&lt;p&gt;I'm an avid xmonad user, and I've recently switched over to conky +
+dzen as my status bar. A recent issue I had is with getting Dropbox
+status information into my conky.&lt;/p&gt;
+&lt;p&gt;I did some hacking and here's the result. I love the way it turned out:&lt;/p&gt;
+&lt;img alt="" src="images/conky-dropbox-demo.png" /&gt;
+&lt;p&gt;This is a pretty …&lt;/p&gt;</summary><content type="html">&lt;p&gt;I'm an avid xmonad user, and I've recently switched over to conky +
+dzen as my status bar. A recent issue I had is with getting Dropbox
+status information into my conky.&lt;/p&gt;
+&lt;p&gt;I did some hacking and here's the result. I love the way it turned out:&lt;/p&gt;
+&lt;img alt="" src="images/conky-dropbox-demo.png" /&gt;
+&lt;p&gt;This is a pretty generic approach on adding anything into conky +
+dzen. Here's the steps I took:&lt;/p&gt;
+&lt;div class="section" id="write-some-scripts-to-produce-the-text-you-want"&gt;
+&lt;h2&gt;1. Write some scripts to produce the text you want&lt;/h2&gt;
+&lt;p&gt;Conky has methods to run arbitrary scripts and echo their
+output. This abstraction makes it easy to get the text you want.&lt;/p&gt;
+&lt;p&gt;I started writing a couple shell scripts that get me the info I need:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+Note: I used the Dropbox command line tool to get this info. You'll
+need that installed. on arch, it's the 'dropbox-cli' package.
+&lt;/pre&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# drobox-down&lt;/span&gt;
+&lt;span class="c1"&gt;# echos the Dropbox download speed&lt;/span&gt;
+&lt;span class="c1"&gt;#!/usr/bin/env bash&lt;/span&gt;
+
+&lt;span class="nv"&gt;status&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;dropbox status &lt;span class="p"&gt;|&lt;/span&gt; grep Downloading&lt;span class="sb"&gt;`&lt;/span&gt;
+&lt;span class="nv"&gt;SYNC_REGEX&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;([0-9,]+) KB/sec&amp;quot;&lt;/span&gt;
+
+&lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="nv"&gt;$status&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;~ &lt;span class="nv"&gt;$SYNC_REGEX&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;
+&lt;span class="nv"&gt;download_speed&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;BASH_REMATCH&lt;/span&gt;&lt;span class="p"&gt;[1]&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="nv"&gt;$download_speed&lt;/span&gt; !&lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt; &lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+  &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$download_speed&lt;/span&gt;&lt;span class="s2"&gt; KB/sec&amp;quot;&lt;/span&gt;
+&lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# drobox-up&lt;/span&gt;
+&lt;span class="c1"&gt;# echos the Dropbox upload speed&lt;/span&gt;
+&lt;span class="c1"&gt;#!/usr/bin/env bash&lt;/span&gt;
+
+&lt;span class="nv"&gt;status&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;dropbox status &lt;span class="p"&gt;|&lt;/span&gt; grep Uploading&lt;span class="sb"&gt;`&lt;/span&gt;
+&lt;span class="nv"&gt;SYNC_REGEX&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;([0-9,]+) KB/sec&amp;quot;&lt;/span&gt;
+
+&lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="nv"&gt;$status&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;~ &lt;span class="nv"&gt;$SYNC_REGEX&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;
+&lt;span class="nv"&gt;upload_speed&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;BASH_REMATCH&lt;/span&gt;&lt;span class="p"&gt;[1]&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="nv"&gt;$upload_speed&lt;/span&gt; !&lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt; &lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+  &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$upload_speed&lt;/span&gt;&lt;span class="s2"&gt; KB/sec&amp;quot;&lt;/span&gt;
+&lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/usr/bin/env bash&lt;/span&gt;
+&lt;span class="c1"&gt;# Dropbox-files&lt;/span&gt;
+&lt;span class="c1"&gt;# lists a single filename if only a single file is being synced&lt;/span&gt;
+&lt;span class="c1"&gt;# otherwise, echos the number of files synced&lt;/span&gt;
+
+&lt;span class="nv"&gt;status&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;dropbox status &lt;span class="p"&gt;|&lt;/span&gt; grep Syncing&lt;span class="sb"&gt;`&lt;/span&gt;
+&lt;span class="nv"&gt;SYNC_REGEX&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;([0-9,]+) files remaining&amp;quot;&lt;/span&gt;
+&lt;span class="nv"&gt;FILENAME_REGEX&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;quot;(.*)&amp;quot;&amp;#39;&lt;/span&gt;
+
+&lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="nv"&gt;$status&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;~ &lt;span class="nv"&gt;$SYNC_REGEX&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;
+&lt;span class="nv"&gt;files_remaining&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;BASH_REMATCH&lt;/span&gt;&lt;span class="p"&gt;[1]&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="nv"&gt;$files_remaining&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+
+    &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="nv"&gt;$status&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;~ &lt;span class="nv"&gt;$FILENAME_REGEX&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;
+    &lt;span class="nv"&gt;filename&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;BASH_REMATCH&lt;/span&gt;&lt;span class="p"&gt;[1]&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$filename&lt;/span&gt;
+
+&lt;span class="k"&gt;else&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$files_remaining&lt;/span&gt;&lt;span class="s2"&gt; files&amp;quot;&lt;/span&gt;
+&lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="create-your-own-xbm-logo"&gt;
+&lt;h2&gt;2. Create your own xbm logo&lt;/h2&gt;
+&lt;p&gt;Now to get that cool Dropbox icon in there. The thing to note about
+conky + dzen specifically is that you can't pipe images into your bar
+(as far as I know, someone please correct me here). You're left with the
+options of xbm files, which are bitmap descriptions.&lt;/p&gt;
+&lt;p&gt;Luckily, it's not too hard to generate your own. Gimp, the Photoshop of Linux,
+can save into xbm files for you. Simply open it up, export it, and you're done!&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+Note: make sure to export the xbm to fit the size of your bar. I
+couldn't find a way of telling conky to scale the image (which makes
+sense, conky is just piping output dzen so it has no way of knowing
+the height). My bar is about 16 pixels high, so I exported 16
+pixels.
+&lt;/pre&gt;
+&lt;p&gt;You can also download the xbm I created if you'd like: &lt;a class="reference external" href="https://github.com/toumorokoshi/yt.rc/blob/master/xmonad/icons/Dropbox.xbm"&gt;my Dropbox xbm&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="add-them-to-your-conky-script"&gt;
+&lt;h2&gt;3. Add them to your conky script&lt;/h2&gt;
+&lt;p&gt;Now that we have our shell scripts, and our icons, you can execute them in your conky
+script. I got the arrows from the &lt;a class="reference external" href="http://awesome.naquadah.org/wiki/Nice_Icons"&gt;nice icon set&lt;/a&gt;.
+If you're lazy you can also get them from &lt;a class="reference external" href="https://github.com/toumorokoshi/yt.rc"&gt;my rc files&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Once you have all your assets, add in the relevant pieces into your conky:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;out_to_console yes
+out_to_x no
+update_interval &lt;span class="m"&gt;1&lt;/span&gt;
+
+lua_load &lt;span class="nv"&gt;$HOME&lt;/span&gt;/.xmonad/conky_scripts/conky_lua_scripts.lua
+
+&lt;span class="c1"&gt;# note: Dropbox needed dropbox-cli on arch&lt;/span&gt;
+
+TEXT
+&lt;span class="c1"&gt;# ---- START DROPBOX STUFF ---&lt;/span&gt;
+^fg&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="se"&gt;\#&lt;/span&gt;007ee5&lt;span class="o"&gt;)&lt;/span&gt; ^i&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$HOME&lt;/span&gt;/.xmonad/icons/Dropbox.xbm&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="c1"&gt;# ---- description of files changing ---&lt;/span&gt;
+^fg&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="se"&gt;\#&lt;/span&gt;FFFF00&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;execi&lt;/span&gt;&lt;span class="p"&gt; 6 &lt;/span&gt;&lt;span class="nv"&gt;$HOME&lt;/span&gt;&lt;span class="p"&gt;/.xmonad/conky_scripts/Dropbox-files&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt; ^fg&lt;span class="o"&gt;()&lt;/span&gt;&lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="c1"&gt;# ---- download speed info ---&lt;/span&gt;
+^fg&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="se"&gt;\#&lt;/span&gt;8888FF&lt;span class="o"&gt;)&lt;/span&gt; ^i&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$HOME&lt;/span&gt;/.xmonad/icons/net_down_03.xbm&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;execi&lt;/span&gt;&lt;span class="p"&gt; 6 &lt;/span&gt;&lt;span class="nv"&gt;$HOME&lt;/span&gt;&lt;span class="p"&gt;/.xmonad/conky_scripts/Dropbox-down&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt; ^fg&lt;span class="o"&gt;()&lt;/span&gt; / &lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="c1"&gt;# ---- upload speed info ---&lt;/span&gt;
+^fg&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="se"&gt;\#&lt;/span&gt;AA0000&lt;span class="o"&gt;)&lt;/span&gt; ^i&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;$HOME&lt;/span&gt;/.xmonad/icons/net_up_03.xbm&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;execi&lt;/span&gt;&lt;span class="p"&gt; 6 &lt;/span&gt;&lt;span class="nv"&gt;$HOME&lt;/span&gt;&lt;span class="p"&gt;/.xmonad/conky_scripts/Dropbox-up&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt; ^fg&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Notes:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;I changed the colors with ^fg(#COLOR_HASH)&lt;/li&gt;
+&lt;li&gt;to split your conky on multiple lines, I use the delimiter '\'&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;And there you go! You have a nice, clean Dropbox activity bar.&lt;/p&gt;
+&lt;/div&gt;
+</content><category term="ops"></category><category term="conky"></category><category term="dropbox"></category><category term="arch"></category></entry><entry><title>Adding Brew Apps to GUI Path in OSX Mavericks</title><link href="adding-brew-apps-to-gui-path-in-osx-mavericks.html" rel="alternate"></link><published>2014-03-31T00:00:00+02:00</published><updated>2014-03-31T00:00:00+02:00</updated><author><name>Yusuke Tsutsumi</name></author><id>tag:None,2014-03-31:adding-brew-apps-to-gui-path-in-osx-mavericks.html</id><summary type="html">&lt;p&gt;In case someone has trouble with this: A way to add brew apps to a path invokable by a gui is by exporting the environment variable path in /etc/launchd.conf:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# /etc/launchd.conf
+setenv PATH /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Users/yusuket …&lt;/pre&gt;</summary><content type="html">&lt;p&gt;In case someone has trouble with this: A way to add brew apps to a path invokable by a gui is by exporting the environment variable path in /etc/launchd.conf:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+# /etc/launchd.conf
+setenv PATH /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Users/yusuket/bin
+&lt;/pre&gt;
+&lt;p&gt;You need to add the /usr/local/bin for brew's apps.&lt;/p&gt;
+&lt;p&gt;&lt;cite&gt;THEN&lt;/cite&gt; make sure to restart you machine. Logging out and logging back in won't work.&lt;/p&gt;
+&lt;p&gt;And you're done! Now you can run your brew executables from GUI apps in Mavericks.&lt;/p&gt;
+</content><category term="ops"></category><category term="osx"></category><category term="mavericks"></category><category term="brew"></category></entry></feed>

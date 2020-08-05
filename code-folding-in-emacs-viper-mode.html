@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>Code folding in Emacs Viper-Mode</title>
+        <link rel="stylesheet" href="./theme/css/main.css" />
+        <link href="http://y.tsutsumi.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="y.tsutsumi.io Atom Feed" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="./">y.tsutsumi.io </a></h1>
+                <nav><ul>
+                    <li><a href="/category/programming.html">Just Programming Posts</a></li>
+                    <li><a href="/codersguide/">Coder's Guide</a></li>
+                    <li><a href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a></li>
+                    <li><a href="./pages/about-me.html">About Me</a></li>
+                    <li><a href="./pages/projects.html">Projects</a></li>
+                    <li><a href="./pages/resources.html">Resources</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="./code-folding-in-emacs-viper-mode.html" rel="bookmark"
+           title="Permalink to Code folding in Emacs Viper-Mode">Code folding in Emacs Viper-Mode</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2011-08-17T23:06:00+02:00">
+                Published: Wed 17 August 2011
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/toumorokoshi.html">Toumorokoshi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+<p>tags: <a href="./tag/emacs.html">Emacs</a> <a href="./tag/folding.html">folding</a> <a href="./tag/viper-mode.html">viper-mode</a> </p>
+</footer><!-- /.post-info -->      <p>Code folding is a feature I've never really used, and for the most part
+seem to have done find without. I generally use search to navigate from
+place to place in my code, but I realize this isn't always the most
+efficient way to go, and code folding is very useful in a couple
+aspects:</p>
+<ul class="simple">
+<li>It helps focus me on what particular method or class I'm working on
+(way harder to tell when you've got several bunches of code in front
+of you at once)</li>
+<li>Getting a good idea of the structure of the code (with everything
+folded, it's much easier to see)</li>
+</ul>
+</p><p>So I decided to play around with folding with my current development
+environment. I use Emacs as my base, but <a class="reference external" href="http://www.emacswiki.org/emacs/ViperMode">viper-mode</a> for the actual
+text editing.</p>
+<p>Emacs has some pretty good folding tools built-in. Namely, these are
+<a class="reference external" href="http://www.emacswiki.org/emacs/FoldingMode">FoldingMode</a> and <a class="reference external" href="http://www.emacswiki.org/emacs/HideShow">HideShow</a>. I admit I didn't play around with
+FoldingMode a lot, as using it seems to involve manually adding the
+folding points, something which I think is unnecessary 90% of the time.
+Ideally, I'm looking for a folding extension that automatically
+determines folding points, and leaves things as hands-off for me as
+possible. One should be able to open a file, fold it up, and then open
+and fold as necessary. I'm not looking to waste time adding commented
+blocks of folding everywhere.</p>
+<p>Thats where HideShow comes in. Armed with rules for an array of
+programming languages, HideShow automatically looks for these patterns
+and sets folding points appropriately. Exactly what I'm looking for.
+Simply loading hideshow using .emacs:</p>
+<p><pre class="literal-block">
+(load-library &quot;hideshow&quot;)
+</pre>
+</p><p>And activate the hideshow minor mode whenever you load the major mode of
+your choice (for me it's Python):</p>
+<p><pre class="literal-block">
+(add-hook 'python-mode-hook 'hs-minor-mode)
+</pre>
+</p><p>Now you have all the access to the wonderful world of dynamic folding!
+Unfortunately, I didn't really like the cumbersome keystrokes:</p>
+<ul class="simple">
+<li>C-c &#64; M-C-s to unfold all</li>
+<li>C-c &#64; C-h to fold</li>
+<li>C-c &#64; C-s to unfold</li>
+<li>C-c &#64; M-C-h to fold all</li>
+<li>C-c &#64; C-c to toggle folding</li>
+</ul>
+</p><p>Yeah, a six key-stroke succession is too much for me. So I assigned
+these bindings to almost the same folding commands as VIM:</p>
+<ul class="simple">
+<li>zm to unfold</li>
+<li>zr to fold</li>
+<li>zM to unfold all</li>
+<li>zR to fold all</li>
+<li>zt to toggle</li>
+</ul>
+</p><p>To do this, I added configuration into the .viper file:</p>
+<p><pre class="literal-block">
+(define-key viper-vi-global-user-map &quot;zt&quot; 'hs-toggle-hiding)(define-key viper-vi-global-user-map &quot;zM&quot; 'hs-hide-all)(define-key viper-vi-global-user-map &quot;zm&quot; 'hs-hide-block)(define-key viper-vi-global-user-map &quot;zR&quot; 'hs-show-all)(define-key viper-vi-global-user-map &quot;zr&quot; 'hs-show-block)
+</pre>
+</p><p>(viper-vi-global-user-map tell viper it's for any buffer in any state
+with viper as a major mode). So far, this is working like a charm for
+me. Here's a screenshot with it at work:</p>
+<p><a class="reference external" href="http://toumorokoshi.files.wordpress.com/2011/08/foldingexample.png"><img alt="image0" src="http://toumorokoshi.files.wordpress.com/2011/08/foldingexample.png" /></a></p>
+<p>Feel free to comment if you have ideas/improvements!</p>
+
+    </div><!-- /.entry-content -->
+    <div class="comments">
+      <h2>Comments !</h2>
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        var disqus_shortname = 'tsutsumi';
+        var disqus_identifier = 'code-folding-in-emacs-viper-mode.html';
+        var disqus_url = './code-folding-in-emacs-viper-mode.html';
+        (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//tsutsumi.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the comments.</noscript>
+    </div>
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="http://y.tsutsumi.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://github.com/toumorokoshi">GitHub</a></li>
+                            <li><a href="https://twitter.com/tsutsumiyusuke">Twitter</a></li>
+                            <li><a href="http://www.linkedin.com/profile/view?id=56043626">LinkedIn</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+    <script type="text/javascript">
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-29270527-2', 'auto');
+    ga('send', 'pageview');
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'tsutsumi';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

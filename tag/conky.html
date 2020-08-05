@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>y.tsutsumi.io - conky</title>
+        <link rel="stylesheet" href="./theme/css/main.css" />
+        <link href="http://y.tsutsumi.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="y.tsutsumi.io Atom Feed" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="./">y.tsutsumi.io </a></h1>
+                <nav><ul>
+                    <li><a href="/category/programming.html">Just Programming Posts</a></li>
+                    <li><a href="/codersguide/">Coder's Guide</a></li>
+                    <li><a href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a></li>
+                    <li><a href="./pages/about-me.html">About Me</a></li>
+                    <li><a href="./pages/projects.html">Projects</a></li>
+                    <li><a href="./pages/resources.html">Resources</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="./getting-dropbox-statuss-into-conky-dzen2.html">Getting Dropbox Status's into Conky + Dzen2</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2014-07-08T00:00:00+02:00">
+                Published: Tue 08 July 2014
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/yusuke-tsutsumi.html">Yusuke Tsutsumi</a>
+        </address>
+<p>In <a href="./category/ops.html">ops</a>.</p>
+<p>tags: <a href="./tag/conky.html">conky</a> <a href="./tag/dropbox.html">dropbox</a> <a href="./tag/arch.html">arch</a> </p>
+</footer><!-- /.post-info --><p>I'm an avid xmonad user, and I've recently switched over to conky +
+dzen as my status bar. A recent issue I had is with getting Dropbox
+status information into my conky.</p>
+<p>I did some hacking and here's the result. I love the way it turned out:</p>
+<img alt="" src="images/conky-dropbox-demo.png" />
+<p>This is a pretty generic approach on adding anything into conky +
+dzen. Here's the steps I took:</p>
+<div class="section" id="write-some-scripts-to-produce-the-text-you-want">
+<h2>1. Write some scripts to produce the text you want</h2>
+<p>Conky has methods to run arbitrary scripts and echo their
+output. This abstraction makes it easy to get the text you want.</p>
+<p>I started writing a couple shell scripts that get me the info I need:</p>
+<pre class="literal-block">
+Note: I used the Dropbox command line tool to get this info. You'll
+need that installed. on arch, it's the 'dropbox-cli' package.
+</pre>
+<div class="highlight"><pre><span></span><span class="c1"># drobox-down</span>
+<span class="c1"># echos the Dropbox download speed</span>
+<span class="c1">#!/usr/bin/env bash</span>
+
+<span class="nv">status</span><span class="o">=</span><span class="sb">`</span>dropbox status <span class="p">|</span> grep Downloading<span class="sb">`</span>
+<span class="nv">SYNC_REGEX</span><span class="o">=</span><span class="s2">&quot;([0-9,]+) KB/sec&quot;</span>
+
+<span class="o">[[</span> <span class="nv">$status</span> <span class="o">=</span>~ <span class="nv">$SYNC_REGEX</span> <span class="o">]]</span>
+<span class="nv">download_speed</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">BASH_REMATCH</span><span class="p">[1]</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">if</span> <span class="o">[[</span> <span class="nv">$download_speed</span> !<span class="o">=</span> <span class="s2">&quot;&quot;</span> <span class="o">]]</span> <span class="p">;</span> <span class="k">then</span>
+  <span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$download_speed</span><span class="s2"> KB/sec&quot;</span>
+<span class="k">fi</span>
+</pre></div>
+<div class="highlight"><pre><span></span><span class="c1"># drobox-up</span>
+<span class="c1"># echos the Dropbox upload speed</span>
+<span class="c1">#!/usr/bin/env bash</span>
+
+<span class="nv">status</span><span class="o">=</span><span class="sb">`</span>dropbox status <span class="p">|</span> grep Uploading<span class="sb">`</span>
+<span class="nv">SYNC_REGEX</span><span class="o">=</span><span class="s2">&quot;([0-9,]+) KB/sec&quot;</span>
+
+<span class="o">[[</span> <span class="nv">$status</span> <span class="o">=</span>~ <span class="nv">$SYNC_REGEX</span> <span class="o">]]</span>
+<span class="nv">upload_speed</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">BASH_REMATCH</span><span class="p">[1]</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">if</span> <span class="o">[[</span> <span class="nv">$upload_speed</span> !<span class="o">=</span> <span class="s2">&quot;&quot;</span> <span class="o">]]</span> <span class="p">;</span> <span class="k">then</span>
+  <span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$upload_speed</span><span class="s2"> KB/sec&quot;</span>
+<span class="k">fi</span>
+</pre></div>
+<div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env bash</span>
+<span class="c1"># Dropbox-files</span>
+<span class="c1"># lists a single filename if only a single file is being synced</span>
+<span class="c1"># otherwise, echos the number of files synced</span>
+
+<span class="nv">status</span><span class="o">=</span><span class="sb">`</span>dropbox status <span class="p">|</span> grep Syncing<span class="sb">`</span>
+<span class="nv">SYNC_REGEX</span><span class="o">=</span><span class="s2">&quot;([0-9,]+) files remaining&quot;</span>
+<span class="nv">FILENAME_REGEX</span><span class="o">=</span><span class="s1">&#39;&quot;(.*)&quot;&#39;</span>
+
+<span class="o">[[</span> <span class="nv">$status</span> <span class="o">=</span>~ <span class="nv">$SYNC_REGEX</span> <span class="o">]]</span>
+<span class="nv">files_remaining</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">BASH_REMATCH</span><span class="p">[1]</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">if</span> <span class="o">[[</span> <span class="nv">$files_remaining</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+
+    <span class="o">[[</span> <span class="nv">$status</span> <span class="o">=</span>~ <span class="nv">$FILENAME_REGEX</span> <span class="o">]]</span>
+    <span class="nv">filename</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">BASH_REMATCH</span><span class="p">[1]</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="nb">echo</span> <span class="nv">$filename</span>
+
+<span class="k">else</span>
+    <span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$files_remaining</span><span class="s2"> files&quot;</span>
+<span class="k">fi</span>
+</pre></div>
+</div>
+<div class="section" id="create-your-own-xbm-logo">
+<h2>2. Create your own xbm logo</h2>
+<p>Now to get that cool Dropbox icon in there. The thing to note about
+conky + dzen specifically is that you can't pipe images into your bar
+(as far as I know, someone please correct me here). You're left with the
+options of xbm files, which are bitmap descriptions.</p>
+<p>Luckily, it's not too hard to generate your own. Gimp, the Photoshop of Linux,
+can save into xbm files for you. Simply open it up, export it, and you're done!</p>
+<pre class="literal-block">
+Note: make sure to export the xbm to fit the size of your bar. I
+couldn't find a way of telling conky to scale the image (which makes
+sense, conky is just piping output dzen so it has no way of knowing
+the height). My bar is about 16 pixels high, so I exported 16
+pixels.
+</pre>
+<p>You can also download the xbm I created if you'd like: <a class="reference external" href="https://github.com/toumorokoshi/yt.rc/blob/master/xmonad/icons/Dropbox.xbm">my Dropbox xbm</a></p>
+</div>
+<div class="section" id="add-them-to-your-conky-script">
+<h2>3. Add them to your conky script</h2>
+<p>Now that we have our shell scripts, and our icons, you can execute them in your conky
+script. I got the arrows from the <a class="reference external" href="http://awesome.naquadah.org/wiki/Nice_Icons">nice icon set</a>.
+If you're lazy you can also get them from <a class="reference external" href="https://github.com/toumorokoshi/yt.rc">my rc files</a>.</p>
+<p>Once you have all your assets, add in the relevant pieces into your conky:</p>
+<div class="highlight"><pre><span></span>out_to_console yes
+out_to_x no
+update_interval <span class="m">1</span>
+
+lua_load <span class="nv">$HOME</span>/.xmonad/conky_scripts/conky_lua_scripts.lua
+
+<span class="c1"># note: Dropbox needed dropbox-cli on arch</span>
+
+TEXT
+<span class="c1"># ---- START DROPBOX STUFF ---</span>
+^fg<span class="o">(</span><span class="se">\#</span>007ee5<span class="o">)</span> ^i<span class="o">(</span><span class="nv">$HOME</span>/.xmonad/icons/Dropbox.xbm<span class="o">)</span> <span class="se">\</span>
+<span class="c1"># ---- description of files changing ---</span>
+^fg<span class="o">(</span><span class="se">\#</span>FFFF00<span class="o">)</span> <span class="si">${</span><span class="nv">execi</span><span class="p"> 6 </span><span class="nv">$HOME</span><span class="p">/.xmonad/conky_scripts/Dropbox-files</span><span class="si">}</span> ^fg<span class="o">()</span><span class="se">\</span>
+<span class="c1"># ---- download speed info ---</span>
+^fg<span class="o">(</span><span class="se">\#</span>8888FF<span class="o">)</span> ^i<span class="o">(</span><span class="nv">$HOME</span>/.xmonad/icons/net_down_03.xbm<span class="o">)</span> <span class="si">${</span><span class="nv">execi</span><span class="p"> 6 </span><span class="nv">$HOME</span><span class="p">/.xmonad/conky_scripts/Dropbox-down</span><span class="si">}</span> ^fg<span class="o">()</span> / <span class="se">\</span>
+<span class="c1"># ---- upload speed info ---</span>
+^fg<span class="o">(</span><span class="se">\#</span>AA0000<span class="o">)</span> ^i<span class="o">(</span><span class="nv">$HOME</span>/.xmonad/icons/net_up_03.xbm<span class="o">)</span> <span class="si">${</span><span class="nv">execi</span><span class="p"> 6 </span><span class="nv">$HOME</span><span class="p">/.xmonad/conky_scripts/Dropbox-up</span><span class="si">}</span> ^fg<span class="o">()</span> <span class="se">\</span>
+</pre></div>
+<p>Notes:</p>
+<ul class="simple">
+<li>I changed the colors with ^fg(#COLOR_HASH)</li>
+<li>to split your conky on multiple lines, I use the delimiter '\'</li>
+</ul>
+<p>And there you go! You have a nice, clean Dropbox activity bar.</p>
+</div>
+<p>There are <a href="./getting-dropbox-statuss-into-conky-dzen2.html#disqus_thread">comments</a>.</p>                </article>
+            </aside><!-- /#featured -->
+        <section id="extras" class="body">
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="http://y.tsutsumi.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://github.com/toumorokoshi">GitHub</a></li>
+                            <li><a href="https://twitter.com/tsutsumiyusuke">Twitter</a></li>
+                            <li><a href="http://www.linkedin.com/profile/view?id=56043626">LinkedIn</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+    <script type="text/javascript">
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-29270527-2', 'auto');
+    ga('send', 'pageview');
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'tsutsumi';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

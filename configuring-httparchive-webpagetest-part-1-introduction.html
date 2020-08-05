@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>Configuring HttpArchive + Webpagetest (Part 1: Introduction)</title>
+        <link rel="stylesheet" href="./theme/css/main.css" />
+        <link href="http://y.tsutsumi.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="y.tsutsumi.io Atom Feed" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="./">y.tsutsumi.io </a></h1>
+                <nav><ul>
+                    <li><a href="/category/programming.html">Just Programming Posts</a></li>
+                    <li><a href="/codersguide/">Coder's Guide</a></li>
+                    <li><a href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a></li>
+                    <li><a href="./pages/about-me.html">About Me</a></li>
+                    <li><a href="./pages/projects.html">Projects</a></li>
+                    <li><a href="./pages/resources.html">Resources</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="./configuring-httparchive-webpagetest-part-1-introduction.html" rel="bookmark"
+           title="Permalink to Configuring HttpArchive + Webpagetest (Part 1: Introduction)">Configuring HttpArchive + Webpagetest (Part 1: Introduction)</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2011-06-23T22:40:00+02:00">
+                Published: Thu 23 June 2011
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="./author/toumorokoshi.html">Toumorokoshi</a>
+        </address>
+<p>In <a href="./category/programming.html">programming</a>.</p>
+<p>tags: <a href="./tag/httparchive.html">HttpArchive</a> <a href="./tag/webpagetest.html">Webpagetest</a> </p>
+</footer><!-- /.post-info -->      <p>Testing is an integral part of developing code, and this is usually a
+lesson that is learned the hard way. I can't name all the times that
+I've made a trivial mistake that goes unnoticed until the code has
+ballooned to the point where rooting around and figuring it out is an
+impossibility. For even the best tester, it's a rare occurrence that
+every single possible exception is captured the first time around. On
+top of this, certain kinds of tests are also less frequently even
+considered. Among these are performance tests for web developers.
+Figuring out how quickly each part of a website responds is not an easy
+task, and is not a concern for must until it goes wrong. Luckily, there
+exists a pair of tools that provide a great look at these performance
+issues: <a class="reference external" href="http://httparchive.org">HttpArchive</a> and <a class="reference external" href="http://webpagetest.org">Webpagetest</a>.</p>
+<div class="section" id="webpagetest">
+<h2>Webpagetest</h2>
+</p><p>Webpagetest is a tool for testing website performance. Originally a
+piece of in-house AOL software, the site is now available as both a
+public <a class="reference external" href="http://www.webpagetest.org/">website</a>, and <a class="reference external" href="http://code.google.com/p/webpagetest/source/checkout">open-source</a> for users to download. It is an
+amazing tool that provides various tools that measure website
+performance, from a waterfall chart (of both resources accessed and
+connections):</p>
+<p><a class="reference external" href="http://toumorokoshi.files.wordpress.com/2011/06/waterfall1.png"><img alt="image0" src="http://toumorokoshi.files.wordpress.com/2011/06/waterfall1.png" /></a></p>
+<p>to Google's Pagespeed app (gives a rating out of 100 for page
+performance):</p>
+<p><a class="reference external" href="http://toumorokoshi.files.wordpress.com/2011/06/pagespeed.png"><img alt="image1" src="http://toumorokoshi.files.wordpress.com/2011/06/pagespeed.png" /></a></p>
+<p>to actual screenshots of the page:</p>
+<p><a class="reference external" href="http://toumorokoshi.files.wordpress.com/2011/06/snapshot.png"><img alt="image2" src="http://toumorokoshi.files.wordpress.com/2011/06/snapshot.png" /></a></p>
+<p>I would give it a shot on your own site to see how amazing of a product
+it really is. It is a comprehensive at look at a site, and a timeline
+for the time it takes to load, start to finish. Webpagetest by itself is
+a great tool for debugging a slow site, but there is another level with
+which one can examine the performance of a site: over time. If one could
+take the information from Webpagetest, store it in a database of some
+kind, and analyze the results, there would be another dimension through
+which one can analyze where the site was, how it is now, and predict the
+direction, performance wise, it is heading.</p>
+<p>Well, that is exactly what HttpArchive is built to do!</p>
+</div>
+<div class="section" id="httparchive">
+<h2>HttpArchive</h2>
+</p><p>HttpArchive is another open-source project, meant to be similar to
+<a class="reference external" href="http://www.archive.org">archive.org</a>, which snapshots various sites on the internet, providing
+a look back into the past. HttpArchive archives the performance of
+various websites, providing a different look back: at site
+performance.Using Webpagetest as a backbone, HttpArchive saves snapshots
+of information from webpagetest.org, and analyzes trends in various
+websites. For example, take a look at it's analysis of wordpress.com:</p>
+<p><a class="reference external" href="http://httparchive.org/viewsite.php?pageid=268424">http://httparchive.org/viewsite.php?pageid=268424</a></p>
+<p>The site is able to give insight that is interesting to both developers
+and users alike!</p>
+</div>
+<div class="section" id="conclusion">
+<h2>Conclusion</h2>
+</p><p>The goal of this tutorial is to go over how to implement a private
+instance of Webpagetest and HttpArchive, and how to link the pair
+together. This will create a powerful and useful performance testing
+suite.</p>
+<p>Stay tuned for part 2, where we'll go over installing and configuring
+Webpagetest!</p>
+<p>Part3:&nbsp; going over installing HttpArchive.</p>
+<p>Part4: putting them together and conclusion.</p>
+</div>
+
+    </div><!-- /.entry-content -->
+    <div class="comments">
+      <h2>Comments !</h2>
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        var disqus_shortname = 'tsutsumi';
+        var disqus_identifier = 'configuring-httparchive-webpagetest-part-1-introduction.html';
+        var disqus_url = './configuring-httparchive-webpagetest-part-1-introduction.html';
+        (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//tsutsumi.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the comments.</noscript>
+    </div>
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="http://y.tsutsumi.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://github.com/toumorokoshi">GitHub</a></li>
+                            <li><a href="https://twitter.com/tsutsumiyusuke">Twitter</a></li>
+                            <li><a href="http://www.linkedin.com/profile/view?id=56043626">LinkedIn</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+    <script type="text/javascript">
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-29270527-2', 'auto');
+    ga('send', 'pageview');
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'tsutsumi';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>
