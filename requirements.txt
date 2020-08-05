@@ -1,2 +1,0 @@
-pelican ~= 4.2.0
-pelican-gist ~= 0.3.4
