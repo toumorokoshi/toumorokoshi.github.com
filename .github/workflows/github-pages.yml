@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-16.04
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: feature/jekyll
       - uses: actions/cache@v1
         with:
           path: vendor/bundle
