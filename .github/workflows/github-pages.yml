@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - feature/jekyll
+  schedule:
+    - cron: '0 0 * * *'  # every day at midnight
 
 jobs:
   github-pages:
