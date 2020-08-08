@@ -34,6 +34,17 @@ permalink: /:year/:month/:day/:slug/
 theme: minima
 plugins:
   - jekyll-feed
+  - jekyll-analytics
+feed:
+  path: feed/
+disqus:
+  shortname: tsutsumi
+
+jekyll_analytics:
+  GoogleAnalytics:
+    id: UA-29270527-2
+    anonymizeIp: true
+
 
 # Exclude from processing.
 # The following items will not be processed, by default.
