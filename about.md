@@ -6,11 +6,11 @@ permalink: /about/
 
 # About Yusuke Tsutsumi
 
-I am a web programmer, mainly interested in back-end and in-house tool development. I graduated from the University of Washington in December 2011 with degrees in Electrical Engineering, Mathematics, and Physics.
+I am a software engineer, mainly interested in back-end and open source tool development. I graduated from the University of Washington in December 2011 with degrees in Electrical Engineering, Mathematics, and Physics.
 
 I wrote my first application in 2008, an address book written in perl.
 
-Please refer to my [Github profile](https://github.com/toumorokoshi?tab=repositories) for a (mostly) full history of my open source projects:
+Please refer to my [Github profile](https://github.com/toumorokoshi?tab=repositories) for a (mostly) full history of my open source projects.
 
 ## My Talks
 

@@ -46,3 +46,4 @@ output/
 _site
 # this is extracted from dropbox
 _posts
+*.md
