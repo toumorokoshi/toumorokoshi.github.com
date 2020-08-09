@@ -45,6 +45,16 @@ jekyll_analytics:
     id: UA-29270527-2
     anonymizeIp: true
 
+header_pages:
+  - resources.md
+  - about.md
+
+minima:
+  social_links:
+    twitter: tsutsumiyusuke
+    github: toumorokoshi
+    linkedin: yusuke-tsutsumi
+
 
 # Exclude from processing.
 # The following items will not be processed, by default.
