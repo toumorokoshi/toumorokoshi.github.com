@@ -36,7 +36,7 @@ plugins:
   - jekyll-feed
   - jekyll-analytics
 feed:
-  path: feed/
+  path: feed/index.xml
 disqus:
   shortname: tsutsumi
 
