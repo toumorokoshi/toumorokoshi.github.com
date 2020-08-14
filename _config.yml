@@ -21,9 +21,8 @@
 title: Yusuke Tsutsumi
 email: "email: y at tsutsumi dot io"
 description: >- # this means to ignore newlines until "baseurl:"
-  I work at Google, ex-Zillow. My passion is improving developer productivity,
-  whether that's through better configuration management, monitoring tooling,
-  or a new hotkey that saves a couple keystrokes.
+  My blog on software, productivity, and obsessively optimizing. I work at
+  Google, ex-Zillow. Thoughts my own.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://toumorokoshi.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: tsutsumiyusuke
