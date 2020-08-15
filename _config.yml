@@ -54,6 +54,12 @@ minima:
     github: toumorokoshi
     linkedin: yusuke-tsutsumi
 
+autopages:
+  categories:
+    permalink: "/category/:cat"
+    layouts:
+      - category_index.html
+
 
 # Exclude from processing.
 # The following items will not be processed, by default.
