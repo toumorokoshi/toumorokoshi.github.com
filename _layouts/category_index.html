@@ -19,8 +19,7 @@ layout: default
     {% for post in paginator.posts limit:paginator.per_page %}
     <article>
         <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
-        <h5>{{ post.date }}</h5>
-        <p>{{ post.excerpt }}</p>
+        <h5>{{ post.date | date: "%b %-d, %Y" }}</h5>
     </article>
     {% endfor %}
 </section>
@@ -31,7 +30,7 @@ layout: default
                 aria-hidden="true">&larr;</span> Newer</a>{% endif %}
         {% if paginator.next_page %}<a href="{{ paginator.next_page_path }}">Older <span
                 aria-hidden="true">&rarr;</span></a>{% endif %}
-    </p>
+    </p>1G
 </nav>
 
 {% else %}
@@ -43,9 +42,7 @@ layout: default
     <!-- Show excerpts for all posts in this category -->
     {% for post in page.posts %}
     <article>
-        <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
-        <h5>{{ post.date }}</h5>
-        <p>{{ post.excerpt }}</p>
+        <h3><a href="{{ post.url }}">{{ post.title }} [{{ post.date | date: "%b %-d, %Y" }}]</a></h3>
     </article>
     {% endfor %}
 </section>
