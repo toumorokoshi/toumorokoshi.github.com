@@ -34,6 +34,7 @@ theme: minima
 plugins:
   - jekyll-feed
   - jekyll-analytics
+  - jekyll-redirect-from
 feed:
   path: feed/index.xml
 disqus:

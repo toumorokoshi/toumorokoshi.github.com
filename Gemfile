@@ -19,6 +19,7 @@ group :jekyll_plugins do
  gem "jekyll-paginate"
  gem "jekyll-category-pages"
  gem 'jekyll-analytics'
+ gem 'jekyll-redirect-from'
 end
 
 # Windows and JRuby does not include zoneinfo files, so bundle the tzinfo-data gem
