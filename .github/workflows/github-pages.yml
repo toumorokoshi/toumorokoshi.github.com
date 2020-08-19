@@ -5,7 +5,7 @@ on:
     branches:
       - master
   schedule:
-    - cron: '0 */20 * * *'  # every day at midnight
+    - cron: '0 */10 * * *'  # every day at midnight
 
 jobs:
   github-pages:
