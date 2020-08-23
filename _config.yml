@@ -37,8 +37,8 @@ plugins:
   - jekyll-redirect-from
 feed:
   path: feed/index.xml
-# disqus:
-#   shortname: tsutsumi
+disqus:
+  shortname: tsutsumi
 
 jekyll_analytics:
   GoogleAnalytics:
