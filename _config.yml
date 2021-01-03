@@ -37,8 +37,11 @@ plugins:
   - jekyll-redirect-from
 feed:
   path: feed/index.xml
-disqus:
-  shortname: tsutsumi
+# Stopped using disqus because they have a lot of tracking they install, and
+# it hurts the perf of the page a bit. Going to try to
+# supplement this with Hackernews.
+# disqus:
+#   shortname: tsutsumi
 
 jekyll_analytics:
   GoogleAnalytics:
