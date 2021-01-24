@@ -58,6 +58,10 @@ minima:
     github: toumorokoshi
     linkedin: yusuke-tsutsumi
 
+tag_page_layout: tag_page
+tag_page_dir: tag
+tag_permalink_style: pretty
+
 
 # Exclude from processing.
 # The following items will not be processed, by default.
