@@ -1,0 +1,909 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2021-06-30T01:02:46+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Flashing an ErgoDox with Linux</title><link href="https://y.tsutsumi.io/flashing-a-keyboard/" rel="alternate" type="text/html" title="Flashing an ErgoDox with Linux" /><published>2021-01-21T07:00:00+00:00</published><updated>2021-01-21T07:00:00+00:00</updated><id>https://y.tsutsumi.io/flashing-a-keyboard</id><content type="html" xml:base="https://y.tsutsumi.io/flashing-a-keyboard/">&lt;p&gt;This guide talks through:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;configuring a keymap for your ErgoDox&lt;/li&gt;
+  &lt;li&gt;flashing an ErgoDox using Linux.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;configuring-a-keymap-for-your-ergodox&quot;&gt;Configuring a Keymap for your ErgoDox&lt;/h2&gt;
+
+&lt;p&gt;I use the &lt;a href=&quot;https://config.qmk.fm/#/hotdox/LAYOUT_ergodox&quot;&gt;QMK configurator&lt;/a&gt; to configure the layout. Note to choose the correct keyboard in the “keyboard” selector:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;keyboard-selector.png&quot; alt=&quot;keyboard selector dropdown&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Note the choice. It’ll be used later during when flashing.&lt;/p&gt;
+
+&lt;p&gt;Once you have the desired configuration, I like to download the scheme as json:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;It’s human readable, and therefore easy to make small edits.&lt;/li&gt;
+  &lt;li&gt;You can upload it back to the configurator to make edits again.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;download-as-json-button.png&quot; alt=&quot;download as json button&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;flashing-an-ergodox-using-linux&quot;&gt;Flashing an ErgoDox using Linux&lt;/h2&gt;
+
+&lt;h3 id=&quot;1-install-the-qmk-toolkit&quot;&gt;1. Install the QMK toolkit&lt;/h3&gt;
+
+&lt;p&gt;Follow the &lt;a href=&quot;https://docs.qmk.fm/#/newbs_getting_started&quot;&gt;instructions on the QMK documentation&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Some distributions have packages, so use your package manager may be able to install it. For example on Arch Linux, there &lt;a href=&quot;https://archlinux.org/packages/community/any/qmk/&quot;&gt;is a community package&lt;/a&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo pacman -S qmk
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Once you’ve installed the tools, run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;qmk setup&lt;/code&gt; once to install it’s prerequisites, such as the qmk firmware loaders:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;qmk setup
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;2-create-a-new-keymap-for-your-keyboard&quot;&gt;2. Create a new keymap for your keyboard&lt;/h3&gt;
+
+&lt;p&gt;QMK stores multiple keymaps for a single keyboard. So start by creating one for your own:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;qmk new-keymap -kb $keyboard_name
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Where &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$keyboard_name&lt;/code&gt; is the name of the keyboard from the configuration step.&lt;/p&gt;
+
+&lt;p&gt;The output will tell you where the keymap is located on your filesystem:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ qmk new-keymap -kb ergodox_ez
+Keymap Name: yusuke
+Ψ yusuke keymap directory created in: /home/tsutsumi/qmk_firmware/keyboards/ergodox_ez/keymaps/yusuke
+Ψ Compile a firmware with your new keymap by typing:
+
+        qmk compile -kb ergodox_ez -km yusuke
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;That puts the files that are customized for your keymap into that directory, including a keymap.c file.&lt;/p&gt;
+
+&lt;h3 id=&quot;3-use-json2c-to-write-the-final-keymap&quot;&gt;3. Use json2c to write the final keymap&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;qmk json2c&lt;/code&gt; parses the QMK json format, and writes out the c file that is expected in the keymap directory. So take the file generated from the configuration step, and use that to write to your newly created keymap:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ qmk json2c $json_file -o /home/tsutsumi/qmk_firmware/keyboards/ergodox_ez/keymaps/yusuke/keymap.c
+Ψ Wrote keymap to /home/tsutsumi/qmk_firmware/keyboards/ergodox_ez/keymaps/yusuke/keymap.c.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;4-build-and-load-the-firmware&quot;&gt;4. Build and load the firmware&lt;/h3&gt;
+
+&lt;p&gt;Now that you have all of the pieces, it’s just a matter of loading and flashing your firmware!&lt;/p&gt;
+
+&lt;p&gt;Put your device into &lt;a href=&quot;https://docs.qmk.fm/#/newbs_flashing?id=put-your-keyboard-into-dfu-bootloader-mode&quot;&gt;DFU  mode&lt;/a&gt; while attached to your computer, then compile and flash your firmware:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;qmk compile -kb ergodox_ez -km yusuke
+qmk flash -kb ergodox_ez -km yusuke
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;You should see something at the end like:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Checking file size of ergodox_ez_yusuke.hex                                                         [OK]
+ * The firmware size is fine - 20916/32256 (64%, 11340 bytes free)
+Teensy Loader, Command Line, Version 2.1
+Read &quot;.build/ergodox_ez_yusuke.hex&quot;: 20916 bytes, 64.8% usage
+Waiting for Teensy device...
+ (hint: press the reset button)
+Found HalfKay Bootloader
+Read &quot;.build/ergodox_ez_yusuke.hex&quot;: 20916 bytes, 64.8% usage
+Programming....................................................................................................................................................................
+Booting
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;em&gt;note&lt;/em&gt;: there may be prerequisites for compiling / booting for some variations of ErgoDox. For example, for the &lt;a href=&quot;https://ergodox-ez.com/&quot;&gt;ErgoDox-EZ&lt;/a&gt;, I found I needed to install &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;teensy-loader-cli&lt;/code&gt;. I found this out when attempting to flash the device.&lt;/p&gt;
+
+&lt;p&gt;And you’re done!&lt;/p&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;That’s it! Enjoy your newly flashed ErgoDox.&lt;/p&gt;</content><author><name></name></author><category term="keyboard" /><category term="linux" /><category term="coding" /><summary type="html">This guide talks through:</summary></entry><entry><title type="html">How to Build a Hot Dox</title><link href="https://y.tsutsumi.io/building-a-hot-dox/" rel="alternate" type="text/html" title="How to Build a Hot Dox" /><published>2021-01-14T07:00:00+00:00</published><updated>2021-01-14T07:00:00+00:00</updated><id>https://y.tsutsumi.io/building-a-hot-dox</id><content type="html" xml:base="https://y.tsutsumi.io/building-a-hot-dox/">&lt;p&gt;I recently purchased a &lt;a href=&quot;https://www.alpacakeyboards.com/&quot;&gt;Hot Dox from Alpaca Keyboards&lt;/a&gt;. There are &lt;a href=&quot;https://www.keychatter.com/2019/04/09/build-guide-ergodox-76-hot-dox/&quot;&gt;instructions&lt;/a&gt;, but I wanted to author my own to call out a few details, as well as include some steps on how to add some &lt;a href=&quot;/quiet-keyboard/&quot;&gt;foam to reduce typing noise&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;1-lay-pieces-out-remove-tape&quot;&gt;1. Lay pieces out, remove tape&lt;/h2&gt;
+
+&lt;p&gt;The Hot Dox has the following pieces per side:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;2 layers of acrylic for the top of the case, above the metal.&lt;/li&gt;
+  &lt;li&gt;1 metal piece to hold the keyswitches.&lt;/li&gt;
+  &lt;li&gt;2 layers of acrylic for the bottom of the case, below the metal.&lt;/li&gt;
+  &lt;li&gt;1 solid piece of acrylic for the actual bottom.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I’ve laid out the pieces side by side. The layers go from the bottom-most on the left, to the top-most on the right:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;hot-dox-pieces.png&quot; alt=&quot;the pieces of the Hot Dox&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Before putting the layers together, you should peel off the paper covering the acrylic. I like to remove them as I start assembling, as otherwise dust and other sediments get stuck and it looks ugly in the clear plastic.&lt;/p&gt;
+
+&lt;h2 id=&quot;2-optional-add-the-module-foam&quot;&gt;2. Optional: add the module foam&lt;/h2&gt;
+
+&lt;p&gt;If you want a &lt;a href=&quot;/quiet-keyboard/&quot;&gt;more silent keyboard&lt;/a&gt;, you can reduce the noise from the keyswitches by applying some foam in some of the gaps in the case.&lt;/p&gt;
+
+&lt;p&gt;With the Hot Dox, I was able to add some &lt;a href=&quot;https://kbdfans.com/collections/keyboard-foam/products/kbdfans-module-foam&quot;&gt;module foam&lt;/a&gt; in between the PCB and the metal switch housing. The foam from Kbdfans comes with an adhesive, which I stuck onto the metal plate rather than the PCB.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;hot-dox-foam.png&quot; alt=&quot;keyswitch housing with foam&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;3-insert-stabilizers&quot;&gt;3. Insert stabilizers&lt;/h2&gt;
+
+&lt;p&gt;The Hot Dox comes with keycap stabilizers for the larger key caps. There’s four to build in my set, which are installed into a couple keys on the thumb clusters.&lt;/p&gt;
+
+&lt;p&gt;These are costar stabilizers, and I followed &lt;a href=&quot;https://www.youtube.com/watch?v=WhRfIuKwqJo&quot;&gt;this video&lt;/a&gt; to figure out how to build and install them.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;hot-dox-stabilizers.png&quot; alt=&quot;installing stabilizers&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;4-install-keyswitches&quot;&gt;4. Install Keyswitches&lt;/h2&gt;
+
+&lt;p&gt;With the foam and stabilizers installed, it’s time to install the keyswitches. Lay the PCB above the foam that comes with the Hot Dox (as to not apply pressure to the underlying electronics), and layer your metal switch housing on top.&lt;/p&gt;
+
+&lt;p&gt;Start by pressing in keyswitches from the corners, and working inward. I found with the foam installed, I had to do some extra work to push in the keyswitches through the metal housing into the PCB. Sometimes I had to gently lift the PCB, and press the PCB and keyswitch together to get the keyswitch to actually go in.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;hot-dox-keyswitches.png&quot; alt=&quot;pcb and metal with keyswitches installed&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;5-verify-keyswitches&quot;&gt;5. Verify Keyswitches&lt;/h2&gt;
+
+&lt;p&gt;I forgot to snap a photo, but it’s a good time to verify that the keyswitches are actually connected to the PCB. The photo on the &lt;a href=&quot;https://www.keychatter.com/2019/04/09/build-guide-ergodox-76-hot-dox/&quot;&gt;original guide&lt;/a&gt; show you what to look for, but basically you’ll see some thin metal pins sticking through on the bottom of the case, in the little black parts that are below every switch slot.&lt;/p&gt;
+
+&lt;p&gt;The tiny sliver of the pin metal is a bit hard to see, so I used a flashlight and also compared the filled slots to ones that were empty.&lt;/p&gt;
+
+&lt;h2 id=&quot;6-assemble-the-case&quot;&gt;6. Assemble the case&lt;/h2&gt;
+
+&lt;p&gt;Once the switches are installed, it’s time to layer the acrylic pieces and the metal/pcb together.&lt;/p&gt;
+
+&lt;p&gt;Use the order I mentioned above. The main differentiator between the top and the bottom is the notches for the keycaps that are on the top case, and the large gap for the USB slots on the bottom acrylic.&lt;/p&gt;
+
+&lt;p&gt;When installing with the foam, I found that the foam was large enough to make it hard to make the acrylic line up with the holes on the PCB. To deal with that, I lightly opened up the acrylic to go around the foam, then pushed the acrylic back to align the holes as I was installing the screws.&lt;/p&gt;
+
+&lt;p&gt;If you do the above, be careful not to stretch the acrylic too far: it’s easy to crack.&lt;/p&gt;
+
+&lt;h2 id=&quot;7-install-the-screws&quot;&gt;7. Install the screws&lt;/h2&gt;
+
+&lt;p&gt;Once the case has been layered, the next part is to install the screws. The screw bolts (which are flat at the end) belong on the bottom of the keyboard, while the screws themselves are at the top.&lt;/p&gt;
+
+&lt;p&gt;Again, this is a little more difficult when installing with foam due to the foam pushing the acrylic out of alignment. So the screws sometimes have to be pushed at different angles.&lt;/p&gt;
+
+&lt;h2 id=&quot;and-youre-done&quot;&gt;And you’re done!&lt;/h2&gt;
+
+&lt;p&gt;Once you install the screws, you’re done! You have a fully assembled keyboard.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;hot-dox-finished.png&quot; alt=&quot;finished keyboard&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;But you don’t have a fully working Hot Dox yet. the next step is to program it. We’ll cover that in a future post.&lt;/p&gt;</content><author><name></name></author><category term="keyboard" /><summary type="html">I recently purchased a Hot Dox from Alpaca Keyboards. There are instructions, but I wanted to author my own to call out a few details, as well as include some steps on how to add some foam to reduce typing noise.</summary></entry><entry><title type="html">The Quietest Mechanical Keyboard</title><link href="https://y.tsutsumi.io/quiet-keyboard/" rel="alternate" type="text/html" title="The Quietest Mechanical Keyboard" /><published>2021-01-07T07:00:00+00:00</published><updated>2021-01-07T07:00:00+00:00</updated><id>https://y.tsutsumi.io/quiet-keyboard</id><content type="html" xml:base="https://y.tsutsumi.io/quiet-keyboard/">&lt;h2 id=&quot;prologue-getting-muted-in-a-a-video-conference&quot;&gt;Prologue: getting muted in a a video conference&lt;/h2&gt;
+
+&lt;p&gt;As is the trend for many since 2020, I am working remote, and as a result in a lot of video conferences.&lt;/p&gt;
+
+&lt;p&gt;One silver lining with being remote is the ability to take notes: by nature of video conference, you’re in front of the computer, so it’s a lot easier to take notes on your computer without looking like you’re not paying attention.&lt;/p&gt;
+
+&lt;p&gt;In one such meeting, I was notified how I was muted in the middle while someone else was talking: it turns out my keyboard noise was quite audible! How embarassing.&lt;/p&gt;
+
+&lt;p&gt;So thus started the quest to find the quietest keyboard possible.&lt;/p&gt;
+
+&lt;h2 id=&quot;whats-causing-the-noise-when-i-type&quot;&gt;What’s causing the noise when I type?&lt;/h2&gt;
+
+&lt;p&gt;For context: I use an &lt;a href=&quot;https://ergodox-ez.com/&quot;&gt;ergodox-ez&lt;/a&gt;. I didn’t realize it, but &lt;a href=&quot;https://www.reddit.com/r/ErgoDoxEZ/comments/9ls494/ergodoxez_case_seems_very_loud/&quot;&gt;loud noise with the Ergodox EZ is a common issue&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;On the ergodox-ez page, there is a lot of discussion around keyswitches (the thing that detects the key being pressed) and how much they affect noise. I chose the &lt;a href=&quot;https://www.cherrymx.de/en/mx-original/mx-brown.html&quot;&gt;Cherry MX Browns&lt;/a&gt; since they are made to be silent, but still provide a tactile feel.&lt;/p&gt;
+
+&lt;p&gt;But after experimenting with different keyboards, removing some pieces, and changing my style, I’ve found that keyswitches are just one piece of the puzzle. The additional factors I found were:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;keycaps: the cap you put on the key switches. Once you put the keycap on, the clacking becomes louder, seemingly due to the resonation of the keys to the bottom of the switch.&lt;/li&gt;
+  &lt;li&gt;keyboard housing: the reverberation that occurs in the housing can be significant. This occurs while the key is being pressed, and even once it’s released.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;When holding a decibel meter up to where my microphone is during calls, and when typing a single key in a rhythmic fashion, I found that my ErgoDox produces noise of 62.8 decibels (dB) of loudness. My voice talking normally (and also much closer to the mic) is roughly 72 dB.&lt;/p&gt;
+
+&lt;p&gt;To be silent for practical purposes, the keyboard would have to produce below 40dB of noise: that’s roughly the loudness of a library.&lt;/p&gt;
+
+&lt;h2 id=&quot;keyboard-components-in-depth&quot;&gt;Keyboard components in depth&lt;/h2&gt;
+
+&lt;h3 id=&quot;keycaps&quot;&gt;Keycaps&lt;/h3&gt;
+
+&lt;p&gt;As mentioned previously, keycaps are the cover for a key, and is often marked with the key that would be typed if pressed. A little research shows that &lt;a href=&quot;https://geekhack.org/index.php?topic=69537.0&quot;&gt;PBT plastic dampens higher frequencies&lt;/a&gt;. These seemed to be loud in my case.&lt;/p&gt;
+
+&lt;h3 id=&quot;o-rings&quot;&gt;O-rings&lt;/h3&gt;
+
+&lt;p&gt;If your keypresses are loud, it’s common to just add o-rings (plastic rings that wrap the stem of your keycap) rather than brand by new switches. I’ve found the use of o-rings to be hit or miss, but generally they do play a part in reducing the noise of your keypresses, at the cost of the “feel” of your keys (the press feels a little squish at the bottom due to the ring being compressed rather than hitting whatever bottom it normally does).&lt;/p&gt;
+
+&lt;h3 id=&quot;key-switches&quot;&gt;Key switches&lt;/h3&gt;
+
+&lt;p&gt;Key Switches are the mechanical components which are responsible for “actuation”, in other words registering a key press.&lt;/p&gt;
+
+&lt;p&gt;There are a few general properties that can be used to categorize switches:&lt;/p&gt;
+
+&lt;h4 id=&quot;clicky-or-silent&quot;&gt;Clicky or silent&lt;/h4&gt;
+
+&lt;p&gt;If the switch is clicky, then the actuation includes a purposeful “click” sound. The click is actually not necessary to register the key press.&lt;/p&gt;
+
+&lt;h4 id=&quot;tactile-or-linear&quot;&gt;Tactile or linear&lt;/h4&gt;
+
+&lt;p&gt;For silent switches, tactile switches include physical feedback when the key is actuated. You feel a little resistance, and once that gives way you know you’ve pressed the button.&lt;/p&gt;
+
+&lt;p&gt;With a linear switch, the resistance is the same all the way through, which doesn’t give you a way to physically determine when the press was made.&lt;/p&gt;
+
+&lt;h4 id=&quot;travel-distance&quot;&gt;Travel distance&lt;/h4&gt;
+
+&lt;p&gt;The distance the switch travels between pressed and unpressed. Typically a few millimeters.&lt;/p&gt;
+
+&lt;h4 id=&quot;actuation-force&quot;&gt;Actuation force&lt;/h4&gt;
+
+&lt;p&gt;The total amount of force that must be applied to actuate the switch. The key will feel harder to press if the actuation force is higher.&lt;/p&gt;
+
+&lt;h4 id=&quot;my-conclusion-on-switches&quot;&gt;My Conclusion on Switches&lt;/h4&gt;
+
+&lt;p&gt;I chose a switch with:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;highest possible actuation force and travel distance. I tend to hit keys quite hard, and to minimize sound I need to try to actuate the key, but not actually “bottom out” and have my switch hit the bottom.&lt;/li&gt;
+  &lt;li&gt;Silent and linear attributes. Silent since the whole goal is to not make sound, and I found through testing that silent tactile switches result in additional noise when you hit the tactile feedback. The linear has no such noise.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;For the switch brand themselves, I found that Cherry MX, Gateron, and Kailh brand switches made roughly the same amount of noise. However, the &lt;a href=&quot;https://zealpc.net/products/healio&quot;&gt;ZealPC Healios&lt;/a&gt; were orders of magnitude quieter in my HotDox. I’m not sure on exactly why, but it was impressive. Combined with the fact that they were linear switches, the Healios were the winner.&lt;/p&gt;
+
+&lt;h3 id=&quot;keyboard-housing&quot;&gt;Keyboard housing&lt;/h3&gt;
+
+&lt;p&gt;The keyboard housing played a big part, based on my experiments (details below).&lt;/p&gt;
+
+&lt;p&gt;Housings that had less air inside produced less noise, since there wasn’t space for reverberation and the force of the keypress was more dampened by the material the keybaord was on.&lt;/p&gt;
+
+&lt;p&gt;Based on reviews, I read that the &lt;a href=&quot;https://www.alpacakeyboards.com/&quot;&gt;Hot Dox&lt;/a&gt; keyboard was very silent (acrylic case with very little empty space inside). To further reduce any chance of reverberation, I added some &lt;a href=&quot;https://kbdfans.com/collections/keyboard-foam/products/kbdfans-module-foam&quot;&gt;EVA foam&lt;/a&gt; to fill the space between the PCB and the metallic cover on top.&lt;/p&gt;
+
+&lt;p&gt;There is also a material called &lt;a href=&quot;https://www.sorbothane.com/&quot;&gt;Sorbothane&lt;/a&gt; that dampens things even better than foam, but I didn’t go that route because it would require hand-cutting it, and the material is hard to cut. If I tried to cut it without special equipment, I would probably end up with a rather uneven and unpleasent look.&lt;/p&gt;
+
+&lt;h3 id=&quot;material-keyboard-is-on&quot;&gt;Material keyboard is on&lt;/h3&gt;
+
+&lt;p&gt;I also found that the material the keyboard is on made a difference, although of a couple decibels. Typing on hard wood was louder. I read that using a keyboard / mousepad mat and putting your keyboard on top helps, so I purchased &lt;a href=&quot;https://www.amazon.com/gp/product/B014CP231W/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&amp;amp;psc=1&quot;&gt;a cheap one on Amazon&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;experiments-with-different-scenarios&quot;&gt;Experiments with different scenarios&lt;/h2&gt;
+
+&lt;p&gt;To verify what I read, I tried to take some measurements with the loudness of various keyboards and configurations.&lt;/p&gt;
+
+&lt;p&gt;Although I originally tried to test the various scenarios with a decibel app on my phone, I found that the sensitivity wasn’t good enough to capture even relative differences between the different configurations. So I purchased a real decibel meter.&lt;/p&gt;
+
+&lt;p&gt;To measure the volume, I hovered the decibel meter about 3cm directly above the key being pressed. I pressed with the same rhythm, setting the decibel to “max” setting to capture the loudest the keypress ever is.&lt;/p&gt;
+
+&lt;p&gt;All experiments were with PBT Keycaps.&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Volume&lt;/th&gt;
+      &lt;th&gt;Keyboard Model&lt;/th&gt;
+      &lt;th&gt;Switches&lt;/th&gt;
+      &lt;th&gt;With o-ring?&lt;/th&gt;
+      &lt;th&gt;With Mat?&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;72.9 dB&lt;/td&gt;
+      &lt;td&gt;ErgoDox&lt;/td&gt;
+      &lt;td&gt;Cherry MX Brown&lt;/td&gt;
+      &lt;td&gt;no&lt;/td&gt;
+      &lt;td&gt;no&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;69.2 dB&lt;/td&gt;
+      &lt;td&gt;ErgoDox&lt;/td&gt;
+      &lt;td&gt;Cherry MX Brown&lt;/td&gt;
+      &lt;td&gt;no&lt;/td&gt;
+      &lt;td&gt;yes&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;62 dB&lt;/td&gt;
+      &lt;td&gt;HotDox&lt;/td&gt;
+      &lt;td&gt;Gateron Whites&lt;/td&gt;
+      &lt;td&gt;no&lt;/td&gt;
+      &lt;td&gt;yes&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;61.5 dB&lt;/td&gt;
+      &lt;td&gt;ErgoDox&lt;/td&gt;
+      &lt;td&gt;Helios&lt;/td&gt;
+      &lt;td&gt;no&lt;/td&gt;
+      &lt;td&gt;yes&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;57.5 dB&lt;/td&gt;
+      &lt;td&gt;HotDox&lt;/td&gt;
+      &lt;td&gt;Helios&lt;/td&gt;
+      &lt;td&gt;yes&lt;/td&gt;
+      &lt;td&gt;yes&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;53.9 dB&lt;/td&gt;
+      &lt;td&gt;HP Spectre X360 Keyboard&lt;/td&gt;
+      &lt;td&gt;n/a (built-in scissor)&lt;/td&gt;
+      &lt;td&gt;n/a&lt;/td&gt;
+      &lt;td&gt;yes&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;52.9 dB&lt;/td&gt;
+      &lt;td&gt;HotDox&lt;/td&gt;
+      &lt;td&gt;Helios&lt;/td&gt;
+      &lt;td&gt;no&lt;/td&gt;
+      &lt;td&gt;yes&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;I started with a keyboard that was very loud (72.9 decibels), and was able to finish with a setup that was roughly 20dB quieter! Although the real noise reduction may be lower due to the microphone being more than 3cm away from the keyboard, the relative comparison is going from a noisy restaurant (70db) to a quiet office (50db).&lt;/p&gt;
+
+&lt;p&gt;My final build is:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;PBT keycaps (my particular set is no longer made, so no link)&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://zealpc.net/products/healio&quot;&gt;ZealPC Healios switches&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.alpacakeyboards.com/&quot;&gt;HotDox case + PDB&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://kbdfans.com/collections/keyboard-foam/products/kbdfans-module-foam&quot;&gt;Foam between metal slots and PCB&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.amazon.com/gp/product/B014CP231W/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&amp;amp;psc=1&quot;&gt;XXL mousepad below keyboard&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;final-build.png&quot; alt=&quot;final keyboard build&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;And the verdict during meetings? No one has muted me yet!&lt;/p&gt;</content><author><name></name></author><category term="keyboard" /><category term="gear" /><category term="coding" /><summary type="html">Prologue: getting muted in a a video conference</summary></entry><entry><title type="html">My year in words: 2020</title><link href="https://y.tsutsumi.io/my-year/2020" rel="alternate" type="text/html" title="My year in words: 2020" /><published>2020-12-31T07:00:00+00:00</published><updated>2020-12-31T07:00:00+00:00</updated><id>https://y.tsutsumi.io/my-year/my-year-in-words-2020</id><content type="html" xml:base="https://y.tsutsumi.io/my-year/2020">&lt;h1 id=&quot;my-year-in-words-2020&quot;&gt;My year in words: 2020&lt;/h1&gt;
+
+&lt;p&gt;&lt;em&gt;note&lt;/em&gt;: this is the first of this series, so you won’t find entries before 2020.&lt;/p&gt;
+
+&lt;p&gt;Although 2020 was a hard year for the world, I focus my post primarily on my projects outside of that.&lt;/p&gt;
+
+&lt;h2 id=&quot;working-remotely&quot;&gt;Working remotely&lt;/h2&gt;
+
+&lt;p&gt;Like many in the US, I’ve been working remotely since March. By the time the work from home situation had begun, I had already duplicated my ideal work equipment at home: 2 4K monitors, a standing desk, and a desktop that was better than my work-issued laptop.&lt;/p&gt;
+
+&lt;p&gt;Google’s laptop did require me to &lt;a href=&quot;https://y.tsutsumi.io/2020/08/15/egpu-linux-core-x-chroma/&quot;&gt;add an eGPU&lt;/a&gt;, but after some hassle things worked well.&lt;/p&gt;
+
+&lt;p&gt;In some areas, I think working from home has improved my productivity. As a manager time management is key, and being readily available to everyone (not just my team) meant very little time to deep work.&lt;/p&gt;
+
+&lt;p&gt;With remote, many threads moved to e-mail or chat, and video conferences were used in cases where consensus could not be quickly reached. As a result, I have been able to defragment my focus time and my random communication time. With more focus time, I’ve been able to write more documents, leave more thoughtful comments on others, and actually code a little bit!&lt;/p&gt;
+
+&lt;h2 id=&quot;contributing-to-opentelemetry&quot;&gt;Contributing to OpenTelemetry&lt;/h2&gt;
+
+&lt;p&gt;In the first half of the year, I was contributing to &lt;a href=&quot;https://opentelemetry.io/&quot;&gt;OpenTelemetry&lt;/a&gt; as a maintainer of &lt;a href=&quot;https://github.com/open-telemetry/opentelemetry-python&quot;&gt;opentelemetry-python&lt;/a&gt;. I found the work really rewarding, and it was great talking to others in the industry around monitoring and instrumentation of applications.&lt;/p&gt;
+
+&lt;p&gt;In July, I moved from Zillow to Google, which came with it a shift away from monitoring as a focus. I had to step down as a maintainer, and have been an approver since, generally just reviewing PRs and small contributions.&lt;/p&gt;
+
+&lt;p&gt;Unfortunately I don’t see my involvement increasing in 2021, but I’m very thankful of the opportunity to be a part of a project that is filling a sorely needed gap in the open source community.&lt;/p&gt;
+
+&lt;h2 id=&quot;going-mostly-vegan&quot;&gt;Going (mostly) vegan&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://y.tsutsumi.io/2020/03/04/book-report-the-blue-zones/&quot;&gt;The Blue Zones&lt;/a&gt;, aggregates commonalities with areas of extreme longevity, and provides a great blueprint for living a long, satisfying life. I tried to incorporate some of those habits into my routine.&lt;/p&gt;
+
+&lt;p&gt;One aspect was the almost exclusively vegan diet: many blue zones only eat meat once a year or less. The most frequent was once a week.&lt;/p&gt;
+
+&lt;p&gt;I significantly modified my diet from frequently pescetarian to mostly vegan:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Reduced meat consumption: have fish for a meal at most a couple times a month&lt;/li&gt;
+  &lt;li&gt;Lunch: most days is a salad, or a similar meal with beans and greens&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I’ve also reduced sugary foods, eliminating sugary coffee drinks (I used to drink one daily).&lt;/p&gt;
+
+&lt;p&gt;As a final change, I’m also attempting to “intermittently fast” for 12 hours a day. There’s no scientifically proven health benefit, although it does give a lot more time for teeth to recover from the constant acid bath it encounters when eating foods.&lt;/p&gt;
+
+&lt;h2 id=&quot;waking-up-at-6am&quot;&gt;Waking up at 6am&lt;/h2&gt;
+
+&lt;p&gt;It’s also been difficult to find some time to focus, juggling family and work. To that end, I’ve bitten the bullet and started waking up early.&lt;/p&gt;
+
+&lt;p&gt;It’s been great so far. I’m able to get uninterrupted focus time and I’m doing work when I’m at my most rested. As a result, I’ve been able to get back to writing a bit more code, or blogging, or whatever learning activity interests me.&lt;/p&gt;
+
+&lt;h2 id=&quot;japanese-lessons-and-studying&quot;&gt;Japanese Lessons and Studying&lt;/h2&gt;
+
+&lt;p&gt;One of my major goals this year was improving my Japanese. I want my two children to be fluent, and I’ve found my own Japanese lacking.&lt;/p&gt;
+
+&lt;p&gt;I started using &lt;a href=&quot;https://www.italki.com/&quot;&gt;italki&lt;/a&gt; for conversational practice, half an hour once a week. In addition, I read a chapter of Japanese manga a day, adding words I don’t know into my flashcard application.&lt;/p&gt;
+
+&lt;p&gt;This takes about 30 minutes to an hour a day to keep up, but It’s been helping my Japanese immensely. That said, I have a long way to go, with each chapter of Manga introducing at least a word or two that I don’t know the meaning of before. My current flash card count for Japanese sits at 1,150 words, and counting.&lt;/p&gt;
+
+&lt;h2 id=&quot;books&quot;&gt;Books&lt;/h2&gt;
+
+&lt;p&gt;I had barely any time for books, but audiobooks and a little nighttime reading helped a bit.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://y.tsutsumi.io/2020/03/04/book-report-the-blue-zones/&quot;&gt;The Blue Zones&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.barnesandnoble.com/w/the-unicorn-project-gene-kim/1133048981&quot;&gt;The Unicorn Project by Gene Kim&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Dune by Frank Herbert&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;video-games&quot;&gt;Video Games&lt;/h2&gt;
+
+&lt;p&gt;The past few years I’ve been playing fewer games, but last year I received a Nintendo Switch, which has made games much more readily available to play for 10 minutes her and there.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://store.steampowered.com/app/447530/VA11_HallA_Cyberpunk_Bartender_Action/&quot;&gt;VA-11 Hall-A: Cyberpunk Bartender Action&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://store.steampowered.com/app/1057540/Cthulhu_Saves_Christmas/&quot;&gt;Cthulu Saves Christmas&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Animal Crossing New Horizons&lt;/li&gt;
+  &lt;li&gt;Super Mario U Deluxe&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;goals-for-2021&quot;&gt;Goals for 2021&lt;/h2&gt;
+
+&lt;p&gt;I use a modified &lt;a href=&quot;https://bulletjournal.com/&quot;&gt;Bullet Journal Method&lt;/a&gt; to take notes and log my daily activites, and one aspect of that process is writing down a small list of long term goals to focus on for that year or month. I’ve found t&lt;/p&gt;
+
+&lt;p&gt;For 2021, My goals are:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Improve my Japanese.&lt;/li&gt;
+  &lt;li&gt;Depending on whether I no longer have new Japanese words I need to memorize daily, I’d like to begin to learn Farsi (my in-laws speak it).&lt;/li&gt;
+  &lt;li&gt;Learn to sight-play music on the piano.&lt;/li&gt;
+  &lt;li&gt;Continue to contribute to the &lt;a href=&quot;https://github.com/open-telemetry/opentelemetry-python&quot;&gt;OpenTelemetry project&lt;/a&gt; as an approver, at least until the API and SDK reach GA.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;This has been a difficult year in most ways, and I hope that 2021 is better. But it’s important to make sure we remember both the good and the bad.&lt;/p&gt;</content><author><name></name></author><category term="2020" /><category term="reflection" /><summary type="html">My year in words: 2020</summary></entry><entry><title type="html">Review: Boyue Likebook Ares</title><link href="https://y.tsutsumi.io/2020/10/16/likebook-ares/" rel="alternate" type="text/html" title="Review: Boyue Likebook Ares" /><published>2020-10-16T07:00:00+00:00</published><updated>2020-10-16T07:00:00+00:00</updated><id>https://y.tsutsumi.io/2020/10/16/likebook-ares</id><content type="html" xml:base="https://y.tsutsumi.io/2020/10/16/likebook-ares/">&lt;p&gt;For a while, I’ve been looking for an e-reader to complement my evening routine. I’ve landed on the &lt;a href=&quot;https://www.amazon.com/Likebook-Ares-Note-7-8300ppi-Touchscreen-Expandable/dp/B07ZQK1WM3&quot;&gt;Boyue Likebook Ares&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;why-i-chose-it&quot;&gt;Why I chose it&lt;/h2&gt;
+
+&lt;p&gt;I’ve been using the &lt;a href=&quot;https://www.amazon.com/All-new-Kindle-Paperwhite-Waterproof-Storage/dp/B07CXG6C9W&quot;&gt;Kindle paperwhite&lt;/a&gt; previously, and it works great when reading books. However, there were some deficiencies:&lt;/p&gt;
+
+&lt;h3 id=&quot;low-resolution-for-comics-and-manga&quot;&gt;Low resolution for comics and manga&lt;/h3&gt;
+
+&lt;p&gt;I like to read manga, and the paperwhite has a resolution (&lt;a href=&quot;https://en.wikipedia.org/wiki/Comparison_of_e-readers&quot;&gt;1080x1430&lt;/a&gt;) that
+is too low to read some of the smaller characters clearly.&lt;/p&gt;
+
+&lt;p&gt;Even the larger Kindle Oasis has a resolution of 1264x1680. Which is only marginally better.&lt;/p&gt;
+
+&lt;h3 id=&quot;sd-expansion-card&quot;&gt;SD expansion card&lt;/h3&gt;
+
+&lt;p&gt;What is frustrating about modern e-readers is their tendency to not include some form of expansion storage. It’s understandable that the current standard of 32GB is well beyond what most need for e-readers, but with a single volume of manga taking up to 100MB, and a series in manga lasting 30 volumes or more, I wanted a system that can potentially store much more.&lt;/p&gt;
+
+&lt;p&gt;Very few support native storage in the hundreds of gigabytes, so SD card support was the alternative requirement.&lt;/p&gt;
+
+&lt;h3 id=&quot;nice-to-have-notetaking-capabilities&quot;&gt;Nice-to-have: notetaking capabilities&lt;/h3&gt;
+
+&lt;p&gt;I purchased a &lt;a href=&quot;https://www.mobiscribe.com/&quot;&gt;Mobiscribe&lt;/a&gt; a while back because I was loved the idea of writing digital notes and saving some paper. I don’t &lt;em&gt;really&lt;/em&gt; use this feature, but having the ability to use it to take notes would future-proof it if I ever wanted to try it again.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-review&quot;&gt;The Review&lt;/h2&gt;
+
+&lt;h3 id=&quot;overall&quot;&gt;Overall&lt;/h3&gt;
+
+&lt;p&gt;The Ares has worked well for my purposes. But there are enough minor issues that I think are worth considering before a purchase (see below).&lt;/p&gt;
+
+&lt;p&gt;The Ares has Wacom support and comes with a pen, which enables it’s use as a notetaking tablet.&lt;/p&gt;
+
+&lt;p&gt;In addition, the Ares has a resolution of 1404x1872: much larger than any Kindle, and the highest of an e-reader with an 8 inch screen.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/likebook-ares.png&quot; alt=&quot;The Likebook Ares in action, with some Manga to illustrate the resolution.&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The Likebook Ares in action, with some Manga to illustrate the resolution.&lt;/p&gt;
+
+&lt;h3 id=&quot;out-of-the-box&quot;&gt;Out of the box&lt;/h3&gt;
+
+&lt;p&gt;When I ordered from Amazon, the Ares comes out of the box with:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;A pen&lt;/li&gt;
+  &lt;li&gt;3 replacement nibs&lt;/li&gt;
+  &lt;li&gt;A screen protector&lt;/li&gt;
+  &lt;li&gt;A case, with a magnetic flap that unlocks the Ares when opened.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;pros&quot;&gt;Pros&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;supports Kindle, Nook, and Google Books&lt;/li&gt;
+  &lt;li&gt;basic notetaking / drawing worked well&lt;/li&gt;
+  &lt;li&gt;supports micro SDXC cards, up to 2TB (tested with 512GB)&lt;/li&gt;
+  &lt;li&gt;was able to install Google Chrome, and enable Google services.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;cons&quot;&gt;Cons&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Kobo’s reader app did not work for me. It just gave a blank screen.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.mobileread.com/forums/showpost.php?p=3923583&amp;amp;postcount=169&quot;&gt;the Ares doesn’t seem to recognize some SD cards&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;My first Ares was unable to read all SD cards. So I had to return it.&lt;/li&gt;
+  &lt;li&gt;Currently running Android 6 (although an 8.1 update is theoretically on the way).&lt;/li&gt;
+  &lt;li&gt;Battery power drains quickly without some annoying low-power switches&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;additional-details&quot;&gt;Additional Details&lt;/h3&gt;
+
+&lt;h4 id=&quot;sd-card-support-is-for-microsdxc-not-128gb-as-stated&quot;&gt;SD card support is for microSDXC, not 128GB as stated&lt;/h4&gt;
+
+&lt;p&gt;The first thing worth noting is that the product description calls out support for up to 128GB sd cards. The reality is that the Ares supports microSDXC cards, which can theoretically go up to 2TB. I have tested this with a &lt;a href=&quot;https://www.amazon.com/SAMSUNG-Select-microSDXC-Adapter-MB-ME512HA/dp/B0887CHVFF/ref=sr_1_1?dchild=1&amp;amp;keywords=512GB+samsung+evo&amp;amp;qid=1602906762&amp;amp;sr=8-1&quot;&gt;512GB Samsung EVO&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;possibly-only-some-sd-cards-supported&quot;&gt;Possibly only some SD cards supported&lt;/h4&gt;
+
+&lt;p&gt;The first Ares I recieved had an issue with reading most of the SD cards I owned. After looking at some forum posts, &lt;a href=&quot;https://www.mobileread.com/forums/showpost.php?p=3923583&amp;amp;postcount=169&quot;&gt;this seems to be a theme&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;My reccomendation is to purchase the Samsung EVO’s stated above, as it’s been verified to work.&lt;/p&gt;
+
+&lt;h4 id=&quot;ghosting-with-some-applications&quot;&gt;Ghosting with some applications&lt;/h4&gt;
+
+&lt;p&gt;I believe this is due to apps being used on the Ares that aren’t designed for e-readers, but there is some level of ghosting on some applications (&lt;a href=&quot;https://www.inoreader.com/&quot;&gt;inoreader&lt;/a&gt; for me).&lt;/p&gt;
+
+&lt;p&gt;The operating system allows you to tune the refresh logic and configuration, which helps somewhat. But it’s not perfect, and it may bother some people.&lt;/p&gt;
+
+&lt;h3 id=&quot;battery-does-not-last-without-some-significant-tuning&quot;&gt;Battery does not last without some significant tuning&lt;/h3&gt;
+
+&lt;p&gt;With both the Kindle and the Mobiscribe I was using previously, the batter would last on the order of weeks, with the devices unlocking quickly (within 1 second) of me interacting with it.&lt;/p&gt;
+
+&lt;p&gt;With the Ares, leaving it on (even with a screensaver) would drain the battery in about a day. Thus Boyue added some battery saving options that one can toggle:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;turn off the device after {configurable} hours of inactivity&lt;/li&gt;
+  &lt;li&gt;lock the device after {configurable} hours of inactivity&lt;/li&gt;
+  &lt;li&gt;turn off the wifi after {configurable} hours of inactivity&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;There is also a battery saver mode, which slows down the device noticeably, but not enough to make reading a book painful.&lt;/p&gt;
+
+&lt;p&gt;Eventually I found a setting that lasts while also allowing me to quickly unlock it, rather than wait for the 30-second boot time:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;disabled turning off the device after hours of activity&lt;/li&gt;
+  &lt;li&gt;disabled turning off wifi after hours of inactivity&lt;/li&gt;
+  &lt;li&gt;I turn on battery saver mode before I lock it, generally turn it off when I unlock it&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;On these settings, and using it for about an hour a day, the battery lasts me 7 days.&lt;/p&gt;
+
+&lt;h2 id=&quot;summary&quot;&gt;Summary&lt;/h2&gt;
+
+&lt;p&gt;Despite having to run a defective one, the Ares has been a solid, highly functional e-reader. It’s been able to handle all of my use cases (e-reader, read articles online, digital notebook), and I’m happy with my purchase.&lt;/p&gt;</content><author><name></name></author><category term="e-reader" /><category term="gear" /><summary type="html">For a while, I’ve been looking for an e-reader to complement my evening routine. I’ve landed on the Boyue Likebook Ares.</summary></entry><entry><title type="html">Coding stories: my week with the flu</title><link href="https://y.tsutsumi.io/week-with-the-flu/" rel="alternate" type="text/html" title="Coding stories: my week with the flu" /><published>2020-09-13T07:00:00+00:00</published><updated>2020-09-13T07:00:00+00:00</updated><id>https://y.tsutsumi.io/week-with-the-flu</id><content type="html" xml:base="https://y.tsutsumi.io/week-with-the-flu/">&lt;p&gt;One week at Zillow, we were in the middle of an important project (building out our on-demand deployment system), and I got the flu.&lt;/p&gt;
+
+&lt;p&gt;My head hurt, my throat was sore, and I needed something to take my mind off of the pain. So I opened my laptop, and started coding. I came back the following Friday with a fully tested and reproducible Jenkins deployment that would be trigger the deployment process.&lt;/p&gt;
+
+&lt;p&gt;Sans being sick, having no meetings or interruptions lead to some really productive week. One of the more productive weeks in my career.&lt;/p&gt;</content><author><name></name></author><category term="anecdote" /><summary type="html">One week at Zillow, we were in the middle of an important project (building out our on-demand deployment system), and I got the flu.</summary></entry><entry><title type="html">More Than One Right Way</title><link href="https://y.tsutsumi.io/one-right-way" rel="alternate" type="text/html" title="More Than One Right Way" /><published>2020-08-29T07:00:00+00:00</published><updated>2020-08-29T07:00:00+00:00</updated><id>https://y.tsutsumi.io/one-right-way</id><content type="html" xml:base="https://y.tsutsumi.io/one-right-way">&lt;p&gt;A while back, I did an interview loop for a dev role. It was my first one in a while, and I was nervous.&lt;/p&gt;
+
+&lt;p&gt;I spent a couple minutes discussing my method, and started coding. During the middle of it, I continued to run through scenarios in my mind, and captured and corrected several edge cases. With more time, I could have amended my style to something that matches the regular rubric for coding interviews: thinking deeply about edge cases, writing perfect code the first time. But my natural style is one of iterating aggressively, and that’s what came out. It’s the style that has lead me to a successful career for 9 years and counting.&lt;/p&gt;
+
+&lt;p&gt;After I was done, my interviewer told me “You have one of the strangest styles I’ve ever seen. You didn’t catch the edge cases initially, but you real-time corrected them as you encountered them, and had a bug-free solution at the end. It’s the weirdest style I’ve seen.”&lt;/p&gt;
+
+&lt;p&gt;Unfortunately the role didn’t work out, unrelated to the interview. But the experience made me think about how our processes could always be improved to measure what we’re really looking for. I think I certainly would have failed that interview with someone who was more strict about my approach matching some hypothetical ideal.&lt;/p&gt;</content><author><name></name></author><category term="anecdote" /><summary type="html">A while back, I did an interview loop for a dev role. It was my first one in a while, and I was nervous.</summary></entry><entry><title type="html">Back to the static: Wordpress to Jekyll</title><link href="https://y.tsutsumi.io/2020/08/20/jekyll-blog/" rel="alternate" type="text/html" title="Back to the static: Wordpress to Jekyll" /><published>2020-08-20T07:00:00+00:00</published><updated>2020-08-20T07:00:00+00:00</updated><id>https://y.tsutsumi.io/2020/08/20/jekyll-blog</id><content type="html" xml:base="https://y.tsutsumi.io/2020/08/20/jekyll-blog/">&lt;p&gt;Less than six months after I &lt;a href=&quot;/2020/03/07/goodbye-pelican-hello-wordpress/&quot;&gt;switched to WordPress&lt;/a&gt;, which comes seven years after I &lt;a href=&quot;/2013/03/26/goodbye-wordpress-hello-github/&quot;&gt;switched to Pelican&lt;/a&gt;, I’m boomeranging around, but this time using &lt;a href=&quot;https://jekyll.io/&quot;&gt;Jekyll&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;So, why do this? Well, for one, I admittedly like to yak shave: I’m getting better, but even minor inconveniences sometimes send me on a spiral to gain an ounce of efficiency.&lt;/p&gt;
+
+&lt;p&gt;But a few months ago, I really felt WordPress provided everything I needed:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;fairly performant&lt;/li&gt;
+  &lt;li&gt;low maintenance&lt;/li&gt;
+  &lt;li&gt;editable via mobile&lt;/li&gt;
+  &lt;li&gt;easy to make changes from desktop (no Git workflow overhead)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;So with all those advantages, that begs the question:&lt;/p&gt;
+
+&lt;h2 id=&quot;why-switch&quot;&gt;Why Switch?&lt;/h2&gt;
+
+&lt;p&gt;There’s a few reasons that rattled in my head, in these short few months:&lt;/p&gt;
+
+&lt;h3 id=&quot;cool-uris-dont-change&quot;&gt;Cool URIs Don’t Change&lt;/h3&gt;
+
+&lt;p&gt;Unfortunately, when I migrated from Pelican to WordPress, I ended up breaking every blog post URI. At the time, I thought this was a minor inconvenience for readers in the name of progress. Then I read &lt;a href=&quot;https://www.w3.org/Provider/Style/URI&quot;&gt;Cool URIs Don’t Change&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;It’s a short read, but the gist is simple: don’t change your URIs: there’s never a user-friendly reason to do so. Users will bookmark your good posts and pages, search engines will index them. The tools of finding knowledge on the internet are designed to refer to your content by a constant URI, so you break all of those bridges that are earned only by time by changing it.&lt;/p&gt;
+
+&lt;p&gt;It’s possible to build them again, but you start from scratch. With things like SEO, that can be difficult.&lt;/p&gt;
+
+&lt;p&gt;With WordPress, I was unable to get even redirects from my old URIs without installing a plugin, which was only available in the &lt;a href=&quot;https://wordpress.com/pricing/&quot;&gt;business tier&lt;/a&gt;. That’s slightly too rich for me, for the value it provides. Especially since redirects are extremely cheap to create.&lt;/p&gt;
+
+&lt;h3 id=&quot;performance&quot;&gt;Performance&lt;/h3&gt;
+
+&lt;p&gt;WordPress does a really good job with performance. But nothing beats static html with standard stylesheets. I wanted to have enough control over my blog that I could keep it slim.&lt;/p&gt;
+
+&lt;h3 id=&quot;easy-to-maintain-well-after-im-gone&quot;&gt;Easy to maintain well after I’m gone&lt;/h3&gt;
+
+&lt;p&gt;This was one major impetus: longevity. Although I believe WordPress will be around in some form longer than I will be, I wanted to make it as easy as possible to run my site. Who knows, maybe people a hundred years from now might want to peruse it as some relic. Or maybe someone is still running into &lt;a href=&quot;/2017/01/27/keyerror-in-self_handlers-a-journey-deep-into-tornados-internals/&quot;&gt;KeyError issues with Tornado framework in Python.&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Static html will probably outlive humanity, so there’s a safe bet to double down on.&lt;/p&gt;
+
+&lt;h3 id=&quot;i-have-a-fantastic-text-editor-i-can-focus-in&quot;&gt;I have a fantastic text editor I can focus in&lt;/h3&gt;
+
+&lt;p&gt;This reason was one I wouldn’t have been able to predict. When I started typing blog posts in WordPress, it just felt… like high friction.&lt;/p&gt;
+
+&lt;p&gt;I’m used to editing Markdown files and using my editor for everything. When you take me out of that environment, into a &lt;a href=&quot;https://wordpress.org/gutenberg/&quot;&gt;new UI&lt;/a&gt;, with it’s own hotkeys, and it’s own idea of how to organize content, every thing was a learning curve. And on top of that, there was no way it would be as fast as my experience editing text.&lt;/p&gt;
+
+&lt;p&gt;In VSCode, I have &lt;a href=&quot;https://marketplace.visualstudio.com/items?itemName=lucax88x.codeacejumper&quot;&gt;jump-mode&lt;/a&gt; to navigate to any part of the document. I can quickly split panes to open multiple parts of the document at once. It feels natural to navigate around giant blocks of text.&lt;/p&gt;
+
+&lt;p&gt;And most importantly, I have hundreds of hours in my text editor, doing deep work. It’s easy to enter a &lt;a href=&quot;https://en.wikipedia.org/wiki/Flow_(psychology)&quot;&gt;flow state&lt;/a&gt; with my editor, and with any new editor I have to build that mental pathway. &lt;a href=&quot;/2020/08/09/the-power-of-file-sync/&quot;&gt;Files and text editing is a powerful primitive&lt;/a&gt;, and re-using your existing sharp tools is a huge plus.&lt;/p&gt;
+
+&lt;h2 id=&quot;why-jekyll&quot;&gt;Why Jekyll?&lt;/h2&gt;
+
+&lt;p&gt;As I regretted my switch to a SaaS product, I mused about going back to Pelican. But I decided to go with Jekyll, for a few reasons:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;simple system to override templates and styles for my site&lt;/li&gt;
+  &lt;li&gt;a strong community, as one of the first static site generators&lt;/li&gt;
+  &lt;li&gt;lots of plugins to choose from&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Overall, the experience has been good. Fairly simple to override behaviors as you need them.&lt;/p&gt;
+
+&lt;p&gt;One missing piece is providing pages of content to enumerate posts by tag or by category. But there’s &lt;a href=&quot;https://github.com/sverrirs/jekyll-paginate-v2#auto-pages&quot;&gt;a plugin in progress for that&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;auto-publishing-from-dropbox&quot;&gt;Auto-publishing from Dropbox&lt;/h2&gt;
+
+&lt;p&gt;One part I really disliked about my pre-WordPress flow was having to go through manually pulling and pushing changes in Git. A history of record is good, but the friction was very high.&lt;/p&gt;
+
+&lt;p&gt;So instead I added a directory for blogging to a shared Dropbox directory I use for my notes, and added a &lt;a href=&quot;https://github.com/toumorokoshi/toumorokoshi.github.com/blob/1801dda6da5731d7371d7eda13bd729e769ea364/.github/workflows/github-pages.yml&quot;&gt;Github action&lt;/a&gt; to download content, and rebuild the site periodically. Now writing a blog post is as simple as creating a markdown file. And it gets synced to all of my devices.&lt;/p&gt;
+
+&lt;p&gt;The Dropbox mobile client also lets you edit Markdown files in the app, so it’s even possible to get some light mobile editing as well!&lt;/p&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;I like re-doing things to some irrational level of perfection. But moving my blog to a static site built on a bunch of Markdown files has definitely improved my ability to write blog posts, and gives me the site performance and ease-of-maintenance I’ve been looking for.&lt;/p&gt;</content><author><name></name></author><category term="blog" /><category term="coding" /><summary type="html">Less than six months after I switched to WordPress, which comes seven years after I switched to Pelican, I’m boomeranging around, but this time using Jekyll.</summary></entry><entry><title type="html">Setting up an eGPU with Linux and the Core X Chroma</title><link href="https://y.tsutsumi.io/2020/08/15/egpu-linux-core-x-chroma/" rel="alternate" type="text/html" title="Setting up an eGPU with Linux and the Core X Chroma" /><published>2020-08-15T00:00:00+00:00</published><updated>2020-08-15T00:00:00+00:00</updated><id>https://y.tsutsumi.io/2020/08/15/egpu-linux-core-x-chroma</id><content type="html" xml:base="https://y.tsutsumi.io/2020/08/15/egpu-linux-core-x-chroma/">&lt;h2 id=&quot;summary&quot;&gt;Summary&lt;/h2&gt;
+
+&lt;p&gt;I’ll talk about:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Why I invested in an eGPU&lt;/li&gt;
+  &lt;li&gt;The Razer Core X Chroma, and why I chose it&lt;/li&gt;
+  &lt;li&gt;How to get eGPUs working with Linux&lt;/li&gt;
+  &lt;li&gt;Lessons Learned&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
+
+&lt;p&gt;eGPUs is short for external GPUs: With the advent of &lt;a href=&quot;https://thunderbolttechnology.net/consumer/&quot;&gt;Thunderbolt 3&lt;/a&gt; and it’s ability to expose PCI express buses via a USB-C cable, it is now possible to connect a GPU to any device that has a thunderbolt 3 controller. Laptops with a USB-C thunderbolt port has become extremely common, and both my personal and work laptops expose such a port.&lt;/p&gt;
+
+&lt;h2 id=&quot;motivation&quot;&gt;Motivation&lt;/h2&gt;
+
+&lt;p&gt;Typically, one would buy a separate GPU either to play video games or to run some machine learning models. However, I purchased an eGPU for my day-to-day work and for coding.&lt;/p&gt;
+
+&lt;p&gt;Why? Because:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;my day-to-day work environment utilizes web applications heavily, which in turn run much smoother when there is a powerful GPU to accelerate rendering.&lt;/li&gt;
+  &lt;li&gt;I use two 4k Displays at home, and the current GPUs that are embedded into ultrabooks (for Intel laptops, typically Intel UHD Graphics 6xx) struggle with that resolution (effectively 2 x 4K).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I originally tried to just use a laptop with a thunderbolt 3 dock, but I found that the stuttering of the screen and the very slow rendering experience when I had 4 browser windows opened was putting a hamper on my productivity. I had a desktop with a GTX 1060 at home for comparison, so I knew the experience that a high performance GPU can enable.&lt;/p&gt;
+
+&lt;h2 id=&quot;choosing-an-egpu&quot;&gt;Choosing an eGPU&lt;/h2&gt;
+
+&lt;p&gt;So what eGPU should I choose? There’s typically two varieties:&lt;/p&gt;
+
+&lt;h3 id=&quot;egpu-enclosure&quot;&gt;eGPU Enclosure&lt;/h3&gt;
+
+&lt;p&gt;Effectively bring-your-own-graphics card. An eGPU enclosure provides:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;a thunderbolt 3 controller and port to connect your device to the GPU&lt;/li&gt;
+  &lt;li&gt;a power supply to power whatever GPU you want to use&lt;/li&gt;
+  &lt;li&gt;a PCI-E slot to insert your GPU&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;embedded-egpu&quot;&gt;Embedded eGPU&lt;/h3&gt;
+
+&lt;p&gt;An embedded GPU provides everything mentioned above, but also includes the GPU, hard-wired. I don’t believe there are a lot of advantages to this setup, aside from the smaller size due to the ability to have a custom board that wires all the components together.&lt;/p&gt;
+
+&lt;h3 id=&quot;my-choice-razer-core-x-chroma&quot;&gt;My Choice: Razer Core X Chroma&lt;/h3&gt;
+
+&lt;p&gt;UPDATE 20200905: I’d recommend checking out the &lt;a href=&quot;https://egpu.io/mantiz-saturn-pro-review-king-of-the-ring/&quot;&gt;Mantiz Saturn Pro&lt;/a&gt;. I haven’t tried it, but it seems to work better than the Chroma on Linux due to different USB boards.&lt;/p&gt;
+
+&lt;p&gt;Ideally, I wanted to go for something that reduced the amount of cables that I had to mess with. The &lt;a href=&quot;https://www.razer.com/gaming-egpus/razer-core-x/RC21-01430100-R3U1&quot;&gt;Razer Core X Chroma&lt;/a&gt; not not only provided an eGPU, but also provided a 4 USB 3.0 ports and a 1GBps Ethernet port. With those ports, I wouldn’t need to connect a dock on top of my eGPU to connect my keyboard, mouse, headset, and video camera. Theoretically, I should just be able to connect a single USB-c port to get all of that.&lt;/p&gt;
+
+&lt;p&gt;I chose an external GPU because I wanted to be able to upgrade my graphics card and not have to buy a new encoslure (as the Core X Chroma is already $400 USD!).&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;note: The reality turned out to be a bit different, so I wouldn’t recommend a Core X Chroma (or any eGPU I’ve seen) for the additional USB ports and Linux. But read on for details.&lt;/em&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;tangent-with-thunderbolt3-gpu-performance-is-bottlenecked&quot;&gt;Tangent: with thunderbolt3, GPU performance is bottlenecked&lt;/h3&gt;
+
+&lt;p&gt;As part of my research, I learned that thunderbolt3 will not be able to provide as much bandwidth as a PCI-E port. The reason is that thunderbolt3 actually exposes 4 lanes of a PCI-E v3.0 bus (aka PCIEX4).&lt;/p&gt;
+
+&lt;p&gt;Most motherboards provide at least 16 lanes of PCIE and versions much higher than 3.0, and provide similar ports on their motherboard. In other words, thunderbolt3 will be limited by the PCIEx4 v3.0 bandwidth (32Gbps), while desktop GPUs will be able to leverage 128Gbps (PCIEx16 v5.0) by 2021.&lt;/p&gt;
+
+&lt;p&gt;For my purposes (mostly development, heavy web browsing), I never noticed the difference. But really heavy gaming could see a hit. &lt;a href=&quot;https://egpu.io/forums/mac-setup/pcie-slot-dgpu-vs-thunderbolt-3-egpu-internal-display-test/&quot;&gt;This forum post indicates a 20% loss in FPS and thus effective performance&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;tangent-2-peripheral-performance-is-also-bottlenecked&quot;&gt;Tangent 2: Peripheral performance is also bottlenecked&lt;/h3&gt;
+
+&lt;p&gt;The issues that I mentioned above are not specific to GPUs. The reality is that the data that can transfer through the Thunderbolt3 is capped, regardless of the number of devices communicating through that bus.&lt;/p&gt;
+
+&lt;p&gt;That means, if your eGPU also comes with additional ports (e.g. USB or Ethernet), the data transferring through those peripherals are also
+consuming of the bandwidth of the port.&lt;/p&gt;
+
+&lt;p&gt;So if you have a lot of data running through your eGPU, Ethernet, and USB ports, you’ll see some throttling due to the fact that Thunderbolt3 cannot handle all the throughput of all devices at the same time. Most likely, this will affect the GPU the most.&lt;/p&gt;
+
+&lt;p&gt;In my anecdotal experience, this hasn’t been a problem, but it is a likely theoretical one.&lt;/p&gt;
+
+&lt;h3 id=&quot;tangent-3-the-core-x-chroma-usb-ports--ethernet-dont-work-well&quot;&gt;Tangent 3: The Core X Chroma USB ports + ethernet don’t work well&lt;/h3&gt;
+
+&lt;p&gt;With the Core X Chroma, there were a few Linux-specific limitations I ran into:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;All USB 3.0 splitters I tried didn’t work.&lt;/li&gt;
+  &lt;li&gt;The Ethernet works inconsistently.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;I think 1 isn’t a huge problem for most people: I had a setup that required me to use at least one USB 3.0 splitter. 4 ports are generally enough for any docks.&lt;/p&gt;
+
+&lt;p&gt;However, the ethernet not working at all was a big issue for me. It would work fine for a few seconds, but then completely cut out. Using an ethernet-to-usb3.0 adapter doesn’t work either, on the couple I’ve tried.&lt;/p&gt;
+
+&lt;p&gt;It turns out these are both due to the fact that they are leveraging ASM1142 USB 3.1 Controllers, and seem to require a firmware update to reconcile:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1749961&lt;/li&gt;
+  &lt;li&gt;https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1667750&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Unfortunately these bugs have been around for a while.&lt;/p&gt;
+
+&lt;h2 id=&quot;egpu-on-linux&quot;&gt;eGPU on Linux&lt;/h2&gt;
+
+&lt;p&gt;In July 2020, there are still some rough edges around eGPUs on Linux. In Windows and OSX I’ve heard stories of seamless hotplugging: the OS detecting and utilizing the eGPU as soon as it’s plugged in. On Windows, some games are even sophisticated enough to leverage the eGPU when it’s connected, and seamlessly switch pack to the internal GPU on eGPU removal.&lt;/p&gt;
+
+&lt;p&gt;With Linux, there’s a constraint today with Xorg. Although the Linux kernel does detect the GPU as soon as it’s connected, Xorg must be restarted with configuration specifying the eGPU before it’s displays and device are available to Xorg.&lt;/p&gt;
+
+&lt;h3 id=&quot;two-ways-to-egpu-prime-and-separate-device&quot;&gt;Two ways to eGPU: prime and separate device&lt;/h3&gt;
+
+&lt;p&gt;There’s a second way of leveraging an eGPU: Using something like Nvidia’s &lt;a href=&quot;https://wiki.archlinux.org/index.php/NVIDIA_Optimus&quot;&gt;optimus&lt;/a&gt; where rendering is offloaded to the eGPU, but the result is sent back to the dedicated GPU for rendering.&lt;/p&gt;
+
+&lt;p&gt;This still requires a restart of Xorg to expose the eGPU as something that can be leveraged, and also comes with the added overhead of sending the rendered result back to the host machine via thunderbolt3 (really the PCI-E lanes exposed under the hood).&lt;/p&gt;
+
+&lt;p&gt;As a result, I didn’t explore this option.&lt;/p&gt;
+
+&lt;h3 id=&quot;the-step-by-step&quot;&gt;The step by step&lt;/h3&gt;
+
+&lt;p&gt;Ultimately, the process to enable and disable eGPUs are:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;plug in the eGPU&lt;/li&gt;
+  &lt;li&gt;authorize the thunderbolt3 eGPU (if that hasn’t been done already)&lt;/li&gt;
+  &lt;li&gt;modify Xorg configuration (typically /etc/x11/xorg.conf) to be set to discover the newly plugged in eGPU.&lt;/li&gt;
+  &lt;li&gt;restart Xorg&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;There’s a few scripts which help make this process a one-line CLI call, which can also be integrated into systemd or whatever init system.&lt;/p&gt;
+
+&lt;p&gt;Here’s an example of the xorg.conf configuration I used:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# /etx/x11/xorg.conf
+Section &quot;Module&quot;
+    Load           &quot;modesetting&quot;
+EndSection
+
+Section &quot;Device&quot;
+    Identifier     &quot;Device0&quot;
+    Driver         &quot;nvidia&quot;
+    VendorName     &quot;NVIDIA Corporation&quot;
+    BusID          &quot;PCI:8:0:0&quot;
+    Option         &quot;AllowEmptyInitialConfiguration&quot;
+    Option         &quot;AllowExternalGpus&quot; &quot;True&quot;
+EndSection
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The BusID will need to be replaced with your device’s BusID as it shows up in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;lspci&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Ultimately I used a script called &lt;a href=&quot;https://github.com/hertg/egpu-switcher&quot;&gt;egpu-switcher&lt;/a&gt; which does all of this automatically (besides restart Xorg). This has been working great.&lt;/p&gt;
+
+&lt;h2 id=&quot;final-thoughts&quot;&gt;Final Thoughts&lt;/h2&gt;
+
+&lt;p&gt;There is still a lot of work that needs to be done for eGPUs to be as seamless on Linux as on Windows and OSX. It also seems like there’s some hardware logistics that needs to be reconciled as well, and some level of acceptance that no Thunderbolt protocol will be as fast as the cutting-edge PCI standard.&lt;/p&gt;
+
+&lt;p&gt;I needed an eGPU to have a seamless development experience, and my setup works really well for that. But if you’re looking for a bleeding-edge gaming experience, you’ll have to take concessions with eGPUs.&lt;/p&gt;
+
+&lt;h3 id=&quot;side-note-why-i-still-have-hope-for-the-core-x-chroma&quot;&gt;Side note: why I still have hope for the Core X Chroma&lt;/h3&gt;
+
+&lt;p&gt;As mentioned above, my main issue with the Core X Chroma is the non-functioning Ethernet port. There are a lot of anecdotal stories around the Core X Chroma working great for Windows and OSX, without any firmware updates on the Chroma side. As such, I hope that either a workaround comes out in the Linux kernel for the ASM1142 controller, or Razer releases something to address this on the controller side.&lt;/p&gt;</content><author><name></name></author><category term="coding" /><category term="egpu" /><category term="linux" /><summary type="html">Summary</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://y.tsutsumi.io/assets/images/egpu-desktop.png" /><media:content medium="image" url="https://y.tsutsumi.io/assets/images/egpu-desktop.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Awesome Primitives: file syncing</title><link href="https://y.tsutsumi.io/2020/08/09/the-power-of-file-sync/" rel="alternate" type="text/html" title="Awesome Primitives: file syncing" /><published>2020-08-09T04:52:55+00:00</published><updated>2020-08-09T04:52:55+00:00</updated><id>https://y.tsutsumi.io/2020/08/09/the-power-of-file-sync</id><content type="html" xml:base="https://y.tsutsumi.io/2020/08/09/the-power-of-file-sync/">&lt;p&gt;Recently I have been experimenting with simplification of the tools and services I work with. As one part of that, I migrated all of my text mediums
+from SaaS tools to something simple: a text editor, and a directory of markdown files and images synced across my computers.&lt;/p&gt;
+
+&lt;p&gt;The net result has really been amazing, for my productivity and my efficiency.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-i-did-consolidated-my-blog-notes-and-journal-to-text-in-a-shared-directory&quot;&gt;What I did: consolidated my blog, notes, and journal to text in a shared directory&lt;/h2&gt;
+
+&lt;p&gt;The goal was to move as much of my work on text to something built on my text editor and a synced directory on my filesystem.&lt;/p&gt;
+
+&lt;p&gt;To get there, I:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;moved all of my notes to from &lt;a href=&quot;https://www.onenote.com/signin?wdorigin=ondc&quot;&gt;OneNote&lt;/a&gt; to .md files&lt;/li&gt;
+  &lt;li&gt;moved my blog posts from WordPress to &lt;a href=&quot;https://jekyllrb.com/&quot;&gt;Jekyll&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/toumorokoshi/toumorokoshi.github.com/tree/feature/jekyll&quot;&gt;built a Github Action to download my blog folder from Dropbox and publish periodically&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;sync the directory across my computers via &lt;a href=&quot;https://www.dropbox.com/&quot;&gt;Dropbox&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;At the end of all of this, my directory looks like:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docs/ # root directory
+    blog/  # blog posts
+    journal/  # daily journal
+    notes/  # random notes
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;And I open the root directory up in &lt;a href=&quot;https://code.visualstudio.com/&quot;&gt;vscode&lt;/a&gt; to start writing.&lt;/p&gt;
+
+&lt;h2 id=&quot;advantages&quot;&gt;Advantages&lt;/h2&gt;
+
+&lt;p&gt;Making this change has really boosted my workflows. I’m able to work a lot more quickly, whether that’s writing my blog post, adding a journal entry, or adding some notes. Here’s the highlights:&lt;/p&gt;
+
+&lt;h3 id=&quot;convenience-of-everything-together&quot;&gt;Convenience of everything together&lt;/h3&gt;
+
+&lt;p&gt;Making this change has really boosted my workflows, to say the least. I’ve encountered several situations where I wanted to modify one of the other mediums while working on a different one. Examples include:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;jotting down a quick idea to add to a blog post, while taking notes&lt;/li&gt;
+  &lt;li&gt;adding to my notes during a journal session&lt;/li&gt;
+  &lt;li&gt;link to my journal from notes&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Those workflows would have required me to move from one application to another before. Now, it’s as easy as opening up my fuzzy file finder.&lt;/p&gt;
+
+&lt;h3 id=&quot;re-use-of-tooling&quot;&gt;Re-use of tooling&lt;/h3&gt;
+
+&lt;p&gt;I’m a software developer, so having tooling that helps navigate the filesystem quickly is a given. As part of my text editor (VSCode as of this writing), I have several tools installed:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;file navigator (built in)&lt;/li&gt;
+  &lt;li&gt;quickly create / modify files&lt;/li&gt;
+  &lt;li&gt;quickly visit previously opened files.&lt;/li&gt;
+  &lt;li&gt;jump to any word in my document in a few keystrokes (a la ace-jump-mode)&lt;/li&gt;
+  &lt;li&gt;live preview for Markdown / other markups&lt;/li&gt;
+  &lt;li&gt;syntax highlighting&lt;/li&gt;
+  &lt;li&gt;spellcheck / syntax check&lt;/li&gt;
+  &lt;li&gt;vim-style file navigation&lt;/li&gt;
+  &lt;li&gt;several customized keybindings to perform quick operations&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;By having my notetaking workflow and blogging workflow work off of files on the filesystem, I now have all of those tools available for as well. Everything that improves my notetaking experience can improve my blogging and coding experience, and visa versa.&lt;/p&gt;
+
+&lt;h3 id=&quot;the-speed&quot;&gt;The speed&lt;/h3&gt;
+
+&lt;p&gt;Navigating the file system and editing text are really fast operations. In the tens of milliseconds maximum, impercievable-from-instant range of time.&lt;/p&gt;
+
+&lt;p&gt;Compare this to any http operation that would be required to fetch a new blog post page, or finding an existing note. Coupled with hitting a search service, it’s at least 1-2 seconds to switch pages, and usually more like 5.&lt;/p&gt;
+
+&lt;p&gt;The speed by which I can switch from one document to another is amazing. I feel like the editor can really keep up with me in terms of my thoughts shifting from one topic to another.&lt;/p&gt;
+
+&lt;h3 id=&quot;re-use-of-flow-state&quot;&gt;Re-use of flow state&lt;/h3&gt;
+
+&lt;p&gt;The re-use goes beyond just more tangible tools, as well. Due to my profession, my mind is already trained to get into a &lt;a href=&quot;https://en.wikipedia.org/wiki/Flow_(psychology)&quot;&gt;flow state&lt;/a&gt; when I open my code editing environment. Since the flow state is about the environment and not just the task at hand, I can more easily enter the flow state for tasks that use the same tools.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-are-the-cons&quot;&gt;What are the cons?&lt;/h2&gt;
+
+&lt;p&gt;Given the advantages of the the filesystem sync model, why doesn’t everyone do this?&lt;/p&gt;
+
+&lt;h3 id=&quot;friction-to-get-started&quot;&gt;Friction to get started&lt;/h3&gt;
+
+&lt;p&gt;Admittedly, it takes time and effort to get the workflow working seamlessly, much more so than signing up for another SaaS.&lt;/p&gt;
+
+&lt;p&gt;As an example, to start blogging on WordPress:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;create an account (can be reduced to 1-2 clicks with single sign on)&lt;/li&gt;
+  &lt;li&gt;start blogging&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;To do the same for a file sync based workflow, I had to:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;find the appropriate static blogging tool&lt;/li&gt;
+  &lt;li&gt;build a Github action to build my blog regularly&lt;/li&gt;
+  &lt;li&gt;get the Dropbox credentials to download files into my Github action&lt;/li&gt;
+  &lt;li&gt;debug 2/3 until my flow works&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;And even then, my &lt;a href=&quot;https://raw.githubusercontent.com/toumorokoshi/toumorokoshi.github.com/fb40b5382b6936bc6d7eee8cb88dc3c47747c576/.github/workflows/github-pages.yml&quot;&gt;Github Action&lt;/a&gt; runs on a daily cron. So the feedback loop isn’t as great as WordPress’s instantaneous post update unless I invest &lt;em&gt;more&lt;/em&gt; time into getting Dropbox webhooks to trigger my Github Action.&lt;/p&gt;
+
+&lt;h3 id=&quot;tooling-cost&quot;&gt;Tooling cost&lt;/h3&gt;
+
+&lt;p&gt;A lot of these SaaS services provide their own editor / object manipulator, which is tailor made to streamline editing of that particular object (blog / note / etc). To get similar parity, one has to invest time into their tooling.&lt;/p&gt;
+
+&lt;p&gt;For example, one major feature I needed for blogging was quickly inserting images. I had to find an &lt;a href=&quot;https://marketplace.visualstudio.com/items?itemName=mushan.vscode-paste-image&quot;&gt;extension in VSCode&lt;/a&gt; that provided that. If such an extension didn’t exist, I would have to create one myself.&lt;/p&gt;
+
+&lt;p&gt;If you’re not working with text and files every day for some other reason, most likely any tools you already have will not be close to what SaaS products offer: you’ll have to either buy or find such tools yourself. Ultimately it comes down to the fact that there’s people who are dedicated to improving their SaaS product, and you’ll need to be dedicated to your workflow, or find a community that does.&lt;/p&gt;
+
+&lt;h3 id=&quot;lack-of-mobile-app-support&quot;&gt;Lack of mobile app support&lt;/h3&gt;
+
+&lt;p&gt;One major loss for me was a streamlined mobile experience. My previous tools (WordPress and OneNote) provided great interfaces to modify content.&lt;/p&gt;
+
+&lt;p&gt;Right now, I rely on Dropbox’s built-in text editor in the app. This actually works well enough, but it isn’t as streamlined as things were using the dedicated mobile apps.&lt;/p&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;There’s a huge advantage to re-use of highly optimized workflows. In this case, rebasing my workflows off of a filesystem and text enabled re-use of two optimized experiences:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;navigating and manipulating files on a filesystem, streamlined by decades of work on both hard drives and operating systems&lt;/li&gt;
+  &lt;li&gt;my existing workflow around editing text, borrowed from my software development setup&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Anecdotally, I have been able to work much more efficiently on the workflows that I’ve moved to this pattern, compared to the more specialized workflows provided in the equivalent SaaS applications. This experience has made me re-think the need to invest in the next big SaaS tool, when I have such powerful tools available to me already.&lt;/p&gt;
+
+&lt;p&gt;I’d recommend taking a look at the tools that you’re already proficient with, and making sure they can’t be augmented to satisfy your new task, before seeking a completely new, completely different tool.&lt;/p&gt;</content><author><name></name></author><category term="coding" /><summary type="html">Recently I have been experimenting with simplification of the tools and services I work with. As one part of that, I migrated all of my text mediums from SaaS tools to something simple: a text editor, and a directory of markdown files and images synced across my computers.</summary></entry></feed>
