@@ -46,5 +46,7 @@ output/
 _site
 # this is extracted from dropbox
 _posts
+_drafts
 *.md
 assets
+vendor
