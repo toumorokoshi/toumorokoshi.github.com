@@ -18,9 +18,10 @@ gem "minima", "~> 2.5"
 # If you have any plugins, put them here!
 group :jekyll_plugins do
  gem 'jekyll-analytics'
- gem "jekyll-category-pages"
- gem "jekyll-feed", "~> 0.12"
- gem "jekyll-paginate"
+ gem 'jekyll-category-pages'
+ gem 'jekyll-diagrams', '~> 0.10.0'
+ gem 'jekyll-feed', '~> 0.12'
+ gem 'jekyll-paginate'
  gem 'jekyll-postfiles'
  gem 'jekyll-redirect-from'
  gem 'jekyll-tagging'
