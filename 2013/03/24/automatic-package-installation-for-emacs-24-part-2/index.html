@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Automatic Package Installation for Emacs 24 - Part 2 | Yusuke Tsutsumi</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Automatic Package Installation for Emacs 24 - Part 2" />
+<meta name="author" content="toumorokoshi" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="EDIT 07/01/2014: I don’t recommend setting up packages like this anymore. I recommend reading this post instead" />
+<meta property="og:description" content="EDIT 07/01/2014: I don’t recommend setting up packages like this anymore. I recommend reading this post instead" />
+<link rel="canonical" href="https://y.tsutsumi.io/2013/03/24/automatic-package-installation-for-emacs-24-part-2/" />
+<meta property="og:url" content="https://y.tsutsumi.io/2013/03/24/automatic-package-installation-for-emacs-24-part-2/" />
+<meta property="og:site_name" content="Yusuke Tsutsumi" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2013-03-24T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Automatic Package Installation for Emacs 24 - Part 2" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"toumorokoshi"},"dateModified":"2013-03-24T00:00:00+00:00","datePublished":"2013-03-24T00:00:00+00:00","description":"EDIT 07/01/2014: I don’t recommend setting up packages like this anymore. I recommend reading this post instead","headline":"Automatic Package Installation for Emacs 24 - Part 2","mainEntityOfPage":{"@type":"WebPage","@id":"https://y.tsutsumi.io/2013/03/24/automatic-package-installation-for-emacs-24-part-2/"},"url":"https://y.tsutsumi.io/2013/03/24/automatic-package-installation-for-emacs-24-part-2/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" />
+    <!-- Google Analytics -->
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-29270527-2', 'auto');
+	ga('send', 'pageview', { 'page': location.pathname + location.search + location.hash});
+	ga('set', 'anonymizeIp', true);
+    </script>
+    <!-- End Google Analytics -->
+    </head>
+<body><header class="site-header">
+
+    <div class="wrapper"><a class="site-title" rel="author" href="/">Yusuke Tsutsumi</a><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path
+                            d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger">
+                <a class="page-link" href="/tag/coding/">Coding Posts</a>
+                <a class="page-link"
+                    href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a><a class="page-link" href="/resources/">Resources</a><a class="page-link" href="/about/">About Yusuke Tsutsumi</a></div>
+        </nav></div>
+    <style>
+        .gse-control-cse td {
+            border: 0;
+        }
+
+        td.gsc-input {
+            border: 0;
+        }
+
+        td.gsc-search-button {
+            border: 0;
+        }
+
+        table.gsc-input {
+            margin-bottom: 0;
+        }
+    </style>
+</header><main class="page-content" aria-label="Content">
+        <div class="wrapper">
+            <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <header class="post-header">
+        <h1 class="post-title p-name" itemprop="name headline">Automatic Package Installation for Emacs 24 - Part 2</h1>
+        <p class="post-meta"><time class="dt-published" datetime="2013-03-24T00:00:00+00:00" itemprop="datePublished">
+                Mar 24, 2013
+            </time>• 
+            <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+                <span class="p-author h-card" itemprop="name">toumorokoshi</span></span></p>
+    </header>
+
+    <div class="post-content e-content" itemprop="articleBody">
+        <p><em>EDIT 07/01/2014</em>: I don’t recommend setting up packages like this anymore. I recommend reading
+<a href="/emacs-from-scratch-part-2-package-management.html">this post instead</a></p>
+
+<p>About a year ago I wrote about <a href="/automatic-package-installation-using-elpa-in-emacs-24.html">installing packages on startup, automatically for Emacs 24</a>. This used the native ELPA, looked for packages that weren’t already installed, and used package-install to install them.</p>
+
+<p>Unfortunately, I realized that this method wasn’t nearly as functional as I wanted it to be. I’ll save my opinions for later. If you’re just looking for a great way to install packages for Emacs, I’ll just write it out here.</p>
+                <h2 id="what-i-do">   What I do <a href="#what-i-do">#</a>   </h2>
+                    
+
+<p>Here’s a baseline example of how to manage your packages:</p>
+
+<div class="language-lisp highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="c1">;; Check for el-get, install if not exists</span>
+    <span class="p">(</span><span class="nv">add-to-list</span> <span class="ss">'load-path</span> <span class="s">"~/.emacs.d/el-get/el-get"</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">unless</span> <span class="p">(</span><span class="nb">require</span> <span class="ss">'el-get</span> <span class="no">nil</span> <span class="no">t</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">url-retrieve</span>
+ <span class="s">"https://raw.github.com/dimitri/el-get/master/el-get-install.el"</span>
+ <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nv">s</span><span class="p">)</span>
+   <span class="p">(</span><span class="nv">goto-char</span> <span class="p">(</span><span class="nv">point-max</span><span class="p">))</span>
+   <span class="p">(</span><span class="nv">eval-print-last-sexp</span><span class="p">))))</span>
+
+    <span class="c1">;; Set up packages</span>
+    <span class="p">(</span><span class="k">setq</span> <span class="nv">el-get-sources</span>
+<span class="o">'</span><span class="p">((</span><span class="ss">:name</span> <span class="nv">flymake</span>
+   <span class="ss">:description</span> <span class="s">"Continuous syntax checking for Emacs."</span>
+   <span class="ss">:type</span> <span class="nv">github</span>
+   <span class="ss">:pkgname</span> <span class="s">"illusori/emacs-flymake"</span><span class="p">)</span>
+
+  <span class="p">(</span><span class="ss">:name</span> <span class="nv">multiple-cursors</span>
+   <span class="ss">:description</span> <span class="s">"An experiment in adding multiple cursors to emacs"</span>
+   <span class="ss">:type</span> <span class="nv">github</span>
+   <span class="ss">:pkgname</span> <span class="s">"magnars/multiple-cursors.el"</span>
+   <span class="ss">:features</span> <span class="nv">multiple-cursors</span><span class="p">)</span>
+
+  <span class="p">(</span><span class="ss">:name</span> <span class="nv">scala-mode</span>
+   <span class="ss">:description</span> <span class="s">"Major mode for editing Scala code."</span>
+   <span class="ss">:type</span> <span class="nv">git</span>
+   <span class="ss">:url</span> <span class="s">"https://github.com/scala/scala-dist.git"</span>
+   <span class="ss">:build</span> <span class="o">`</span><span class="p">((</span><span class="s">"make -C tool-support/src/emacs"</span> <span class="o">,</span><span class="p">(</span><span class="nv">concat</span> <span class="s">"ELISP_COMMAND="</span> <span class="nv">el-get-emacs</span><span class="p">)))</span>
+   <span class="ss">:load-path</span> <span class="p">(</span><span class="s">"tool-support/src/emacs"</span><span class="p">)</span>
+   <span class="ss">:features</span> <span class="nv">scala-mode-auto</span><span class="p">)</span>
+
+    <span class="p">(</span><span class="ss">:name</span> <span class="nv">rainbow-mode</span> <span class="ss">:type</span> <span class="nv">elpa</span><span class="p">)</span>
+
+  <span class="p">(</span><span class="ss">:name</span> <span class="nv">js2-mode</span>
+   <span class="ss">:website</span> <span class="s">"https://github.com/mooz/js2-mode#readme"</span>
+   <span class="ss">:description</span> <span class="s">"An improved JavaScript editing mode"</span>
+   <span class="ss">:type</span> <span class="nv">github</span>
+   <span class="ss">:pkgname</span> <span class="s">"mooz/js2-mode"</span>
+   <span class="ss">:prepare</span> <span class="p">(</span><span class="nv">autoload</span> <span class="ss">'js2-mode</span> <span class="s">"js2-mode"</span> <span class="no">nil</span> <span class="no">t</span><span class="p">))))</span>
+
+    <span class="c1">;; install any packages not installed yet</span>
+    <span class="p">(</span><span class="nb">mapc</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nv">f</span><span class="p">)</span>
+      <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nv">name</span> <span class="p">(</span><span class="nv">plist-get</span> <span class="nv">f</span> <span class="ss">:name</span><span class="p">)))</span>
+           <span class="p">(</span><span class="nb">when</span> <span class="p">(</span><span class="nb">not</span> <span class="p">(</span><span class="nb">require</span> <span class="nv">name</span> <span class="no">nil</span> <span class="no">t</span><span class="p">))</span> <span class="p">(</span><span class="nv">el-get-install</span> <span class="nv">name</span><span class="p">))))</span>
+    <span class="nv">el-get-sources</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>What does this do? Well:</p>
+
+<ul>
+  <li>
+    <p>Checks for installation of el-get, my package manager of choice, and installs it if one doesn’t exist</p>
+  </li>
+  <li>
+    <p>Sets a list of package definitions into el-get-sources</p>
+  </li>
+  <li>
+    <p>Looks through the whole list of el-get-sources, ad runs el-get-install if the package isn’t installed (verified via the ‘require’ command)</p>
+  </li>
+</ul>
+
+<p>If I find a new package I want, whether it’s on github, elpa, or
+otherwise, I first check if the package info already exists in
+<a href="https://github.com/dimitri/el-get/tree/master/recipes">el-get’s huge list of recipes</a>, or I write
+it up myself. As an example, install an elpa package is as simple as:</p>
+
+<div class="language-lisp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="ss">:name</span> <span class="nv">rainbow-mode</span> <span class="ss">:type</span> <span class="nv">elpa</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>How about a git repository? In that case it’s just:</p>
+
+<div class="language-lisp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="ss">:name</span> <span class="nv">scala-mode</span> <span class="ss">:type</span> <span class="nv">git</span> <span class="ss">:url</span> <span class="s">"http://github.com/scala/scala-dist.git"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Or a shortened github version:</p>
+
+<div class="language-lisp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="ss">:name</span> <span class="nv">scala-mode</span> <span class="ss">:type</span> <span class="nv">github</span> <span class="ss">:pkgname</span> <span class="s">"scala/scala-dist.git"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Also in my system, I put my el-get-sources list into a different file and load it, it makes it way easier to manager than a huge chunk of data halfway through a bunch of code:</p>
+
+<div class="language-lisp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">;; e.g. put the "el-get-sources" list in .emacs.elgetpackages</span>
+<span class="p">(</span><span class="nb">load</span> <span class="s">"~/.emacs.d/.emacs.elgetpackages"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Try it out for yourself! Watch as all of your favorite packages get installed on startup. Note that the install order might be different, as the cloning and installing process is performed asynchronously.</p>
+                <h2 id="why-i-do-it-this-way">   Why I do it this way <a href="#why-i-do-it-this-way">#</a>   </h2>
+                    
+
+<p>So why do I el-get now instead of package.el and ELPA?</p>
+
+<p>When I started using ELPA. I was really satisfied. It was so easy to find and discover new packages, and installing them was a snap! However, with the rate at which emacs plugin development occurs, the packages are outdated quickly. In the world of github, and an incredibly active community, I found that my main issue was being able to install the most recent version of packages out there, and keeping them up to date.</p>
+
+<p>ELPA is only as up to date as the package developers make it, and depending on the library, that’s not a lot. In addition, there are quite a lot of libraries out there which haven’t made it yet into a package.el repository.</p>
+
+<p>So why wait? When adding a new package to your distributable emacs configuration is one line away, you don’t have to.</p>
+
+<p>el-get provides basically everything I’m looking for:</p>
+
+<ul>
+  <li>
+    <p>a specific ‘github’ type for github repos. An absolute necessity, a lot of really good emacs extensions are on github.</p>
+  </li>
+  <li>
+    <p>generic git cloning. Great for the other libraries stores elsewhere</p>
+  </li>
+  <li>
+    <p>it even hooks into elpa for other packages!</p>
+  </li>
+</ul>
+
+<p>Although I rarely use package.el or ELPA anymore. If I can find the github equivalent, I’ll use that instead. You’d be surprised how outdated existing libraries become.</p>
+
+<p>This also provides the flexibility of allowing me to use my own version of various libraries, if need be. I no longer have to wait for pull requests to enjoy my fixes: I can just use my own repository, and switch back when the main repository catches up.</p>
+
+<p>So if you want to stay on the cutting-edge, and not worry about the hassle of installing every single package you use on every machine you have, give this a shot.</p>
+    </div><a class="u-url" href="/2013/03/24/automatic-package-installation-for-emacs-24-part-2/" hidden></a>
+</article>
+        </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/%20/"></data>
+
+    <div class="wrapper">
+
+        <div class="footer-col-wrapper">
+            <script async src="https://cse.google.com/cse.js?cx=014358564571565173111:hnnbq4j54cy"></script>
+            <div class="gcse-search"></div>
+        </div>
+        <div class="footer-col-wrapper">
+            <div class="footer-col">
+                <p class="feed-subscribe">
+                    <a href="/feed/index.xml">
+                        <svg class="svg-icon orange">
+                            <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+                        </svg><span>Subscribe</span>
+                    </a>
+                </p>
+            </div>
+            <div class="footer-col">
+                <p>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</p>
+            </div>
+        </div>
+
+        <div class="social-links"><ul class="social-media-list"><li><a href="https://github.com/toumorokoshi"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">toumorokoshi</span></a></li><li><a href="https://www.twitter.com/tsutsumiyusuke"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">tsutsumiyusuke</span></a></li></ul>
+</div>
+
+    </div>
+
+</footer></body>
+
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>WebPageTest and IE9 | Yusuke Tsutsumi</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="WebPageTest and IE9" />
+<meta name="author" content="toumorokoshi" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Recently, I tried updating the browser for a WebPageTest instance to IE9. This proved to have some issues, specifically due to the pop-up dialogues that IE9 has now to tell you when something suspicious occurs." />
+<meta property="og:description" content="Recently, I tried updating the browser for a WebPageTest instance to IE9. This proved to have some issues, specifically due to the pop-up dialogues that IE9 has now to tell you when something suspicious occurs." />
+<link rel="canonical" href="https://y.tsutsumi.io/2011/10/25/webpagetest-and-ie9/" />
+<meta property="og:url" content="https://y.tsutsumi.io/2011/10/25/webpagetest-and-ie9/" />
+<meta property="og:site_name" content="Yusuke Tsutsumi" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2011-10-25T00:25:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="WebPageTest and IE9" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"toumorokoshi"},"dateModified":"2011-10-25T00:25:00+00:00","datePublished":"2011-10-25T00:25:00+00:00","description":"Recently, I tried updating the browser for a WebPageTest instance to IE9. This proved to have some issues, specifically due to the pop-up dialogues that IE9 has now to tell you when something suspicious occurs.","headline":"WebPageTest and IE9","mainEntityOfPage":{"@type":"WebPage","@id":"https://y.tsutsumi.io/2011/10/25/webpagetest-and-ie9/"},"url":"https://y.tsutsumi.io/2011/10/25/webpagetest-and-ie9/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" />
+    <!-- Google Analytics -->
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-29270527-2', 'auto');
+	ga('send', 'pageview', { 'page': location.pathname + location.search + location.hash});
+	ga('set', 'anonymizeIp', true);
+    </script>
+    <!-- End Google Analytics -->
+    </head>
+<body><header class="site-header">
+
+    <div class="wrapper"><a class="site-title" rel="author" href="/">Yusuke Tsutsumi</a><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path
+                            d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger">
+                <a class="page-link" href="/tag/coding/">Coding Posts</a>
+                <a class="page-link"
+                    href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a><a class="page-link" href="/resources/">Resources</a><a class="page-link" href="/about/">About Yusuke Tsutsumi</a></div>
+        </nav></div>
+    <style>
+        .gse-control-cse td {
+            border: 0;
+        }
+
+        td.gsc-input {
+            border: 0;
+        }
+
+        td.gsc-search-button {
+            border: 0;
+        }
+
+        table.gsc-input {
+            margin-bottom: 0;
+        }
+    </style>
+</header><main class="page-content" aria-label="Content">
+        <div class="wrapper">
+            <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <header class="post-header">
+        <h1 class="post-title p-name" itemprop="name headline">WebPageTest and IE9</h1>
+        <p class="post-meta"><time class="dt-published" datetime="2011-10-25T00:25:00+00:00" itemprop="datePublished">
+                Oct 25, 2011
+            </time>• 
+            <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+                <span class="p-author h-card" itemprop="name">toumorokoshi</span></span></p>
+    </header>
+
+    <div class="post-content e-content" itemprop="articleBody">
+        <p>Recently, I tried updating the browser for a WebPageTest instance to
+IE9. This proved to have some issues, specifically due to the pop-up
+dialogues that IE9 has now to tell you when something suspicious occurs.</p>
+
+<p>Logging into WPT, I was greeted with an error on an IE9 browser opened
+by URLblast. Something along the lines of:</p>
+
+<p>“Are you sure you want to use this Non-Verified plugin?”</p>
+
+<p>Of course, the non-verified plugin was the WebPageTest hook. In order to
+get that working, I modified the security settings on my browser to not
+care about non-verified plugins:</p>
+
+<p>Internet Options (clicking on that gear icon in IE9) -&gt; Security -&gt;
+Custom Level.</p>
+
+<p>I modified two settings:</p>
+
+<ul>
+  <li>“Download unsigned ActiveX controls” to Enable (not secure)</li>
+  <li>“Initialize and script ActiveX controls not marked as safe for scripting” to Enable (not secure)</li>
+</ul>
+
+<p>This then brought me to another error, with IE9 complaining about not
+using secure settings. Something like:</p>
+
+<p>“Your current settings are insecure”</p>
+
+<p>Well, after some searching, there’s apparently a policy that you can set
+that disables this specific message:</p>
+
+<p><a href="http://windowsconnected.com/forums/p/959/3087.aspx#3087">http://windowsconnected.com/forums/p/959/3087.aspx#3087</a></p>
+
+<p>Basically it says:</p>
+
+<p>Run gpedit.msc (if you type ‘gpedit.msc’ in the search bar it comes up)</p>
+
+<p>Then Navigate to Computer Configuration -&gt; Administrative Templates -&gt;
+Windows Components -&gt; Internet Exporer, and right click and enable the
+“Turn off the Security Settings Check feature” policy.</p>
+
+<p>This gets rid of the error, but then WebPageTest just seems to freeze on
+a run. After some more searching, there was one final step in the
+solution. It seems that urlblast has to open the browser using the
+user’s account. By default, urlblast creates and uses a specific account
+on which it opens a browser, not necessarily the user that is running
+urlblast. Having the account opening the browser be an administrator did
+the trick, and in my situation, I just had it be the same account
+running urlblast. This can be done with a change in urlblast.ini:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Use Current Account=1
+</code></pre></div></div>
+
+<p>And that did it for me!</p>
+    </div><a class="u-url" href="/2011/10/25/webpagetest-and-ie9/" hidden></a>
+</article>
+        </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/%20/"></data>
+
+    <div class="wrapper">
+
+        <div class="footer-col-wrapper">
+            <script async src="https://cse.google.com/cse.js?cx=014358564571565173111:hnnbq4j54cy"></script>
+            <div class="gcse-search"></div>
+        </div>
+        <div class="footer-col-wrapper">
+            <div class="footer-col">
+                <p class="feed-subscribe">
+                    <a href="/feed/index.xml">
+                        <svg class="svg-icon orange">
+                            <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+                        </svg><span>Subscribe</span>
+                    </a>
+                </p>
+            </div>
+            <div class="footer-col">
+                <p>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</p>
+            </div>
+        </div>
+
+        <div class="social-links"><ul class="social-media-list"><li><a href="https://github.com/toumorokoshi"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">toumorokoshi</span></a></li><li><a href="https://www.twitter.com/tsutsumiyusuke"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">tsutsumiyusuke</span></a></li></ul>
+</div>
+
+    </div>
+
+</footer></body>
+
+</html>

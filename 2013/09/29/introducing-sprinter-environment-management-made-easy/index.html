@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Introducing Sprinter: environment management made easy | Yusuke Tsutsumi</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Introducing Sprinter: environment management made easy" />
+<meta name="author" content="toumorokoshi" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Today, I wanted to talk about one of the more annoying problems that pops from time to time: setting up a new machine, and keeping existing machines in sync. Setting up new machines just the way you like them is hard. The longer you’ve been developing, the more programs, tools, and configuration you take with you. When you set up a new machine, you have to remember everything you had set up on an old machine, including:" />
+<meta property="og:description" content="Today, I wanted to talk about one of the more annoying problems that pops from time to time: setting up a new machine, and keeping existing machines in sync. Setting up new machines just the way you like them is hard. The longer you’ve been developing, the more programs, tools, and configuration you take with you. When you set up a new machine, you have to remember everything you had set up on an old machine, including:" />
+<link rel="canonical" href="https://y.tsutsumi.io/2013/09/29/introducing-sprinter-environment-management-made-easy/" />
+<meta property="og:url" content="https://y.tsutsumi.io/2013/09/29/introducing-sprinter-environment-management-made-easy/" />
+<meta property="og:site_name" content="Yusuke Tsutsumi" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2013-09-29T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Introducing Sprinter: environment management made easy" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"toumorokoshi"},"dateModified":"2013-09-29T00:00:00+00:00","datePublished":"2013-09-29T00:00:00+00:00","description":"Today, I wanted to talk about one of the more annoying problems that pops from time to time: setting up a new machine, and keeping existing machines in sync. Setting up new machines just the way you like them is hard. The longer you’ve been developing, the more programs, tools, and configuration you take with you. When you set up a new machine, you have to remember everything you had set up on an old machine, including:","headline":"Introducing Sprinter: environment management made easy","mainEntityOfPage":{"@type":"WebPage","@id":"https://y.tsutsumi.io/2013/09/29/introducing-sprinter-environment-management-made-easy/"},"url":"https://y.tsutsumi.io/2013/09/29/introducing-sprinter-environment-management-made-easy/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" />
+    <!-- Google Analytics -->
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-29270527-2', 'auto');
+	ga('send', 'pageview', { 'page': location.pathname + location.search + location.hash});
+	ga('set', 'anonymizeIp', true);
+    </script>
+    <!-- End Google Analytics -->
+    </head>
+<body><header class="site-header">
+
+    <div class="wrapper"><a class="site-title" rel="author" href="/">Yusuke Tsutsumi</a><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path
+                            d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger">
+                <a class="page-link" href="/tag/coding/">Coding Posts</a>
+                <a class="page-link"
+                    href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a><a class="page-link" href="/resources/">Resources</a><a class="page-link" href="/about/">About Yusuke Tsutsumi</a></div>
+        </nav></div>
+    <style>
+        .gse-control-cse td {
+            border: 0;
+        }
+
+        td.gsc-input {
+            border: 0;
+        }
+
+        td.gsc-search-button {
+            border: 0;
+        }
+
+        table.gsc-input {
+            margin-bottom: 0;
+        }
+    </style>
+</header><main class="page-content" aria-label="Content">
+        <div class="wrapper">
+            <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <header class="post-header">
+        <h1 class="post-title p-name" itemprop="name headline">Introducing Sprinter: environment management made easy</h1>
+        <p class="post-meta"><time class="dt-published" datetime="2013-09-29T00:00:00+00:00" itemprop="datePublished">
+                Sep 29, 2013
+            </time>• 
+            <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+                <span class="p-author h-card" itemprop="name">toumorokoshi</span></span></p>
+    </header>
+
+    <div class="post-content e-content" itemprop="articleBody">
+        <p>Today, I wanted to talk about one of the more annoying problems that pops from time to time: setting up
+a new machine, and keeping existing machines in sync. Setting up new machines just the way you like them is
+hard. The longer you’ve been developing, the more programs, tools, and
+configuration you take with you. When you set up a new machine, you
+have to remember everything you had set up on an old machine,
+including:</p>
+
+<ul>
+  <li>your .rc and shell config files (.vimrc, .emacs, .bashrc)</li>
+  <li>all of the packages you’ve installed</li>
+  <li>packages you’ve downloaded by hand and extracted</li>
+  <li>little tweaks and workarounds you had to employ to get stuff working</li>
+  <li>generating ssh keys and setting up ssh configs</li>
+</ul>
+
+<p>At a company, things become even more difficult. In addition to the difficulties
+mentioned above, you have to handle additional problems like
+installing and updating internal tools, and you have more machines:
+every developer needs to remain in sync!</p>
+
+<p>Another one of the big problems comes from developers who use their own machines
+to work on company projects: there’s times when you want to deactivate or remove
+the company development environment, so you can continue work on your own, personal
+projects, without having to take a lot of time switching back and forth.</p>
+                <h2 id="enter-sprinter">   Enter Sprinter <a href="#enter-sprinter">#</a>   </h2>
+                    
+
+<p>Sprinter is a development environment management tool, designed to easily create,
+manage, and configure multiple development environments.</p>
+
+<p>So what does that look like? Well, the first step is to install
+sprinter. Currently, installing sprinter involves downloading and
+running a shell script. You can take advantage of these pre-crafted commands:</p>
+
+<p>Using curl (OSX):</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-s</span> https://raw.github.com/toumorokoshi/sprinter/master/scripts/sandbox.sh <span class="o">&gt;</span> /tmp/sprinter<span class="p">;</span> bash /tmp/sprinter
+</code></pre></div></div>
+
+<p>Using wget (Debian/Ubuntu):</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> /tmp/<span class="p">;</span> <span class="nb">rm </span>sandbox.sh<span class="p">;</span> wget https://raw.github.com/toumorokoshi/sprinter/master/scripts/sandbox.sh <span class="nt">-O</span> sandbox.sh<span class="p">;</span> bash sandbox.sh
+</code></pre></div></div>
+
+<p><em>NOTE</em>: You’ll have to open a new shell every time you modify an environment. This is because resetting shells to scratch really isn’t possible. Currently the best solution is just to open a new one.</p>
+
+<p>This adds the <code class="language-plaintext highlighter-rouge">sprinter</code> command in a sandboxed location, inside your user root (~/.sprinter). In fact, when sprinter installs anything, it usually ends up in there. This allows for sandboxing packages and executables to make changing environments easier.</p>
+                <h2 id="defining-sprinter-environments">   Defining Sprinter Environments <a href="#defining-sprinter-environments">#</a>   </h2>
+                    
+
+<p>Each definition of a sprinter environment is a config file. For
+example, here’s an example configuration for an environment which
+generates an ssh key, installs node.js, and sets up some git
+configuration:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[config]
+namespace = developer
+
+[git]
+formula = sprinter.formula.package
+apt-get = git-core
+brew = git
+rc =
+  git config --global user.name "Dev Eloper"
+  git config --global user.email "eloperdev@gmail.com"
+  git config --global alias.c checkout
+  git config --global alias.s status
+
+[github]
+formula = sprinter.formula.ssh
+keyname = github.com
+nopassphrase = true
+type = rsa
+host = github.com
+user = git
+hostname = github.com
+
+[node]
+formula = yt.formula.node:git+https://github.com/toumorokoshi/yt.formula.node.git
+version = 0.10.16
+packages =
+  grunt-cli
+</code></pre></div></div>
+
+<p>Installing an environment is as easy as pointing sprinter to the environment configuration file:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sprinter install https://raw.github.com/toumorokoshi/yt.rc/master/toumorokoshi.cfg
+sprinter install ~/downloads/myconf.cfg
+</code></pre></div></div>
+
+<p>And the output looks like this:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sprinter install developer.cfg
+Checking and setting global parameters...
+Installing environment developer...
+A standard global ssh key was detected! Would you like to use the global ssh key? (default no): no
+installing node...
+/home/tsutsumi/.sprinter/developer/features/node/bin/grunt -&gt; /home/tsutsumi/.sprinter/developer/features/node/lib/node_modules/grunt-cli/bin/grunt
+grunt-cli@0.1.9 /home/tsutsumi/.sprinter/developer/features/node/lib/node_modules/grunt-cli
+├── resolve@0.3.1
+├── nopt@1.0.10 (abbrev@1.0.4)
+└── findup-sync@0.1.2 (lodash@1.0.1, glob@3.1.21)
+
+installing git...
+Installing git-core...
+[sudo] password for tsutsumi:
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+git-core is already the newest version.
+The following packages were automatically installed and are no longer required:
+  linux-headers-3.2.0-32 linux-headers-3.2.0-27 linux-headers-3.2.0-32-generic
+  linux-headers-3.2.0-27-generic
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 129 not upgraded.
+installing github...
+Finalizing...
+Injecting values into /home/tsutsumi/.profile...
+Injecting values into /home/tsutsumi/.zprofile...
+Injecting values into /home/tsutsumi/.zshrc...
+Injecting values into /home/tsutsumi/.bash_profile...
+Injecting values into /home/tsutsumi/.bashrc...
+Injecting values into /home/tsutsumi/.bash_profile...
+Injecting values into /home/tsutsumi/.zprofile...
+</code></pre></div></div>
+
+<p>Once installed, sprinter remembers where the configuration was found,
+and updating is a simple as re-installing the environment, or updating
+the specific namespace (sprinter looks for the updated config where
+you last installed the environment):</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sprinter update developer
+sprinter install https://raw.github.com/toumorokoshi/yt.rc/master/toumorokoshi.cfg
+sprinter install ~/downloads/myconf.cfg
+</code></pre></div></div>
+
+<p>This way, managing a cross-platform(ish) development environment and
+distributing it is as simple as hosting a configuration file, or
+storing one in a git repository. Simply modify your configuration
+file, push it, and update it when you move machines!</p>
+                <h2 id="managing-environments">   Managing Environments <a href="#managing-environments">#</a>   </h2>
+                    
+
+<p>Turning environments on and off is easy! Just use the deactivate and activate commands:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># turn off the developer environment</span>
+sprinter deactivate developer
+<span class="c"># turn on the developer environment</span>
+sprinter activate developer
+</code></pre></div></div>
+
+<p>(When you deactivate and activate an environment, you have to open a new shell)</p>
+
+<p>And removing an environment completely? Well, that’s just:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sprinter remove developer
+</code></pre></div></div>
+
+<p>In fact, the installer above installs sprinter as an environment! So if you wanted to remove sprinter, you could:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sprinter remove sprinter
+</code></pre></div></div>
+                <h2 id="building-environments-for-companies">   Building environments for companies <a href="#building-environments-for-companies">#</a>   </h2>
+                    
+
+<p>Sprinter is a great way to manage one’s own personal environment, but
+it was designed to support company-wide environments as well. The only
+problem that company set-up scripts have over personal ones is
+customization: you need to be able to customize your install based on
+the username, one’s own file layout, whether they want to use their
+own ssh keys, and more.</p>
+
+<p>Sprinter includes the ability to prompt for values (and remember them)
+during setup. For example let’s modify the configuration above to use
+a username and password, and upload the ssh key to an instance of
+Atlassian Stash:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[config]
+namespace = mycompany
+inputs = fullname
+         username
+         domainpassword?
+message_success = Welcome to mycompany!
+message_failure = Noo! Please email immrmanager@mycompany.com for help
+
+[git]
+formula = sprinter.formula.package
+apt-get = git-core
+brew = git
+rc =
+  git config --global user.name "%(config:fullname)s"
+  git config --global user.email "%(config:username)s@mycompany.com"
+  git config --global alias.c checkout
+  git config --global alias.s status
+
+[curl]
+formula = sprinter.formula.package
+apt-get = curl
+
+[stash]
+formula = sprinter.formula.ssh
+depends = curl
+keyname = stash.mycompany.local
+nopassphrase = true
+type = rsa
+host = mycompany-stash
+user = git
+hostname = stash.mycompany.local
+install_command = curl -k -u '%(config:username)s:%(config:domainpassword)s' -X POST -H "Accept: application/json" -H "Content-Type: application/json" https://stash.mycompany.local/rest/ssh/1.0/keys -d '{"text":""}'
+use_global_ssh = False
+
+[node]
+formula = yt.formula.node:git+https://github.com/toumorokoshi/yt.formula.node.git
+version = 0.10.16
+packages =
+  grunt-cli
+</code></pre></div></div>
+
+<p>Note that you can use the input variables in a variety of places (in
+the example above, the username input is used in both the git formula,
+and the ssh formula to upload the ssh key). Here’s what inputting parameters look like to someone installing this environment:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sprinter install mycompany.cfg
+Checking and setting global parameters...
+Installing environment mycompany...
+please enter your fullname:
+please enter your username:
+please enter your domainpassword:
+</code></pre></div></div>
+
+<p>Note that you can even add success/failure messages (message_success
+and message_failure in the config above), so you can add e-mails for
+troubleshooting and instructions on what to do next.</p>
+                <h2 id="why-sprinter-why-not-boxenchefpuppetx">   Why Sprinter? Why not Boxen/Chef/Puppet/X? <a href="#why-sprinter-why-not-boxenchefpuppetx">#</a>   </h2>
+                    
+
+<p>Sprinter definitely isn’t the first solution to try to manage an
+environment. Many alternatives exist, with their own merits. There was
+a few driving factors that motivated me to roll my own, the main
+reason being that the problem of maintaining development environments
+and development tools is quite a bit different from maintaining a
+cluster of systems for running services in. Existing solutions tended
+to be ops-driven (or based on ops-driven technologies), and didn’t
+make considerations like:</p>
+                <h3 id="configuration-based-on-user-input">   Configuration based on user input <a href="#configuration-based-on-user-input">#</a>   </h3>
+                    
+
+<p>A lot of the management systems out there were designed to push a
+machine into a specific state (Chef/Puppet). This design is influenced
+directly from an operator perspective, where a machine does not need
+to consider any state that already exists on the user machine
+(e.g. existing SSH configuration, .rc files). Sprinter and it’s
+formulas take a lot of caution to not override as much global state as
+possible, so the only configuration sprinter overrides are the ones it
+was specifically directed to do. (e.g. adding ssh or bashrc
+configuration inline with existing ones, instead of overwriting a file
+completely)</p>
+
+<p>In addition, I haven’t seen any configuration management query for
+user input on install. This makes things like automatically uploading
+ssh keys (which typically requires passwords you don’t want to store
+in a repository) very tricky, unless you’re willing to do a lot of
+finagling with environment variables.</p>
+
+<p>Sprinter solves this problem by querying and storing user input in
+it’s configuration, so you only have to configure things once, and it
+can be different for every user that installs it.</p>
+                <h3 id="sandboxing-environments">   Sandboxing Environments <a href="#sandboxing-environments">#</a>   </h3>
+                    
+
+<p>All of the existing environment management tools don’t really consider
+sandboxing an environment. Once again this comes from the fact that
+current tools are designed from the needs of an operator: why would
+you ever want to sandbox state of a machine that’s only going to be
+one type it’s whole life? For developers, the needs are different: you
+might have to reconfigure yourself to a release box, or a test box (in
+the very common case where differences exist), and switching between
+them can mean removing everything and installing from scratch.</p>
+
+<p>Sprinter formulas are designed to be able to easily inject and remove
+state from a system. For example, a sprinter deactivate assures that
+anything added to an .rc file is removed, and removing items from the
+PATH. This works well for personal machines, because working on
+software for your company doesn’t mean you have to completely
+reconfigure your machine into an irreparable state.</p>
+
+<p><em>NOTE</em>: (unfortunately, package managers on most systems are global, so it’s
+not possible to sandbox those. Possible solutions to this problem are
+still in the works.)</p>
+                <h3 id="multiple-simultaneous-environments">   Multiple Simultaneous Environments <a href="#multiple-simultaneous-environments">#</a>   </h3>
+                    
+
+<p>Tools like Chef or Boxen have the disadvantage that they only allow
+the one state to exist. There’s no special logic to handle things like
+activating two different environments simultaneously.</p>
+
+<p>Sprinter provides that functionality. You can overlay as many
+environments as you want on top of each other, and each piece is still
+a modular component that can be installed or removed. (the most
+recently activated/updated environment takes precedence).</p>
+
+<p>This works very well for the cases sprinter is designed for, like
+having a personal environment distributed through sprinter while using
+your company or organization’s configuration as well.</p>
+                <h3 id="its-easy-to-setup-and-install">   It’s easy to setup and install <a href="#its-easy-to-setup-and-install">#</a>   </h3>
+                    
+
+<p>Chef and Puppet both typically require running a service, and a bit of
+configuration to get up and running. Sprinter configs and the update
+process was designed so that anyone could easily add an environment
+into their project that developers could use.</p>
+
+<p>Having a global environment that anyone can use is as simple as
+publishing a file online through a webserver. In fact, github is a
+great place to host this. To see an example, you can look at <a href="https://github.com/toumorokoshi/yt.rc">my
+environment repository</a>, where I maintain
+the development environment I use on my Linux and OSX machines (I
+switch between three or four).</p>
+                <h2 id="so-in-conclusion">   So in conclusion… <a href="#so-in-conclusion">#</a>   </h2>
+                    
+
+<p>Sprinter has been a fun project for me that I feel like has a lot
+of potential. Please give it a try! Here’s some ways to explore Sprinter:</p>
+
+<ul>
+  <li>Follow the more detailed and explanatory <a href="http://sprinter.readthedocs.org/en/latest/tutorial.html">tutorial</a></li>
+  <li>Read up on the <a href="http://sprinter.readthedocs.org/en/latest/">docs</a></li>
+  <li>Look at the <a href="https://github.com/toumorokoshi/sprinter">code</a></li>
+  <li>Ask some questions on the <a href="https://groups.google.com/forum/#!forum/sprinter-dev">Google Group</a></li>
+</ul>
+
+<p>And of course feel free to leave a comment :)</p>
+    </div><a class="u-url" href="/2013/09/29/introducing-sprinter-environment-management-made-easy/" hidden></a>
+</article>
+        </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/%20/"></data>
+
+    <div class="wrapper">
+
+        <div class="footer-col-wrapper">
+            <script async src="https://cse.google.com/cse.js?cx=014358564571565173111:hnnbq4j54cy"></script>
+            <div class="gcse-search"></div>
+        </div>
+        <div class="footer-col-wrapper">
+            <div class="footer-col">
+                <p class="feed-subscribe">
+                    <a href="/feed/index.xml">
+                        <svg class="svg-icon orange">
+                            <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+                        </svg><span>Subscribe</span>
+                    </a>
+                </p>
+            </div>
+            <div class="footer-col">
+                <p>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</p>
+            </div>
+        </div>
+
+        <div class="social-links"><ul class="social-media-list"><li><a href="https://github.com/toumorokoshi"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">toumorokoshi</span></a></li><li><a href="https://www.twitter.com/tsutsumiyusuke"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">tsutsumiyusuke</span></a></li></ul>
+</div>
+
+    </div>
+
+</footer></body>
+
+</html>

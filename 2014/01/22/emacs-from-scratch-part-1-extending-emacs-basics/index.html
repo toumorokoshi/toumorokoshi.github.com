@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Emacs From Scratch, Part 1: Extending Emacs basics | Yusuke Tsutsumi</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Emacs From Scratch, Part 1: Extending Emacs basics" />
+<meta name="author" content="toumorokoshi" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="This is a series of tutorials geared around building up your own customized environment, using emacs, from scratch." />
+<meta property="og:description" content="This is a series of tutorials geared around building up your own customized environment, using emacs, from scratch." />
+<link rel="canonical" href="https://y.tsutsumi.io/2014/01/22/emacs-from-scratch-part-1-extending-emacs-basics/" />
+<meta property="og:url" content="https://y.tsutsumi.io/2014/01/22/emacs-from-scratch-part-1-extending-emacs-basics/" />
+<meta property="og:site_name" content="Yusuke Tsutsumi" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2014-01-22T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Emacs From Scratch, Part 1: Extending Emacs basics" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"toumorokoshi"},"dateModified":"2014-01-22T00:00:00+00:00","datePublished":"2014-01-22T00:00:00+00:00","description":"This is a series of tutorials geared around building up your own customized environment, using emacs, from scratch.","headline":"Emacs From Scratch, Part 1: Extending Emacs basics","mainEntityOfPage":{"@type":"WebPage","@id":"https://y.tsutsumi.io/2014/01/22/emacs-from-scratch-part-1-extending-emacs-basics/"},"url":"https://y.tsutsumi.io/2014/01/22/emacs-from-scratch-part-1-extending-emacs-basics/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" />
+    <!-- Google Analytics -->
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-29270527-2', 'auto');
+	ga('send', 'pageview', { 'page': location.pathname + location.search + location.hash});
+	ga('set', 'anonymizeIp', true);
+    </script>
+    <!-- End Google Analytics -->
+    </head>
+<body><header class="site-header">
+
+    <div class="wrapper"><a class="site-title" rel="author" href="/">Yusuke Tsutsumi</a><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path
+                            d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger">
+                <a class="page-link" href="/tag/coding/">Coding Posts</a>
+                <a class="page-link"
+                    href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a><a class="page-link" href="/resources/">Resources</a><a class="page-link" href="/about/">About Yusuke Tsutsumi</a></div>
+        </nav></div>
+    <style>
+        .gse-control-cse td {
+            border: 0;
+        }
+
+        td.gsc-input {
+            border: 0;
+        }
+
+        td.gsc-search-button {
+            border: 0;
+        }
+
+        table.gsc-input {
+            margin-bottom: 0;
+        }
+    </style>
+</header><main class="page-content" aria-label="Content">
+        <div class="wrapper">
+            <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <header class="post-header">
+        <h1 class="post-title p-name" itemprop="name headline">Emacs From Scratch, Part 1: Extending Emacs basics</h1>
+        <p class="post-meta"><time class="dt-published" datetime="2014-01-22T00:00:00+00:00" itemprop="datePublished">
+                Jan 22, 2014
+            </time>• 
+            <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+                <span class="p-author h-card" itemprop="name">toumorokoshi</span></span></p>
+    </header>
+
+    <div class="post-content e-content" itemprop="articleBody">
+        <p>This is a series of tutorials geared around building up your own
+customized environment, using emacs, from scratch.</p>
+
+<p>You can find <a href="/emacs-from-scratch-part-2-package-management.html">part 2 here</a>
+You can find <a href="/emacs-from-scratch-part-3-extending-emacs-with-elisp.html">part 3 here</a></p>
+
+<p>This tutorial is geared toward those who are starting with extending
+Emacs, and want to learn the pieces you need to know to really extend
+and build your custom environment. If you want to just get started
+with a rocking environment and don’t care about understanding the
+nitty-gritty, I’d suggest looking at <a href="https://github.com/bbatsov/prelude">emacs-prelude</a></p>
+
+<p>We’re going to go in-depth on discussing the following topics:</p>
+
+<ul>
+  <li>extending your base emacs with init-files, and some good practices there</li>
+  <li>managing and installing packages, and doing so automatically</li>
+  <li>binding command and keys to installed packages</li>
+  <li>writing some custom code, and integrating it into your emacs environment</li>
+</ul>
+
+<p>If you follow all these tutorials word for word, you’ll end up with
+the building blocks to set up your own personalized emacs environment. Here’s mine:</p>
+
+<p><a href="http://www.youtube.com/watch?v=8vdOrsywra0">My Emacs Setup</a></p>
+
+<p>However, I would recommend picking and choosing the parts that best
+suit your purposes. Please leave comments if I’m not going in-depth
+enough to provide the tools to do so.</p>
+
+<p>So let’s begin!</p>
+                <h2 id="the-tutorial">   The Tutorial <a href="#the-tutorial">#</a>   </h2>
+                    
+                <h3 id="emacs-lisp">   Emacs Lisp <a href="#emacs-lisp">#</a>   </h3>
+                    
+
+<p>To follow these tutorials, you need to have a very rudimentary
+understanding of emacs lisp. Basically just remeber this:</p>
+
+<div class="language-lisp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="nc">method</span> <span class="nv">arg1</span> <span class="nv">arg2</span> <span class="o">...</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Is how methods are called: the first element in a parentheses is the
+method being called, and the subsequent elements are it’s arguments.</p>
+
+<p>You can also nest calls into calls, like this:</p>
+
+<div class="language-lisp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="nv">foo</span> <span class="p">(</span><span class="nv">bar</span> <span class="nv">bar-argument</span><span class="p">)</span> <span class="nv">foo-argument</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>This nesting of statements is what starts the chain of parentheses
+that lisp and lisp dialects are famous for.</p>
+                <h3 id="init-files">   Init-Files <a href="#init-files">#</a>   </h3>
+                    
+
+<p>init-files are the files that emacs loads on startup. This is similar
+to the rc files that you often see with shells/terminals, vim, or a
+variety of other tools.</p>
+
+<p>Emacs has a few standard places to add an init-file, but those are
+already well documented in the <a href="http://www.gnu.org/software/emacs/manual/html_node/emacs/Init-File.html">manual</a>.
+If you want to know more, feel free to read there.</p>
+
+<p>For the most part, however, there are two main locations where
+init-files lie: the .emacs file and the .emacs.d directory in the user
+root.</p>
+
+<p>Unlike some other init files, Emacs’s initialization is basically
+evaluating the init-files with it’s built-in elisp (Emacs Lisp)
+interpreter. This is what provides Emacs users with real power: since
+the great majority of Emacs is written directly in elisp, it is
+possible to extend any of that code with your init-file, or even
+evaluating code on the fly after the system starts up. This is a stark
+contrast to other extensibile architectures, which only allow a
+discrete set of configs or apis from which to modify application
+behaviour. When you hear someone say Emacs is “infinitely extensible”,
+this is what they mean: you can practically modify whatever you want
+in Emacs!</p>
+
+<p>But before we get to this awesome power, it’s first best to learn some
+ways to organize your init-files. Emacs init-files can get huge, and
+having good practices now will help you manage all the pieces in the long run.</p>
+
+<p>The .emacs.d directory is the de-facto place to store configuration
+files beyond the .emacs file. Package managers add their packages
+there, packages add their configuration there, so it’s also a good
+place to add our custom configuration.</p>
+
+<p>For our example, let’s disable the menu, scroll and tool bars. This
+removes all of the dropdown gui menus, so all we have are the buffers
+left. You might think this is crippling at first, but learning your keybindings
+will make you way more efficient in the long run.</p>
+
+<p>You can name your files whatever you want, but I’ve found it’s easy to
+find files if you prefix them. I prefix all of my init-files with
+“my-“. This also has the advantage of signifying it’s a personal
+configuration.</p>
+
+<p>So let’s make a file now called “my-noexternals”. This signifies to me
+that these are configs for components that are native to Emacs (don’t
+depend on third-party packages, or “externals”). Let’s disable the menu, tool, and
+scroll bar now:</p>
+
+<div class="language-lisp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">; ~/.emacs.d/my-noexternals.el</span>
+
+<span class="c1">;; Remove scrollbars, menu bars, and toolbars</span>
+<span class="c1">; when is a special form of "if", with no else clause, it reads:</span>
+<span class="c1">; (when &lt;condition&gt; &lt;code-to-execute-1&gt; &lt;code-to-execute2&gt; ...)</span>
+<span class="p">(</span><span class="nb">when</span> <span class="p">(</span><span class="nb">fboundp</span> <span class="ss">'menu-bar-mode</span><span class="p">)</span> <span class="p">(</span><span class="nv">menu-bar-mode</span> <span class="mi">-1</span><span class="p">))</span>
+<span class="p">(</span><span class="nb">when</span> <span class="p">(</span><span class="nb">fboundp</span> <span class="ss">'tool-bar-mode</span><span class="p">)</span> <span class="p">(</span><span class="nv">tool-bar-mode</span> <span class="mi">-1</span><span class="p">))</span>
+<span class="p">(</span><span class="nb">when</span> <span class="p">(</span><span class="nb">fboundp</span> <span class="ss">'scroll-bar-mode</span><span class="p">)</span> <span class="p">(</span><span class="nv">scroll-bar-mode</span> <span class="mi">-1</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>Now that we have that, we need to load our my-noexternals.el file in
+our .emacs. Add the following line to ~/.emacs:</p>
+
+<div class="language-lisp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">; ~/.emacs</span>
+<span class="p">(</span><span class="nb">load</span> <span class="s">"~/.emacs.d/my-noexternals.el"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>And now when you start emacs, you’ll have the bars disabled! Of
+course, you’re welcome to enable whatever you like, I was just using
+this as an example.</p>
+                <h3 id="rebinding-keys">   Rebinding Keys <a href="#rebinding-keys">#</a>   </h3>
+                    
+
+<p>Now let’s say we want to re-bind keys. elisp has a command for that as
+well, and it’s called global-set-key. It works like this:</p>
+
+<div class="language-lisp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="nv">global-set-key</span> <span class="nv">&lt;keychord&gt;</span> <span class="nv">&lt;function-name&gt;</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>An easy way to declare the key chord you want to use is by using the
+“kbd” command, which evaluates a keychord formatted in typical emacs
+key-chord fashion, and evaluates it to something global-set-key can
+understand. As an example:</p>
+
+<div class="language-lisp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="nv">global-set-key</span> <span class="p">(</span><span class="nv">kbd</span> <span class="s">"C-c C-j"</span><span class="p">)</span> <span class="ss">'foo</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Would make C-c C-j (&lt;Ctrl + c&gt; followed by &lt;Ctrl + j&gt;) run the “foo” function.</p>
+
+<p>As a personal preference, I like
+navigating through my open windows with vim-like movement (hjkl). As a
+compromise, I bind the following commands:</p>
+
+<div class="language-lisp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">; ~/my-noexternals.el</span>
+
+<span class="c1">;; Wind-move</span>
+
+<span class="p">(</span><span class="nv">global-set-key</span> <span class="p">(</span><span class="nv">kbd</span> <span class="s">"C-c C-j"</span><span class="p">)</span> <span class="ss">'windmove-left</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">global-set-key</span> <span class="p">(</span><span class="nv">kbd</span> <span class="s">"C-c C-k"</span><span class="p">)</span> <span class="ss">'windmove-down</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">global-set-key</span> <span class="p">(</span><span class="nv">kbd</span> <span class="s">"C-c C-l"</span><span class="p">)</span> <span class="ss">'windmove-up</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">global-set-key</span> <span class="p">(</span><span class="nv">kbd</span> <span class="s">"C-c C-;"</span><span class="p">)</span> <span class="ss">'windmove-right</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>windmove-<direction> is a command that moves your window focus to the
+first window in the direction specified. I bind them to the chords C-c
+C-(jkl;), because C-c C-h is a help command.</direction></p>
+                <h3 id="using-hooks">   Using Hooks <a href="#using-hooks">#</a>   </h3>
+                    
+
+<p>However, the problem with some keybindings is that they get overridden
+depending on the order global-set-key gets run. This is especially a
+problem when using external packages, which can sometimes override
+keys with their own configuration. This is not a common practice now,
+but can still happend.</p>
+
+<p>To help ensure your commands run in a particular order, Emacs provides
+hooks into it’s startup (along with several other places, but we’ll
+get into that later). So let’s modify our .emacs so my-noexternals.el
+gets loaded at the very end, after everything else has run:</p>
+
+<div class="language-lisp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">; ~/.emacs</span>
+
+<span class="p">(</span><span class="nv">add-hook</span> <span class="ss">'after-init-hook</span> <span class="o">'</span><span class="p">(</span><span class="k">lambda</span> <span class="p">()</span>
+    <span class="p">(</span><span class="nb">load</span> <span class="s">"~/.emacs.d/my-noexternals.el"</span><span class="p">)</span>
+<span class="p">))</span>
+</code></pre></div></div>
+
+<p>The “add-hook” command allows you to hook methods to run at a
+particular time, and the “‘after-init-hook” tells emacs to run the
+method after everything else in the init-file loaded.</p>
+
+<p>Note that in this example, I used a lambda/anonymous method versus an
+explicit function. It’s typically the standard to do lambdas in hooks
+over, say, defining a function and passing it.</p>
+                <h3 id="summary">   Summary <a href="#summary">#</a>   </h3>
+                    
+
+<p>So to recap, here’s the useful things we learned:</p>
+
+<ul>
+  <li>~/.emacs and ~/.emacs.d/ are the standard locations to add init-files</li>
+  <li>splitting out ~/.emacs into several other files and loading those is a lot easier to manage</li>
+  <li>(load <filename>) will evaluate a file</filename></li>
+  <li>(global-set-key <keychord> <function-name>) will set <keychord> to run <function-name></function-name></keychord></function-name></keychord></li>
+  <li>(add-hook<hook> <lambda>) to run lambda at a particular event</lambda></hook></li>
+  <li>the “‘after-init-hook” event will run functions after the rest of the init-file has finished loading.</li>
+</ul>
+                <h3 id="final-code">   Final Code <a href="#final-code">#</a>   </h3>
+                    
+
+<p>.emacs:</p>
+
+<div class="language-lisp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="nv">add-hook</span> <span class="ss">'after-init-hook</span> <span class="o">'</span><span class="p">(</span><span class="k">lambda</span> <span class="p">()</span>
+    <span class="p">(</span><span class="nb">load</span> <span class="s">"~/.emacs.d/my-noexternals.el"</span><span class="p">)</span>
+<span class="p">))</span>
+</code></pre></div></div>
+
+<p>.emacs.d/my-noexternals.el:</p>
+
+<div class="language-lisp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">; ~/.emacs.d/my-noexternals.el</span>
+
+<span class="c1">;; Remove scrollbars, menu bars, and toolbars</span>
+<span class="p">(</span><span class="nb">when</span> <span class="p">(</span><span class="nb">fboundp</span> <span class="ss">'menu-bar-mode</span><span class="p">)</span> <span class="p">(</span><span class="nv">menu-bar-mode</span> <span class="mi">-1</span><span class="p">))</span>
+<span class="p">(</span><span class="nb">when</span> <span class="p">(</span><span class="nb">fboundp</span> <span class="ss">'tool-bar-mode</span><span class="p">)</span> <span class="p">(</span><span class="nv">tool-bar-mode</span> <span class="mi">-1</span><span class="p">))</span>
+<span class="p">(</span><span class="nb">when</span> <span class="p">(</span><span class="nb">fboundp</span> <span class="ss">'scroll-bar-mode</span><span class="p">)</span> <span class="p">(</span><span class="nv">scroll-bar-mode</span> <span class="mi">-1</span><span class="p">))</span>
+
+<span class="c1">;; Wind-move</span>
+<span class="p">(</span><span class="nv">global-set-key</span> <span class="p">(</span><span class="nv">kbd</span> <span class="s">"C-c C-j"</span><span class="p">)</span> <span class="ss">'windmove-left</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">global-set-key</span> <span class="p">(</span><span class="nv">kbd</span> <span class="s">"C-c C-k"</span><span class="p">)</span> <span class="ss">'windmove-down</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">global-set-key</span> <span class="p">(</span><span class="nv">kbd</span> <span class="s">"C-c C-l"</span><span class="p">)</span> <span class="ss">'windmove-up</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">global-set-key</span> <span class="p">(</span><span class="nv">kbd</span> <span class="s">"C-c C-;"</span><span class="p">)</span> <span class="ss">'windmove-right</span><span class="p">)</span>
+</code></pre></div></div>
+                <h3 id="whats-next">   What’s Next <a href="#whats-next">#</a>   </h3>
+                    
+
+<p>Next tutorial, we’ll talk about package management.
+You can find part 2 <a href="/emacs-from-scratch-part-2-package-management.html">here</a></p>
+                <h3 id="further-reading--references">   Further Reading / References <a href="#further-reading--references">#</a>   </h3>
+                    
+
+<ul>
+  <li><a href="http://www.gnu.org/software/emacs/manual/html_node/emacs/Init-File.html">init-file</a></li>
+  <li><a href="http://www.gnu.org/software/emacs/manual/html_node/emacs/Hooks.html">hooks</a></li>
+  <li><a href="http://www.gnu.org/software/emacs/manual/html_node/elisp/Key-Binding-Commands.html">keybindings</a></li>
+  <li><a href="http://www.emacswiki.org/emacs/WindMove">windmove</a></li>
+</ul>
+    </div><a class="u-url" href="/2014/01/22/emacs-from-scratch-part-1-extending-emacs-basics/" hidden></a>
+</article>
+        </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/%20/"></data>
+
+    <div class="wrapper">
+
+        <div class="footer-col-wrapper">
+            <script async src="https://cse.google.com/cse.js?cx=014358564571565173111:hnnbq4j54cy"></script>
+            <div class="gcse-search"></div>
+        </div>
+        <div class="footer-col-wrapper">
+            <div class="footer-col">
+                <p class="feed-subscribe">
+                    <a href="/feed/index.xml">
+                        <svg class="svg-icon orange">
+                            <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+                        </svg><span>Subscribe</span>
+                    </a>
+                </p>
+            </div>
+            <div class="footer-col">
+                <p>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</p>
+            </div>
+        </div>
+
+        <div class="social-links"><ul class="social-media-list"><li><a href="https://github.com/toumorokoshi"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">toumorokoshi</span></a></li><li><a href="https://www.twitter.com/tsutsumiyusuke"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">tsutsumiyusuke</span></a></li></ul>
+</div>
+
+    </div>
+
+</footer></body>
+
+</html>

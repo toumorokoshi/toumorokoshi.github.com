@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Crafting pelican-export in 6 hours. | Yusuke Tsutsumi</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Crafting pelican-export in 6 hours." />
+<meta name="author" content="toumorokoshi" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Over the past two or three days, I spent some deep work time on writing pelican-export, a tool to export posts from the pelican static blog creator to WordPress (with some easy hooks to add more). Overall I was happy with the project, not only because it was successful, but because I was able to get to something complete in a pretty short period of time: 6 hours. Reflecting, I owe this to the techniques I’ve learned to prototype quickly." />
+<meta property="og:description" content="Over the past two or three days, I spent some deep work time on writing pelican-export, a tool to export posts from the pelican static blog creator to WordPress (with some easy hooks to add more). Overall I was happy with the project, not only because it was successful, but because I was able to get to something complete in a pretty short period of time: 6 hours. Reflecting, I owe this to the techniques I’ve learned to prototype quickly." />
+<link rel="canonical" href="https://y.tsutsumi.io/2020/02/04/the-process-of-crafting-pelican-export-in-6-hours/" />
+<meta property="og:url" content="https://y.tsutsumi.io/2020/02/04/the-process-of-crafting-pelican-export-in-6-hours/" />
+<meta property="og:site_name" content="Yusuke Tsutsumi" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-02-04T05:42:08+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Crafting pelican-export in 6 hours." />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"toumorokoshi"},"dateModified":"2020-02-04T05:42:08+00:00","datePublished":"2020-02-04T05:42:08+00:00","description":"Over the past two or three days, I spent some deep work time on writing pelican-export, a tool to export posts from the pelican static blog creator to WordPress (with some easy hooks to add more). Overall I was happy with the project, not only because it was successful, but because I was able to get to something complete in a pretty short period of time: 6 hours. Reflecting, I owe this to the techniques I’ve learned to prototype quickly.","headline":"Crafting pelican-export in 6 hours.","mainEntityOfPage":{"@type":"WebPage","@id":"https://y.tsutsumi.io/2020/02/04/the-process-of-crafting-pelican-export-in-6-hours/"},"url":"https://y.tsutsumi.io/2020/02/04/the-process-of-crafting-pelican-export-in-6-hours/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" />
+    <!-- Google Analytics -->
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-29270527-2', 'auto');
+	ga('send', 'pageview', { 'page': location.pathname + location.search + location.hash});
+	ga('set', 'anonymizeIp', true);
+    </script>
+    <!-- End Google Analytics -->
+    </head>
+<body><header class="site-header">
+
+    <div class="wrapper"><a class="site-title" rel="author" href="/">Yusuke Tsutsumi</a><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path
+                            d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger">
+                <a class="page-link" href="/tag/coding/">Coding Posts</a>
+                <a class="page-link"
+                    href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a><a class="page-link" href="/resources/">Resources</a><a class="page-link" href="/about/">About Yusuke Tsutsumi</a></div>
+        </nav></div>
+    <style>
+        .gse-control-cse td {
+            border: 0;
+        }
+
+        td.gsc-input {
+            border: 0;
+        }
+
+        td.gsc-search-button {
+            border: 0;
+        }
+
+        table.gsc-input {
+            margin-bottom: 0;
+        }
+    </style>
+</header><main class="page-content" aria-label="Content">
+        <div class="wrapper">
+            <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <header class="post-header">
+        <h1 class="post-title p-name" itemprop="name headline">Crafting pelican-export in 6 hours.</h1>
+        <p class="post-meta"><time class="dt-published" datetime="2020-02-04T05:42:08+00:00" itemprop="datePublished">
+                Feb 4, 2020
+            </time>• 
+            <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+                <span class="p-author h-card" itemprop="name">toumorokoshi</span></span></p>
+    </header>
+
+    <div class="post-content e-content" itemprop="articleBody">
+        <p>Over the past two or three days, I spent some deep work time on writing <a href="https://github.com/toumorokoshi/pelican-export">pelican-export</a>, a tool to export posts from the  <a href="https://blog.getpelican.com/">pelican</a> static blog creator to WordPress (with some easy hooks to add more). Overall I was happy with the project, not only because it was successful, but because I was able to get to something complete in a pretty short period of time: 6 hours. Reflecting, I owe this to the techniques I’ve learned to prototype quickly.</p>
+
+<p>Here’s a timeline of how I iterated, with some analysis.</p>
+                <h2 id="20-minutes-finding-prior-art">   [20 minutes] Finding Prior Art <a href="#20-minutes-finding-prior-art">#</a>   </h2>
+                    
+
+<p>Before I start any project, I try to at least do a few quick web searches to see if what I want already exist. Searching for “pelican to wordpress” pulled up this blog post:</p>
+
+<p><a href="https://code.zoia.org/2016/11/29/migrating-from-pelican-to-wordpress/">https://code.zoia.org/2016/11/29/migrating-from-pelican-to-wordpress/</a></p>
+
+<p>Which pointed at a git repo:</p>
+
+<p><a href="https://github.com/robertozoia/pelican-to-wordpress">https://github.com/robertozoia/pelican-to-wordpress</a></p>
+
+<p>Fantastic! Something exists that I can use. Even if it doesn’t work off the bat, I can probably fix it, use it, and be on my way.</p>
+                <h2 id="60m-trying-to-use-pelican-to-wordpress">   [60m] Trying to use pelican-to-wordpress <a href="#60m-trying-to-use-pelican-to-wordpress">#</a>   </h2>
+                    
+
+<p>I started by cloning the repo, and looking through the code. From here I got some great ideas to quickly build this integration (e.g. discovering the xmlrpc-wordpress library). Unfortunately the code only supported markdown (mine are in restructuredtext), and there were a few things I wasn’t a fan of (constants including password in a file), so I decided to start doing some light refactoring.</p>
+
+<p>I started organizing things into a package structure, and tried to use the Pelican Python package itself to do things like read the file contents (saves me the need to parse the text myself). While looking for those docs, I stumbled upon some issues in the pelican repository, suggesting that for exporting, one would want to write a plugin:</p>
+
+<p><a href="https://github.com/getpelican/pelican/issues/2143">https://github.com/getpelican/pelican/issues/2143</a></p>
+
+<p>At this point, I decided to explore plugins.</p>
+                <h2 id="60m-scaffolding-and-plugin-structure">   [60m] Scaffolding and plugin structure. <a href="#60m-scaffolding-and-plugin-structure">#</a>   </h2>
+                    
+
+<p>Looking through the plugin docs, it seemed much easier than me trying to read in the pelican posts myself[ I had limited success with instantiating a pelican reader object directly, as it expects specific configuration variables.</p>
+
+<p>So I started authoring a real package. Copying in the package scaffolding like setup.py from another repo, I added the minimum integration I needed to actually install the plugin into pelican and run it.</p>
+                <h2 id="60m-rapid-iteration-with-pdb">   [60m] Rapid iteration with pdb. <a href="#60m-rapid-iteration-with-pdb">#</a>   </h2>
+                    
+
+<p>At that point, I added a pdb statement into the integration, so I could quickly look at the data structures. Using that I crafted the code to migrate post formats in a few minutes:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;code&gt;    def process_post(self, content) -&gt; Optional[WordPressPost]:
+        """Create a wordpress post based on pelican content"""
+        if content.status == "draft":
+            return None
+        post = WordPressPost()
+        post.title = content.title
+        post.slug = content.slug
+        post.content = content.content
+        # this conversion is required, as pelican uses a SafeDateTime
+        # that python-wordpress-xmlrpc doesn't recognize as a valid date.
+        post.date = datetime.fromisoformat(content.date.isoformat())
+        post.term_names = {
+            "category": [content.category.name],
+        }
+        if hasattr(content, "tags"):
+            post.term_names["post_tag"] = [tag.name for tag in content.tags]
+        return post&lt;/code&gt;
+</code></pre></div></div>
+
+<p>I added a simlar pdb statement to the “finalized” pelican signal,  and tested the client with hard-coded values. I was done as far as functionality was concerned!</p>
+                <h2 id="180m-code-cleanup-and-publishing">   [180m] Code cleanup and publishing <a href="#180m-code-cleanup-and-publishing">#</a>   </h2>
+                    
+
+<p>The bulk of my time after that was just smaller cleanup that I wanted to do from a code hygiene standpoint. Things like:</p>
+
+<ul>
+  <li>[70m] making the wordpress integration and interface, so it’s easy to hook in other exporters.</li>
+  <li>[40m] adding a configuration pattern to enable hooking in other exporters.</li>
+  <li>[10m] renaming the repo to it’s final name of pelican-export</li>
+  <li>[30m] adding readme and documentation.</li>
+  <li>[30m] publishing the package to pypi.</li>
+</ul>
+
+<p>This was half of my time! Interesting how much time is spent just ensuring the right structure and practices for the long term.</p>
+                <h2 id="takeaways">   Takeaways <a href="#takeaways">#</a>   </h2>
+                    
+
+<p>I took every shortcut in my book to arrive at something functional, as quickly as I could. Techniques that saved me tons of time were:</p>
+
+<ul>
+  <li>Looking for prior art. Brainstorming how to do the work myself would have meant investigating potential avenues and evaluating how long it would take. Having an existing example, even if it didn’t work for me, helped me ramp up of the problem quickly.</li>
+  <li>Throwing code away. I had a significant amount of modified code in my forked exporter. But continuing that route would involve a significant investment in hacking and understanding the pelican library. Seeing that the plugin route existed, and testing it out, saved me several hours of time trying to hack and interface to private pelican APIs.</li>
+  <li>Using pdb to live write code. In Python especially, there’s no replacement to just introspecting and trying things. Authoring just enough code to integrate as a plugin to give me a fast feedback loop, and throwing a pdb statement to quickly learn the data structure, helped me find the ideal structure in about 10 minutes.</li>
+</ul>
+
+<p>There was also a fair bit of Python expertise that I used to drive down the coding time, but what’s interesting is the biggest contributors to time savings were process: knowing the tricks on taking the right code approach, and iterating quickly, helped me get this done in effectively a single work day.</p>
+    </div><a class="u-url" href="/2020/02/04/the-process-of-crafting-pelican-export-in-6-hours/" hidden></a>
+</article>
+        </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/%20/"></data>
+
+    <div class="wrapper">
+
+        <div class="footer-col-wrapper">
+            <script async src="https://cse.google.com/cse.js?cx=014358564571565173111:hnnbq4j54cy"></script>
+            <div class="gcse-search"></div>
+        </div>
+        <div class="footer-col-wrapper">
+            <div class="footer-col">
+                <p class="feed-subscribe">
+                    <a href="/feed/index.xml">
+                        <svg class="svg-icon orange">
+                            <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+                        </svg><span>Subscribe</span>
+                    </a>
+                </p>
+            </div>
+            <div class="footer-col">
+                <p>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</p>
+            </div>
+        </div>
+
+        <div class="social-links"><ul class="social-media-list"><li><a href="https://github.com/toumorokoshi"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">toumorokoshi</span></a></li><li><a href="https://www.twitter.com/tsutsumiyusuke"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">tsutsumiyusuke</span></a></li></ul>
+</div>
+
+    </div>
+
+</footer></body>
+
+</html>

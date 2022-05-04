@@ -1,0 +1,869 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2022-05-04T04:34:23+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Don’t introduce a V2 API</title><link href="https://y.tsutsumi.io/no-v2-apis/" rel="alternate" type="text/html" title="Don’t introduce a V2 API" /><published>2022-05-01T07:00:00+00:00</published><updated>2022-05-01T07:00:00+00:00</updated><id>https://y.tsutsumi.io/no-v2-apis</id><content type="html" xml:base="https://y.tsutsumi.io/no-v2-apis/"><![CDATA[<p>It’s time for a blanket statement: <strong>users will prefer improving extending existing API versions over adopting a new version due to a backwards-incompatible change</strong>.</p>
+
+<p>The reason: the cost to the user to start using the next version of the API is larger than any value they would derive from that next version alone (e.g. sans new features).</p>
+
+<p>Let’s break this down.</p>
+
+<h2 id="definitions">Definitions</h2>
+
+<p>For the context of this article, I wanted to scope the conversation with the following terms:</p>
+
+<ul>
+  <li>API: I’m really talking about <strong>remote</strong> APIs: any programming interface that is performing a remote procedure call. The simplest example is HTTP + JSON, so I’ll be using that for the rest of this article.</li>
+</ul>
+
+<h2 id="what-types-of-changes-require-a-new-api-version">What types of changes require a new API version</h2>
+
+<p>Generally speaking, a new API version should only be published in the case where the API author needs to introduce a backwards-incompatible change (e.g. a <a href="https://semver.org/">semver</a>-like convention). The scope of a backwards-incompatible change varies depending on the context, but examples include:</p>
+
+<ul>
+  <li>Renaming a field.</li>
+  <li>Modifying the schema of an object.</li>
+  <li>Introducing entirely new conventions and handling of values.</li>
+</ul>
+
+<p>The motivation for a new API when introducing breaking changes is reasonable: API authors should build trust with their users by providing a mechanism to notify them when there is a need for them to change their code to interface with said API. Versioning makes the choice on the user explicit to upgrade.</p>
+
+<h2 id="but-api-migration-is-expensive-for-customers">But API migration is expensive for customers</h2>
+
+<p>The challenge comes in the logistics of the users upgrading their clients.</p>
+
+<p>Often API authors can find themselves sufficiently removed from the problem of dealing with the churn of API upgrades, and get an unrealistic idea of the cost of the API migration.</p>
+
+<p>Some of the reasons upgrades can become expensive are outlined below.</p>
+
+<h3 id="tightly-coupled-dependencies-requiring-lockstep-upgrades">Tightly coupled dependencies requiring lockstep upgrades</h3>
+
+<p>Clients and SDKs to interface with APIs are often not written in a highly modular fashion: instead, they are whole surfaces that must be upgraded, such as with all the APIs on a cloud like AWS or GCP, or for all services offered by a platform like Stripe.</p>
+
+<p>The breadth of this surface often means that you update your code for multiple different clients at once, often unrelated to the one service or tool that you want to use.</p>
+
+<h3 id="upgrades-can-be-multiple-layers-deep">Upgrades can be multiple layers deep</h3>
+
+<p>In some cases, although the upgrade of the client is trivial, it can be nested a dependency chain that makes upgrades take significantly more effort and time.</p>
+
+<p>For example, consider the usage of a raw SDK, wrapped in a convenience wrapper like a Terraform provider. The sketch could look like:</p>
+
+<ul>
+  <li>Raw API.</li>
+  <li>Go SDK.</li>
+  <li>Terraform provider.</li>
+</ul>
+
+<div class="jekyll-diagrams diagrams mermaid">
+  Command Not Found: mmdc
+</div>
+
+<p>In order for the user to finally get the upgraded SDK, they have to update the Go SDK version, and update the Terraform provider it is chained to. Each have their own cost associated, and an incompatible change can leak the cost of the upgrade into every downstream.</p>
+
+<p>Not only does this make upgrades more <strong>costly</strong>, but it can make them take longer: what if the team who upgrades the provider is separate from the team who upgrades the SDK? What if one of those pieces is an open source project that is swamped and slow to respond? This can make a simple code change extend into a multi-week or sometimes multi-month endeavor, including the cost of coordination overhead.</p>
+
+<h2 id="api-upgrades-do-not-benefit-the-end-user">API upgrades do not benefit the end user</h2>
+
+<p>We’ve established that an API upgrade can be expensive. What about the benefits?</p>
+
+<p>The reality is the reasons that engineers often <strong>want</strong> to introduce a new change isn’t particularly valuable for the end user. Let’s look at some of these arguments now.</p>
+
+<h3 id="api-intuitiveness">API intuitiveness</h3>
+
+<p>The most common example of improving usability is renaming a field in an API payload: the previous name didn’t really capture the purpose, so the field should be renamed to something that does.</p>
+
+<p>There’s similar changes in the category as well:</p>
+
+<ul>
+  <li>Moving fields from one object to another.</li>
+  <li>Gathering a set of fields and interning that into a subobject.</li>
+</ul>
+
+<p>The problem is intuitiveness of anything is highly subjective: intuition around a user interface is dependent on the experience that an individual had previously, which itself is dependent on the frequency of an accepted idiom.</p>
+
+<p>Consider the now-famous hamburger icon (≡) or triple dots (⋮) that we see on every website: neither was “intuitive” until they become common in styles guides and applications. Someone viewing these for the first type wouldn’t immediately be able to reason what they mean: they have to be taught.</p>
+
+<p>Therefore, one has to assume that, unless a user can somehow completely intuit the schema of an API, they will be forced to look up <strong>some</strong> form of documentation to be able to use the API.</p>
+
+<p>Even if a user could theoretically intuit the whole API, they will <strong>still</strong> be likely to look it up, and have to verify the meaning of every field: if you had the choice of just looking up what these terms mean or a workflow of guess-and-verify-the-field-does-what-I-think-it-does, many would look up the meaning to save the time spent fiddling with the API if they’re wrong.</p>
+
+<p>Therefore, API intuitiveness is largely irrelevant: <strong>accurate, clear documentation or examples will be more valuable every time</strong>, and comes with zero cost in end-user toil to update their API calls to new schemas or field names.</p>
+
+<h3 id="most-api-changes-can-live-on-the-same-version">Most API changes can live on the same version</h3>
+
+<p>Most API changes can actually live on the same version! In some of the examples above, instead of introducing a new version of an API entirely, one could instead:</p>
+
+<ol>
+  <li>Introduce a new field with the new name / schema / behavior.</li>
+  <li>Accept both indefinitely, and add validation to make new fields mutually exclusively with any old conflicting fields.</li>
+</ol>
+
+<p>This is largely similar to the burden of maintaining multiple version of the API simultaneously, but comes with the benefit that the work is largely <strong>additive</strong>: the work to use a new feature is only the cost of adding support for that field in one’s SDK / library, and is not coupled with other additional burdens that don’t provide immediate value (like refactoring your integration to support some new v2 schema).</p>
+
+<h3 id="new-features">New Features</h3>
+
+<p>Often new APIs versions also become the only way to consume new features in the underlying service: engineers don’t want to have to maintain multiple code paths or update legacy ones to support new features, so new fields will only be introduced in the new API.</p>
+
+<p>However, there is no technical reason why these fields cannot be introduced in the older API versions, and this in turn results additional user friction: the user is made to pay the cost of an expensive upgrade, even to get a single feature flag.</p>
+
+<h2 id="examples-around-the-internet-of-pain-of-migration-costs">Examples around the internet of pain of migration costs</h2>
+
+<p>I think there’s very few tangible examples of someone praising a new API, but there’s a plentiful amount of complaints around an API changing and the users being unhappy with paying the cost to upgrade:</p>
+
+<ul>
+  <li><a href="https://steve-yegge.medium.com/dear-google-cloud-your-deprecation-policy-is-killing-you-ee7525dc05dc">Steve Yegge’s blog post on rapid deprecation policies making maintaining project unsustainable.</a></li>
+</ul>
+
+<h2 id="summary">Summary</h2>
+
+<ul>
+  <li>A new version of an API is expensive for consumers to migrate to.
+    <ul>
+      <li>Often clients have a much wider surface area than the single API being upgraded, and therefore are that much more expensive to upgrade.</li>
+      <li>Clients and SDKs tend to have a chain of dependencies (e.g. wrapped providers or CLIs wrapping SDKs), resulting in significant coordination to support new APIs.</li>
+    </ul>
+  </li>
+  <li>Many of the percieved benefits of new APIs aren’t true in practice
+    <ul>
+      <li>API changes that are more “intuitive” is highly subjective, and without sufficient standardization will require the user to look up documentation. Documentation is the default fallback and the first things users look at, regardless of schema of the payload.</li>
+      <li>New features and fields could be added to the old API without issue.</li>
+      <li>Many desired changes can be made incrementally to existing API version, by introducing new fields with mutual exclusivity.</li>
+    </ul>
+  </li>
+</ul>]]></content><author><name></name></author><category term="coding" /><summary type="html"><![CDATA[It’s time for a blanket statement: users will prefer improving extending existing API versions over adopting a new version due to a backwards-incompatible change.]]></summary></entry><entry><title type="html">SWE tip: ask for help</title><link href="https://y.tsutsumi.io/ask-for-help/" rel="alternate" type="text/html" title="SWE tip: ask for help" /><published>2022-03-26T07:00:00+00:00</published><updated>2022-03-26T07:00:00+00:00</updated><id>https://y.tsutsumi.io/ask-for-help</id><content type="html" xml:base="https://y.tsutsumi.io/ask-for-help/"><![CDATA[<p>One of the most common mistakes I see software engineers make when they start in a role is not reaching out to a teammate sooner: for help, or to throw an idea around.</p>
+
+<p>Here’s some reasons why, especially in a new role, you should ask for help if you get stuck.</p>
+
+<h2 id="the-pros">The Pros</h2>
+
+<h3 id="get-ramped-up-quicker">Get ramped up quicker</h3>
+
+<p>If you’re working in a new tech stack, or on a new team, there’s always going to be some tribal knowledge: information that isn’t stored in any easily searchable system of record, but is readily available in memory from a colleague.</p>
+
+<p>Every team has that extremely esoteric issue that has yet to be documented yet, and it can cause someone new to spin their wheels for days: things like:</p>
+
+<ul>
+  <li>A known bug in a dependency that has yet to be fixed.</li>
+  <li>A particular error that is caused by a misconfiguration in setup of a local environment.</li>
+</ul>
+
+<p>Reaching out as you encounter issues to verify if this is something others have seen can avoid <em>days</em> of time.</p>
+
+<h3 id="you-learn-about-tools-and-techniques">You learn about tools and techniques</h3>
+
+<p>Someone who’s been on the team for a long time will generally have a large collection of command-line tools, browser extensions, and shell scripts to assist with common issues. As someone new to the team, you don’t have that yet, and building those from scratch all by yourself will take time.</p>
+
+<p>Reaching out and seeing how a teammate investigates or fixes an issue can teach you about valuable tools that you may have not been aware of.</p>
+
+<h3 id="learn-about-prior-art">Learn about prior art</h3>
+
+<p>One of the most valuable pieces of knowledge your team has is experience from previous attempts to solve a problem. It’s best to run your ideas to improve the codebase (improved linters, or perhaps a refactor of a particularly hairy piece of code) by someone on the team to see if it hasn’t already been tried.</p>
+
+<h2 id="the-cons">The cons</h2>
+
+<h3 id="losing-out-on-learnings-from-struggling">Losing out on learnings from struggling</h3>
+
+<p>Sometimes, struggling through an issue is good:</p>
+
+<ul>
+  <li>You learn techniques that you wouldn’t have otherwise.</li>
+  <li>You’ll need read through and understand a technology deeply to diagnose.</li>
+  <li>You’ll improve your search-foo and debugging skillset.</li>
+</ul>
+
+<p>And reaching out too quickly can rob you of that opportunity.</p>
+
+<h3 id="randomizing-colleagues">Randomizing colleagues</h3>
+
+<p>Asking your team does come with a cost: it can randomize your teammates from their work.</p>
+
+<p>But consider the cost benefit: ultimately, it benefits the team to have a productive member of the team more than a few one-time randomization costs. The contribution you make as you add new features, fix bugs, and contribute new ideas will easily pay off the hours it takes the other engineers to answer your question.</p>
+
+<p>If you’re really worried about randomizing the team, consider asking questions at dedicated times or around regular events that are already randomizing like standups or sprint planning.</p>
+
+<h2 id="the-compromise-timebox-then-ask">The compromise: timebox then ask</h2>
+
+<p>To try to strike the balance of reaching out and solving problems yourself, try <strong>timeboxing</strong> your investigations: give yourself a set time to investigate and unblock yourself, and ask if you’re still stuck when time is up.</p>
+
+<p>Setting an upper limit on an investigation helps you stay productive while not bugging your colleages too much. Without a timebox, you can get lost in investigation indefinitely: who hasn’t had a bug that they fixed and felt great about, but felt like they took a bit too long?</p>
+
+<h2 id="summary-asking-for-help-is-a-good-thing">Summary: asking for help is a good thing</h2>
+
+<ul>
+  <li>Timebox your investigations: once you hit your limit on investigation, ask for help.</li>
+  <li>Reaching out can help you ramp up quicker.
+    <ul>
+      <li>Ramping up quicker is better for your team.</li>
+    </ul>
+  </li>
+  <li>Reaching out helps you learn tools and techniques you may not learn otherwise.</li>
+  <li>Reaching out can save you days to re-learn knowledge or learnings your team may already have.</li>
+</ul>]]></content><author><name></name></author><category term="swe-tip" /><summary type="html"><![CDATA[One of the most common mistakes I see software engineers make when they start in a role is not reaching out to a teammate sooner: for help, or to throw an idea around.]]></summary></entry><entry><title type="html">Walking desk treadmill</title><link href="https://y.tsutsumi.io/walking-desk-treadmill/" rel="alternate" type="text/html" title="Walking desk treadmill" /><published>2022-01-19T07:00:00+00:00</published><updated>2022-01-19T07:00:00+00:00</updated><id>https://y.tsutsumi.io/walking-desk-treadmill</id><content type="html" xml:base="https://y.tsutsumi.io/walking-desk-treadmill/"><![CDATA[<p>With work from home becoming a likely permanent fixture of my life, and being in front of my computer 8 hours accompanying that, I’ve been looking at ways to try get some exercise in.</p>
+
+<p>So I got a walking treadmill for under my desk.</p>
+
+<p><img src="treadmill-desk.jpg" alt="picture of my treadmill desk setup" /></p>
+
+<h2 id="background">Background</h2>
+
+<p>I’ve been using a standing desk for about 18 months. However, it’s been very difficult to stand for the whole time. My feet would hurt, or I would get restless.</p>
+
+<p>Eventually to help I got a tall office chair, and alternated between that and standing. However, I’d often contort myself in the office chair, and would end up sitting with poor posture for long periods of time.</p>
+
+<p>In addition I’m often in meetings rather than doing deep work, and it’s difficult to sit through meetings for prolonged periods of time. I would get fidgity or find myself drifting to activities on my other monitor, which made me a worse participant in meetings.</p>
+
+<p>I thought that the regular motion required with a walking treadmill would help with my concentration, and keep my body moving throughout the day.</p>
+
+<h2 id="the-treadmill">The Treadmill</h2>
+
+<p>I purchased the <a href="https://www.amazon.com/gp/product/B08FCFYHKL/ref=ppx_yo_dt_b_search_asin_title">Goplus 2 in 1 treadmill</a>.</p>
+
+<h3 id="weight">Weight</h3>
+
+<p>My original goal was to find a treadmill that was light enough that I can move in and out of my desk. the Goplus was one of the lightest I can find, but at 70 pounds, it wasn’t particularly easy to move around. I now leave it under my desk and walk or stand the whole time.</p>
+
+<h3 id="track-area">Track Area</h3>
+
+<p>The dimensions of the walking area is important: it’ll be your walking surface for multiple hours at a time.</p>
+
+<p>The Goplus has an area of 40” by 16”. The 16” isn’t very wide: I’ve had to rotate my hips much more than I would normally when walking. The 40” length hasn’t really been an issue, but doesn’t leave a significant amount of slack.</p>
+
+<h2 id="the-shoes">The Shoes</h2>
+
+<p>When I first walked on my treadmill, I did so in socks, and my feet really started to hurt after 3-4 hours. I tried some <a href="https://www.amazon.com/gp/product/B01N4W17YA/ref=ppx_yo_dt_b_search_asin_title">slip on loafers</a> and it’s helped a lot.</p>
+
+<h2 id="foot-pain">Foot pain</h2>
+
+<p>Since I’ve been using the shoes, I have been able to walk for about 1.5-2 hours without much issue: during days where I’m in meetings all day I don’t really notice fatigue from walking.</p>
+
+<p>The foot pain walking with shoes is actually must lower than standing: I think this is because walking forces you to rotate where the pressure is on your feet, which naturally prevents prolonged stress on any one part.</p>
+
+<h2 id="impact-on-focus">Impact on focus</h2>
+
+<p>Walking in meetings has helped me significantly with focus. The movement prevents me from fidgiting, and the constant use of my mental capacity to walk gives me no choice to focus on only one other task: the meeting itself.</p>
+
+<h2 id="the-routine">The routine</h2>
+
+<p>I started in December at the default pace of 0.6 miles per hour. Over the course of a month, I’ve gone up to walking 0.8 comfortably. And I think I may be able to walk faster.</p>
+
+<p>My routine has a natural break in the middle for lunch: so I walk 2-3 hours in the morning (hopping off a couple of times for snack or bathroom breaks), take the 1 hour break for lunch, and then another 3-4 hours before signing off for the day.</p>
+
+<p>After a couple of weeks, I can do the whole day without a break, but my legs do feel sore and I generally sit or lie down to give my legs rest after work for about an hour. After the break I sometimes hop right back on to do some personal computing tasks: the long stretches that are the most difficult.</p>
+
+<h2 id="what-i-would-do-differently-next-time">What I would do differently next time</h2>
+
+<ul>
+  <li>16” for width on a treadmill is uncomfortable, for my 6’ frame. I would get a wider treadmill.</li>
+</ul>
+
+<h2 id="energy-after-work">Energy after work</h2>
+
+<p>I have more energy after walking all day, and during meetings: I feel more alert since the constant exercise helps keep my blood pumping, and in the same way I feel more energetic after a hard workout, I notice I have more energy after walking.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Although I originally felt a walking treadmill was an excessive addition to my setup, it has helped alleviate a lot of the problems I faced when working in front of my desk for eight hours a day.</p>
+
+<p>After about a month, it feels more natural to me that sitting, and it has had positive impact on my health, both physically and mentally.</p>]]></content><author><name></name></author><category term="gear" /><category term="treadmill" /><summary type="html"><![CDATA[With work from home becoming a likely permanent fixture of my life, and being in front of my computer 8 hours accompanying that, I’ve been looking at ways to try get some exercise in.]]></summary></entry><entry><title type="html">Solving the Four Wizards Puzzle</title><link href="https://y.tsutsumi.io/puzzles/four-wizards" rel="alternate" type="text/html" title="Solving the Four Wizards Puzzle" /><published>2022-01-05T07:00:00+00:00</published><updated>2022-01-05T07:00:00+00:00</updated><id>https://y.tsutsumi.io/puzzles/solving-the-wizards-puzzle</id><content type="html" xml:base="https://y.tsutsumi.io/puzzles/four-wizards"><![CDATA[<p>This is a solution to the “Four Wizards” puzzle. Credit for the puzzle goes to <a href="https://blog.tanyakhovanova.com/2021/12/four-wizards/">Tanya Khovanova</a>, who found it on Facebook.</p>
+
+<p>The puzzle itself is inlined for convenience:</p>
+
+<h2 id="wizards-puzzle-statement">Wizards Puzzle Statement</h2>
+
+<p>Four wizards A, B, C, and D, were given three cards each. They were told that the cards had numbers from 1 to 12 written without repeats. The wizards only knew their own three numbers and had the following exchange.</p>
+
+<p>A: “I have number 8 on one of my cards.”</p>
+
+<p>B: “All my numbers are prime.”</p>
+
+<p>C: “All my numbers are composite. Moreover, they all have a common prime factor.”</p>
+
+<p>D: “Then I know the cards of each of you.”</p>
+
+<p>Given that every wizard told the truth, what cards does A have?</p>
+
+<h2 id="reasoning">Reasoning</h2>
+
+<p>This problem is a great example of deductive reasoning. First, let’s define some terms.</p>
+
+<blockquote>
+  <p>A “composite” number is one that comprises of multiple smaller numbers, excluding 1. Therefore, any non-prime, non-1 number is a composite.</p>
+</blockquote>
+
+<p>Note that C’s cards have to share a common prime factor. Since the numbers only go up to 12, the prime factor options are 2 and 3. A hand that shares a prime factor of 5 would be {5,10,15}, and 15 isn’t a valid card.</p>
+
+<p>With that, we can outline the possible candidates for the cards in each players hands:</p>
+
+<ul>
+  <li>A: definitely 8, possibly 1,2,3,4,5,6,7,9,10,11,12</li>
+  <li>B: possibly 2,3,5,7,11</li>
+  <li>C: 3 out of the set of {6,9,12} (composites of 3) or {4,6,10,12} (composites of 2)</li>
+  <li>D: possibly: 1,2,3,4,5,6,7,9,10,11,12</li>
+</ul>
+
+<p>In order for player D to be able to deduct that hands of A, B, and C, they have to have cards in their hand that allow them to rule out all but one possibility for the other’s hands. This means that player D must have cards in their hand that overlap with possible cards of A, B, and C.</p>
+
+<p>Let’s start with what cards could remove options for player C. Enumerating cards that C and D could both have:</p>
+
+<ul>
+  <li>D has 6: rules out composites of 3, C must have {4,10,12}</li>
+  <li>D has 9 or 12: rules out composites of 3, C must have 3 of {4, 6, 10,12}</li>
+  <li>D has 2 of 4, 6, 10, or 12: rules out composites of 2, leaves composites of 3.</li>
+</ul>
+
+<p>Out of these options, the option that uses the least cards in D’s hands to uniquely identify C’s hand is one card with the value 6: this means C must have {4, 10, 12}.</p>
+
+<p>If we make that assumption, then that leaves 2 cards in D’s hand to uniquely identify B and A’s hand.</p>
+
+<p>Note that for B, there are 5 possible prime numbers. If we take any 2 and put them in D’s hand, then we know what cards are in B’s hand. Note that we don’t need to what the <em>precise</em> primes are in B and D’s hands: we just need to know that, if D had two prime cards in their hand, then they would be able to deduce the three primes in B’s.</p>
+
+<p>So with the D’s hand of 6 and 2 prime numbers, we know exactly what is in B and C’s hands. That leaves A.</p>
+
+<p>Among the set of possibilities that A has:</p>
+
+<blockquote>
+  <p>{8} + 2 x {1,2,3,4,5,6,7,9,10,11,12}</p>
+</blockquote>
+
+<p>We can remove 6 and {4,10,12} that we derived from player C:</p>
+
+<blockquote>
+  <p>{8} + 2x {1,2,3,6,7,9,11}</p>
+</blockquote>
+
+<p>And remove all the prime numbers since they will be in either B or D’s hand:</p>
+
+<blockquote>
+  <p>{8} + 2x {1,9} = {1,8,9}</p>
+</blockquote>
+
+<p>And figure out that A has the cards 1,8 and 9.</p>
+
+<h2 id="solution">Solution</h2>
+
+<p>In summary, the solution is 1,8 and 9. Note that since the question doesn’t ask what cards are in the hands of the other players, there are multiple permutations of cards that could satisfy the problem: namely, the primes can be distributed freely as long as 3 are in B’s hand and 2 are in D’s.</p>]]></content><author><name></name></author><category term="math" /><category term="puzzle" /><summary type="html"><![CDATA[This is a solution to the “Four Wizards” puzzle. Credit for the puzzle goes to Tanya Khovanova, who found it on Facebook.]]></summary></entry><entry><title type="html">My year in words: 2021</title><link href="https://y.tsutsumi.io/my-year/2021" rel="alternate" type="text/html" title="My year in words: 2021" /><published>2021-12-31T07:00:00+00:00</published><updated>2021-12-31T07:00:00+00:00</updated><id>https://y.tsutsumi.io/my-year/my-year-in-words-2021</id><content type="html" xml:base="https://y.tsutsumi.io/my-year/2021"><![CDATA[<h1 id="my-year-in-words-2021">My year in words: 2021</h1>
+
+<h2 id="more-working-remotely">More working remotely</h2>
+
+<p>This year, Google continued it’s optional remote policy, and I continued to opt to work from home a vast majority of the time (I’ve been to the office twice this year).</p>
+
+<p>I’m not strongly opinionated on where I work, but I’ve found I’m highly productive at home: aside from what I mentioned last year with asynchronous communication, I can really maximize my ergonomic setup with equipment that I could never support at the office.</p>
+
+<p>For example, I added a walking treadmill to my setup a couple weeks ago, which has already proven to be a great way to get exercise in and help me stay focused during the multiple meetings I’m attending.</p>
+
+<h2 id="stepping-down-from-opentelemetry">Stepping down from OpenTelemetry</h2>
+
+<p>All good things must come to an end. In January, I stepped down as approver of the opentelemetry-python project. The project as a whole is making amazing progress, and I’m honored to have contributed a small amount.</p>
+
+<h2 id="started-learning-farsi">Started learning Farsi</h2>
+
+<p>My Japanese has improved a bit over the past couple of years, and I felt it was time to pick up Farsi.</p>
+
+<p>I started my lessons in the middle of the year, and I’ve already felt like I’ve progressed significantly. I’m doing weekly lessons with a teacher I found via italki.</p>
+
+<h2 id="continuing-to-learn-japanese">Continuing to learn Japanese</h2>
+
+<p>As my Japanese has progressed quite a bit, I didn’t focus a lot of time on it. I’ve been able to consume most Japanese media and only look up a handful of words every time.</p>
+
+<p>I don’t plan on investing heavily further, beyond continuing to write down vocabularly I don’t know on flash cards and memorize them. I’ve been watching TV such as Hanzawa Naoki and playing games like Judgement. I’m happy with where I’m at, and think the incremental progress I’m making here won’t be worth noting for future years.</p>
+
+<h2 id="diet-continuing-the-vegan-and-low-calorie-path">Diet continuing the vegan and low calorie path</h2>
+
+<p>Last year, I began the transition to a mostly vegan diet, and I’ve attempted to keep that up this year.</p>
+
+<p>I got to the point of two out of three meals a day being vegan (oatmeal and some nuts for breakfast, and <a href="https://huel.com/">huel</a> for lunch), with a pretty random meal in the evening, generally involving some dairy (primarily cheese).</p>
+
+<p>In particular, the breakfast of oatmeal and the lunch of Huel’s Hot and Savory were particularly effective in helping me with better eating habits. The two combined were roughly 800 calories, which, calibrated at a 2000 calorie-a-day target, resulted in 1200 calories that could be used toward my dinner or snacks in between.</p>
+
+<p>The diet also did help curve my cravings for sweets a tiny bit. However, I still haven’t progressed much on eliminating excess sugar from my diet: my sweet tooth is hard to curb.</p>
+
+<h2 id="small-technical-contributions">Small technical contributions</h2>
+
+<p>My free time was mostly focused on my language learning (along with other responsibilities like raising my kids), but I did have some time to play around with some minor technical things:</p>
+
+<ul>
+  <li>I migrated some of my Python projects from my own Uranium build system to Make and pyproject.toml-based projects</li>
+  <li>authored <a href="https://github.com/toumorokoshi/mem-xrandr">mem-xrandr</a> to help me with switching displays.</li>
+  <li>Migrated a personal project from ECS to GKE.</li>
+  <li><a href="https://github.com/kubernetes/kubernetes/pull/100324">merged my first PR into Kubernetes!</a>.</li>
+</ul>
+
+<h2 id="goals-for-2022">Goals for 2022</h2>
+
+<p>2022 will continue to be a year with fairly conservative goals: language learning in particular is considerably more time consuming than I predicted, and I’d like to keep some buffer room in case more difficult tasks pop up to achieve my goal of fluency in Farsi and Japanese.</p>
+
+<p>For 2022, my goals are:</p>
+
+<ul>
+  <li>Improve my Farsi (1 1-hour lesson a week, homework, and memorize flash cards).</li>
+  <li>Continue to consume Japanese books, TV, and games to add new vocabularly.</li>
+  <li>Eliminate excessive added sugar from my regular diet. My goal is to be below 15 grams of added sugar most days.</li>
+  <li>Produce no plastic waste on a normal day for my daily routine (just for items I consume personally, like coffee from a stand).</li>
+  <li>Finish up <a href="https://github.com/toumorokoshi/tome">tome</a> and start evangelizing it more.</li>
+</ul>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>2021 feels like a continuation of 2020 in many ways. But I’m optimistic for 2022: we have to continue to adjust with the world that we live in, and continue to progress toward the next goal of our lives.</p>
+
+<p>Happy New Year!</p>]]></content><author><name></name></author><category term="2021" /><category term="reflection" /><summary type="html"><![CDATA[My year in words: 2021]]></summary></entry><entry><title type="html">Fixing my GPU fan spinning when my laptop sleeps with an eGPU</title><link href="https://y.tsutsumi.io/egpu-gpu-fan-on-sleep/" rel="alternate" type="text/html" title="Fixing my GPU fan spinning when my laptop sleeps with an eGPU" /><published>2021-10-30T07:00:00+00:00</published><updated>2021-10-30T07:00:00+00:00</updated><id>https://y.tsutsumi.io/egpu-gpu-fan-on-sleep</id><content type="html" xml:base="https://y.tsutsumi.io/egpu-gpu-fan-on-sleep/"><![CDATA[<p>Whenever I suspend my Linux machine attached to an eGPU, the GPU in my eGPU would start spinning it’s fan like crazy.</p>
+
+<p>I <em>think</em> it’s because it’s doing some intensive operation, like an aggressive try loop because it can’t connect to the direct device.</p>
+
+<p>I couldn’t figure out how to get the eGPU to do something different, so I started looking at the Linux Kernel.</p>
+
+<p><a href="https://01.org/linuxgraphics/gfx-docs/drm/admin-guide/pm/sleep-states.html">This guide on Linux explains the various sleep states and what they do</a>. I figured out that mine were:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cat /sys/power/mem_sleep
+[s2idle] deep
+</code></pre></div></div>
+
+<p>Which means that by default, my systemd would be sleep to idle, moving devices to low power mode.</p>
+
+<p>I noticed that my Linux installation also supported <code class="language-plaintext highlighter-rouge">deep</code>: in other words: suspend to ram.</p>
+
+<p>I configured <code class="language-plaintext highlighter-rouge">mem_sleep</code> to use deep rather than s2idle:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo bash -c 'echo "deep" &gt; /sys/power/mem_sleep'
+</code></pre></div></div>
+
+<p>And suspend my machine:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo bash -c 'echo "mem" &gt; /sys/power/state'
+</code></pre></div></div>
+
+<p>That did it! No more spinning fan.</p>
+
+<p>The mem sleep type also seems to be what systemd uses for it’s <code class="language-plaintext highlighter-rouge">suspend</code> command, so changing that <code class="language-plaintext highlighter-rouge">mem_sleep</code> config will help that as well.</p>]]></content><author><name></name></author><category term="egpu" /><category term="gpu" /><summary type="html"><![CDATA[Whenever I suspend my Linux machine attached to an eGPU, the GPU in my eGPU would start spinning it’s fan like crazy.]]></summary></entry><entry><title type="html">Flashing an ErgoDox with Linux</title><link href="https://y.tsutsumi.io/flashing-a-keyboard/" rel="alternate" type="text/html" title="Flashing an ErgoDox with Linux" /><published>2021-01-21T07:00:00+00:00</published><updated>2021-01-21T07:00:00+00:00</updated><id>https://y.tsutsumi.io/flashing-a-keyboard</id><content type="html" xml:base="https://y.tsutsumi.io/flashing-a-keyboard/"><![CDATA[<p>This guide talks through:</p>
+
+<ul>
+  <li>configuring a keymap for your ErgoDox</li>
+  <li>flashing an ErgoDox using Linux.</li>
+</ul>
+
+<h2 id="configuring-a-keymap-for-your-ergodox">Configuring a Keymap for your ErgoDox</h2>
+
+<p>I use the <a href="https://config.qmk.fm/#/hotdox/LAYOUT_ergodox">QMK configurator</a> to configure the layout. Note to choose the correct keyboard in the “keyboard” selector:</p>
+
+<p><img src="keyboard-selector.png" alt="keyboard selector dropdown" /></p>
+
+<p>Note the choice. It’ll be used later during when flashing.</p>
+
+<p>Once you have the desired configuration, I like to download the scheme as json:</p>
+
+<ul>
+  <li>It’s human readable, and therefore easy to make small edits.</li>
+  <li>You can upload it back to the configurator to make edits again.</li>
+</ul>
+
+<p><img src="download-as-json-button.png" alt="download as json button" /></p>
+
+<h2 id="flashing-an-ergodox-using-linux">Flashing an ErgoDox using Linux</h2>
+
+<h3 id="1-install-the-qmk-toolkit">1. Install the QMK toolkit</h3>
+
+<p>Follow the <a href="https://docs.qmk.fm/#/newbs_getting_started">instructions on the QMK documentation</a>.</p>
+
+<p>Some distributions have packages, so use your package manager may be able to install it. For example on Arch Linux, there <a href="https://archlinux.org/packages/community/any/qmk/">is a community package</a>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo pacman -S qmk
+</code></pre></div></div>
+
+<p>Once you’ve installed the tools, run <code class="language-plaintext highlighter-rouge">qmk setup</code> once to install it’s prerequisites, such as the qmk firmware loaders:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>qmk setup
+</code></pre></div></div>
+
+<h3 id="2-create-a-new-keymap-for-your-keyboard">2. Create a new keymap for your keyboard</h3>
+
+<p>QMK stores multiple keymaps for a single keyboard. So start by creating one for your own:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>qmk new-keymap -kb $keyboard_name
+</code></pre></div></div>
+
+<p>Where <code class="language-plaintext highlighter-rouge">$keyboard_name</code> is the name of the keyboard from the configuration step.</p>
+
+<p>The output will tell you where the keymap is located on your filesystem:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ qmk new-keymap -kb ergodox_ez
+Keymap Name: yusuke
+Ψ yusuke keymap directory created in: /home/tsutsumi/qmk_firmware/keyboards/ergodox_ez/keymaps/yusuke
+Ψ Compile a firmware with your new keymap by typing:
+
+        qmk compile -kb ergodox_ez -km yusuke
+</code></pre></div></div>
+
+<p>That puts the files that are customized for your keymap into that directory, including a keymap.c file.</p>
+
+<h3 id="3-use-json2c-to-write-the-final-keymap">3. Use json2c to write the final keymap</h3>
+
+<p><code class="language-plaintext highlighter-rouge">qmk json2c</code> parses the QMK json format, and writes out the c file that is expected in the keymap directory. So take the file generated from the configuration step, and use that to write to your newly created keymap:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ qmk json2c $json_file -o /home/tsutsumi/qmk_firmware/keyboards/ergodox_ez/keymaps/yusuke/keymap.c
+Ψ Wrote keymap to /home/tsutsumi/qmk_firmware/keyboards/ergodox_ez/keymaps/yusuke/keymap.c.
+</code></pre></div></div>
+
+<h3 id="4-build-and-load-the-firmware">4. Build and load the firmware</h3>
+
+<p>Now that you have all of the pieces, it’s just a matter of loading and flashing your firmware!</p>
+
+<p>Put your device into <a href="https://docs.qmk.fm/#/newbs_flashing?id=put-your-keyboard-into-dfu-bootloader-mode">DFU  mode</a> while attached to your computer, then compile and flash your firmware:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>qmk compile -kb ergodox_ez -km yusuke
+qmk flash -kb ergodox_ez -km yusuke
+</code></pre></div></div>
+
+<p>You should see something at the end like:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Checking file size of ergodox_ez_yusuke.hex                                                         [OK]
+ * The firmware size is fine - 20916/32256 (64%, 11340 bytes free)
+Teensy Loader, Command Line, Version 2.1
+Read ".build/ergodox_ez_yusuke.hex": 20916 bytes, 64.8% usage
+Waiting for Teensy device...
+ (hint: press the reset button)
+Found HalfKay Bootloader
+Read ".build/ergodox_ez_yusuke.hex": 20916 bytes, 64.8% usage
+Programming....................................................................................................................................................................
+Booting
+</code></pre></div></div>
+
+<p><em>note</em>: there may be prerequisites for compiling / booting for some variations of ErgoDox. For example, for the <a href="https://ergodox-ez.com/">ErgoDox-EZ</a>, I found I needed to install <code class="language-plaintext highlighter-rouge">teensy-loader-cli</code>. I found this out when attempting to flash the device.</p>
+
+<p>And you’re done!</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>That’s it! Enjoy your newly flashed ErgoDox.</p>]]></content><author><name></name></author><category term="keyboard" /><category term="linux" /><category term="coding" /><summary type="html"><![CDATA[This guide talks through:]]></summary></entry><entry><title type="html">How to Build a Hot Dox</title><link href="https://y.tsutsumi.io/building-a-hot-dox/" rel="alternate" type="text/html" title="How to Build a Hot Dox" /><published>2021-01-14T07:00:00+00:00</published><updated>2021-01-14T07:00:00+00:00</updated><id>https://y.tsutsumi.io/building-a-hot-dox</id><content type="html" xml:base="https://y.tsutsumi.io/building-a-hot-dox/"><![CDATA[<p>I recently purchased a <a href="https://www.alpacakeyboards.com/">Hot Dox from Alpaca Keyboards</a>. There are <a href="https://www.keychatter.com/2019/04/09/build-guide-ergodox-76-hot-dox/">instructions</a>, but I wanted to author my own to call out a few details, as well as include some steps on how to add some <a href="/quiet-keyboard/">foam to reduce typing noise</a>.</p>
+
+<h2 id="1-lay-pieces-out-remove-tape">1. Lay pieces out, remove tape</h2>
+
+<p>The Hot Dox has the following pieces per side:</p>
+
+<ul>
+  <li>2 layers of acrylic for the top of the case, above the metal.</li>
+  <li>1 metal piece to hold the keyswitches.</li>
+  <li>2 layers of acrylic for the bottom of the case, below the metal.</li>
+  <li>1 solid piece of acrylic for the actual bottom.</li>
+</ul>
+
+<p>I’ve laid out the pieces side by side. The layers go from the bottom-most on the left, to the top-most on the right:</p>
+
+<p><img src="hot-dox-pieces.png" alt="the pieces of the Hot Dox" /></p>
+
+<p>Before putting the layers together, you should peel off the paper covering the acrylic. I like to remove them as I start assembling, as otherwise dust and other sediments get stuck and it looks ugly in the clear plastic.</p>
+
+<h2 id="2-optional-add-the-module-foam">2. Optional: add the module foam</h2>
+
+<p>If you want a <a href="/quiet-keyboard/">more silent keyboard</a>, you can reduce the noise from the keyswitches by applying some foam in some of the gaps in the case.</p>
+
+<p>With the Hot Dox, I was able to add some <a href="https://kbdfans.com/collections/keyboard-foam/products/kbdfans-module-foam">module foam</a> in between the PCB and the metal switch housing. The foam from Kbdfans comes with an adhesive, which I stuck onto the metal plate rather than the PCB.</p>
+
+<p><img src="hot-dox-foam.png" alt="keyswitch housing with foam" /></p>
+
+<h2 id="3-insert-stabilizers">3. Insert stabilizers</h2>
+
+<p>The Hot Dox comes with keycap stabilizers for the larger key caps. There’s four to build in my set, which are installed into a couple keys on the thumb clusters.</p>
+
+<p>These are costar stabilizers, and I followed <a href="https://www.youtube.com/watch?v=WhRfIuKwqJo">this video</a> to figure out how to build and install them.</p>
+
+<p><img src="hot-dox-stabilizers.png" alt="installing stabilizers" /></p>
+
+<h2 id="4-install-keyswitches">4. Install Keyswitches</h2>
+
+<p>With the foam and stabilizers installed, it’s time to install the keyswitches. Lay the PCB above the foam that comes with the Hot Dox (as to not apply pressure to the underlying electronics), and layer your metal switch housing on top.</p>
+
+<p>Start by pressing in keyswitches from the corners, and working inward. I found with the foam installed, I had to do some extra work to push in the keyswitches through the metal housing into the PCB. Sometimes I had to gently lift the PCB, and press the PCB and keyswitch together to get the keyswitch to actually go in.</p>
+
+<p><img src="hot-dox-keyswitches.png" alt="pcb and metal with keyswitches installed" /></p>
+
+<h2 id="5-verify-keyswitches">5. Verify Keyswitches</h2>
+
+<p>I forgot to snap a photo, but it’s a good time to verify that the keyswitches are actually connected to the PCB. The photo on the <a href="https://www.keychatter.com/2019/04/09/build-guide-ergodox-76-hot-dox/">original guide</a> show you what to look for, but basically you’ll see some thin metal pins sticking through on the bottom of the case, in the little black parts that are below every switch slot.</p>
+
+<p>The tiny sliver of the pin metal is a bit hard to see, so I used a flashlight and also compared the filled slots to ones that were empty.</p>
+
+<h2 id="6-assemble-the-case">6. Assemble the case</h2>
+
+<p>Once the switches are installed, it’s time to layer the acrylic pieces and the metal/pcb together.</p>
+
+<p>Use the order I mentioned above. The main differentiator between the top and the bottom is the notches for the keycaps that are on the top case, and the large gap for the USB slots on the bottom acrylic.</p>
+
+<p>When installing with the foam, I found that the foam was large enough to make it hard to make the acrylic line up with the holes on the PCB. To deal with that, I lightly opened up the acrylic to go around the foam, then pushed the acrylic back to align the holes as I was installing the screws.</p>
+
+<p>If you do the above, be careful not to stretch the acrylic too far: it’s easy to crack.</p>
+
+<h2 id="7-install-the-screws">7. Install the screws</h2>
+
+<p>Once the case has been layered, the next part is to install the screws. The screw bolts (which are flat at the end) belong on the bottom of the keyboard, while the screws themselves are at the top.</p>
+
+<p>Again, this is a little more difficult when installing with foam due to the foam pushing the acrylic out of alignment. So the screws sometimes have to be pushed at different angles.</p>
+
+<h2 id="and-youre-done">And you’re done!</h2>
+
+<p>Once you install the screws, you’re done! You have a fully assembled keyboard.</p>
+
+<p><img src="hot-dox-finished.png" alt="finished keyboard" /></p>
+
+<p>But you don’t have a fully working Hot Dox yet. the next step is to program it. We’ll cover that in a future post.</p>]]></content><author><name></name></author><category term="keyboard" /><summary type="html"><![CDATA[I recently purchased a Hot Dox from Alpaca Keyboards. There are instructions, but I wanted to author my own to call out a few details, as well as include some steps on how to add some foam to reduce typing noise.]]></summary></entry><entry><title type="html">The Quietest Mechanical Keyboard</title><link href="https://y.tsutsumi.io/quiet-keyboard/" rel="alternate" type="text/html" title="The Quietest Mechanical Keyboard" /><published>2021-01-07T07:00:00+00:00</published><updated>2021-01-07T07:00:00+00:00</updated><id>https://y.tsutsumi.io/quiet-keyboard</id><content type="html" xml:base="https://y.tsutsumi.io/quiet-keyboard/"><![CDATA[<h2 id="prologue-getting-muted-in-a-a-video-conference">Prologue: getting muted in a a video conference</h2>
+
+<p>As is the trend for many since 2020, I am working remote, and as a result in a lot of video conferences.</p>
+
+<p>One silver lining with being remote is the ability to take notes: by nature of video conference, you’re in front of the computer, so it’s a lot easier to take notes on your computer without looking like you’re not paying attention.</p>
+
+<p>In one such meeting, I was notified how I was muted in the middle while someone else was talking: it turns out my keyboard noise was quite audible! How embarassing.</p>
+
+<p>So thus started the quest to find the quietest keyboard possible.</p>
+
+<h2 id="whats-causing-the-noise-when-i-type">What’s causing the noise when I type?</h2>
+
+<p>For context: I use an <a href="https://ergodox-ez.com/">ergodox-ez</a>. I didn’t realize it, but <a href="https://www.reddit.com/r/ErgoDoxEZ/comments/9ls494/ergodoxez_case_seems_very_loud/">loud noise with the Ergodox EZ is a common issue</a>.</p>
+
+<p>On the ergodox-ez page, there is a lot of discussion around keyswitches (the thing that detects the key being pressed) and how much they affect noise. I chose the <a href="https://www.cherrymx.de/en/mx-original/mx-brown.html">Cherry MX Browns</a> since they are made to be silent, but still provide a tactile feel.</p>
+
+<p>But after experimenting with different keyboards, removing some pieces, and changing my style, I’ve found that keyswitches are just one piece of the puzzle. The additional factors I found were:</p>
+
+<ul>
+  <li>keycaps: the cap you put on the key switches. Once you put the keycap on, the clacking becomes louder, seemingly due to the resonation of the keys to the bottom of the switch.</li>
+  <li>keyboard housing: the reverberation that occurs in the housing can be significant. This occurs while the key is being pressed, and even once it’s released.</li>
+</ul>
+
+<p>When holding a decibel meter up to where my microphone is during calls, and when typing a single key in a rhythmic fashion, I found that my ErgoDox produces noise of 62.8 decibels (dB) of loudness. My voice talking normally (and also much closer to the mic) is roughly 72 dB.</p>
+
+<p>To be silent for practical purposes, the keyboard would have to produce below 40dB of noise: that’s roughly the loudness of a library.</p>
+
+<h2 id="keyboard-components-in-depth">Keyboard components in depth</h2>
+
+<h3 id="keycaps">Keycaps</h3>
+
+<p>As mentioned previously, keycaps are the cover for a key, and is often marked with the key that would be typed if pressed. A little research shows that <a href="https://geekhack.org/index.php?topic=69537.0">PBT plastic dampens higher frequencies</a>. These seemed to be loud in my case.</p>
+
+<h3 id="o-rings">O-rings</h3>
+
+<p>If your keypresses are loud, it’s common to just add o-rings (plastic rings that wrap the stem of your keycap) rather than brand by new switches. I’ve found the use of o-rings to be hit or miss, but generally they do play a part in reducing the noise of your keypresses, at the cost of the “feel” of your keys (the press feels a little squish at the bottom due to the ring being compressed rather than hitting whatever bottom it normally does).</p>
+
+<h3 id="key-switches">Key switches</h3>
+
+<p>Key Switches are the mechanical components which are responsible for “actuation”, in other words registering a key press.</p>
+
+<p>There are a few general properties that can be used to categorize switches:</p>
+
+<h4 id="clicky-or-silent">Clicky or silent</h4>
+
+<p>If the switch is clicky, then the actuation includes a purposeful “click” sound. The click is actually not necessary to register the key press.</p>
+
+<h4 id="tactile-or-linear">Tactile or linear</h4>
+
+<p>For silent switches, tactile switches include physical feedback when the key is actuated. You feel a little resistance, and once that gives way you know you’ve pressed the button.</p>
+
+<p>With a linear switch, the resistance is the same all the way through, which doesn’t give you a way to physically determine when the press was made.</p>
+
+<h4 id="travel-distance">Travel distance</h4>
+
+<p>The distance the switch travels between pressed and unpressed. Typically a few millimeters.</p>
+
+<h4 id="actuation-force">Actuation force</h4>
+
+<p>The total amount of force that must be applied to actuate the switch. The key will feel harder to press if the actuation force is higher.</p>
+
+<h4 id="my-conclusion-on-switches">My Conclusion on Switches</h4>
+
+<p>I chose a switch with:</p>
+
+<ul>
+  <li>highest possible actuation force and travel distance. I tend to hit keys quite hard, and to minimize sound I need to try to actuate the key, but not actually “bottom out” and have my switch hit the bottom.</li>
+  <li>Silent and linear attributes. Silent since the whole goal is to not make sound, and I found through testing that silent tactile switches result in additional noise when you hit the tactile feedback. The linear has no such noise.</li>
+</ul>
+
+<p>For the switch brand themselves, I found that Cherry MX, Gateron, and Kailh brand switches made roughly the same amount of noise. However, the <a href="https://zealpc.net/products/healio">ZealPC Healios</a> were orders of magnitude quieter in my HotDox. I’m not sure on exactly why, but it was impressive. Combined with the fact that they were linear switches, the Healios were the winner.</p>
+
+<h3 id="keyboard-housing">Keyboard housing</h3>
+
+<p>The keyboard housing played a big part, based on my experiments (details below).</p>
+
+<p>Housings that had less air inside produced less noise, since there wasn’t space for reverberation and the force of the keypress was more dampened by the material the keybaord was on.</p>
+
+<p>Based on reviews, I read that the <a href="https://www.alpacakeyboards.com/">Hot Dox</a> keyboard was very silent (acrylic case with very little empty space inside). To further reduce any chance of reverberation, I added some <a href="https://kbdfans.com/collections/keyboard-foam/products/kbdfans-module-foam">EVA foam</a> to fill the space between the PCB and the metallic cover on top.</p>
+
+<p>There is also a material called <a href="https://www.sorbothane.com/">Sorbothane</a> that dampens things even better than foam, but I didn’t go that route because it would require hand-cutting it, and the material is hard to cut. If I tried to cut it without special equipment, I would probably end up with a rather uneven and unpleasent look.</p>
+
+<h3 id="material-keyboard-is-on">Material keyboard is on</h3>
+
+<p>I also found that the material the keyboard is on made a difference, although of a couple decibels. Typing on hard wood was louder. I read that using a keyboard / mousepad mat and putting your keyboard on top helps, so I purchased <a href="https://www.amazon.com/gp/product/B014CP231W/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&amp;psc=1">a cheap one on Amazon</a>.</p>
+
+<h2 id="experiments-with-different-scenarios">Experiments with different scenarios</h2>
+
+<p>To verify what I read, I tried to take some measurements with the loudness of various keyboards and configurations.</p>
+
+<p>Although I originally tried to test the various scenarios with a decibel app on my phone, I found that the sensitivity wasn’t good enough to capture even relative differences between the different configurations. So I purchased a real decibel meter.</p>
+
+<p>To measure the volume, I hovered the decibel meter about 3cm directly above the key being pressed. I pressed with the same rhythm, setting the decibel to “max” setting to capture the loudest the keypress ever is.</p>
+
+<p>All experiments were with PBT Keycaps.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Volume</th>
+      <th>Keyboard Model</th>
+      <th>Switches</th>
+      <th>With o-ring?</th>
+      <th>With Mat?</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>72.9 dB</td>
+      <td>ErgoDox</td>
+      <td>Cherry MX Brown</td>
+      <td>no</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <td>69.2 dB</td>
+      <td>ErgoDox</td>
+      <td>Cherry MX Brown</td>
+      <td>no</td>
+      <td>yes</td>
+    </tr>
+    <tr>
+      <td>62 dB</td>
+      <td>HotDox</td>
+      <td>Gateron Whites</td>
+      <td>no</td>
+      <td>yes</td>
+    </tr>
+    <tr>
+      <td>61.5 dB</td>
+      <td>ErgoDox</td>
+      <td>Helios</td>
+      <td>no</td>
+      <td>yes</td>
+    </tr>
+    <tr>
+      <td>57.5 dB</td>
+      <td>HotDox</td>
+      <td>Helios</td>
+      <td>yes</td>
+      <td>yes</td>
+    </tr>
+    <tr>
+      <td>53.9 dB</td>
+      <td>HP Spectre X360 Keyboard</td>
+      <td>n/a (built-in scissor)</td>
+      <td>n/a</td>
+      <td>yes</td>
+    </tr>
+    <tr>
+      <td>52.9 dB</td>
+      <td>HotDox</td>
+      <td>Helios</td>
+      <td>no</td>
+      <td>yes</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>I started with a keyboard that was very loud (72.9 decibels), and was able to finish with a setup that was roughly 20dB quieter! Although the real noise reduction may be lower due to the microphone being more than 3cm away from the keyboard, the relative comparison is going from a noisy restaurant (70db) to a quiet office (50db).</p>
+
+<p>My final build is:</p>
+
+<ul>
+  <li>PBT keycaps (my particular set is no longer made, so no link)</li>
+  <li><a href="https://zealpc.net/products/healio">ZealPC Healios switches</a></li>
+  <li><a href="https://www.alpacakeyboards.com/">HotDox case + PDB</a></li>
+  <li><a href="https://kbdfans.com/collections/keyboard-foam/products/kbdfans-module-foam">Foam between metal slots and PCB</a></li>
+  <li><a href="https://www.amazon.com/gp/product/B014CP231W/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&amp;psc=1">XXL mousepad below keyboard</a></li>
+</ul>
+
+<p><img src="final-build.png" alt="final keyboard build" /></p>
+
+<p>And the verdict during meetings? No one has muted me yet!</p>]]></content><author><name></name></author><category term="keyboard" /><category term="gear" /><category term="coding" /><summary type="html"><![CDATA[Prologue: getting muted in a a video conference]]></summary></entry><entry><title type="html">My year in words: 2020</title><link href="https://y.tsutsumi.io/my-year/2020" rel="alternate" type="text/html" title="My year in words: 2020" /><published>2020-12-31T07:00:00+00:00</published><updated>2020-12-31T07:00:00+00:00</updated><id>https://y.tsutsumi.io/my-year/my-year-in-words-2020</id><content type="html" xml:base="https://y.tsutsumi.io/my-year/2020"><![CDATA[<h1 id="my-year-in-words-2020">My year in words: 2020</h1>
+
+<p><em>note</em>: this is the first of this series, so you won’t find entries before 2020.</p>
+
+<p>Although 2020 was a hard year for the world, I focus my post primarily on my projects outside of that.</p>
+
+<h2 id="working-remotely">Working remotely</h2>
+
+<p>Like many in the US, I’ve been working remotely since March. By the time the work from home situation had begun, I had already duplicated my ideal work equipment at home: 2 4K monitors, a standing desk, and a desktop that was better than my work-issued laptop.</p>
+
+<p>Google’s laptop did require me to <a href="https://y.tsutsumi.io/2020/08/15/egpu-linux-core-x-chroma/">add an eGPU</a>, but after some hassle things worked well.</p>
+
+<p>In some areas, I think working from home has improved my productivity. As a manager time management is key, and being readily available to everyone (not just my team) meant very little time to deep work.</p>
+
+<p>With remote, many threads moved to e-mail or chat, and video conferences were used in cases where consensus could not be quickly reached. As a result, I have been able to defragment my focus time and my random communication time. With more focus time, I’ve been able to write more documents, leave more thoughtful comments on others, and actually code a little bit!</p>
+
+<h2 id="contributing-to-opentelemetry">Contributing to OpenTelemetry</h2>
+
+<p>In the first half of the year, I was contributing to <a href="https://opentelemetry.io/">OpenTelemetry</a> as a maintainer of <a href="https://github.com/open-telemetry/opentelemetry-python">opentelemetry-python</a>. I found the work really rewarding, and it was great talking to others in the industry around monitoring and instrumentation of applications.</p>
+
+<p>In July, I moved from Zillow to Google, which came with it a shift away from monitoring as a focus. I had to step down as a maintainer, and have been an approver since, generally just reviewing PRs and small contributions.</p>
+
+<p>Unfortunately I don’t see my involvement increasing in 2021, but I’m very thankful of the opportunity to be a part of a project that is filling a sorely needed gap in the open source community.</p>
+
+<h2 id="going-mostly-vegan">Going (mostly) vegan</h2>
+
+<p><a href="https://y.tsutsumi.io/2020/03/04/book-report-the-blue-zones/">The Blue Zones</a>, aggregates commonalities with areas of extreme longevity, and provides a great blueprint for living a long, satisfying life. I tried to incorporate some of those habits into my routine.</p>
+
+<p>One aspect was the almost exclusively vegan diet: many blue zones only eat meat once a year or less. The most frequent was once a week.</p>
+
+<p>I significantly modified my diet from frequently pescetarian to mostly vegan:</p>
+
+<ul>
+  <li>Reduced meat consumption: have fish for a meal at most a couple times a month</li>
+  <li>Lunch: most days is a salad, or a similar meal with beans and greens</li>
+</ul>
+
+<p>I’ve also reduced sugary foods, eliminating sugary coffee drinks (I used to drink one daily).</p>
+
+<p>As a final change, I’m also attempting to “intermittently fast” for 12 hours a day. There’s no scientifically proven health benefit, although it does give a lot more time for teeth to recover from the constant acid bath it encounters when eating foods.</p>
+
+<h2 id="waking-up-at-6am">Waking up at 6am</h2>
+
+<p>It’s also been difficult to find some time to focus, juggling family and work. To that end, I’ve bitten the bullet and started waking up early.</p>
+
+<p>It’s been great so far. I’m able to get uninterrupted focus time and I’m doing work when I’m at my most rested. As a result, I’ve been able to get back to writing a bit more code, or blogging, or whatever learning activity interests me.</p>
+
+<h2 id="japanese-lessons-and-studying">Japanese Lessons and Studying</h2>
+
+<p>One of my major goals this year was improving my Japanese. I want my two children to be fluent, and I’ve found my own Japanese lacking.</p>
+
+<p>I started using <a href="https://www.italki.com/">italki</a> for conversational practice, half an hour once a week. In addition, I read a chapter of Japanese manga a day, adding words I don’t know into my flashcard application.</p>
+
+<p>This takes about 30 minutes to an hour a day to keep up, but It’s been helping my Japanese immensely. That said, I have a long way to go, with each chapter of Manga introducing at least a word or two that I don’t know the meaning of before. My current flash card count for Japanese sits at 1,150 words, and counting.</p>
+
+<h2 id="books">Books</h2>
+
+<p>I had barely any time for books, but audiobooks and a little nighttime reading helped a bit.</p>
+
+<ul>
+  <li><a href="https://y.tsutsumi.io/2020/03/04/book-report-the-blue-zones/">The Blue Zones</a></li>
+  <li><a href="https://www.barnesandnoble.com/w/the-unicorn-project-gene-kim/1133048981">The Unicorn Project by Gene Kim</a></li>
+  <li>Dune by Frank Herbert</li>
+</ul>
+
+<h2 id="video-games">Video Games</h2>
+
+<p>The past few years I’ve been playing fewer games, but last year I received a Nintendo Switch, which has made games much more readily available to play for 10 minutes her and there.</p>
+
+<ul>
+  <li><a href="https://store.steampowered.com/app/447530/VA11_HallA_Cyberpunk_Bartender_Action/">VA-11 Hall-A: Cyberpunk Bartender Action</a></li>
+  <li><a href="https://store.steampowered.com/app/1057540/Cthulhu_Saves_Christmas/">Cthulu Saves Christmas</a></li>
+  <li>Animal Crossing New Horizons</li>
+  <li>Super Mario U Deluxe</li>
+</ul>
+
+<h2 id="goals-for-2021">Goals for 2021</h2>
+
+<p>I use a modified <a href="https://bulletjournal.com/">Bullet Journal Method</a> to take notes and log my daily activites, and one aspect of that process is writing down a small list of long term goals to focus on for that year or month. I’ve found t</p>
+
+<p>For 2021, my goals are:</p>
+
+<ul>
+  <li>Improve my Japanese.</li>
+  <li>Depending on whether I no longer have new Japanese words I need to memorize daily, I’d like to begin to learn Farsi (my in-laws speak it).</li>
+  <li>Learn to sight-play music on the piano.</li>
+  <li>Continue to contribute to the <a href="https://github.com/open-telemetry/opentelemetry-python">OpenTelemetry project</a> as an approver, at least until the API and SDK reach GA.</li>
+</ul>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>This has been a difficult year in most ways, and I hope that 2021 is better. But it’s important to make sure we remember both the good and the bad.</p>]]></content><author><name></name></author><category term="2020" /><category term="reflection" /><summary type="html"><![CDATA[My year in words: 2020]]></summary></entry></feed>
