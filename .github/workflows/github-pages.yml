@@ -24,6 +24,8 @@ jobs:
           DROPBOX_ACCESS_TOKEN: ${{secrets.DROPBOX_ACCESS_TOKEN}}
       - name: install dependencies
         run: sudo apt install -y npm && npm install -g mermaid.cli
+      - name: test-mmdc
+        run: mmdc --help
       - uses: helaili/jekyll-action@2.0.3
         env:
           JEKYLL_PAT: ${{secrets.JEKYLL_PAT}}
