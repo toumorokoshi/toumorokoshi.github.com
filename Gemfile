@@ -24,6 +24,7 @@ group :jekyll_plugins do
  gem 'jekyll-paginate'
  gem 'jekyll-postfiles'
  gem 'jekyll-redirect-from'
+ gem 'jekyll-remote-theme'
  gem 'jekyll-tagging'
 end
 

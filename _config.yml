@@ -30,7 +30,7 @@ github_username:  toumorokoshi
 permalink: /:year/:month/:day/:slug/
 
 # Build settings
-theme: minima
+remote_theme: jekyll/minima
 plugins:
   - jekyll-feed
   - jekyll-diagrams
@@ -38,16 +38,12 @@ plugins:
   - jekyll-redirect-from
 feed:
   path: feed/index.xml
-# Stopped using disqus because they have a lot of tracking they install, and
-# it hurts the perf of the page a bit. Going to try to
-# supplement this with Hackernews.
-# disqus:
-#   shortname: tsutsumi
+# Disqus is ad-supported and includes telemetry, so
+# only load it if people opt-in.
+disqus:
+  shortname: tsutsumi
 
-jekyll_analytics:
-  GoogleAnalytics:
-    id: UA-29270527-2
-    anonymizeIp: true
+google_analytics: G-325KP61WS9
 
 header_pages:
   - pages/resources.md
