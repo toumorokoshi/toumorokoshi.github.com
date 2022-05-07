@@ -22,13 +22,14 @@
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" /><script async src="https://www.googletagmanager.com/gtag/js?id=G-325KP61WS9"></script>
 <script>
-    window['ga-disable-G-325KP61WS9'] = window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
+  window['ga-disable-G-325KP61WS9'] = window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-    gtag('config', 'G-325KP61WS9');
+  gtag('config', 'G-325KP61WS9');
 </script>
+
 </head>
 <body><header class="site-header">
 
@@ -66,8 +67,8 @@
         }
     </style>
 </header><main class="page-content" aria-label="Content">
-        <div class="wrapper">
-            <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
     <header class="post-header">
         <h1 class="post-title p-name" itemprop="name headline">Tech Notes: Debugging LLVM + Rust</h1>
@@ -181,7 +182,7 @@ BranchProbabilityInfo::updatePostDominatedByUnreachable(const BasicBlock *BB) {
 <p>Fixing the blocks to only have terminators did indeed fix the issue! Ultimately figuring out that a validator existed, and heeding it’s error messages lead to the solution.</p>
 
 <p>https://github.com/toumorokoshi/disp/commit/1591788b8fc1871f1211c8ae6114e4d9a3fdf397</p>
-    </div><a href="" onclick="loadDisqus()">click to load comments via Disqus (ad supported and will cause tracking to load.
+    </div><a href="#0" onclick="loadDisqus()">click to load comments via Disqus (ad supported and will cause tracking to load.
     requires javascript).</a>
 <div id="disqus_thread"></div>
 <script>
@@ -201,7 +202,7 @@ BranchProbabilityInfo::updatePostDominatedByUnreachable(const BasicBlock *BB) {
 </script>
 <noscript>no comments avaialable with Javascript disabled.</noscript><a class="u-url" href="/2019/04/12/tech-notes-debugging-llvm-rust/" hidden></a>
 </article>
-        </div>
+      </div>
     </main><footer class="site-footer h-card">
     <data class="u-url" href="/%20/"></data>
 
