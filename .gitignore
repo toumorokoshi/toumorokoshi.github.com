@@ -48,5 +48,6 @@ _site
 _posts
 _drafts
 *.md
-assets
+assets/*
+!assets/css
 vendor
