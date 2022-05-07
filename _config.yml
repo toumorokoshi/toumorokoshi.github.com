@@ -30,7 +30,7 @@ github_username:  toumorokoshi
 permalink: /:year/:month/:day/:slug/
 
 # Build settings
-remote_theme: jekyll/minima
+theme: minima
 plugins:
   - jekyll-feed
   - jekyll-diagrams
