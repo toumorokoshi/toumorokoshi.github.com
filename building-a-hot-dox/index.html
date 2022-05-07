@@ -19,20 +19,16 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2021-01-14T07:00:00+00:00","datePublished":"2021-01-14T07:00:00+00:00","description":"I recently purchased a Hot Dox from Alpaca Keyboards. There are instructions, but I wanted to author my own to call out a few details, as well as include some steps on how to add some foam to reduce typing noise.","headline":"How to Build a Hot Dox","mainEntityOfPage":{"@type":"WebPage","@id":"https://y.tsutsumi.io/building-a-hot-dox/"},"url":"https://y.tsutsumi.io/building-a-hot-dox/"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" />
-    <!-- Google Analytics -->
-    <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" /><script async src="https://www.googletagmanager.com/gtag/js?id=G-325KP61WS9"></script>
+<script>
+    window['ga-disable-G-325KP61WS9'] = window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
 
-    ga('create', 'UA-29270527-2', 'auto');
-	ga('send', 'pageview', { 'page': location.pathname + location.search + location.hash});
-	ga('set', 'anonymizeIp', true);
-    </script>
-    <!-- End Google Analytics -->
-    </head>
+    gtag('config', 'G-325KP61WS9');
+</script>
+</head>
 <body><header class="site-header">
 
     <div class="wrapper"><a class="site-title" rel="author" href="/">Yusuke Tsutsumi</a><nav class="site-nav">
@@ -152,7 +148,25 @@
 <p><img src="hot-dox-finished.png" alt="finished keyboard" /></p>
 
 <p>But you don’t have a fully working Hot Dox yet. the next step is to program it. We’ll cover that in a future post.</p>
-    </div><a class="u-url" href="/building-a-hot-dox/" hidden></a>
+    </div><a href="" onclick="loadDisqus()">click to load comments via Disqus (ad supported and will cause tracking to load.
+    requires javascript).</a>
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://y.tsutsumi.io/building-a-hot-dox/';
+        this.page.identifier = '/building-a-hot-dox/';
+    };
+
+    function loadDisqus() {
+        var d = document, s = d.createElement('script');
+
+        s.src = 'https://tsutsumi.disqus.com/embed.js';
+
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    }
+</script>
+<noscript>no comments avaialable with Javascript disabled.</noscript><a class="u-url" href="/building-a-hot-dox/" hidden></a>
 </article>
         </div>
     </main><footer class="site-footer h-card">
@@ -179,7 +193,7 @@
             </div>
         </div>
 
-        <div class="social-links"><ul class="social-media-list"><li><a href="https://github.com/toumorokoshi"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">toumorokoshi</span></a></li><li><a href="https://www.twitter.com/tsutsumiyusuke"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">tsutsumiyusuke</span></a></li></ul>
+        <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/toumorokoshi" target="_blank" title="toumorokoshi"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/yusuke-tsutsumi" target="_blank" title="yusuke-tsutsumi"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/tsutsumiyusuke" target="_blank" title="tsutsumiyusuke"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
 </div>
 
     </div>

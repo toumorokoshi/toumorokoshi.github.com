@@ -20,20 +20,16 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"toumorokoshi"},"dateModified":"2020-02-04T05:42:08+00:00","datePublished":"2020-02-04T05:42:08+00:00","description":"Over the past two or three days, I spent some deep work time on writing pelican-export, a tool to export posts from the pelican static blog creator to WordPress (with some easy hooks to add more). Overall I was happy with the project, not only because it was successful, but because I was able to get to something complete in a pretty short period of time: 6 hours. Reflecting, I owe this to the techniques I’ve learned to prototype quickly.","headline":"Crafting pelican-export in 6 hours.","mainEntityOfPage":{"@type":"WebPage","@id":"https://y.tsutsumi.io/2020/02/04/the-process-of-crafting-pelican-export-in-6-hours/"},"url":"https://y.tsutsumi.io/2020/02/04/the-process-of-crafting-pelican-export-in-6-hours/"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" />
-    <!-- Google Analytics -->
-    <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" /><script async src="https://www.googletagmanager.com/gtag/js?id=G-325KP61WS9"></script>
+<script>
+    window['ga-disable-G-325KP61WS9'] = window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
 
-    ga('create', 'UA-29270527-2', 'auto');
-	ga('send', 'pageview', { 'page': location.pathname + location.search + location.hash});
-	ga('set', 'anonymizeIp', true);
-    </script>
-    <!-- End Google Analytics -->
-    </head>
+    gtag('config', 'G-325KP61WS9');
+</script>
+</head>
 <body><header class="site-header">
 
     <div class="wrapper"><a class="site-title" rel="author" href="/">Yusuke Tsutsumi</a><nav class="site-nav">
@@ -165,7 +161,25 @@
 </ul>
 
 <p>There was also a fair bit of Python expertise that I used to drive down the coding time, but what’s interesting is the biggest contributors to time savings were process: knowing the tricks on taking the right code approach, and iterating quickly, helped me get this done in effectively a single work day.</p>
-    </div><a class="u-url" href="/2020/02/04/the-process-of-crafting-pelican-export-in-6-hours/" hidden></a>
+    </div><a href="" onclick="loadDisqus()">click to load comments via Disqus (ad supported and will cause tracking to load.
+    requires javascript).</a>
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://y.tsutsumi.io/2020/02/04/the-process-of-crafting-pelican-export-in-6-hours/';
+        this.page.identifier = '/2020/02/04/the-process-of-crafting-pelican-export-in-6-hours/';
+    };
+
+    function loadDisqus() {
+        var d = document, s = d.createElement('script');
+
+        s.src = 'https://tsutsumi.disqus.com/embed.js';
+
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    }
+</script>
+<noscript>no comments avaialable with Javascript disabled.</noscript><a class="u-url" href="/2020/02/04/the-process-of-crafting-pelican-export-in-6-hours/" hidden></a>
 </article>
         </div>
     </main><footer class="site-footer h-card">
@@ -192,7 +206,7 @@
             </div>
         </div>
 
-        <div class="social-links"><ul class="social-media-list"><li><a href="https://github.com/toumorokoshi"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">toumorokoshi</span></a></li><li><a href="https://www.twitter.com/tsutsumiyusuke"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">tsutsumiyusuke</span></a></li></ul>
+        <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/toumorokoshi" target="_blank" title="toumorokoshi"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/yusuke-tsutsumi" target="_blank" title="yusuke-tsutsumi"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/tsutsumiyusuke" target="_blank" title="tsutsumiyusuke"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
 </div>
 
     </div>
