@@ -1,4 +1,114 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2022-05-20T00:42:52+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Don’t introduce a V2 API</title><link href="https://y.tsutsumi.io/no-v2-apis/" rel="alternate" type="text/html" title="Don’t introduce a V2 API" /><published>2022-05-01T07:00:00+00:00</published><updated>2022-05-01T07:00:00+00:00</updated><id>https://y.tsutsumi.io/no-v2-apis</id><content type="html" xml:base="https://y.tsutsumi.io/no-v2-apis/"><![CDATA[<p>It’s time for a blanket statement: <strong>users will prefer improving extending existing API versions over adopting a new version due to a backwards-incompatible change</strong>.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2022-05-21T00:39:05+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Introducing Tome: covert directories of scripts to an auto-completable, single command</title><link href="https://y.tsutsumi.io/introducing-tome/" rel="alternate" type="text/html" title="Introducing Tome: covert directories of scripts to an auto-completable, single command" /><published>2022-05-20T07:00:00+00:00</published><updated>2022-05-20T07:00:00+00:00</updated><id>https://y.tsutsumi.io/introducing-tome</id><content type="html" xml:base="https://y.tsutsumi.io/introducing-tome/"><![CDATA[<p>Today I’m happy to introduce <a href="https://tome-scripts.readthedocs.org/">Tome</a>, a CLI generator that takes directories of shell scripts and bundles them under a single command, complete with auto-completion, help text, and more.</p>
+
+<p>Here is a quick demo of creating some scripts in a directory, and a command <code class="language-plaintext highlighter-rouge">s</code> from it:</p>
+
+<p><img src="https://github.com/toumorokoshi/tome/raw/master/demo.gif" alt="demo of Tome" /></p>
+
+<p>You can find the <a href="https://tome-scripts.readthedocs.io/en/latest/">documentation here</a>, and the <a href="https://github.com/toumorokoshi/tome">source code</a> and <a href="https://github.com/toumorokoshi/tome/releases">releases</a> on GitHub.</p>
+
+<p>Give it a try and please file bugs or give feedback!</p>
+
+<p>That’s really what this post is all about, but if you want to hear more about why and the history, read on.</p>
+
+<h2 id="the-beginning-using-sub-at-zillow">The beginning: using sub at Zillow</h2>
+
+<p>In 2011, I worked at Zillow, as a relatively new engineer obsessed with efficiency. I loved writing little scripts that helped simplify my workflow, such as:</p>
+
+<ul>
+  <li>configuring environment variables to work with our development environment.</li>
+  <li>installation of binaries that were required locally.</li>
+  <li>starting up our web server monolith.</li>
+</ul>
+
+<p>At the time, there were a lot of small things that needed to be done to start developing.</p>
+
+<p>Eventually someone posted about <a href="https://github.com/qrush/sub">sub</a> in our engineering mailing list, which was created by 37 Signals, a company also obsessed with the developer experience and had a bit of a following at Zillow.</p>
+
+<p>Sub was a great tool: it provided the ability to bootstrap a single command from a directory of scripts, and I saw an opportunity to use this to create a community-owned pool of scripts to help Zillow developers be productive and share productivity tooling as well. I created a git repository, called it <a href="https://www.zillow.com/tech/dev-bootstrapping-zb-zillows-swiss-army-knife/">zb</a>, and shared it with the other engineers. Zillow-bootstrap did some other things too (like local environment setup with some Python scripts), but the <code class="language-plaintext highlighter-rouge">zb</code> commands were the most famous.</p>
+
+<p>zb was used for years at Zillow after that. We even <a href="https://github.com/zillow/sub">forked the code</a> and added some features like shell script sourcing, which enables setting environment variables in the parent executing the command.</p>
+
+<h2 id="using-sub-personally">Using sub personally</h2>
+
+<p>On top of usage at an organization, I found sub to be very useful for my <a href="https://github.com/toumorokoshi/ytlaces/tree/master/files/cookbook">own scripts as well</a>. Single-letter directories help me quickly navigate to the commands that are the most useful, and provide some namespacing.</p>
+
+<p>I call this <code class="language-plaintext highlighter-rouge">s</code> in my setup, short for sub.</p>
+
+<h2 id="challenges-with-sub">Challenges with sub</h2>
+
+<p>sub itself was fairly stable for a while, but it had some challenges.</p>
+
+<h3 id="sub-was-designed-for-forking">Sub was designed for forking</h3>
+
+<p>Sub’s design expects the user to fork the whole repository to generate your own command. This coupling of the <strong>user’s</strong> scripts with the scripts of the core sub command made it difficult to stay up to date, due to dealing with merge conflicts and mapping variables that were renamed to initialize the script.</p>
+
+<h3 id="sub-was-written-in-bash">Sub was written in bash</h3>
+
+<p>sub was written in bash, and in particular relies on commands that are generated to build functionality like completion, etc. It makes the code hard to reason about.</p>
+
+<p>In addition, bash is not the most performant language in the world, so more complex commands can become slower. Here’s the amount of time it takes to call <code class="language-plaintext highlighter-rouge">sub</code>, which maps to <code class="language-plaintext highlighter-rouge">help</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ time sub
+real    0m0.122s
+user    0m0.081s
+sys     0m0.053s
+</code></pre></div></div>
+
+<p>Considering I may invoke sub hundreds of times in my day, even gaining 50 milliseconds per command would save me a few minutes a day. I think in practice this doesn’t mean a lot, but to the performance-obsessed, any opportunity for optimization looks promising.</p>
+
+<h2 id="creating-tome">Creating Tome</h2>
+
+<p>One of the best parts of sub is its simplicity and minimal set of functionality, which made it an appealing project for a re-write! After a couple of months, <a href="https://github.com/toumorokoshi/tome">Tome</a> was born.</p>
+
+<p>Tome addresses the challenges above :</p>
+
+<ul>
+  <li>written in Rust, enabling incredibly low overhead on top of the underlying scripts.</li>
+  <li>complete separation of the commands themselves (instances) and the core functionality that drives it (added into <code class="language-plaintext highlighter-rouge">tome</code>).</li>
+  <li>some other features contributed like fish support (thanks <a href="https://github.com/zph">Zander Hill</a>!).</li>
+</ul>
+
+<p>The initialization is straightforward as well: add <code class="language-plaintext highlighter-rouge">tome</code> to your path after <a href="https://github.com/toumorokoshi/tome/releases">downloading it from the releases</a>, and initialize with a one-liner in your rc file:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>eval "$(tome init my-commands ~/my-scripts zsh)"
+</code></pre></div></div>
+
+<p>where</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">my-commands</code> is the command you want to make (I recommend a short, 1-2 character acronym to not type a lot).</li>
+  <li><code class="language-plaintext highlighter-rouge">~/my-scripts</code> is the directory with the scripts and directories.</li>
+  <li><code class="language-plaintext highlighter-rouge">zsh</code> should be replaced with the shell you are invoking.</li>
+</ul>
+
+<p>In particular I’m very happy with the choice of Rust: it enables fairly portable static binaries, as well as a significant boost in performance:</p>
+
+<p>Example of calling help using tome (rust):</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ time s
+real    0m0.003s
+user    0m0.003s
+sys     0m0.000s
+</code></pre></div></div>
+
+<p>Recall the 100ms+ time when using sub above.</p>
+
+<p>One of the last things I did before I left Zillow was switch us over to use Tome, although in the 2 years since then It could very well be that Zillow-bootstrap use has decreased significantly: the Zillow tech stack was rapidly modernizing, and then eliminated the need for many of the scripts that were used to bootstrap the dev environment.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<ul>
+  <li>Tome was inspired by Sub, which was heavily used at Zillow.</li>
+  <li>There were some difficulties in development and shortcomings in features.
+    <ul>
+      <li>Using bash as the language it was written in had performance and maintenance overhead.</li>
+      <li>It was built to be forked, which made it difficult to keep forked command up to date.</li>
+    </ul>
+  </li>
+  <li>Tome was written to address those, and has much lower performance overhead as well as features like Fish completion!</li>
+</ul>
+
+<p>That’s it! Please give Tome a try.</p>]]></content><author><name></name></author><category term="coding" /><category term="my-projects" /><summary type="html"><![CDATA[Today I’m happy to introduce Tome, a CLI generator that takes directories of shell scripts and bundles them under a single command, complete with auto-completion, help text, and more.]]></summary></entry><entry><title type="html">Don’t introduce a V2 API</title><link href="https://y.tsutsumi.io/no-v2-apis/" rel="alternate" type="text/html" title="Don’t introduce a V2 API" /><published>2022-05-01T07:00:00+00:00</published><updated>2022-05-01T07:00:00+00:00</updated><id>https://y.tsutsumi.io/no-v2-apis</id><content type="html" xml:base="https://y.tsutsumi.io/no-v2-apis/"><![CDATA[<p>It’s time for a blanket statement: <strong>users will prefer improving extending existing API versions over adopting a new version due to a backwards-incompatible change</strong>.</p>
 
 <p>The reason: the cost to the user to start using the next version of the API is larger than any value they would derive from that next version alone (e.g. sans new features).</p>
 
@@ -51,7 +161,7 @@
 </ul>
 
 <div class="jekyll-diagrams diagrams mermaid">
-  <svg id="mermaid-1653007374891" width="100%" xmlns="http://www.w3.org/2000/svg" style="max-width: 434.140625px;" viewBox="0 0 434.140625 54"><style>#mermaid-1653007374891 .label{font-family:trebuchet ms,verdana,arial;color:#333}#mermaid-1653007374891 .node circle,#mermaid-1653007374891 .node ellipse,#mermaid-1653007374891 .node polygon,#mermaid-1653007374891 .node rect{fill:#ececff;stroke:#9370db;stroke-width:1px}#mermaid-1653007374891 .node.clickable{cursor:pointer}#mermaid-1653007374891 .arrowheadPath{fill:#333}#mermaid-1653007374891 .edgePath .path{stroke:#333;stroke-width:1.5px}#mermaid-1653007374891 .edgeLabel{background-color:#e8e8e8}#mermaid-1653007374891 .cluster rect{fill:#ffffde!important;stroke:#aa3!important;stroke-width:1px!important}#mermaid-1653007374891 .cluster text{fill:#333}#mermaid-1653007374891 div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:trebuchet ms,verdana,arial;font-size:12px;background:#ffffde;border:1px solid #aa3;border-radius:2px;pointer-events:none;z-index:100}#mermaid-1653007374891 .actor{stroke:#ccf;fill:#ececff}#mermaid-1653007374891 text.actor{fill:#000;stroke:none}#mermaid-1653007374891 .actor-line{stroke:grey}#mermaid-1653007374891 .messageLine0{marker-end:"url(#arrowhead)"}#mermaid-1653007374891 .messageLine0,#mermaid-1653007374891 .messageLine1{stroke-width:1.5;stroke-dasharray:"2 2";stroke:#333}#mermaid-1653007374891 #arrowhead{fill:#333}#mermaid-1653007374891 #crosshead path{fill:#333!important;stroke:#333!important}#mermaid-1653007374891 .messageText{fill:#333;stroke:none}#mermaid-1653007374891 .labelBox{stroke:#ccf;fill:#ececff}#mermaid-1653007374891 .labelText,#mermaid-1653007374891 .loopText{fill:#000;stroke:none}#mermaid-1653007374891 .loopLine{stroke-width:2;stroke-dasharray:"2 2";marker-end:"url(#arrowhead)";stroke:#ccf}#mermaid-1653007374891 .note{stroke:#aa3;fill:#fff5ad}#mermaid-1653007374891 .noteText{fill:#000;stroke:none;font-family:trebuchet ms,verdana,arial;font-size:14px}#mermaid-1653007374891 .section{stroke:none;opacity:.2}#mermaid-1653007374891 .section0{fill:rgba(102,102,255,.49)}#mermaid-1653007374891 .section2{fill:#fff400}#mermaid-1653007374891 .section1,#mermaid-1653007374891 .section3{fill:#fff;opacity:.2}#mermaid-1653007374891 .sectionTitle0,#mermaid-1653007374891 .sectionTitle1,#mermaid-1653007374891 .sectionTitle2,#mermaid-1653007374891 .sectionTitle3{fill:#333}#mermaid-1653007374891 .sectionTitle{text-anchor:start;font-size:11px;text-height:14px}#mermaid-1653007374891 .grid .tick{stroke:#d3d3d3;opacity:.3;shape-rendering:crispEdges}#mermaid-1653007374891 .grid path{stroke-width:0}#mermaid-1653007374891 .today{fill:none;stroke:red;stroke-width:2px}#mermaid-1653007374891 .task{stroke-width:2}#mermaid-1653007374891 .taskText{text-anchor:middle;font-size:11px}#mermaid-1653007374891 .taskTextOutsideRight{fill:#000;text-anchor:start;font-size:11px}#mermaid-1653007374891 .taskTextOutsideLeft{fill:#000;text-anchor:end;font-size:11px}#mermaid-1653007374891 .taskText0,#mermaid-1653007374891 .taskText1,#mermaid-1653007374891 .taskText2,#mermaid-1653007374891 .taskText3{fill:#fff}#mermaid-1653007374891 .task0,#mermaid-1653007374891 .task1,#mermaid-1653007374891 .task2,#mermaid-1653007374891 .task3{fill:#8a90dd;stroke:#534fbc}#mermaid-1653007374891 .taskTextOutside0,#mermaid-1653007374891 .taskTextOutside1,#mermaid-1653007374891 .taskTextOutside2,#mermaid-1653007374891 .taskTextOutside3{fill:#000}#mermaid-1653007374891 .active0,#mermaid-1653007374891 .active1,#mermaid-1653007374891 .active2,#mermaid-1653007374891 .active3{fill:#bfc7ff;stroke:#534fbc}#mermaid-1653007374891 .activeText0,#mermaid-1653007374891 .activeText1,#mermaid-1653007374891 .activeText2,#mermaid-1653007374891 .activeText3{fill:#000!important}#mermaid-1653007374891 .done0,#mermaid-1653007374891 .done1,#mermaid-1653007374891 .done2,#mermaid-1653007374891 .done3{stroke:grey;fill:#d3d3d3;stroke-width:2}#mermaid-1653007374891 .doneText0,#mermaid-1653007374891 .doneText1,#mermaid-1653007374891 .doneText2,#mermaid-1653007374891 .doneText3{fill:#000!important}#mermaid-1653007374891 .crit0,#mermaid-1653007374891 .crit1,#mermaid-1653007374891 .crit2,#mermaid-1653007374891 .crit3{stroke:#f88;fill:red;stroke-width:2}#mermaid-1653007374891 .activeCrit0,#mermaid-1653007374891 .activeCrit1,#mermaid-1653007374891 .activeCrit2,#mermaid-1653007374891 .activeCrit3{stroke:#f88;fill:#bfc7ff;stroke-width:2}#mermaid-1653007374891 .doneCrit0,#mermaid-1653007374891 .doneCrit1,#mermaid-1653007374891 .doneCrit2,#mermaid-1653007374891 .doneCrit3{stroke:#f88;fill:#d3d3d3;stroke-width:2;cursor:pointer;shape-rendering:crispEdges}#mermaid-1653007374891 .activeCritText0,#mermaid-1653007374891 .activeCritText1,#mermaid-1653007374891 .activeCritText2,#mermaid-1653007374891 .activeCritText3,#mermaid-1653007374891 .doneCritText0,#mermaid-1653007374891 .doneCritText1,#mermaid-1653007374891 .doneCritText2,#mermaid-1653007374891 .doneCritText3{fill:#000!important}#mermaid-1653007374891 .titleText{text-anchor:middle;font-size:18px;fill:#000}#mermaid-1653007374891 g.classGroup text{fill:#9370db;stroke:none;font-family:trebuchet ms,verdana,arial;font-size:10px}#mermaid-1653007374891 g.classGroup rect{fill:#ececff;stroke:#9370db}#mermaid-1653007374891 g.classGroup line{stroke:#9370db;stroke-width:1}#mermaid-1653007374891 .classLabel .box{stroke:none;stroke-width:0;fill:#ececff;opacity:.5}#mermaid-1653007374891 .classLabel .label{fill:#9370db;font-size:10px}#mermaid-1653007374891 .relation{stroke:#9370db;stroke-width:1;fill:none}#mermaid-1653007374891 #compositionEnd,#mermaid-1653007374891 #compositionStart{fill:#9370db;stroke:#9370db;stroke-width:1}#mermaid-1653007374891 #aggregationEnd,#mermaid-1653007374891 #aggregationStart{fill:#ececff;stroke:#9370db;stroke-width:1}#mermaid-1653007374891 #dependencyEnd,#mermaid-1653007374891 #dependencyStart,#mermaid-1653007374891 #extensionEnd,#mermaid-1653007374891 #extensionStart{fill:#9370db;stroke:#9370db;stroke-width:1}#mermaid-1653007374891 .branch-label,#mermaid-1653007374891 .commit-id,#mermaid-1653007374891 .commit-msg{fill:#d3d3d3;color:#d3d3d3}</style><style>#mermaid-1653007374891 {
+  <svg id="mermaid-1653093547642" width="100%" xmlns="http://www.w3.org/2000/svg" style="max-width: 434.140625px;" viewBox="0 0 434.140625 54"><style>#mermaid-1653093547642 .label{font-family:trebuchet ms,verdana,arial;color:#333}#mermaid-1653093547642 .node circle,#mermaid-1653093547642 .node ellipse,#mermaid-1653093547642 .node polygon,#mermaid-1653093547642 .node rect{fill:#ececff;stroke:#9370db;stroke-width:1px}#mermaid-1653093547642 .node.clickable{cursor:pointer}#mermaid-1653093547642 .arrowheadPath{fill:#333}#mermaid-1653093547642 .edgePath .path{stroke:#333;stroke-width:1.5px}#mermaid-1653093547642 .edgeLabel{background-color:#e8e8e8}#mermaid-1653093547642 .cluster rect{fill:#ffffde!important;stroke:#aa3!important;stroke-width:1px!important}#mermaid-1653093547642 .cluster text{fill:#333}#mermaid-1653093547642 div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:trebuchet ms,verdana,arial;font-size:12px;background:#ffffde;border:1px solid #aa3;border-radius:2px;pointer-events:none;z-index:100}#mermaid-1653093547642 .actor{stroke:#ccf;fill:#ececff}#mermaid-1653093547642 text.actor{fill:#000;stroke:none}#mermaid-1653093547642 .actor-line{stroke:grey}#mermaid-1653093547642 .messageLine0{marker-end:"url(#arrowhead)"}#mermaid-1653093547642 .messageLine0,#mermaid-1653093547642 .messageLine1{stroke-width:1.5;stroke-dasharray:"2 2";stroke:#333}#mermaid-1653093547642 #arrowhead{fill:#333}#mermaid-1653093547642 #crosshead path{fill:#333!important;stroke:#333!important}#mermaid-1653093547642 .messageText{fill:#333;stroke:none}#mermaid-1653093547642 .labelBox{stroke:#ccf;fill:#ececff}#mermaid-1653093547642 .labelText,#mermaid-1653093547642 .loopText{fill:#000;stroke:none}#mermaid-1653093547642 .loopLine{stroke-width:2;stroke-dasharray:"2 2";marker-end:"url(#arrowhead)";stroke:#ccf}#mermaid-1653093547642 .note{stroke:#aa3;fill:#fff5ad}#mermaid-1653093547642 .noteText{fill:#000;stroke:none;font-family:trebuchet ms,verdana,arial;font-size:14px}#mermaid-1653093547642 .section{stroke:none;opacity:.2}#mermaid-1653093547642 .section0{fill:rgba(102,102,255,.49)}#mermaid-1653093547642 .section2{fill:#fff400}#mermaid-1653093547642 .section1,#mermaid-1653093547642 .section3{fill:#fff;opacity:.2}#mermaid-1653093547642 .sectionTitle0,#mermaid-1653093547642 .sectionTitle1,#mermaid-1653093547642 .sectionTitle2,#mermaid-1653093547642 .sectionTitle3{fill:#333}#mermaid-1653093547642 .sectionTitle{text-anchor:start;font-size:11px;text-height:14px}#mermaid-1653093547642 .grid .tick{stroke:#d3d3d3;opacity:.3;shape-rendering:crispEdges}#mermaid-1653093547642 .grid path{stroke-width:0}#mermaid-1653093547642 .today{fill:none;stroke:red;stroke-width:2px}#mermaid-1653093547642 .task{stroke-width:2}#mermaid-1653093547642 .taskText{text-anchor:middle;font-size:11px}#mermaid-1653093547642 .taskTextOutsideRight{fill:#000;text-anchor:start;font-size:11px}#mermaid-1653093547642 .taskTextOutsideLeft{fill:#000;text-anchor:end;font-size:11px}#mermaid-1653093547642 .taskText0,#mermaid-1653093547642 .taskText1,#mermaid-1653093547642 .taskText2,#mermaid-1653093547642 .taskText3{fill:#fff}#mermaid-1653093547642 .task0,#mermaid-1653093547642 .task1,#mermaid-1653093547642 .task2,#mermaid-1653093547642 .task3{fill:#8a90dd;stroke:#534fbc}#mermaid-1653093547642 .taskTextOutside0,#mermaid-1653093547642 .taskTextOutside1,#mermaid-1653093547642 .taskTextOutside2,#mermaid-1653093547642 .taskTextOutside3{fill:#000}#mermaid-1653093547642 .active0,#mermaid-1653093547642 .active1,#mermaid-1653093547642 .active2,#mermaid-1653093547642 .active3{fill:#bfc7ff;stroke:#534fbc}#mermaid-1653093547642 .activeText0,#mermaid-1653093547642 .activeText1,#mermaid-1653093547642 .activeText2,#mermaid-1653093547642 .activeText3{fill:#000!important}#mermaid-1653093547642 .done0,#mermaid-1653093547642 .done1,#mermaid-1653093547642 .done2,#mermaid-1653093547642 .done3{stroke:grey;fill:#d3d3d3;stroke-width:2}#mermaid-1653093547642 .doneText0,#mermaid-1653093547642 .doneText1,#mermaid-1653093547642 .doneText2,#mermaid-1653093547642 .doneText3{fill:#000!important}#mermaid-1653093547642 .crit0,#mermaid-1653093547642 .crit1,#mermaid-1653093547642 .crit2,#mermaid-1653093547642 .crit3{stroke:#f88;fill:red;stroke-width:2}#mermaid-1653093547642 .activeCrit0,#mermaid-1653093547642 .activeCrit1,#mermaid-1653093547642 .activeCrit2,#mermaid-1653093547642 .activeCrit3{stroke:#f88;fill:#bfc7ff;stroke-width:2}#mermaid-1653093547642 .doneCrit0,#mermaid-1653093547642 .doneCrit1,#mermaid-1653093547642 .doneCrit2,#mermaid-1653093547642 .doneCrit3{stroke:#f88;fill:#d3d3d3;stroke-width:2;cursor:pointer;shape-rendering:crispEdges}#mermaid-1653093547642 .activeCritText0,#mermaid-1653093547642 .activeCritText1,#mermaid-1653093547642 .activeCritText2,#mermaid-1653093547642 .activeCritText3,#mermaid-1653093547642 .doneCritText0,#mermaid-1653093547642 .doneCritText1,#mermaid-1653093547642 .doneCritText2,#mermaid-1653093547642 .doneCritText3{fill:#000!important}#mermaid-1653093547642 .titleText{text-anchor:middle;font-size:18px;fill:#000}#mermaid-1653093547642 g.classGroup text{fill:#9370db;stroke:none;font-family:trebuchet ms,verdana,arial;font-size:10px}#mermaid-1653093547642 g.classGroup rect{fill:#ececff;stroke:#9370db}#mermaid-1653093547642 g.classGroup line{stroke:#9370db;stroke-width:1}#mermaid-1653093547642 .classLabel .box{stroke:none;stroke-width:0;fill:#ececff;opacity:.5}#mermaid-1653093547642 .classLabel .label{fill:#9370db;font-size:10px}#mermaid-1653093547642 .relation{stroke:#9370db;stroke-width:1;fill:none}#mermaid-1653093547642 #compositionEnd,#mermaid-1653093547642 #compositionStart{fill:#9370db;stroke:#9370db;stroke-width:1}#mermaid-1653093547642 #aggregationEnd,#mermaid-1653093547642 #aggregationStart{fill:#ececff;stroke:#9370db;stroke-width:1}#mermaid-1653093547642 #dependencyEnd,#mermaid-1653093547642 #dependencyStart,#mermaid-1653093547642 #extensionEnd,#mermaid-1653093547642 #extensionStart{fill:#9370db;stroke:#9370db;stroke-width:1}#mermaid-1653093547642 .branch-label,#mermaid-1653093547642 .commit-id,#mermaid-1653093547642 .commit-msg{fill:#d3d3d3;color:#d3d3d3}</style><style>#mermaid-1653093547642 {
     color: rgb(0, 0, 0);
     font: normal normal 400 normal 16px / normal "Times New Roman";
   }</style><g transform="translate(-12, -12)"><g class="output"><g class="clusters"></g><g class="edgePaths"><g class="edgePath" style="opacity: 1;"><path class="path" d="M106.96875,39L131.96875,39L156.96875,39" marker-end="url(#arrowhead12)" style="fill:none"></path><defs><marker id="arrowhead12" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M235.65625,39L260.65625,39L285.65625,39" marker-end="url(#arrowhead13)" style="fill:none"></path><defs><marker id="arrowhead13" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g></g><g class="edgeLabels"><g class="edgeLabel" style="opacity: 1;" transform=""><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" style="opacity: 1;" transform=""><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g class="node" id="r" transform="translate(63.484375,39)" style="opacity: 1;"><rect rx="5" ry="5" x="-43.484375" y="-19" width="86.96875" height="38"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-33.484375,-9)"><foreignObject width="66.96875" height="18"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">RAW API</div></foreignObject></g></g></g><g class="node" id="g" transform="translate(196.3125,39)" style="opacity: 1;"><rect rx="5" ry="5" x="-39.34375" y="-19" width="78.6875" height="38"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-29.34375,-9)"><foreignObject width="58.6875" height="18"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">Go SDK</div></foreignObject></g></g></g><g class="node" id="t" transform="translate(361.8984375,39)" style="opacity: 1;"><rect rx="5" ry="5" x="-76.2421875" y="-19" width="152.484375" height="38"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-66.2421875,-9)"><foreignObject width="132.484375" height="18"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">Terraform Provider</div></foreignObject></g></g></g></g></g></g></svg>
@@ -778,95 +888,4 @@ Booting
 
 <p><img src="final-build.png" alt="final keyboard build" /></p>
 
-<p>And the verdict during meetings? No one has muted me yet!</p>]]></content><author><name></name></author><category term="keyboard" /><category term="gear" /><category term="coding" /><summary type="html"><![CDATA[Prologue: getting muted in a a video conference]]></summary></entry><entry><title type="html">My year in words: 2020</title><link href="https://y.tsutsumi.io/my-year/2020" rel="alternate" type="text/html" title="My year in words: 2020" /><published>2020-12-31T07:00:00+00:00</published><updated>2020-12-31T07:00:00+00:00</updated><id>https://y.tsutsumi.io/my-year/my-year-in-words-2020</id><content type="html" xml:base="https://y.tsutsumi.io/my-year/2020"><![CDATA[<h1 id="my-year-in-words-2020">My year in words: 2020</h1>
-
-<p><em>note</em>: this is the first of this series, so you won’t find entries before 2020.</p>
-
-<p>Although 2020 was a hard year for the world, I focus my post primarily on my projects outside of that.</p>
-
-<h2 id="working-remotely">Working remotely</h2>
-
-<p>Like many in the US, I’ve been working remotely since March. By the time the work from home situation had begun, I had already duplicated my ideal work equipment at home: 2 4K monitors, a standing desk, and a desktop that was better than my work-issued laptop.</p>
-
-<p>Google’s laptop did require me to <a href="https://y.tsutsumi.io/2020/08/15/egpu-linux-core-x-chroma/">add an eGPU</a>, but after some hassle things worked well.</p>
-
-<p>In some areas, I think working from home has improved my productivity. As a manager time management is key, and being readily available to everyone (not just my team) meant very little time to deep work.</p>
-
-<p>With remote, many threads moved to e-mail or chat, and video conferences were used in cases where consensus could not be quickly reached. As a result, I have been able to defragment my focus time and my random communication time. With more focus time, I’ve been able to write more documents, leave more thoughtful comments on others, and actually code a little bit!</p>
-
-<h2 id="contributing-to-opentelemetry">Contributing to OpenTelemetry</h2>
-
-<p>In the first half of the year, I was contributing to <a href="https://opentelemetry.io/">OpenTelemetry</a> as a maintainer of <a href="https://github.com/open-telemetry/opentelemetry-python">opentelemetry-python</a>. I found the work really rewarding, and it was great talking to others in the industry around monitoring and instrumentation of applications.</p>
-
-<p>In July, I moved from Zillow to Google, which came with it a shift away from monitoring as a focus. I had to step down as a maintainer, and have been an approver since, generally just reviewing PRs and small contributions.</p>
-
-<p>Unfortunately I don’t see my involvement increasing in 2021, but I’m very thankful of the opportunity to be a part of a project that is filling a sorely needed gap in the open source community.</p>
-
-<h2 id="going-mostly-vegan">Going (mostly) vegan</h2>
-
-<p><a href="https://y.tsutsumi.io/2020/03/04/book-report-the-blue-zones/">The Blue Zones</a>, aggregates commonalities with areas of extreme longevity, and provides a great blueprint for living a long, satisfying life. I tried to incorporate some of those habits into my routine.</p>
-
-<p>One aspect was the almost exclusively vegan diet: many blue zones only eat meat once a year or less. The most frequent was once a week.</p>
-
-<p>I significantly modified my diet from frequently pescetarian to mostly vegan:</p>
-
-<ul>
-  <li>Reduced meat consumption: have fish for a meal at most a couple times a month</li>
-  <li>Lunch: most days is a salad, or a similar meal with beans and greens</li>
-</ul>
-
-<p>I’ve also reduced sugary foods, eliminating sugary coffee drinks (I used to drink one daily).</p>
-
-<p>As a final change, I’m also attempting to “intermittently fast” for 12 hours a day. There’s no scientifically proven health benefit, although it does give a lot more time for teeth to recover from the constant acid bath it encounters when eating foods.</p>
-
-<h2 id="waking-up-at-6am">Waking up at 6am</h2>
-
-<p>It’s also been difficult to find some time to focus, juggling family and work. To that end, I’ve bitten the bullet and started waking up early.</p>
-
-<p>It’s been great so far. I’m able to get uninterrupted focus time and I’m doing work when I’m at my most rested. As a result, I’ve been able to get back to writing a bit more code, or blogging, or whatever learning activity interests me.</p>
-
-<h2 id="japanese-lessons-and-studying">Japanese Lessons and Studying</h2>
-
-<p>One of my major goals this year was improving my Japanese. I want my two children to be fluent, and I’ve found my own Japanese lacking.</p>
-
-<p>I started using <a href="https://www.italki.com/">italki</a> for conversational practice, half an hour once a week. In addition, I read a chapter of Japanese manga a day, adding words I don’t know into my flashcard application.</p>
-
-<p>This takes about 30 minutes to an hour a day to keep up, but It’s been helping my Japanese immensely. That said, I have a long way to go, with each chapter of Manga introducing at least a word or two that I don’t know the meaning of before. My current flash card count for Japanese sits at 1,150 words, and counting.</p>
-
-<h2 id="books">Books</h2>
-
-<p>I had barely any time for books, but audiobooks and a little nighttime reading helped a bit.</p>
-
-<ul>
-  <li><a href="https://y.tsutsumi.io/2020/03/04/book-report-the-blue-zones/">The Blue Zones</a></li>
-  <li><a href="https://www.barnesandnoble.com/w/the-unicorn-project-gene-kim/1133048981">The Unicorn Project by Gene Kim</a></li>
-  <li>Dune by Frank Herbert</li>
-</ul>
-
-<h2 id="video-games">Video Games</h2>
-
-<p>The past few years I’ve been playing fewer games, but last year I received a Nintendo Switch, which has made games much more readily available to play for 10 minutes her and there.</p>
-
-<ul>
-  <li><a href="https://store.steampowered.com/app/447530/VA11_HallA_Cyberpunk_Bartender_Action/">VA-11 Hall-A: Cyberpunk Bartender Action</a></li>
-  <li><a href="https://store.steampowered.com/app/1057540/Cthulhu_Saves_Christmas/">Cthulu Saves Christmas</a></li>
-  <li>Animal Crossing New Horizons</li>
-  <li>Super Mario U Deluxe</li>
-</ul>
-
-<h2 id="goals-for-2021">Goals for 2021</h2>
-
-<p>I use a modified <a href="https://bulletjournal.com/">Bullet Journal Method</a> to take notes and log my daily activites, and one aspect of that process is writing down a small list of long term goals to focus on for that year or month. I’ve found t</p>
-
-<p>For 2021, my goals are:</p>
-
-<ul>
-  <li>Improve my Japanese.</li>
-  <li>Depending on whether I no longer have new Japanese words I need to memorize daily, I’d like to begin to learn Farsi (my in-laws speak it).</li>
-  <li>Learn to sight-play music on the piano.</li>
-  <li>Continue to contribute to the <a href="https://github.com/open-telemetry/opentelemetry-python">OpenTelemetry project</a> as an approver, at least until the API and SDK reach GA.</li>
-</ul>
-
-<h2 id="conclusion">Conclusion</h2>
-
-<p>This has been a difficult year in most ways, and I hope that 2021 is better. But it’s important to make sure we remember both the good and the bad.</p>]]></content><author><name></name></author><category term="2020" /><category term="reflection" /><summary type="html"><![CDATA[My year in words: 2020]]></summary></entry></feed>
+<p>And the verdict during meetings? No one has muted me yet!</p>]]></content><author><name></name></author><category term="keyboard" /><category term="gear" /><category term="coding" /><summary type="html"><![CDATA[Prologue: getting muted in a a video conference]]></summary></entry></feed>
