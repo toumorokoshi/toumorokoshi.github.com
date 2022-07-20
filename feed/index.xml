@@ -1,4 +1,29 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2022-07-19T00:53:24+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Introducing Tome: convert directories of scripts to an auto-completable, single command</title><link href="https://y.tsutsumi.io/introducing-tome/" rel="alternate" type="text/html" title="Introducing Tome: convert directories of scripts to an auto-completable, single command" /><published>2022-05-20T07:00:00+00:00</published><updated>2022-05-20T07:00:00+00:00</updated><id>https://y.tsutsumi.io/introducing-tome</id><content type="html" xml:base="https://y.tsutsumi.io/introducing-tome/"><![CDATA[<p>Today I’m happy to introduce <a href="https://tome-scripts.readthedocs.org/">Tome</a>, a CLI generator that takes directories of shell scripts and bundles them under a single command, complete with auto-completion, help text, and more.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2022-07-20T00:42:57+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Flashing the HotDox V2</title><link href="https://y.tsutsumi.io/flashing-hotdox-v2/" rel="alternate" type="text/html" title="Flashing the HotDox V2" /><published>2022-07-19T07:00:00+00:00</published><updated>2022-07-19T07:00:00+00:00</updated><id>https://y.tsutsumi.io/flashing-hotdox-v2</id><content type="html" xml:base="https://y.tsutsumi.io/flashing-hotdox-v2/"><![CDATA[<p>I purchased a <a href="https://kono.store/products/ergodox-76-hot-dox-mechanical-keyboard-v2">HotDox V2</a>, which has been great:</p>
+
+<ul>
+  <li>The keyboard has LEDs! if that’s your thing.</li>
+  <li>Left and right sides can be used independently.</li>
+  <li>LCD screen show you the layer you’re in.</li>
+</ul>
+
+<p>But I accidentally flashed it with the HotDox V1 firmware, and needed to flash it back.</p>
+
+<p>The steps are pretty simple:</p>
+
+<ol>
+  <li>Get the HotDox V2 firmware. I had to e-mail kono directly at support@kono.store.</li>
+  <li>press the reset button on the side you’re flashing(different sides different firmwares)</li>
+  <li>Erase the firmware with dfu-programmer:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> dfu-programmer atmega32u4 erase
+</code></pre></div>    </div>
+  </li>
+  <li>Flash the firmware (example has the right side)
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> dfu-programmer atmega32u4 flash hotdox76v2_rightkb_via.hex
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>And that’s it!</p>]]></content><author><name></name></author><category term="keyboard" /><summary type="html"><![CDATA[I purchased a HotDox V2, which has been great:]]></summary></entry><entry><title type="html">Introducing Tome: convert directories of scripts to an auto-completable, single command</title><link href="https://y.tsutsumi.io/introducing-tome/" rel="alternate" type="text/html" title="Introducing Tome: convert directories of scripts to an auto-completable, single command" /><published>2022-05-20T07:00:00+00:00</published><updated>2022-05-20T07:00:00+00:00</updated><id>https://y.tsutsumi.io/introducing-tome</id><content type="html" xml:base="https://y.tsutsumi.io/introducing-tome/"><![CDATA[<p>Today I’m happy to introduce <a href="https://tome-scripts.readthedocs.org/">Tome</a>, a CLI generator that takes directories of shell scripts and bundles them under a single command, complete with auto-completion, help text, and more.</p>
 
 <p>Here is a quick demo of creating some scripts in a directory, and a command <code class="language-plaintext highlighter-rouge">s</code> from it:</p>
 
@@ -161,7 +186,7 @@ sys     0m0.000s
 </ul>
 
 <div class="jekyll-diagrams diagrams mermaid">
-  <svg id="mermaid-1658192006386" width="100%" xmlns="http://www.w3.org/2000/svg" style="max-width: 434.140625px;" viewBox="0 0 434.140625 54"><style>#mermaid-1658192006386 .label{font-family:trebuchet ms,verdana,arial;color:#333}#mermaid-1658192006386 .node circle,#mermaid-1658192006386 .node ellipse,#mermaid-1658192006386 .node polygon,#mermaid-1658192006386 .node rect{fill:#ececff;stroke:#9370db;stroke-width:1px}#mermaid-1658192006386 .node.clickable{cursor:pointer}#mermaid-1658192006386 .arrowheadPath{fill:#333}#mermaid-1658192006386 .edgePath .path{stroke:#333;stroke-width:1.5px}#mermaid-1658192006386 .edgeLabel{background-color:#e8e8e8}#mermaid-1658192006386 .cluster rect{fill:#ffffde!important;stroke:#aa3!important;stroke-width:1px!important}#mermaid-1658192006386 .cluster text{fill:#333}#mermaid-1658192006386 div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:trebuchet ms,verdana,arial;font-size:12px;background:#ffffde;border:1px solid #aa3;border-radius:2px;pointer-events:none;z-index:100}#mermaid-1658192006386 .actor{stroke:#ccf;fill:#ececff}#mermaid-1658192006386 text.actor{fill:#000;stroke:none}#mermaid-1658192006386 .actor-line{stroke:grey}#mermaid-1658192006386 .messageLine0{marker-end:"url(#arrowhead)"}#mermaid-1658192006386 .messageLine0,#mermaid-1658192006386 .messageLine1{stroke-width:1.5;stroke-dasharray:"2 2";stroke:#333}#mermaid-1658192006386 #arrowhead{fill:#333}#mermaid-1658192006386 #crosshead path{fill:#333!important;stroke:#333!important}#mermaid-1658192006386 .messageText{fill:#333;stroke:none}#mermaid-1658192006386 .labelBox{stroke:#ccf;fill:#ececff}#mermaid-1658192006386 .labelText,#mermaid-1658192006386 .loopText{fill:#000;stroke:none}#mermaid-1658192006386 .loopLine{stroke-width:2;stroke-dasharray:"2 2";marker-end:"url(#arrowhead)";stroke:#ccf}#mermaid-1658192006386 .note{stroke:#aa3;fill:#fff5ad}#mermaid-1658192006386 .noteText{fill:#000;stroke:none;font-family:trebuchet ms,verdana,arial;font-size:14px}#mermaid-1658192006386 .section{stroke:none;opacity:.2}#mermaid-1658192006386 .section0{fill:rgba(102,102,255,.49)}#mermaid-1658192006386 .section2{fill:#fff400}#mermaid-1658192006386 .section1,#mermaid-1658192006386 .section3{fill:#fff;opacity:.2}#mermaid-1658192006386 .sectionTitle0,#mermaid-1658192006386 .sectionTitle1,#mermaid-1658192006386 .sectionTitle2,#mermaid-1658192006386 .sectionTitle3{fill:#333}#mermaid-1658192006386 .sectionTitle{text-anchor:start;font-size:11px;text-height:14px}#mermaid-1658192006386 .grid .tick{stroke:#d3d3d3;opacity:.3;shape-rendering:crispEdges}#mermaid-1658192006386 .grid path{stroke-width:0}#mermaid-1658192006386 .today{fill:none;stroke:red;stroke-width:2px}#mermaid-1658192006386 .task{stroke-width:2}#mermaid-1658192006386 .taskText{text-anchor:middle;font-size:11px}#mermaid-1658192006386 .taskTextOutsideRight{fill:#000;text-anchor:start;font-size:11px}#mermaid-1658192006386 .taskTextOutsideLeft{fill:#000;text-anchor:end;font-size:11px}#mermaid-1658192006386 .taskText0,#mermaid-1658192006386 .taskText1,#mermaid-1658192006386 .taskText2,#mermaid-1658192006386 .taskText3{fill:#fff}#mermaid-1658192006386 .task0,#mermaid-1658192006386 .task1,#mermaid-1658192006386 .task2,#mermaid-1658192006386 .task3{fill:#8a90dd;stroke:#534fbc}#mermaid-1658192006386 .taskTextOutside0,#mermaid-1658192006386 .taskTextOutside1,#mermaid-1658192006386 .taskTextOutside2,#mermaid-1658192006386 .taskTextOutside3{fill:#000}#mermaid-1658192006386 .active0,#mermaid-1658192006386 .active1,#mermaid-1658192006386 .active2,#mermaid-1658192006386 .active3{fill:#bfc7ff;stroke:#534fbc}#mermaid-1658192006386 .activeText0,#mermaid-1658192006386 .activeText1,#mermaid-1658192006386 .activeText2,#mermaid-1658192006386 .activeText3{fill:#000!important}#mermaid-1658192006386 .done0,#mermaid-1658192006386 .done1,#mermaid-1658192006386 .done2,#mermaid-1658192006386 .done3{stroke:grey;fill:#d3d3d3;stroke-width:2}#mermaid-1658192006386 .doneText0,#mermaid-1658192006386 .doneText1,#mermaid-1658192006386 .doneText2,#mermaid-1658192006386 .doneText3{fill:#000!important}#mermaid-1658192006386 .crit0,#mermaid-1658192006386 .crit1,#mermaid-1658192006386 .crit2,#mermaid-1658192006386 .crit3{stroke:#f88;fill:red;stroke-width:2}#mermaid-1658192006386 .activeCrit0,#mermaid-1658192006386 .activeCrit1,#mermaid-1658192006386 .activeCrit2,#mermaid-1658192006386 .activeCrit3{stroke:#f88;fill:#bfc7ff;stroke-width:2}#mermaid-1658192006386 .doneCrit0,#mermaid-1658192006386 .doneCrit1,#mermaid-1658192006386 .doneCrit2,#mermaid-1658192006386 .doneCrit3{stroke:#f88;fill:#d3d3d3;stroke-width:2;cursor:pointer;shape-rendering:crispEdges}#mermaid-1658192006386 .activeCritText0,#mermaid-1658192006386 .activeCritText1,#mermaid-1658192006386 .activeCritText2,#mermaid-1658192006386 .activeCritText3,#mermaid-1658192006386 .doneCritText0,#mermaid-1658192006386 .doneCritText1,#mermaid-1658192006386 .doneCritText2,#mermaid-1658192006386 .doneCritText3{fill:#000!important}#mermaid-1658192006386 .titleText{text-anchor:middle;font-size:18px;fill:#000}#mermaid-1658192006386 g.classGroup text{fill:#9370db;stroke:none;font-family:trebuchet ms,verdana,arial;font-size:10px}#mermaid-1658192006386 g.classGroup rect{fill:#ececff;stroke:#9370db}#mermaid-1658192006386 g.classGroup line{stroke:#9370db;stroke-width:1}#mermaid-1658192006386 .classLabel .box{stroke:none;stroke-width:0;fill:#ececff;opacity:.5}#mermaid-1658192006386 .classLabel .label{fill:#9370db;font-size:10px}#mermaid-1658192006386 .relation{stroke:#9370db;stroke-width:1;fill:none}#mermaid-1658192006386 #compositionEnd,#mermaid-1658192006386 #compositionStart{fill:#9370db;stroke:#9370db;stroke-width:1}#mermaid-1658192006386 #aggregationEnd,#mermaid-1658192006386 #aggregationStart{fill:#ececff;stroke:#9370db;stroke-width:1}#mermaid-1658192006386 #dependencyEnd,#mermaid-1658192006386 #dependencyStart,#mermaid-1658192006386 #extensionEnd,#mermaid-1658192006386 #extensionStart{fill:#9370db;stroke:#9370db;stroke-width:1}#mermaid-1658192006386 .branch-label,#mermaid-1658192006386 .commit-id,#mermaid-1658192006386 .commit-msg{fill:#d3d3d3;color:#d3d3d3}</style><style>#mermaid-1658192006386 {
+  <svg id="mermaid-1658277780006" width="100%" xmlns="http://www.w3.org/2000/svg" style="max-width: 434.140625px;" viewBox="0 0 434.140625 54"><style>#mermaid-1658277780006 .label{font-family:trebuchet ms,verdana,arial;color:#333}#mermaid-1658277780006 .node circle,#mermaid-1658277780006 .node ellipse,#mermaid-1658277780006 .node polygon,#mermaid-1658277780006 .node rect{fill:#ececff;stroke:#9370db;stroke-width:1px}#mermaid-1658277780006 .node.clickable{cursor:pointer}#mermaid-1658277780006 .arrowheadPath{fill:#333}#mermaid-1658277780006 .edgePath .path{stroke:#333;stroke-width:1.5px}#mermaid-1658277780006 .edgeLabel{background-color:#e8e8e8}#mermaid-1658277780006 .cluster rect{fill:#ffffde!important;stroke:#aa3!important;stroke-width:1px!important}#mermaid-1658277780006 .cluster text{fill:#333}#mermaid-1658277780006 div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:trebuchet ms,verdana,arial;font-size:12px;background:#ffffde;border:1px solid #aa3;border-radius:2px;pointer-events:none;z-index:100}#mermaid-1658277780006 .actor{stroke:#ccf;fill:#ececff}#mermaid-1658277780006 text.actor{fill:#000;stroke:none}#mermaid-1658277780006 .actor-line{stroke:grey}#mermaid-1658277780006 .messageLine0{marker-end:"url(#arrowhead)"}#mermaid-1658277780006 .messageLine0,#mermaid-1658277780006 .messageLine1{stroke-width:1.5;stroke-dasharray:"2 2";stroke:#333}#mermaid-1658277780006 #arrowhead{fill:#333}#mermaid-1658277780006 #crosshead path{fill:#333!important;stroke:#333!important}#mermaid-1658277780006 .messageText{fill:#333;stroke:none}#mermaid-1658277780006 .labelBox{stroke:#ccf;fill:#ececff}#mermaid-1658277780006 .labelText,#mermaid-1658277780006 .loopText{fill:#000;stroke:none}#mermaid-1658277780006 .loopLine{stroke-width:2;stroke-dasharray:"2 2";marker-end:"url(#arrowhead)";stroke:#ccf}#mermaid-1658277780006 .note{stroke:#aa3;fill:#fff5ad}#mermaid-1658277780006 .noteText{fill:#000;stroke:none;font-family:trebuchet ms,verdana,arial;font-size:14px}#mermaid-1658277780006 .section{stroke:none;opacity:.2}#mermaid-1658277780006 .section0{fill:rgba(102,102,255,.49)}#mermaid-1658277780006 .section2{fill:#fff400}#mermaid-1658277780006 .section1,#mermaid-1658277780006 .section3{fill:#fff;opacity:.2}#mermaid-1658277780006 .sectionTitle0,#mermaid-1658277780006 .sectionTitle1,#mermaid-1658277780006 .sectionTitle2,#mermaid-1658277780006 .sectionTitle3{fill:#333}#mermaid-1658277780006 .sectionTitle{text-anchor:start;font-size:11px;text-height:14px}#mermaid-1658277780006 .grid .tick{stroke:#d3d3d3;opacity:.3;shape-rendering:crispEdges}#mermaid-1658277780006 .grid path{stroke-width:0}#mermaid-1658277780006 .today{fill:none;stroke:red;stroke-width:2px}#mermaid-1658277780006 .task{stroke-width:2}#mermaid-1658277780006 .taskText{text-anchor:middle;font-size:11px}#mermaid-1658277780006 .taskTextOutsideRight{fill:#000;text-anchor:start;font-size:11px}#mermaid-1658277780006 .taskTextOutsideLeft{fill:#000;text-anchor:end;font-size:11px}#mermaid-1658277780006 .taskText0,#mermaid-1658277780006 .taskText1,#mermaid-1658277780006 .taskText2,#mermaid-1658277780006 .taskText3{fill:#fff}#mermaid-1658277780006 .task0,#mermaid-1658277780006 .task1,#mermaid-1658277780006 .task2,#mermaid-1658277780006 .task3{fill:#8a90dd;stroke:#534fbc}#mermaid-1658277780006 .taskTextOutside0,#mermaid-1658277780006 .taskTextOutside1,#mermaid-1658277780006 .taskTextOutside2,#mermaid-1658277780006 .taskTextOutside3{fill:#000}#mermaid-1658277780006 .active0,#mermaid-1658277780006 .active1,#mermaid-1658277780006 .active2,#mermaid-1658277780006 .active3{fill:#bfc7ff;stroke:#534fbc}#mermaid-1658277780006 .activeText0,#mermaid-1658277780006 .activeText1,#mermaid-1658277780006 .activeText2,#mermaid-1658277780006 .activeText3{fill:#000!important}#mermaid-1658277780006 .done0,#mermaid-1658277780006 .done1,#mermaid-1658277780006 .done2,#mermaid-1658277780006 .done3{stroke:grey;fill:#d3d3d3;stroke-width:2}#mermaid-1658277780006 .doneText0,#mermaid-1658277780006 .doneText1,#mermaid-1658277780006 .doneText2,#mermaid-1658277780006 .doneText3{fill:#000!important}#mermaid-1658277780006 .crit0,#mermaid-1658277780006 .crit1,#mermaid-1658277780006 .crit2,#mermaid-1658277780006 .crit3{stroke:#f88;fill:red;stroke-width:2}#mermaid-1658277780006 .activeCrit0,#mermaid-1658277780006 .activeCrit1,#mermaid-1658277780006 .activeCrit2,#mermaid-1658277780006 .activeCrit3{stroke:#f88;fill:#bfc7ff;stroke-width:2}#mermaid-1658277780006 .doneCrit0,#mermaid-1658277780006 .doneCrit1,#mermaid-1658277780006 .doneCrit2,#mermaid-1658277780006 .doneCrit3{stroke:#f88;fill:#d3d3d3;stroke-width:2;cursor:pointer;shape-rendering:crispEdges}#mermaid-1658277780006 .activeCritText0,#mermaid-1658277780006 .activeCritText1,#mermaid-1658277780006 .activeCritText2,#mermaid-1658277780006 .activeCritText3,#mermaid-1658277780006 .doneCritText0,#mermaid-1658277780006 .doneCritText1,#mermaid-1658277780006 .doneCritText2,#mermaid-1658277780006 .doneCritText3{fill:#000!important}#mermaid-1658277780006 .titleText{text-anchor:middle;font-size:18px;fill:#000}#mermaid-1658277780006 g.classGroup text{fill:#9370db;stroke:none;font-family:trebuchet ms,verdana,arial;font-size:10px}#mermaid-1658277780006 g.classGroup rect{fill:#ececff;stroke:#9370db}#mermaid-1658277780006 g.classGroup line{stroke:#9370db;stroke-width:1}#mermaid-1658277780006 .classLabel .box{stroke:none;stroke-width:0;fill:#ececff;opacity:.5}#mermaid-1658277780006 .classLabel .label{fill:#9370db;font-size:10px}#mermaid-1658277780006 .relation{stroke:#9370db;stroke-width:1;fill:none}#mermaid-1658277780006 #compositionEnd,#mermaid-1658277780006 #compositionStart{fill:#9370db;stroke:#9370db;stroke-width:1}#mermaid-1658277780006 #aggregationEnd,#mermaid-1658277780006 #aggregationStart{fill:#ececff;stroke:#9370db;stroke-width:1}#mermaid-1658277780006 #dependencyEnd,#mermaid-1658277780006 #dependencyStart,#mermaid-1658277780006 #extensionEnd,#mermaid-1658277780006 #extensionStart{fill:#9370db;stroke:#9370db;stroke-width:1}#mermaid-1658277780006 .branch-label,#mermaid-1658277780006 .commit-id,#mermaid-1658277780006 .commit-msg{fill:#d3d3d3;color:#d3d3d3}</style><style>#mermaid-1658277780006 {
     color: rgb(0, 0, 0);
     font: normal normal 400 normal 16px / normal "Times New Roman";
   }</style><g transform="translate(-12, -12)"><g class="output"><g class="clusters"></g><g class="edgePaths"><g class="edgePath" style="opacity: 1;"><path class="path" d="M106.96875,39L131.96875,39L156.96875,39" marker-end="url(#arrowhead12)" style="fill:none"></path><defs><marker id="arrowhead12" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M235.65625,39L260.65625,39L285.65625,39" marker-end="url(#arrowhead13)" style="fill:none"></path><defs><marker id="arrowhead13" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g></g><g class="edgeLabels"><g class="edgeLabel" style="opacity: 1;" transform=""><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" style="opacity: 1;" transform=""><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g class="node" id="r" transform="translate(63.484375,39)" style="opacity: 1;"><rect rx="5" ry="5" x="-43.484375" y="-19" width="86.96875" height="38"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-33.484375,-9)"><foreignObject width="66.96875" height="18"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">RAW API</div></foreignObject></g></g></g><g class="node" id="g" transform="translate(196.3125,39)" style="opacity: 1;"><rect rx="5" ry="5" x="-39.34375" y="-19" width="78.6875" height="38"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-29.34375,-9)"><foreignObject width="58.6875" height="18"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">Go SDK</div></foreignObject></g></g></g><g class="node" id="t" transform="translate(361.8984375,39)" style="opacity: 1;"><rect rx="5" ry="5" x="-76.2421875" y="-19" width="152.484375" height="38"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-66.2421875,-9)"><foreignObject width="132.484375" height="18"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">Terraform Provider</div></foreignObject></g></g></g></g></g></g></svg>
@@ -713,179 +738,4 @@ Booting
 
 <p><img src="hot-dox-finished.png" alt="finished keyboard" /></p>
 
-<p>But you don’t have a fully working Hot Dox yet. the next step is to program it. We’ll cover that in a future post.</p>]]></content><author><name></name></author><category term="keyboard" /><summary type="html"><![CDATA[I recently purchased a Hot Dox from Alpaca Keyboards. There are instructions, but I wanted to author my own to call out a few details, as well as include some steps on how to add some foam to reduce typing noise.]]></summary></entry><entry><title type="html">The Quietest Mechanical Keyboard</title><link href="https://y.tsutsumi.io/quiet-keyboard/" rel="alternate" type="text/html" title="The Quietest Mechanical Keyboard" /><published>2021-01-07T07:00:00+00:00</published><updated>2021-01-07T07:00:00+00:00</updated><id>https://y.tsutsumi.io/quiet-keyboard</id><content type="html" xml:base="https://y.tsutsumi.io/quiet-keyboard/"><![CDATA[<h2 id="prologue-getting-muted-in-a-a-video-conference">Prologue: getting muted in a a video conference</h2>
-
-<p>As is the trend for many since 2020, I am working remote, and as a result in a lot of video conferences.</p>
-
-<p>One silver lining with being remote is the ability to take notes: by nature of video conference, you’re in front of the computer, so it’s a lot easier to take notes on your computer without looking like you’re not paying attention.</p>
-
-<p>In one such meeting, I was notified how I was muted in the middle while someone else was talking: it turns out my keyboard noise was quite audible! How embarassing.</p>
-
-<p>So thus started the quest to find the quietest keyboard possible.</p>
-
-<h2 id="whats-causing-the-noise-when-i-type">What’s causing the noise when I type?</h2>
-
-<p>For context: I use an <a href="https://ergodox-ez.com/">ergodox-ez</a>. I didn’t realize it, but <a href="https://www.reddit.com/r/ErgoDoxEZ/comments/9ls494/ergodoxez_case_seems_very_loud/">loud noise with the Ergodox EZ is a common issue</a>.</p>
-
-<p>On the ergodox-ez page, there is a lot of discussion around keyswitches (the thing that detects the key being pressed) and how much they affect noise. I chose the <a href="https://www.cherrymx.de/en/mx-original/mx-brown.html">Cherry MX Browns</a> since they are made to be silent, but still provide a tactile feel.</p>
-
-<p>But after experimenting with different keyboards, removing some pieces, and changing my style, I’ve found that keyswitches are just one piece of the puzzle. The additional factors I found were:</p>
-
-<ul>
-  <li>keycaps: the cap you put on the key switches. Once you put the keycap on, the clacking becomes louder, seemingly due to the resonation of the keys to the bottom of the switch.</li>
-  <li>keyboard housing: the reverberation that occurs in the housing can be significant. This occurs while the key is being pressed, and even once it’s released.</li>
-</ul>
-
-<p>When holding a decibel meter up to where my microphone is during calls, and when typing a single key in a rhythmic fashion, I found that my ErgoDox produces noise of 62.8 decibels (dB) of loudness. My voice talking normally (and also much closer to the mic) is roughly 72 dB.</p>
-
-<p>To be silent for practical purposes, the keyboard would have to produce below 40dB of noise: that’s roughly the loudness of a library.</p>
-
-<h2 id="keyboard-components-in-depth">Keyboard components in depth</h2>
-
-<h3 id="keycaps">Keycaps</h3>
-
-<p>As mentioned previously, keycaps are the cover for a key, and is often marked with the key that would be typed if pressed. A little research shows that <a href="https://geekhack.org/index.php?topic=69537.0">PBT plastic dampens higher frequencies</a>. These seemed to be loud in my case.</p>
-
-<h3 id="o-rings">O-rings</h3>
-
-<p>If your keypresses are loud, it’s common to just add o-rings (plastic rings that wrap the stem of your keycap) rather than brand by new switches. I’ve found the use of o-rings to be hit or miss, but generally they do play a part in reducing the noise of your keypresses, at the cost of the “feel” of your keys (the press feels a little squish at the bottom due to the ring being compressed rather than hitting whatever bottom it normally does).</p>
-
-<h3 id="key-switches">Key switches</h3>
-
-<p>Key Switches are the mechanical components which are responsible for “actuation”, in other words registering a key press.</p>
-
-<p>There are a few general properties that can be used to categorize switches:</p>
-
-<h4 id="clicky-or-silent">Clicky or silent</h4>
-
-<p>If the switch is clicky, then the actuation includes a purposeful “click” sound. The click is actually not necessary to register the key press.</p>
-
-<h4 id="tactile-or-linear">Tactile or linear</h4>
-
-<p>For silent switches, tactile switches include physical feedback when the key is actuated. You feel a little resistance, and once that gives way you know you’ve pressed the button.</p>
-
-<p>With a linear switch, the resistance is the same all the way through, which doesn’t give you a way to physically determine when the press was made.</p>
-
-<h4 id="travel-distance">Travel distance</h4>
-
-<p>The distance the switch travels between pressed and unpressed. Typically a few millimeters.</p>
-
-<h4 id="actuation-force">Actuation force</h4>
-
-<p>The total amount of force that must be applied to actuate the switch. The key will feel harder to press if the actuation force is higher.</p>
-
-<h4 id="my-conclusion-on-switches">My Conclusion on Switches</h4>
-
-<p>I chose a switch with:</p>
-
-<ul>
-  <li>highest possible actuation force and travel distance. I tend to hit keys quite hard, and to minimize sound I need to try to actuate the key, but not actually “bottom out” and have my switch hit the bottom.</li>
-  <li>Silent and linear attributes. Silent since the whole goal is to not make sound, and I found through testing that silent tactile switches result in additional noise when you hit the tactile feedback. The linear has no such noise.</li>
-</ul>
-
-<p>For the switch brand themselves, I found that Cherry MX, Gateron, and Kailh brand switches made roughly the same amount of noise. However, the <a href="https://zealpc.net/products/healio">ZealPC Healios</a> were orders of magnitude quieter in my HotDox. I’m not sure on exactly why, but it was impressive. Combined with the fact that they were linear switches, the Healios were the winner.</p>
-
-<h3 id="keyboard-housing">Keyboard housing</h3>
-
-<p>The keyboard housing played a big part, based on my experiments (details below).</p>
-
-<p>Housings that had less air inside produced less noise, since there wasn’t space for reverberation and the force of the keypress was more dampened by the material the keybaord was on.</p>
-
-<p>Based on reviews, I read that the <a href="https://www.alpacakeyboards.com/">Hot Dox</a> keyboard was very silent (acrylic case with very little empty space inside). To further reduce any chance of reverberation, I added some <a href="https://kbdfans.com/collections/keyboard-foam/products/kbdfans-module-foam">EVA foam</a> to fill the space between the PCB and the metallic cover on top.</p>
-
-<p>There is also a material called <a href="https://www.sorbothane.com/">Sorbothane</a> that dampens things even better than foam, but I didn’t go that route because it would require hand-cutting it, and the material is hard to cut. If I tried to cut it without special equipment, I would probably end up with a rather uneven and unpleasent look.</p>
-
-<h3 id="material-keyboard-is-on">Material keyboard is on</h3>
-
-<p>I also found that the material the keyboard is on made a difference, although of a couple decibels. Typing on hard wood was louder. I read that using a keyboard / mousepad mat and putting your keyboard on top helps, so I purchased <a href="https://www.amazon.com/gp/product/B014CP231W/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&amp;psc=1">a cheap one on Amazon</a>.</p>
-
-<h2 id="experiments-with-different-scenarios">Experiments with different scenarios</h2>
-
-<p>To verify what I read, I tried to take some measurements with the loudness of various keyboards and configurations.</p>
-
-<p>Although I originally tried to test the various scenarios with a decibel app on my phone, I found that the sensitivity wasn’t good enough to capture even relative differences between the different configurations. So I purchased a real decibel meter.</p>
-
-<p>To measure the volume, I hovered the decibel meter about 3cm directly above the key being pressed. I pressed with the same rhythm, setting the decibel to “max” setting to capture the loudest the keypress ever is.</p>
-
-<p>All experiments were with PBT Keycaps.</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Volume</th>
-      <th>Keyboard Model</th>
-      <th>Switches</th>
-      <th>With o-ring?</th>
-      <th>With Mat?</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>72.9 dB</td>
-      <td>ErgoDox</td>
-      <td>Cherry MX Brown</td>
-      <td>no</td>
-      <td>no</td>
-    </tr>
-    <tr>
-      <td>69.2 dB</td>
-      <td>ErgoDox</td>
-      <td>Cherry MX Brown</td>
-      <td>no</td>
-      <td>yes</td>
-    </tr>
-    <tr>
-      <td>62 dB</td>
-      <td>HotDox</td>
-      <td>Gateron Whites</td>
-      <td>no</td>
-      <td>yes</td>
-    </tr>
-    <tr>
-      <td>61.5 dB</td>
-      <td>ErgoDox</td>
-      <td>Helios</td>
-      <td>no</td>
-      <td>yes</td>
-    </tr>
-    <tr>
-      <td>57.5 dB</td>
-      <td>HotDox</td>
-      <td>Helios</td>
-      <td>yes</td>
-      <td>yes</td>
-    </tr>
-    <tr>
-      <td>53.9 dB</td>
-      <td>HP Spectre X360 Keyboard</td>
-      <td>n/a (built-in scissor)</td>
-      <td>n/a</td>
-      <td>yes</td>
-    </tr>
-    <tr>
-      <td>52.9 dB</td>
-      <td>HotDox</td>
-      <td>Helios</td>
-      <td>no</td>
-      <td>yes</td>
-    </tr>
-  </tbody>
-</table>
-
-<h2 id="conclusion">Conclusion</h2>
-
-<p>I started with a keyboard that was very loud (72.9 decibels), and was able to finish with a setup that was roughly 20dB quieter! Although the real noise reduction may be lower due to the microphone being more than 3cm away from the keyboard, the relative comparison is going from a noisy restaurant (70db) to a quiet office (50db).</p>
-
-<p>My final build is:</p>
-
-<ul>
-  <li>PBT keycaps (my particular set is no longer made, so no link)</li>
-  <li><a href="https://zealpc.net/products/healio">ZealPC Healios switches</a></li>
-  <li><a href="https://www.alpacakeyboards.com/">HotDox case + PDB</a></li>
-  <li><a href="https://kbdfans.com/collections/keyboard-foam/products/kbdfans-module-foam">Foam between metal slots and PCB</a></li>
-  <li><a href="https://www.amazon.com/gp/product/B014CP231W/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&amp;psc=1">XXL mousepad below keyboard</a></li>
-</ul>
-
-<p><img src="final-build.png" alt="final keyboard build" /></p>
-
-<p>And the verdict during meetings? No one has muted me yet!</p>]]></content><author><name></name></author><category term="keyboard" /><category term="gear" /><category term="coding" /><summary type="html"><![CDATA[Prologue: getting muted in a a video conference]]></summary></entry></feed>
+<p>But you don’t have a fully working Hot Dox yet. the next step is to program it. We’ll cover that in a future post.</p>]]></content><author><name></name></author><category term="keyboard" /><summary type="html"><![CDATA[I recently purchased a Hot Dox from Alpaca Keyboards. There are instructions, but I wanted to author my own to call out a few details, as well as include some steps on how to add some foam to reduce typing noise.]]></summary></entry></feed>
