@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Setting the Google Chrome file manager on Linux | Yusuke Tsutsumi</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Setting the Google Chrome file manager on Linux" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="I’ve recently had trouble with saving files from Google Chrome: rather than use the file manager that I had configured and installed myself (thunar), Google Chrome gave me a completely different file manager, one that would not let me type the name of the file I wanted to save, and instead constantly brought me to a search bar." />
+<meta property="og:description" content="I’ve recently had trouble with saving files from Google Chrome: rather than use the file manager that I had configured and installed myself (thunar), Google Chrome gave me a completely different file manager, one that would not let me type the name of the file I wanted to save, and instead constantly brought me to a search bar." />
+<link rel="canonical" href="https://y.tsutsumi.io/setting-google-chrome-file-manager-linux/" />
+<meta property="og:url" content="https://y.tsutsumi.io/setting-google-chrome-file-manager-linux/" />
+<meta property="og:site_name" content="Yusuke Tsutsumi" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-08-07T07:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Setting the Google Chrome file manager on Linux" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-08-07T07:00:00+00:00","datePublished":"2022-08-07T07:00:00+00:00","description":"I’ve recently had trouble with saving files from Google Chrome: rather than use the file manager that I had configured and installed myself (thunar), Google Chrome gave me a completely different file manager, one that would not let me type the name of the file I wanted to save, and instead constantly brought me to a search bar.","headline":"Setting the Google Chrome file manager on Linux","mainEntityOfPage":{"@type":"WebPage","@id":"https://y.tsutsumi.io/setting-google-chrome-file-manager-linux/"},"url":"https://y.tsutsumi.io/setting-google-chrome-file-manager-linux/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" /><script async src="https://www.googletagmanager.com/gtag/js?id=G-325KP61WS9"></script>
+<script>
+  window['ga-disable-G-325KP61WS9'] = window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-325KP61WS9');
+</script>
+
+</head>
+<body><header class="site-header">
+
+    <div class="wrapper"><a class="site-title" rel="author" href="/">Yusuke Tsutsumi</a><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path
+                            d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger">
+                <a class="page-link" href="/tag/coding/">Coding Posts</a>
+                <a class="page-link"
+                    href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a><a class="page-link" href="/resources/">Resources</a><a class="page-link" href="/about/">About Yusuke Tsutsumi</a></div>
+        </nav></div>
+    <style>
+        .gse-control-cse td {
+            border: 0;
+        }
+
+        td.gsc-input {
+            border: 0;
+        }
+
+        td.gsc-search-button {
+            border: 0;
+        }
+
+        table.gsc-input {
+            margin-bottom: 0;
+        }
+    </style>
+</header><main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <header class="post-header">
+        <h1 class="post-title p-name" itemprop="name headline">Setting the Google Chrome file manager on Linux</h1>
+        <p class="post-meta"><time class="dt-published" datetime="2022-08-07T07:00:00+00:00" itemprop="datePublished">
+                Aug 7, 2022
+            </time></p>
+    </header>
+
+    <div class="post-content e-content" itemprop="articleBody">
+        <p>I’ve recently had trouble with saving files from Google Chrome: rather than use the file manager that I had configured and installed myself (thunar), Google Chrome gave me a completely different file manager, one that would not let me type the name of the file I wanted to save, and instead
+constantly brought me to a search bar.</p>
+
+<p>In most other apps, thunar was used. That is because I have xdg-mime for <code class="language-plaintext highlighter-rouge">inode/directory</code> set to thunar:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>xdg-mime query default "inode/directory"
+Thunar.desktop
+</code></pre></div></div>
+
+<p>But Chrome doesn’t seem to honor that. I came to learn that Chrome will, for GTK desktop environments, us the GTK file manager, which had the bug I mentioned above.</p>
+
+<p>I tried a few things, which did not change the file manager from GTK:</p>
+
+<ul>
+  <li>uninstalled thunar, and installed <a href="https://apps.kde.org/dolphin/">dolphin</a> to see if it’s an issue with the file manager.</li>
+  <li>use <code class="language-plaintext highlighter-rouge">XDG_CURRENT_DESKTOP=kde</code> to see if Chrome is using that setting to find dolphin.</li>
+</ul>
+
+<p>However, I eventually found out about <a href="https://www.reddit.com/r/openSUSE/comments/pjuf27/leap_fix_gtk_file_dialog_in_recent_version_of/">xdg-desktop-portal</a>, and a user bringing up that KDE no longer had the write file picker, either.</p>
+
+<p>So it seems that Chrome somehow uses xdg-desktop-portal. Looking it up, <a href="https://github.com/flatpak/xdg-desktop-portal">xdg-desktop-portal</a> seems to be primarily used for flatpaks, but does provide a Dbus interface for which an application in a sandboxed application could communicate to applications in the host (e.g. a file manager).</p>
+
+<p>I didn’t <a href="https://source.chromium.org/search?q=xdg-desktop-portal&amp;sq=&amp;ss=chromium%2Fchromium%2Fsrc">find any hard evidence that xdg-desktop-portal</a> was used in this fashion, but it does seem that the <a href="https://source.chromium.org/search?q=%22org.freedesktop.portal.Desktop%22&amp;ss=chromium%2Fchromium%2Fsrc">dbus interfaces exposed by the portal are used in some situations</a>.</p>
+
+<p>The next step was to get my desktop to use one of the variants of xdg-desktop-portal. The design is a little limiting in that xdg-desktop-portal has profiles for specific desktop environments and not a per-unit customizable interface that would work better for my bespoke environment. However, since I had started installng KDE components anyway, the final step for me was to install the packages necessary to completely this KDE-like environment. On Arch Linux, that was:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pacman -S kdialog
+pacman -S xdg-desktop-portal-kde
+pacman -S xdg-desktop-portal
+</code></pre></div></div>
+
+<p>And that’s it! Here’s the end result:</p>
+
+<p><img src="chrome-with-dolphin.png" alt="picture of chrome using dolphin" /></p>
+    </div><a href="#0" onclick="loadDisqus()">click to load comments via Disqus (ad supported and will cause tracking to load.
+    requires javascript).</a>
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://y.tsutsumi.io/setting-google-chrome-file-manager-linux/';
+        this.page.identifier = '/setting-google-chrome-file-manager-linux/';
+    };
+
+    function loadDisqus() {
+        var d = document, s = d.createElement('script');
+
+        s.src = 'https://tsutsumi.disqus.com/embed.js';
+
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    }
+</script>
+<noscript>no comments avaialable with Javascript disabled.</noscript><a class="u-url" href="/setting-google-chrome-file-manager-linux/" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/%20/"></data>
+
+    <div class="wrapper">
+
+        <div class="footer-col-wrapper">
+            <script async src="https://cse.google.com/cse.js?cx=014358564571565173111:hnnbq4j54cy"></script>
+            <div class="gcse-search"></div>
+        </div>
+        <div class="footer-col-wrapper">
+            <div class="footer-col">
+                <p class="feed-subscribe">
+                    <a href="/feed/index.xml">
+                        <svg class="svg-icon orange">
+                            <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+                        </svg><span>Subscribe</span>
+                    </a>
+                </p>
+            </div>
+            <div class="footer-col">
+                <p>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</p>
+            </div>
+        </div>
+
+        <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/toumorokoshi" target="_blank" title="toumorokoshi"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/yusuke-tsutsumi" target="_blank" title="yusuke-tsutsumi"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/tsutsumiyusuke" target="_blank" title="tsutsumiyusuke"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+    </div>
+
+</footer></body>
+
+</html>
