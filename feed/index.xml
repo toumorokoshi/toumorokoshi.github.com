@@ -1,4 +1,34 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2022-09-26T00:56:34+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Introducing Tome: convert directories of scripts to an auto-completable, single command</title><link href="https://y.tsutsumi.io/introducing-tome/" rel="alternate" type="text/html" title="Introducing Tome: convert directories of scripts to an auto-completable, single command" /><published>2022-09-22T07:00:00+00:00</published><updated>2022-09-22T07:00:00+00:00</updated><id>https://y.tsutsumi.io/introducing-tome</id><content type="html" xml:base="https://y.tsutsumi.io/introducing-tome/"><![CDATA[<p>Today I’m happy to introduce <a href="https://tome-scripts.readthedocs.org/">Tome</a>, a CLI generator that takes directories of shell scripts and bundles them under a single command, complete with auto-completion, help text, and more.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2022-09-27T00:58:43+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Wake-on-lan via WAN</title><link href="https://y.tsutsumi.io/wake-on-wan" rel="alternate" type="text/html" title="Wake-on-lan via WAN" /><published>2022-09-23T07:00:00+00:00</published><updated>2022-09-23T07:00:00+00:00</updated><id>https://y.tsutsumi.io/wake-on-wan</id><content type="html" xml:base="https://y.tsutsumi.io/wake-on-wan"><![CDATA[<p>I’ve been using <a href="https://moonlight-stream.org/">Moonlight</a> for game streaming, and one thing I’ve learned about recently is <a href="https://wiki.archlinux.org/title/Wake-on-LAN#Trigger_a_wake_up">wake-on-lan</a>: the ability to wake up your machine by sending a magic packet to a device.</p>
+
+<p>I regularly use wake-on-lan on my local network to start up my gaming desktop, but I began to wonder if it’s possible to wake my machine up from the public internet (The “WAN”)? And here is how I got to successfully accomplish a wake-on-wan.</p>
+
+<h2 id="background">Background</h2>
+
+<p>My existing setup already enables me to stream Moonlight over wan. I accomplished that by:</p>
+
+<ul>
+  <li>Port forwarding for <a href="https://github.com/moonlight-stream/moonlight-docs/wiki/Setup-Guide#manual-port-forwarding-advanced">all of ports recommended by moonlight</a>.</li>
+  <li>Using a dynamic DNS provider (I use tplink, but there’s also <a href="https://www.noip.com/">noip</a>).</li>
+</ul>
+
+<h2 id="how-wake-on-lan-works">How wake-on-lan works</h2>
+
+<p>Wake on lan works by sending an ethernet frame with the contents of the MAC address. This is often send to the broadcast IP of a network, ensuring that all devices connected to the network will receive it.</p>
+
+<h2 id="configuring-wake-on-wan">Configuring wake-on-wan</h2>
+
+<p>I originally tried to do direct port forwarding of the UDP 7 through 9 ports, but I found out that my internet provider (Comcast) sometimes does not allow their modem to forward the packet.</p>
+
+<p>As such, I ended up doing a separate port forward from an arbitrary port and mapped it to port 7. And that was it!</p>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+
+<p>If you have issues, try the following:</p>
+
+<ul>
+  <li>verify that the computer wakes if you send it the WOL request directly.</li>
+  <li>verify that the computer wakes if you send the broadcast IP (e.g. <code class="language-plaintext highlighter-rouge">255.255.255.255</code>) the request directly.</li>
+</ul>]]></content><author><name></name></author><category term="networking" /><summary type="html"><![CDATA[I’ve been using Moonlight for game streaming, and one thing I’ve learned about recently is wake-on-lan: the ability to wake up your machine by sending a magic packet to a device.]]></summary></entry><entry><title type="html">Introducing Tome: convert directories of scripts to an auto-completable, single command</title><link href="https://y.tsutsumi.io/introducing-tome/" rel="alternate" type="text/html" title="Introducing Tome: convert directories of scripts to an auto-completable, single command" /><published>2022-09-22T07:00:00+00:00</published><updated>2022-09-22T07:00:00+00:00</updated><id>https://y.tsutsumi.io/introducing-tome</id><content type="html" xml:base="https://y.tsutsumi.io/introducing-tome/"><![CDATA[<p>Today I’m happy to introduce <a href="https://tome-scripts.readthedocs.org/">Tome</a>, a CLI generator that takes directories of shell scripts and bundles them under a single command, complete with auto-completion, help text, and more.</p>
 
 <p>Here is a quick demo of creating some scripts in a directory, and a command <code class="language-plaintext highlighter-rouge">s</code> from it:</p>
 
@@ -219,7 +249,7 @@ pacman -S xdg-desktop-portal
 </ul>
 
 <div class="jekyll-diagrams diagrams mermaid">
-  <svg id="mermaid-1664153797563" width="100%" xmlns="http://www.w3.org/2000/svg" style="max-width: 434.140625px;" viewBox="0 0 434.140625 54"><style>#mermaid-1664153797563 .label{font-family:trebuchet ms,verdana,arial;color:#333}#mermaid-1664153797563 .node circle,#mermaid-1664153797563 .node ellipse,#mermaid-1664153797563 .node polygon,#mermaid-1664153797563 .node rect{fill:#ececff;stroke:#9370db;stroke-width:1px}#mermaid-1664153797563 .node.clickable{cursor:pointer}#mermaid-1664153797563 .arrowheadPath{fill:#333}#mermaid-1664153797563 .edgePath .path{stroke:#333;stroke-width:1.5px}#mermaid-1664153797563 .edgeLabel{background-color:#e8e8e8}#mermaid-1664153797563 .cluster rect{fill:#ffffde!important;stroke:#aa3!important;stroke-width:1px!important}#mermaid-1664153797563 .cluster text{fill:#333}#mermaid-1664153797563 div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:trebuchet ms,verdana,arial;font-size:12px;background:#ffffde;border:1px solid #aa3;border-radius:2px;pointer-events:none;z-index:100}#mermaid-1664153797563 .actor{stroke:#ccf;fill:#ececff}#mermaid-1664153797563 text.actor{fill:#000;stroke:none}#mermaid-1664153797563 .actor-line{stroke:grey}#mermaid-1664153797563 .messageLine0{marker-end:"url(#arrowhead)"}#mermaid-1664153797563 .messageLine0,#mermaid-1664153797563 .messageLine1{stroke-width:1.5;stroke-dasharray:"2 2";stroke:#333}#mermaid-1664153797563 #arrowhead{fill:#333}#mermaid-1664153797563 #crosshead path{fill:#333!important;stroke:#333!important}#mermaid-1664153797563 .messageText{fill:#333;stroke:none}#mermaid-1664153797563 .labelBox{stroke:#ccf;fill:#ececff}#mermaid-1664153797563 .labelText,#mermaid-1664153797563 .loopText{fill:#000;stroke:none}#mermaid-1664153797563 .loopLine{stroke-width:2;stroke-dasharray:"2 2";marker-end:"url(#arrowhead)";stroke:#ccf}#mermaid-1664153797563 .note{stroke:#aa3;fill:#fff5ad}#mermaid-1664153797563 .noteText{fill:#000;stroke:none;font-family:trebuchet ms,verdana,arial;font-size:14px}#mermaid-1664153797563 .section{stroke:none;opacity:.2}#mermaid-1664153797563 .section0{fill:rgba(102,102,255,.49)}#mermaid-1664153797563 .section2{fill:#fff400}#mermaid-1664153797563 .section1,#mermaid-1664153797563 .section3{fill:#fff;opacity:.2}#mermaid-1664153797563 .sectionTitle0,#mermaid-1664153797563 .sectionTitle1,#mermaid-1664153797563 .sectionTitle2,#mermaid-1664153797563 .sectionTitle3{fill:#333}#mermaid-1664153797563 .sectionTitle{text-anchor:start;font-size:11px;text-height:14px}#mermaid-1664153797563 .grid .tick{stroke:#d3d3d3;opacity:.3;shape-rendering:crispEdges}#mermaid-1664153797563 .grid path{stroke-width:0}#mermaid-1664153797563 .today{fill:none;stroke:red;stroke-width:2px}#mermaid-1664153797563 .task{stroke-width:2}#mermaid-1664153797563 .taskText{text-anchor:middle;font-size:11px}#mermaid-1664153797563 .taskTextOutsideRight{fill:#000;text-anchor:start;font-size:11px}#mermaid-1664153797563 .taskTextOutsideLeft{fill:#000;text-anchor:end;font-size:11px}#mermaid-1664153797563 .taskText0,#mermaid-1664153797563 .taskText1,#mermaid-1664153797563 .taskText2,#mermaid-1664153797563 .taskText3{fill:#fff}#mermaid-1664153797563 .task0,#mermaid-1664153797563 .task1,#mermaid-1664153797563 .task2,#mermaid-1664153797563 .task3{fill:#8a90dd;stroke:#534fbc}#mermaid-1664153797563 .taskTextOutside0,#mermaid-1664153797563 .taskTextOutside1,#mermaid-1664153797563 .taskTextOutside2,#mermaid-1664153797563 .taskTextOutside3{fill:#000}#mermaid-1664153797563 .active0,#mermaid-1664153797563 .active1,#mermaid-1664153797563 .active2,#mermaid-1664153797563 .active3{fill:#bfc7ff;stroke:#534fbc}#mermaid-1664153797563 .activeText0,#mermaid-1664153797563 .activeText1,#mermaid-1664153797563 .activeText2,#mermaid-1664153797563 .activeText3{fill:#000!important}#mermaid-1664153797563 .done0,#mermaid-1664153797563 .done1,#mermaid-1664153797563 .done2,#mermaid-1664153797563 .done3{stroke:grey;fill:#d3d3d3;stroke-width:2}#mermaid-1664153797563 .doneText0,#mermaid-1664153797563 .doneText1,#mermaid-1664153797563 .doneText2,#mermaid-1664153797563 .doneText3{fill:#000!important}#mermaid-1664153797563 .crit0,#mermaid-1664153797563 .crit1,#mermaid-1664153797563 .crit2,#mermaid-1664153797563 .crit3{stroke:#f88;fill:red;stroke-width:2}#mermaid-1664153797563 .activeCrit0,#mermaid-1664153797563 .activeCrit1,#mermaid-1664153797563 .activeCrit2,#mermaid-1664153797563 .activeCrit3{stroke:#f88;fill:#bfc7ff;stroke-width:2}#mermaid-1664153797563 .doneCrit0,#mermaid-1664153797563 .doneCrit1,#mermaid-1664153797563 .doneCrit2,#mermaid-1664153797563 .doneCrit3{stroke:#f88;fill:#d3d3d3;stroke-width:2;cursor:pointer;shape-rendering:crispEdges}#mermaid-1664153797563 .activeCritText0,#mermaid-1664153797563 .activeCritText1,#mermaid-1664153797563 .activeCritText2,#mermaid-1664153797563 .activeCritText3,#mermaid-1664153797563 .doneCritText0,#mermaid-1664153797563 .doneCritText1,#mermaid-1664153797563 .doneCritText2,#mermaid-1664153797563 .doneCritText3{fill:#000!important}#mermaid-1664153797563 .titleText{text-anchor:middle;font-size:18px;fill:#000}#mermaid-1664153797563 g.classGroup text{fill:#9370db;stroke:none;font-family:trebuchet ms,verdana,arial;font-size:10px}#mermaid-1664153797563 g.classGroup rect{fill:#ececff;stroke:#9370db}#mermaid-1664153797563 g.classGroup line{stroke:#9370db;stroke-width:1}#mermaid-1664153797563 .classLabel .box{stroke:none;stroke-width:0;fill:#ececff;opacity:.5}#mermaid-1664153797563 .classLabel .label{fill:#9370db;font-size:10px}#mermaid-1664153797563 .relation{stroke:#9370db;stroke-width:1;fill:none}#mermaid-1664153797563 #compositionEnd,#mermaid-1664153797563 #compositionStart{fill:#9370db;stroke:#9370db;stroke-width:1}#mermaid-1664153797563 #aggregationEnd,#mermaid-1664153797563 #aggregationStart{fill:#ececff;stroke:#9370db;stroke-width:1}#mermaid-1664153797563 #dependencyEnd,#mermaid-1664153797563 #dependencyStart,#mermaid-1664153797563 #extensionEnd,#mermaid-1664153797563 #extensionStart{fill:#9370db;stroke:#9370db;stroke-width:1}#mermaid-1664153797563 .branch-label,#mermaid-1664153797563 .commit-id,#mermaid-1664153797563 .commit-msg{fill:#d3d3d3;color:#d3d3d3}</style><style>#mermaid-1664153797563 {
+  <svg id="mermaid-1664240325475" width="100%" xmlns="http://www.w3.org/2000/svg" style="max-width: 434.140625px;" viewBox="0 0 434.140625 54"><style>#mermaid-1664240325475 .label{font-family:trebuchet ms,verdana,arial;color:#333}#mermaid-1664240325475 .node circle,#mermaid-1664240325475 .node ellipse,#mermaid-1664240325475 .node polygon,#mermaid-1664240325475 .node rect{fill:#ececff;stroke:#9370db;stroke-width:1px}#mermaid-1664240325475 .node.clickable{cursor:pointer}#mermaid-1664240325475 .arrowheadPath{fill:#333}#mermaid-1664240325475 .edgePath .path{stroke:#333;stroke-width:1.5px}#mermaid-1664240325475 .edgeLabel{background-color:#e8e8e8}#mermaid-1664240325475 .cluster rect{fill:#ffffde!important;stroke:#aa3!important;stroke-width:1px!important}#mermaid-1664240325475 .cluster text{fill:#333}#mermaid-1664240325475 div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:trebuchet ms,verdana,arial;font-size:12px;background:#ffffde;border:1px solid #aa3;border-radius:2px;pointer-events:none;z-index:100}#mermaid-1664240325475 .actor{stroke:#ccf;fill:#ececff}#mermaid-1664240325475 text.actor{fill:#000;stroke:none}#mermaid-1664240325475 .actor-line{stroke:grey}#mermaid-1664240325475 .messageLine0{marker-end:"url(#arrowhead)"}#mermaid-1664240325475 .messageLine0,#mermaid-1664240325475 .messageLine1{stroke-width:1.5;stroke-dasharray:"2 2";stroke:#333}#mermaid-1664240325475 #arrowhead{fill:#333}#mermaid-1664240325475 #crosshead path{fill:#333!important;stroke:#333!important}#mermaid-1664240325475 .messageText{fill:#333;stroke:none}#mermaid-1664240325475 .labelBox{stroke:#ccf;fill:#ececff}#mermaid-1664240325475 .labelText,#mermaid-1664240325475 .loopText{fill:#000;stroke:none}#mermaid-1664240325475 .loopLine{stroke-width:2;stroke-dasharray:"2 2";marker-end:"url(#arrowhead)";stroke:#ccf}#mermaid-1664240325475 .note{stroke:#aa3;fill:#fff5ad}#mermaid-1664240325475 .noteText{fill:#000;stroke:none;font-family:trebuchet ms,verdana,arial;font-size:14px}#mermaid-1664240325475 .section{stroke:none;opacity:.2}#mermaid-1664240325475 .section0{fill:rgba(102,102,255,.49)}#mermaid-1664240325475 .section2{fill:#fff400}#mermaid-1664240325475 .section1,#mermaid-1664240325475 .section3{fill:#fff;opacity:.2}#mermaid-1664240325475 .sectionTitle0,#mermaid-1664240325475 .sectionTitle1,#mermaid-1664240325475 .sectionTitle2,#mermaid-1664240325475 .sectionTitle3{fill:#333}#mermaid-1664240325475 .sectionTitle{text-anchor:start;font-size:11px;text-height:14px}#mermaid-1664240325475 .grid .tick{stroke:#d3d3d3;opacity:.3;shape-rendering:crispEdges}#mermaid-1664240325475 .grid path{stroke-width:0}#mermaid-1664240325475 .today{fill:none;stroke:red;stroke-width:2px}#mermaid-1664240325475 .task{stroke-width:2}#mermaid-1664240325475 .taskText{text-anchor:middle;font-size:11px}#mermaid-1664240325475 .taskTextOutsideRight{fill:#000;text-anchor:start;font-size:11px}#mermaid-1664240325475 .taskTextOutsideLeft{fill:#000;text-anchor:end;font-size:11px}#mermaid-1664240325475 .taskText0,#mermaid-1664240325475 .taskText1,#mermaid-1664240325475 .taskText2,#mermaid-1664240325475 .taskText3{fill:#fff}#mermaid-1664240325475 .task0,#mermaid-1664240325475 .task1,#mermaid-1664240325475 .task2,#mermaid-1664240325475 .task3{fill:#8a90dd;stroke:#534fbc}#mermaid-1664240325475 .taskTextOutside0,#mermaid-1664240325475 .taskTextOutside1,#mermaid-1664240325475 .taskTextOutside2,#mermaid-1664240325475 .taskTextOutside3{fill:#000}#mermaid-1664240325475 .active0,#mermaid-1664240325475 .active1,#mermaid-1664240325475 .active2,#mermaid-1664240325475 .active3{fill:#bfc7ff;stroke:#534fbc}#mermaid-1664240325475 .activeText0,#mermaid-1664240325475 .activeText1,#mermaid-1664240325475 .activeText2,#mermaid-1664240325475 .activeText3{fill:#000!important}#mermaid-1664240325475 .done0,#mermaid-1664240325475 .done1,#mermaid-1664240325475 .done2,#mermaid-1664240325475 .done3{stroke:grey;fill:#d3d3d3;stroke-width:2}#mermaid-1664240325475 .doneText0,#mermaid-1664240325475 .doneText1,#mermaid-1664240325475 .doneText2,#mermaid-1664240325475 .doneText3{fill:#000!important}#mermaid-1664240325475 .crit0,#mermaid-1664240325475 .crit1,#mermaid-1664240325475 .crit2,#mermaid-1664240325475 .crit3{stroke:#f88;fill:red;stroke-width:2}#mermaid-1664240325475 .activeCrit0,#mermaid-1664240325475 .activeCrit1,#mermaid-1664240325475 .activeCrit2,#mermaid-1664240325475 .activeCrit3{stroke:#f88;fill:#bfc7ff;stroke-width:2}#mermaid-1664240325475 .doneCrit0,#mermaid-1664240325475 .doneCrit1,#mermaid-1664240325475 .doneCrit2,#mermaid-1664240325475 .doneCrit3{stroke:#f88;fill:#d3d3d3;stroke-width:2;cursor:pointer;shape-rendering:crispEdges}#mermaid-1664240325475 .activeCritText0,#mermaid-1664240325475 .activeCritText1,#mermaid-1664240325475 .activeCritText2,#mermaid-1664240325475 .activeCritText3,#mermaid-1664240325475 .doneCritText0,#mermaid-1664240325475 .doneCritText1,#mermaid-1664240325475 .doneCritText2,#mermaid-1664240325475 .doneCritText3{fill:#000!important}#mermaid-1664240325475 .titleText{text-anchor:middle;font-size:18px;fill:#000}#mermaid-1664240325475 g.classGroup text{fill:#9370db;stroke:none;font-family:trebuchet ms,verdana,arial;font-size:10px}#mermaid-1664240325475 g.classGroup rect{fill:#ececff;stroke:#9370db}#mermaid-1664240325475 g.classGroup line{stroke:#9370db;stroke-width:1}#mermaid-1664240325475 .classLabel .box{stroke:none;stroke-width:0;fill:#ececff;opacity:.5}#mermaid-1664240325475 .classLabel .label{fill:#9370db;font-size:10px}#mermaid-1664240325475 .relation{stroke:#9370db;stroke-width:1;fill:none}#mermaid-1664240325475 #compositionEnd,#mermaid-1664240325475 #compositionStart{fill:#9370db;stroke:#9370db;stroke-width:1}#mermaid-1664240325475 #aggregationEnd,#mermaid-1664240325475 #aggregationStart{fill:#ececff;stroke:#9370db;stroke-width:1}#mermaid-1664240325475 #dependencyEnd,#mermaid-1664240325475 #dependencyStart,#mermaid-1664240325475 #extensionEnd,#mermaid-1664240325475 #extensionStart{fill:#9370db;stroke:#9370db;stroke-width:1}#mermaid-1664240325475 .branch-label,#mermaid-1664240325475 .commit-id,#mermaid-1664240325475 .commit-msg{fill:#d3d3d3;color:#d3d3d3}</style><style>#mermaid-1664240325475 {
     color: rgb(0, 0, 0);
     font: normal normal 400 normal 16px / normal "Times New Roman";
   }</style><g transform="translate(-12, -12)"><g class="output"><g class="clusters"></g><g class="edgePaths"><g class="edgePath" style="opacity: 1;"><path class="path" d="M106.96875,39L131.96875,39L156.96875,39" marker-end="url(#arrowhead12)" style="fill:none"></path><defs><marker id="arrowhead12" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M235.65625,39L260.65625,39L285.65625,39" marker-end="url(#arrowhead13)" style="fill:none"></path><defs><marker id="arrowhead13" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g></g><g class="edgeLabels"><g class="edgeLabel" style="opacity: 1;" transform=""><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" style="opacity: 1;" transform=""><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g class="node" id="r" transform="translate(63.484375,39)" style="opacity: 1;"><rect rx="5" ry="5" x="-43.484375" y="-19" width="86.96875" height="38"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-33.484375,-9)"><foreignObject width="66.96875" height="18"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">RAW API</div></foreignObject></g></g></g><g class="node" id="g" transform="translate(196.3125,39)" style="opacity: 1;"><rect rx="5" ry="5" x="-39.34375" y="-19" width="78.6875" height="38"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-29.34375,-9)"><foreignObject width="58.6875" height="18"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">Go SDK</div></foreignObject></g></g></g><g class="node" id="t" transform="translate(361.8984375,39)" style="opacity: 1;"><rect rx="5" ry="5" x="-76.2421875" y="-19" width="152.484375" height="38"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-66.2421875,-9)"><foreignObject width="132.484375" height="18"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">Terraform Provider</div></foreignObject></g></g></g></g></g></g></svg>
@@ -601,103 +631,4 @@ pacman -S xdg-desktop-portal
 
 <p>That did it! No more spinning fan.</p>
 
-<p>The mem sleep type also seems to be what systemd uses for it’s <code class="language-plaintext highlighter-rouge">suspend</code> command, so changing that <code class="language-plaintext highlighter-rouge">mem_sleep</code> config will help that as well.</p>]]></content><author><name></name></author><category term="egpu" /><category term="gpu" /><summary type="html"><![CDATA[Whenever I suspend my Linux machine attached to an eGPU, the GPU in my eGPU would start spinning it’s fan like crazy.]]></summary></entry><entry><title type="html">Flashing an ErgoDox with Linux</title><link href="https://y.tsutsumi.io/flashing-a-keyboard/" rel="alternate" type="text/html" title="Flashing an ErgoDox with Linux" /><published>2021-01-21T07:00:00+00:00</published><updated>2021-01-21T07:00:00+00:00</updated><id>https://y.tsutsumi.io/flashing-a-keyboard</id><content type="html" xml:base="https://y.tsutsumi.io/flashing-a-keyboard/"><![CDATA[<p>This guide talks through:</p>
-
-<ul>
-  <li>configuring a keymap for your ErgoDox</li>
-  <li>flashing an ErgoDox using Linux.</li>
-</ul>
-
-<h2 id="configuring-a-keymap-for-your-ergodox">Configuring a Keymap for your ErgoDox</h2>
-
-<p>I use the <a href="https://config.qmk.fm/#/hotdox/LAYOUT_ergodox">QMK configurator</a> to configure the layout. Note to choose the correct keyboard in the “keyboard” selector:</p>
-
-<p><img src="keyboard-selector.png" alt="keyboard selector dropdown" /></p>
-
-<p>Note the choice. It’ll be used later during when flashing.</p>
-
-<p>Once you have the desired configuration, I like to download the scheme as json:</p>
-
-<ul>
-  <li>It’s human readable, and therefore easy to make small edits.</li>
-  <li>You can upload it back to the configurator to make edits again.</li>
-</ul>
-
-<p><img src="download-as-json-button.png" alt="download as json button" /></p>
-
-<h2 id="flashing-an-ergodox-using-linux">Flashing an ErgoDox using Linux</h2>
-
-<h3 id="1-install-the-qmk-toolkit">1. Install the QMK toolkit</h3>
-
-<p>Follow the <a href="https://docs.qmk.fm/#/newbs_getting_started">instructions on the QMK documentation</a>.</p>
-
-<p>Some distributions have packages, so use your package manager may be able to install it. For example on Arch Linux, there <a href="https://archlinux.org/packages/community/any/qmk/">is a community package</a>:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo pacman -S qmk
-</code></pre></div></div>
-
-<p>Once you’ve installed the tools, run <code class="language-plaintext highlighter-rouge">qmk setup</code> once to install it’s prerequisites, such as the qmk firmware loaders:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>qmk setup
-</code></pre></div></div>
-
-<h3 id="2-create-a-new-keymap-for-your-keyboard">2. Create a new keymap for your keyboard</h3>
-
-<p>QMK stores multiple keymaps for a single keyboard. So start by creating one for your own:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>qmk new-keymap -kb $keyboard_name
-</code></pre></div></div>
-
-<p>Where <code class="language-plaintext highlighter-rouge">$keyboard_name</code> is the name of the keyboard from the configuration step.</p>
-
-<p>The output will tell you where the keymap is located on your filesystem:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ qmk new-keymap -kb ergodox_ez
-Keymap Name: yusuke
-Ψ yusuke keymap directory created in: /home/tsutsumi/qmk_firmware/keyboards/ergodox_ez/keymaps/yusuke
-Ψ Compile a firmware with your new keymap by typing:
-
-        qmk compile -kb ergodox_ez -km yusuke
-</code></pre></div></div>
-
-<p>That puts the files that are customized for your keymap into that directory, including a keymap.c file.</p>
-
-<h3 id="3-use-json2c-to-write-the-final-keymap">3. Use json2c to write the final keymap</h3>
-
-<p><code class="language-plaintext highlighter-rouge">qmk json2c</code> parses the QMK json format, and writes out the c file that is expected in the keymap directory. So take the file generated from the configuration step, and use that to write to your newly created keymap:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ qmk json2c $json_file -o /home/tsutsumi/qmk_firmware/keyboards/ergodox_ez/keymaps/yusuke/keymap.c
-Ψ Wrote keymap to /home/tsutsumi/qmk_firmware/keyboards/ergodox_ez/keymaps/yusuke/keymap.c.
-</code></pre></div></div>
-
-<h3 id="4-build-and-load-the-firmware">4. Build and load the firmware</h3>
-
-<p>Now that you have all of the pieces, it’s just a matter of loading and flashing your firmware!</p>
-
-<p>Put your device into <a href="https://docs.qmk.fm/#/newbs_flashing?id=put-your-keyboard-into-dfu-bootloader-mode">DFU  mode</a> while attached to your computer, then compile and flash your firmware:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>qmk compile -kb ergodox_ez -km yusuke
-qmk flash -kb ergodox_ez -km yusuke
-</code></pre></div></div>
-
-<p>You should see something at the end like:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Checking file size of ergodox_ez_yusuke.hex                                                         [OK]
- * The firmware size is fine - 20916/32256 (64%, 11340 bytes free)
-Teensy Loader, Command Line, Version 2.1
-Read ".build/ergodox_ez_yusuke.hex": 20916 bytes, 64.8% usage
-Waiting for Teensy device...
- (hint: press the reset button)
-Found HalfKay Bootloader
-Read ".build/ergodox_ez_yusuke.hex": 20916 bytes, 64.8% usage
-Programming....................................................................................................................................................................
-Booting
-</code></pre></div></div>
-
-<p><em>note</em>: there may be prerequisites for compiling / booting for some variations of ErgoDox. For example, for the <a href="https://ergodox-ez.com/">ErgoDox-EZ</a>, I found I needed to install <code class="language-plaintext highlighter-rouge">teensy-loader-cli</code>. I found this out when attempting to flash the device.</p>
-
-<p>And you’re done!</p>
-
-<h2 id="conclusion">Conclusion</h2>
-
-<p>That’s it! Enjoy your newly flashed ErgoDox.</p>]]></content><author><name></name></author><category term="keyboard" /><category term="linux" /><category term="coding" /><summary type="html"><![CDATA[This guide talks through:]]></summary></entry></feed>
+<p>The mem sleep type also seems to be what systemd uses for it’s <code class="language-plaintext highlighter-rouge">suspend</code> command, so changing that <code class="language-plaintext highlighter-rouge">mem_sleep</code> config will help that as well.</p>]]></content><author><name></name></author><category term="egpu" /><category term="gpu" /><summary type="html"><![CDATA[Whenever I suspend my Linux machine attached to an eGPU, the GPU in my eGPU would start spinning it’s fan like crazy.]]></summary></entry></feed>
