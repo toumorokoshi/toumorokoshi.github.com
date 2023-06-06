@@ -1,4 +1,100 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2023-06-05T00:45:51+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">My Diet: 2020 edition</title><link href="https://y.tsutsumi.io/diet/2022" rel="alternate" type="text/html" title="My Diet: 2020 edition" /><published>2023-01-17T07:00:00+00:00</published><updated>2023-01-17T07:00:00+00:00</updated><id>https://y.tsutsumi.io/diet/diet-2020</id><content type="html" xml:base="https://y.tsutsumi.io/diet/2022"><![CDATA[<p><em>NOTE</em>: this is a copy of <a href="/diet">/diet</a> from 2020. I’m putting the old one as a blog post for posterity.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2023-06-06T05:18:08+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">sucralose-6-acetate</title><link href="https://y.tsutsumi.io/sucralose-6-acetate" rel="alternate" type="text/html" title="sucralose-6-acetate" /><published>2023-06-04T07:00:00+00:00</published><updated>2023-06-04T07:00:00+00:00</updated><id>https://y.tsutsumi.io/sucralose-6-acetate</id><content type="html" xml:base="https://y.tsutsumi.io/sucralose-6-acetate"><![CDATA[<p>A study came out recently about
+<a href="https://www.tandfonline.com/doi/full/10.1080/10937404.2023.2213903">sucralose-6-acetate</a>,
+a genotoxicin which is apparently found in sucralose.</p>
+
+<p>I wanted to dive in a little bit more, here are some findings and thoughts.</p>
+
+<p><em>note</em>: I am not a medical professional, and nothing I say here constitutes
+any medical advice. It’s my own opinions and theories.</p>
+
+<h2 id="is-sucralose-safe">Is sucralose safe</h2>
+
+<p>To answer the most important question first: I think there’s evidence that at
+minimum, sucralose does not lead to a significant increase in cancer. Several
+studies exist that show at best a minor increase (~10%) <em>correlated</em> with
+sucralose.</p>
+
+<p>That said, the following concerns is making me consider removing sucralose from
+my daily diet:</p>
+
+<ul>
+  <li>The study mentioned showing it contains a possible genotoxin.</li>
+  <li>The possible correlation between sucralose and increased insulin levels.</li>
+  <li>A possible correlation between sucralose and <a href="https://en.wikipedia.org/wiki/Non-alcoholic_fatty_liver_disease">NAFLD</a>.</li>
+</ul>
+
+<p>The NAFLD one especially gives me pause, as it is a good marker for metabolic
+health.</p>
+
+<p>Over the past year (2023), I’ve lowered my sucralose intake by 75%, down to
+roughly one sweetened protein shake a day.</p>
+
+<h2 id="in-vivo-vs-in-vitro">In-vivo vs in-vitro</h2>
+
+<p>It’s worth noting that the study talks about <em>in-vitro</em> experiments: these are
+done in a petri dish or something similar, and not in a live animal. Therefore
+there could be other biological processes that make this a non-concern. On the
+other hand, there could also be processes in an in-vivo environment that make
+this worse.</p>
+
+<h2 id="what-is-a-a-genotoxin">What is a a genotoxin?</h2>
+
+<p>At it’s core, a genotoxin is something that is known to break down DNA. Since
+cancer is caused by mutations in the DNA, genotoxins are highly correlate to
+cancer.</p>
+
+<p>I found a <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6195886/">paper that explains the definition in a little bit more
+detail</a>, at least
+defining what genotixicity means in the context of carcinogens. The summary is
+genotoxic carcinogens directly affect DNA and that is the cause of the
+carcinogen, while non-genotoxic uses some other mechanism, perhaps indirect
+like hormonal.</p>
+
+<p>It’s not super clear if there is such a thing as non-carcinogenic genotoxin. The
+abstract states that there is no such thing as a same threshold with a
+genotoxin: It’s really just a matter of risk level.</p>
+
+<h2 id="what-amount-of-sucralose-is-safe">What amount of sucralose is safe?</h2>
+
+<p>Assuming the study holds true, what amount of sucralose is safe?</p>
+
+<ul>
+  <li>The study says 0.67% of sucralose is sucralose-6-acetate.</li>
+  <li>The European Food and Safety Administration states the limit of genotoxins
+ingested should be 0.0025 μg/kg bw.</li>
+</ul>
+
+<p>The amount of sucralose relative to a microgram of sucralose-6-acetate is ~150.
+so 150μg of sucralose per 1μg of sucralose-6-acetate.</p>
+
+<p>So for an 80kb person, the daily limit would be: 80 * 0.0025 = 0.2μg. So * 150
+that would be at most <em>30μg</em> of sucralose-6-acetate.</p>
+
+<p>The US sucralose recommended daily allotment is 5mg/kg bw /d. most drinks
+contains at least 10mg.</p>
+
+<p>So 10mg of sucralose would be <em>333 times</em> the amount of genotoxin I should be
+ingesting.</p>
+
+<p>Effectively, there is no practical amount of sucralose that is safe.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>The study is worth taking seriously: clearly sucralose contains a lot of a
+genotoxin. However, this doesn’t correlate well with the fact that multiple
+studies have shown that sucralose does not lead to a meaningful increase in
+cancer.</p>
+
+<p>Although I won’t be buying any more sucralose products, I think the above
+means one of three things:</p>
+
+<ol>
+  <li>The studies on cancer correlations have the wrong conclusion.</li>
+  <li>The genotoxic nature of sucralose-6-acetate is somehow ameliorated by some
+other biological process.</li>
+  <li>The EFSA limitations are low: as weird as it sounds, it may take a higher
+concentration of genotoxins to lead to a meaningful increase in cancer.</li>
+</ol>]]></content><author><name></name></author><category term="diet" /><summary type="html"><![CDATA[A study came out recently about sucralose-6-acetate, a genotoxicin which is apparently found in sucralose.]]></summary></entry><entry><title type="html">My Diet: 2020 edition</title><link href="https://y.tsutsumi.io/diet/2022" rel="alternate" type="text/html" title="My Diet: 2020 edition" /><published>2023-01-17T07:00:00+00:00</published><updated>2023-01-17T07:00:00+00:00</updated><id>https://y.tsutsumi.io/diet/diet-2020</id><content type="html" xml:base="https://y.tsutsumi.io/diet/2022"><![CDATA[<p><em>NOTE</em>: this is a copy of <a href="/diet">/diet</a> from 2020. I’m putting the old one as a blog post for posterity.</p>
 
 <p>This is some notes about how I eat, and why.</p>
 
@@ -407,7 +503,7 @@ pacman -S xdg-desktop-portal
 </ul>
 
 <div class="jekyll-diagrams diagrams mermaid">
-  <svg id="mermaid-1685925953676" width="100%" xmlns="http://www.w3.org/2000/svg" style="max-width: 434.140625px;" viewBox="0 0 434.140625 54"><style>#mermaid-1685925953676 .label{font-family:trebuchet ms,verdana,arial;color:#333}#mermaid-1685925953676 .node circle,#mermaid-1685925953676 .node ellipse,#mermaid-1685925953676 .node polygon,#mermaid-1685925953676 .node rect{fill:#ececff;stroke:#9370db;stroke-width:1px}#mermaid-1685925953676 .node.clickable{cursor:pointer}#mermaid-1685925953676 .arrowheadPath{fill:#333}#mermaid-1685925953676 .edgePath .path{stroke:#333;stroke-width:1.5px}#mermaid-1685925953676 .edgeLabel{background-color:#e8e8e8}#mermaid-1685925953676 .cluster rect{fill:#ffffde!important;stroke:#aa3!important;stroke-width:1px!important}#mermaid-1685925953676 .cluster text{fill:#333}#mermaid-1685925953676 div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:trebuchet ms,verdana,arial;font-size:12px;background:#ffffde;border:1px solid #aa3;border-radius:2px;pointer-events:none;z-index:100}#mermaid-1685925953676 .actor{stroke:#ccf;fill:#ececff}#mermaid-1685925953676 text.actor{fill:#000;stroke:none}#mermaid-1685925953676 .actor-line{stroke:grey}#mermaid-1685925953676 .messageLine0{marker-end:"url(#arrowhead)"}#mermaid-1685925953676 .messageLine0,#mermaid-1685925953676 .messageLine1{stroke-width:1.5;stroke-dasharray:"2 2";stroke:#333}#mermaid-1685925953676 #arrowhead{fill:#333}#mermaid-1685925953676 #crosshead path{fill:#333!important;stroke:#333!important}#mermaid-1685925953676 .messageText{fill:#333;stroke:none}#mermaid-1685925953676 .labelBox{stroke:#ccf;fill:#ececff}#mermaid-1685925953676 .labelText,#mermaid-1685925953676 .loopText{fill:#000;stroke:none}#mermaid-1685925953676 .loopLine{stroke-width:2;stroke-dasharray:"2 2";marker-end:"url(#arrowhead)";stroke:#ccf}#mermaid-1685925953676 .note{stroke:#aa3;fill:#fff5ad}#mermaid-1685925953676 .noteText{fill:#000;stroke:none;font-family:trebuchet ms,verdana,arial;font-size:14px}#mermaid-1685925953676 .section{stroke:none;opacity:.2}#mermaid-1685925953676 .section0{fill:rgba(102,102,255,.49)}#mermaid-1685925953676 .section2{fill:#fff400}#mermaid-1685925953676 .section1,#mermaid-1685925953676 .section3{fill:#fff;opacity:.2}#mermaid-1685925953676 .sectionTitle0,#mermaid-1685925953676 .sectionTitle1,#mermaid-1685925953676 .sectionTitle2,#mermaid-1685925953676 .sectionTitle3{fill:#333}#mermaid-1685925953676 .sectionTitle{text-anchor:start;font-size:11px;text-height:14px}#mermaid-1685925953676 .grid .tick{stroke:#d3d3d3;opacity:.3;shape-rendering:crispEdges}#mermaid-1685925953676 .grid path{stroke-width:0}#mermaid-1685925953676 .today{fill:none;stroke:red;stroke-width:2px}#mermaid-1685925953676 .task{stroke-width:2}#mermaid-1685925953676 .taskText{text-anchor:middle;font-size:11px}#mermaid-1685925953676 .taskTextOutsideRight{fill:#000;text-anchor:start;font-size:11px}#mermaid-1685925953676 .taskTextOutsideLeft{fill:#000;text-anchor:end;font-size:11px}#mermaid-1685925953676 .taskText0,#mermaid-1685925953676 .taskText1,#mermaid-1685925953676 .taskText2,#mermaid-1685925953676 .taskText3{fill:#fff}#mermaid-1685925953676 .task0,#mermaid-1685925953676 .task1,#mermaid-1685925953676 .task2,#mermaid-1685925953676 .task3{fill:#8a90dd;stroke:#534fbc}#mermaid-1685925953676 .taskTextOutside0,#mermaid-1685925953676 .taskTextOutside1,#mermaid-1685925953676 .taskTextOutside2,#mermaid-1685925953676 .taskTextOutside3{fill:#000}#mermaid-1685925953676 .active0,#mermaid-1685925953676 .active1,#mermaid-1685925953676 .active2,#mermaid-1685925953676 .active3{fill:#bfc7ff;stroke:#534fbc}#mermaid-1685925953676 .activeText0,#mermaid-1685925953676 .activeText1,#mermaid-1685925953676 .activeText2,#mermaid-1685925953676 .activeText3{fill:#000!important}#mermaid-1685925953676 .done0,#mermaid-1685925953676 .done1,#mermaid-1685925953676 .done2,#mermaid-1685925953676 .done3{stroke:grey;fill:#d3d3d3;stroke-width:2}#mermaid-1685925953676 .doneText0,#mermaid-1685925953676 .doneText1,#mermaid-1685925953676 .doneText2,#mermaid-1685925953676 .doneText3{fill:#000!important}#mermaid-1685925953676 .crit0,#mermaid-1685925953676 .crit1,#mermaid-1685925953676 .crit2,#mermaid-1685925953676 .crit3{stroke:#f88;fill:red;stroke-width:2}#mermaid-1685925953676 .activeCrit0,#mermaid-1685925953676 .activeCrit1,#mermaid-1685925953676 .activeCrit2,#mermaid-1685925953676 .activeCrit3{stroke:#f88;fill:#bfc7ff;stroke-width:2}#mermaid-1685925953676 .doneCrit0,#mermaid-1685925953676 .doneCrit1,#mermaid-1685925953676 .doneCrit2,#mermaid-1685925953676 .doneCrit3{stroke:#f88;fill:#d3d3d3;stroke-width:2;cursor:pointer;shape-rendering:crispEdges}#mermaid-1685925953676 .activeCritText0,#mermaid-1685925953676 .activeCritText1,#mermaid-1685925953676 .activeCritText2,#mermaid-1685925953676 .activeCritText3,#mermaid-1685925953676 .doneCritText0,#mermaid-1685925953676 .doneCritText1,#mermaid-1685925953676 .doneCritText2,#mermaid-1685925953676 .doneCritText3{fill:#000!important}#mermaid-1685925953676 .titleText{text-anchor:middle;font-size:18px;fill:#000}#mermaid-1685925953676 g.classGroup text{fill:#9370db;stroke:none;font-family:trebuchet ms,verdana,arial;font-size:10px}#mermaid-1685925953676 g.classGroup rect{fill:#ececff;stroke:#9370db}#mermaid-1685925953676 g.classGroup line{stroke:#9370db;stroke-width:1}#mermaid-1685925953676 .classLabel .box{stroke:none;stroke-width:0;fill:#ececff;opacity:.5}#mermaid-1685925953676 .classLabel .label{fill:#9370db;font-size:10px}#mermaid-1685925953676 .relation{stroke:#9370db;stroke-width:1;fill:none}#mermaid-1685925953676 #compositionEnd,#mermaid-1685925953676 #compositionStart{fill:#9370db;stroke:#9370db;stroke-width:1}#mermaid-1685925953676 #aggregationEnd,#mermaid-1685925953676 #aggregationStart{fill:#ececff;stroke:#9370db;stroke-width:1}#mermaid-1685925953676 #dependencyEnd,#mermaid-1685925953676 #dependencyStart,#mermaid-1685925953676 #extensionEnd,#mermaid-1685925953676 #extensionStart{fill:#9370db;stroke:#9370db;stroke-width:1}#mermaid-1685925953676 .branch-label,#mermaid-1685925953676 .commit-id,#mermaid-1685925953676 .commit-msg{fill:#d3d3d3;color:#d3d3d3}</style><style>#mermaid-1685925953676 {
+  <svg id="mermaid-1686028691086" width="100%" xmlns="http://www.w3.org/2000/svg" style="max-width: 434.140625px;" viewBox="0 0 434.140625 54"><style>#mermaid-1686028691086 .label{font-family:trebuchet ms,verdana,arial;color:#333}#mermaid-1686028691086 .node circle,#mermaid-1686028691086 .node ellipse,#mermaid-1686028691086 .node polygon,#mermaid-1686028691086 .node rect{fill:#ececff;stroke:#9370db;stroke-width:1px}#mermaid-1686028691086 .node.clickable{cursor:pointer}#mermaid-1686028691086 .arrowheadPath{fill:#333}#mermaid-1686028691086 .edgePath .path{stroke:#333;stroke-width:1.5px}#mermaid-1686028691086 .edgeLabel{background-color:#e8e8e8}#mermaid-1686028691086 .cluster rect{fill:#ffffde!important;stroke:#aa3!important;stroke-width:1px!important}#mermaid-1686028691086 .cluster text{fill:#333}#mermaid-1686028691086 div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:trebuchet ms,verdana,arial;font-size:12px;background:#ffffde;border:1px solid #aa3;border-radius:2px;pointer-events:none;z-index:100}#mermaid-1686028691086 .actor{stroke:#ccf;fill:#ececff}#mermaid-1686028691086 text.actor{fill:#000;stroke:none}#mermaid-1686028691086 .actor-line{stroke:grey}#mermaid-1686028691086 .messageLine0{marker-end:"url(#arrowhead)"}#mermaid-1686028691086 .messageLine0,#mermaid-1686028691086 .messageLine1{stroke-width:1.5;stroke-dasharray:"2 2";stroke:#333}#mermaid-1686028691086 #arrowhead{fill:#333}#mermaid-1686028691086 #crosshead path{fill:#333!important;stroke:#333!important}#mermaid-1686028691086 .messageText{fill:#333;stroke:none}#mermaid-1686028691086 .labelBox{stroke:#ccf;fill:#ececff}#mermaid-1686028691086 .labelText,#mermaid-1686028691086 .loopText{fill:#000;stroke:none}#mermaid-1686028691086 .loopLine{stroke-width:2;stroke-dasharray:"2 2";marker-end:"url(#arrowhead)";stroke:#ccf}#mermaid-1686028691086 .note{stroke:#aa3;fill:#fff5ad}#mermaid-1686028691086 .noteText{fill:#000;stroke:none;font-family:trebuchet ms,verdana,arial;font-size:14px}#mermaid-1686028691086 .section{stroke:none;opacity:.2}#mermaid-1686028691086 .section0{fill:rgba(102,102,255,.49)}#mermaid-1686028691086 .section2{fill:#fff400}#mermaid-1686028691086 .section1,#mermaid-1686028691086 .section3{fill:#fff;opacity:.2}#mermaid-1686028691086 .sectionTitle0,#mermaid-1686028691086 .sectionTitle1,#mermaid-1686028691086 .sectionTitle2,#mermaid-1686028691086 .sectionTitle3{fill:#333}#mermaid-1686028691086 .sectionTitle{text-anchor:start;font-size:11px;text-height:14px}#mermaid-1686028691086 .grid .tick{stroke:#d3d3d3;opacity:.3;shape-rendering:crispEdges}#mermaid-1686028691086 .grid path{stroke-width:0}#mermaid-1686028691086 .today{fill:none;stroke:red;stroke-width:2px}#mermaid-1686028691086 .task{stroke-width:2}#mermaid-1686028691086 .taskText{text-anchor:middle;font-size:11px}#mermaid-1686028691086 .taskTextOutsideRight{fill:#000;text-anchor:start;font-size:11px}#mermaid-1686028691086 .taskTextOutsideLeft{fill:#000;text-anchor:end;font-size:11px}#mermaid-1686028691086 .taskText0,#mermaid-1686028691086 .taskText1,#mermaid-1686028691086 .taskText2,#mermaid-1686028691086 .taskText3{fill:#fff}#mermaid-1686028691086 .task0,#mermaid-1686028691086 .task1,#mermaid-1686028691086 .task2,#mermaid-1686028691086 .task3{fill:#8a90dd;stroke:#534fbc}#mermaid-1686028691086 .taskTextOutside0,#mermaid-1686028691086 .taskTextOutside1,#mermaid-1686028691086 .taskTextOutside2,#mermaid-1686028691086 .taskTextOutside3{fill:#000}#mermaid-1686028691086 .active0,#mermaid-1686028691086 .active1,#mermaid-1686028691086 .active2,#mermaid-1686028691086 .active3{fill:#bfc7ff;stroke:#534fbc}#mermaid-1686028691086 .activeText0,#mermaid-1686028691086 .activeText1,#mermaid-1686028691086 .activeText2,#mermaid-1686028691086 .activeText3{fill:#000!important}#mermaid-1686028691086 .done0,#mermaid-1686028691086 .done1,#mermaid-1686028691086 .done2,#mermaid-1686028691086 .done3{stroke:grey;fill:#d3d3d3;stroke-width:2}#mermaid-1686028691086 .doneText0,#mermaid-1686028691086 .doneText1,#mermaid-1686028691086 .doneText2,#mermaid-1686028691086 .doneText3{fill:#000!important}#mermaid-1686028691086 .crit0,#mermaid-1686028691086 .crit1,#mermaid-1686028691086 .crit2,#mermaid-1686028691086 .crit3{stroke:#f88;fill:red;stroke-width:2}#mermaid-1686028691086 .activeCrit0,#mermaid-1686028691086 .activeCrit1,#mermaid-1686028691086 .activeCrit2,#mermaid-1686028691086 .activeCrit3{stroke:#f88;fill:#bfc7ff;stroke-width:2}#mermaid-1686028691086 .doneCrit0,#mermaid-1686028691086 .doneCrit1,#mermaid-1686028691086 .doneCrit2,#mermaid-1686028691086 .doneCrit3{stroke:#f88;fill:#d3d3d3;stroke-width:2;cursor:pointer;shape-rendering:crispEdges}#mermaid-1686028691086 .activeCritText0,#mermaid-1686028691086 .activeCritText1,#mermaid-1686028691086 .activeCritText2,#mermaid-1686028691086 .activeCritText3,#mermaid-1686028691086 .doneCritText0,#mermaid-1686028691086 .doneCritText1,#mermaid-1686028691086 .doneCritText2,#mermaid-1686028691086 .doneCritText3{fill:#000!important}#mermaid-1686028691086 .titleText{text-anchor:middle;font-size:18px;fill:#000}#mermaid-1686028691086 g.classGroup text{fill:#9370db;stroke:none;font-family:trebuchet ms,verdana,arial;font-size:10px}#mermaid-1686028691086 g.classGroup rect{fill:#ececff;stroke:#9370db}#mermaid-1686028691086 g.classGroup line{stroke:#9370db;stroke-width:1}#mermaid-1686028691086 .classLabel .box{stroke:none;stroke-width:0;fill:#ececff;opacity:.5}#mermaid-1686028691086 .classLabel .label{fill:#9370db;font-size:10px}#mermaid-1686028691086 .relation{stroke:#9370db;stroke-width:1;fill:none}#mermaid-1686028691086 #compositionEnd,#mermaid-1686028691086 #compositionStart{fill:#9370db;stroke:#9370db;stroke-width:1}#mermaid-1686028691086 #aggregationEnd,#mermaid-1686028691086 #aggregationStart{fill:#ececff;stroke:#9370db;stroke-width:1}#mermaid-1686028691086 #dependencyEnd,#mermaid-1686028691086 #dependencyStart,#mermaid-1686028691086 #extensionEnd,#mermaid-1686028691086 #extensionStart{fill:#9370db;stroke:#9370db;stroke-width:1}#mermaid-1686028691086 .branch-label,#mermaid-1686028691086 .commit-id,#mermaid-1686028691086 .commit-msg{fill:#d3d3d3;color:#d3d3d3}</style><style>#mermaid-1686028691086 {
     color: rgb(0, 0, 0);
     font: normal normal 400 normal 16px / normal "Times New Roman";
   }</style><g transform="translate(-12, -12)"><g class="output"><g class="clusters"></g><g class="edgePaths"><g class="edgePath" style="opacity: 1;"><path class="path" d="M106.96875,39L131.96875,39L156.96875,39" marker-end="url(#arrowhead12)" style="fill:none"></path><defs><marker id="arrowhead12" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M235.65625,39L260.65625,39L285.65625,39" marker-end="url(#arrowhead13)" style="fill:none"></path><defs><marker id="arrowhead13" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g></g><g class="edgeLabels"><g class="edgeLabel" style="opacity: 1;" transform=""><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" style="opacity: 1;" transform=""><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g class="node" id="r" transform="translate(63.484375,39)" style="opacity: 1;"><rect rx="5" ry="5" x="-43.484375" y="-19" width="86.96875" height="38"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-33.484375,-9)"><foreignObject width="66.96875" height="18"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">RAW API</div></foreignObject></g></g></g><g class="node" id="g" transform="translate(196.3125,39)" style="opacity: 1;"><rect rx="5" ry="5" x="-39.34375" y="-19" width="78.6875" height="38"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-29.34375,-9)"><foreignObject width="58.6875" height="18"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">Go SDK</div></foreignObject></g></g></g><g class="node" id="t" transform="translate(361.8984375,39)" style="opacity: 1;"><rect rx="5" ry="5" x="-76.2421875" y="-19" width="152.484375" height="38"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-66.2421875,-9)"><foreignObject width="132.484375" height="18"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">Terraform Provider</div></foreignObject></g></g></g></g></g></g></svg>
@@ -619,81 +715,4 @@ pacman -S xdg-desktop-portal
 
 <p>Although I originally felt a walking treadmill was an excessive addition to my setup, it has helped alleviate a lot of the problems I faced when working in front of my desk for eight hours a day.</p>
 
-<p>After about a month, it feels more natural to me that sitting, and it has had positive impact on my health, both physically and mentally.</p>]]></content><author><name></name></author><category term="gear" /><category term="treadmill" /><summary type="html"><![CDATA[With work from home becoming a likely permanent fixture of my life, and being in front of my computer 8 hours accompanying that, I’ve been looking at ways to try get some exercise in.]]></summary></entry><entry><title type="html">Solving the Four Wizards Puzzle</title><link href="https://y.tsutsumi.io/puzzles/four-wizards" rel="alternate" type="text/html" title="Solving the Four Wizards Puzzle" /><published>2022-01-05T07:00:00+00:00</published><updated>2022-01-05T07:00:00+00:00</updated><id>https://y.tsutsumi.io/puzzles/solving-the-wizards-puzzle</id><content type="html" xml:base="https://y.tsutsumi.io/puzzles/four-wizards"><![CDATA[<p>This is a solution to the “Four Wizards” puzzle. Credit for the puzzle goes to <a href="https://blog.tanyakhovanova.com/2021/12/four-wizards/">Tanya Khovanova</a>, who found it on Facebook.</p>
-
-<p>The puzzle itself is inlined for convenience:</p>
-
-<h2 id="wizards-puzzle-statement">Wizards Puzzle Statement</h2>
-
-<p>Four wizards A, B, C, and D, were given three cards each. They were told that the cards had numbers from 1 to 12 written without repeats. The wizards only knew their own three numbers and had the following exchange.</p>
-
-<p>A: “I have number 8 on one of my cards.”</p>
-
-<p>B: “All my numbers are prime.”</p>
-
-<p>C: “All my numbers are composite. Moreover, they all have a common prime factor.”</p>
-
-<p>D: “Then I know the cards of each of you.”</p>
-
-<p>Given that every wizard told the truth, what cards does A have?</p>
-
-<h2 id="reasoning">Reasoning</h2>
-
-<p>This problem is a great example of deductive reasoning. First, let’s define some terms.</p>
-
-<blockquote>
-  <p>A “composite” number is one that comprises of multiple smaller numbers, excluding 1. Therefore, any non-prime, non-1 number is a composite.</p>
-</blockquote>
-
-<p>Note that C’s cards have to share a common prime factor. Since the numbers only go up to 12, the prime factor options are 2 and 3. A hand that shares a prime factor of 5 would be {5,10,15}, and 15 isn’t a valid card.</p>
-
-<p>With that, we can outline the possible candidates for the cards in each players hands:</p>
-
-<ul>
-  <li>A: definitely 8, possibly 1,2,3,4,5,6,7,9,10,11,12</li>
-  <li>B: possibly 2,3,5,7,11</li>
-  <li>C: 3 out of the set of {6,9,12} (composites of 3) or {4,6,10,12} (composites of 2)</li>
-  <li>D: possibly: 1,2,3,4,5,6,7,9,10,11,12</li>
-</ul>
-
-<p>In order for player D to be able to deduct that hands of A, B, and C, they have to have cards in their hand that allow them to rule out all but one possibility for the other’s hands. This means that player D must have cards in their hand that overlap with possible cards of A, B, and C.</p>
-
-<p>Let’s start with what cards could remove options for player C. Enumerating cards that C and D could both have:</p>
-
-<ul>
-  <li>D has 6: rules out composites of 3, C must have {4,10,12}</li>
-  <li>D has 9 or 12: rules out composites of 3, C must have 3 of {4, 6, 10,12}</li>
-  <li>D has 2 of 4, 6, 10, or 12: rules out composites of 2, leaves composites of 3.</li>
-</ul>
-
-<p>Out of these options, the option that uses the least cards in D’s hands to uniquely identify C’s hand is one card with the value 6: this means C must have {4, 10, 12}.</p>
-
-<p>If we make that assumption, then that leaves 2 cards in D’s hand to uniquely identify B and A’s hand.</p>
-
-<p>Note that for B, there are 5 possible prime numbers. If we take any 2 and put them in D’s hand, then we know what cards are in B’s hand. Note that we don’t need to what the <em>precise</em> primes are in B and D’s hands: we just need to know that, if D had two prime cards in their hand, then they would be able to deduce the three primes in B’s.</p>
-
-<p>So with the D’s hand of 6 and 2 prime numbers, we know exactly what is in B and C’s hands. That leaves A.</p>
-
-<p>Among the set of possibilities that A has:</p>
-
-<blockquote>
-  <p>{8} + 2 x {1,2,3,4,5,6,7,9,10,11,12}</p>
-</blockquote>
-
-<p>We can remove 6 and {4,10,12} that we derived from player C:</p>
-
-<blockquote>
-  <p>{8} + 2x {1,2,3,6,7,9,11}</p>
-</blockquote>
-
-<p>And remove all the prime numbers since they will be in either B or D’s hand:</p>
-
-<blockquote>
-  <p>{8} + 2x {1,9} = {1,8,9}</p>
-</blockquote>
-
-<p>And figure out that A has the cards 1,8 and 9.</p>
-
-<h2 id="solution">Solution</h2>
-
-<p>In summary, the solution is 1,8 and 9. Note that since the question doesn’t ask what cards are in the hands of the other players, there are multiple permutations of cards that could satisfy the problem: namely, the primes can be distributed freely as long as 3 are in B’s hand and 2 are in D’s.</p>]]></content><author><name></name></author><category term="math" /><category term="puzzle" /><summary type="html"><![CDATA[This is a solution to the “Four Wizards” puzzle. Credit for the puzzle goes to Tanya Khovanova, who found it on Facebook.]]></summary></entry></feed>
+<p>After about a month, it feels more natural to me that sitting, and it has had positive impact on my health, both physically and mentally.</p>]]></content><author><name></name></author><category term="gear" /><category term="treadmill" /><summary type="html"><![CDATA[With work from home becoming a likely permanent fixture of my life, and being in front of my computer 8 hours accompanying that, I’ve been looking at ways to try get some exercise in.]]></summary></entry></feed>
