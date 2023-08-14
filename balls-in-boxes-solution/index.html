@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Ball in Boxes: Solution | Yusuke Tsutsumi</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Ball in Boxes: Solution" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="I love Tanya Khovanova’s blog on math, and this puzzle around Balls In Boxes (which is from Creative Puzzles to Ignite your Mind by Shyam Sunder Gupta intrigued me." />
+<meta property="og:description" content="I love Tanya Khovanova’s blog on math, and this puzzle around Balls In Boxes (which is from Creative Puzzles to Ignite your Mind by Shyam Sunder Gupta intrigued me." />
+<link rel="canonical" href="https://y.tsutsumi.io/balls-in-boxes-solution/" />
+<meta property="og:url" content="https://y.tsutsumi.io/balls-in-boxes-solution/" />
+<meta property="og:site_name" content="Yusuke Tsutsumi" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-08-13T07:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Ball in Boxes: Solution" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-08-13T07:00:00+00:00","datePublished":"2023-08-13T07:00:00+00:00","description":"I love Tanya Khovanova’s blog on math, and this puzzle around Balls In Boxes (which is from Creative Puzzles to Ignite your Mind by Shyam Sunder Gupta intrigued me.","headline":"Ball in Boxes: Solution","mainEntityOfPage":{"@type":"WebPage","@id":"https://y.tsutsumi.io/balls-in-boxes-solution/"},"url":"https://y.tsutsumi.io/balls-in-boxes-solution/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" /><script async src="https://www.googletagmanager.com/gtag/js?id=G-325KP61WS9"></script>
+<script>
+  window['ga-disable-G-325KP61WS9'] = window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-325KP61WS9');
+</script>
+
+</head>
+<body><header class="site-header">
+
+    <div class="wrapper"><a class="site-title" rel="author" href="/">Yusuke Tsutsumi</a><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path
+                            d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger">
+                <a class="page-link" href="/tag/coding/">Coding Posts</a>
+                <a class="page-link"
+                    href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a><a class="page-link" href="/resources/">Resources</a><a class="page-link" href="/about/">About Yusuke Tsutsumi</a></div>
+        </nav></div>
+    <style>
+        .gse-control-cse td {
+            border: 0;
+        }
+
+        td.gsc-input {
+            border: 0;
+        }
+
+        td.gsc-search-button {
+            border: 0;
+        }
+
+        table.gsc-input {
+            margin-bottom: 0;
+        }
+    </style>
+</header><main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <header class="post-header">
+        <h1 class="post-title p-name" itemprop="name headline">Ball in Boxes: Solution</h1>
+        <p class="post-meta"><time class="dt-published" datetime="2023-08-13T07:00:00+00:00" itemprop="datePublished">
+                Aug 13, 2023
+            </time></p>
+    </header>
+
+    <div class="post-content e-content" itemprop="articleBody">
+        <p>I love Tanya Khovanova’s blog on math, and this puzzle around <a href="https://blog.tanyakhovanova.com/2023/07/balls-in-boxes/">Balls In Boxes</a> (which is from <a href="https://amzn.to/3PGKvxm">Creative Puzzles to Ignite your Mind</a> by  Shyam Sunder Gupta intrigued me.</p>
+
+<p>The solution I’ve come to is that the fourth sage has the label WWW, with the contents of his box WWB. My reasoning is as follows:</p>
+                <h2 id="the-first-sage-has-bb">   The first sage has BB* <a href="#the-first-sage-has-bb">#</a>   </h2>
+                    
+
+<p>The puzzle states:</p>
+
+<blockquote>
+  <p>The first sage takes out two black balls and says, “I know the color of the third ball.”</p>
+</blockquote>
+
+<p>If the sage has taken out BB, there are only two options for the final ball: W and B. The only way for the first sage to know the answer is if the sage has a label with the opposite. For example, if the label is BBW, then the contents of the box must be BBB since we know the contents of the boxes must not match the label.</p>
+
+<p>Therefore, there are two options for the first sage:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Sage</th>
+      <th>Label</th>
+      <th>Ball</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>BBB</td>
+      <td>BBW</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>BBW</td>
+      <td>BBB</td>
+    </tr>
+  </tbody>
+</table>
+                <h2 id="the-second-sage-has-bw">   The second sage has BW* <a href="#the-second-sage-has-bw">#</a>   </h2>
+                    
+
+<p>Onto the second sage, who says:</p>
+
+<blockquote>
+  <p>The second sage takes out one black and one white ball and says, “I know the color of the third ball.”</p>
+</blockquote>
+
+<p>We know the contents of the box must be BBW or BWW. Similar to the first sage, we can assume the second sage has the opposite pairing:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Sage</th>
+      <th>Label</th>
+      <th>Ball</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2</td>
+      <td>BBW</td>
+      <td>BWW</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>BWW</td>
+      <td>BBW</td>
+    </tr>
+  </tbody>
+</table>
+                <h2 id="the-third-sage-has-label-bb">   The third sage has label BB* <a href="#the-third-sage-has-label-bb">#</a>   </h2>
+                    
+
+<p>The third sage is interesting:</p>
+
+<blockquote>
+  <p>The third sage takes out two white balls and says, “I don’t know the color of the third ball.”</p>
+</blockquote>
+
+<p>The third sage has the following information at this point:</p>
+
+<ul>
+  <li>sage 1’s box contains BB* (BBB or BBW)</li>
+  <li>sage 2’s box contains BW* (BBW or BWW)</li>
+  <li>sage 3’s box contains WW* (BWW or WWW)</li>
+  <li>sage 3’s label.</li>
+</ul>
+
+<p>So what label could sage 3 have such that he cannot eliminate either BWW or WWW as a possible candidate?</p>
+
+<p>Among the labels BBB, BBW, BWW, and WWW, the valid candidate are BBW and BBB:</p>
+
+<ul>
+  <li>if 3’s label is WWW, then the box must contain BWW.</li>
+  <li>if 3’s label is BWW, then the box must contain WWW.</li>
+</ul>
+
+<p>So the third sage must have the labels BBB or BBW, the opposite of whatever sage 1 has.</p>
+
+<p>So sage 3’s options are:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Sage</th>
+      <th>Label</th>
+      <th>Ball</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>3</td>
+      <td>BBB</td>
+      <td>WWB</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>BBB</td>
+      <td>WWW</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>BBW</td>
+      <td>WWB</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>BBW</td>
+      <td>WWW</td>
+    </tr>
+  </tbody>
+</table>
+                <h2 id="sage-4">   Sage 4 <a href="#sage-4">#</a>   </h2>
+                    
+
+<p>So now we get to sage 4:</p>
+
+<blockquote>
+  <p>The fourth sage says, without taking out any balls, “I know the color of all the balls in my box and also the content of all the other boxes.”</p>
+</blockquote>
+
+<p>Sage 4 has the same knowledge and reasoning as we do. So we know that:</p>
+
+<ul>
+  <li>Sage 1 and Sage 3’s labels are BBW or BBB.</li>
+  <li>Sage 2’s label is one of BBW or BWW.</li>
+</ul>
+
+<p>Since sage 1 and 3 have labels of BBW and BBB, then sage 2’s label must be BWW. Since all other labels are taken, sage 4’s label must be WWW.</p>
+
+<p>If sage 2’s label is BWW and they know the contents of their box, then their box must contain BBW.</p>
+
+<p>This also means that sage 1’s box is clear: it is BBB, which implies that sage 1’s label is BBW:</p>
+
+<p>So we know the following:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Sage</th>
+      <th>Label</th>
+      <th>Ball</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>BBW</td>
+      <td>BBB</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>BWW</td>
+      <td>BBW</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>BBB</td>
+      <td>WW*</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>WWW</td>
+      <td>???</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Since the sage knows their label is WWW, they know that their box must not contain WWW. Since sage 3 has drawn WW*, it must contain WWW. By deduction the last sage must have the oly remaining combination, which is WWB:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Sage</th>
+      <th>Label</th>
+      <th>Ball</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>BBW</td>
+      <td>BBB</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>BWW</td>
+      <td>BBW</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>BBB</td>
+      <td>WWW</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>WWW</td>
+      <td>WWB</td>
+    </tr>
+  </tbody>
+</table>
+    </div><a href="#0" onclick="loadDisqus()">click to load comments via Disqus (ad supported and will cause tracking to load.
+    requires javascript).</a>
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://y.tsutsumi.io/balls-in-boxes-solution/';
+        this.page.identifier = '/balls-in-boxes-solution/';
+    };
+
+    function loadDisqus() {
+        var d = document, s = d.createElement('script');
+
+        s.src = 'https://tsutsumi.disqus.com/embed.js';
+
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    }
+</script>
+<noscript>no comments avaialable with Javascript disabled.</noscript><a class="u-url" href="/balls-in-boxes-solution/" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/%20/"></data>
+
+    <div class="wrapper">
+
+        <div class="footer-col-wrapper">
+            <script async src="https://cse.google.com/cse.js?cx=014358564571565173111:hnnbq4j54cy"></script>
+            <div class="gcse-search"></div>
+        </div>
+        <div class="footer-col-wrapper">
+            <div class="footer-col">
+                <p class="feed-subscribe">
+                    <a href="/feed/index.xml">
+                        <svg class="svg-icon orange">
+                            <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+                        </svg><span>Subscribe</span>
+                    </a>
+                </p>
+            </div>
+            <div class="footer-col">
+                <p>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</p>
+            </div>
+        </div>
+
+        <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/toumorokoshi" target="_blank" title="toumorokoshi"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/yusuke-tsutsumi" target="_blank" title="yusuke-tsutsumi"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/tsutsumiyusuke" target="_blank" title="tsutsumiyusuke"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+    </div>
+
+</footer></body>
+
+</html>

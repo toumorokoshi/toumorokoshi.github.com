@@ -1,4 +1,223 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2023-08-14T00:35:45+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">sucralose-6-acetate</title><link href="https://y.tsutsumi.io/sucralose-6-acetate" rel="alternate" type="text/html" title="sucralose-6-acetate" /><published>2023-06-04T07:00:00+00:00</published><updated>2023-06-04T07:00:00+00:00</updated><id>https://y.tsutsumi.io/sucralose-6-acetate</id><content type="html" xml:base="https://y.tsutsumi.io/sucralose-6-acetate"><![CDATA[<p>A study came out recently about
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2023-08-14T15:50:54+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Ball in Boxes: Solution</title><link href="https://y.tsutsumi.io/balls-in-boxes-solution/" rel="alternate" type="text/html" title="Ball in Boxes: Solution" /><published>2023-08-13T07:00:00+00:00</published><updated>2023-08-13T07:00:00+00:00</updated><id>https://y.tsutsumi.io/balls-in-boxes-solution</id><content type="html" xml:base="https://y.tsutsumi.io/balls-in-boxes-solution/"><![CDATA[<p>I love Tanya Khovanova’s blog on math, and this puzzle around <a href="https://blog.tanyakhovanova.com/2023/07/balls-in-boxes/">Balls In Boxes</a> (which is from <a href="https://amzn.to/3PGKvxm">Creative Puzzles to Ignite your Mind</a> by  Shyam Sunder Gupta intrigued me.</p>
+
+<p>The solution I’ve come to is that the fourth sage has the label WWW, with the contents of his box WWB. My reasoning is as follows:</p>
+
+<h2 id="the-first-sage-has-bb">The first sage has BB*</h2>
+
+<p>The puzzle states:</p>
+
+<blockquote>
+  <p>The first sage takes out two black balls and says, “I know the color of the third ball.”</p>
+</blockquote>
+
+<p>If the sage has taken out BB, there are only two options for the final ball: W and B. The only way for the first sage to know the answer is if the sage has a label with the opposite. For example, if the label is BBW, then the contents of the box must be BBB since we know the contents of the boxes must not match the label.</p>
+
+<p>Therefore, there are two options for the first sage:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Sage</th>
+      <th>Label</th>
+      <th>Ball</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>BBB</td>
+      <td>BBW</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>BBW</td>
+      <td>BBB</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="the-second-sage-has-bw">The second sage has BW*</h2>
+
+<p>Onto the second sage, who says:</p>
+
+<blockquote>
+  <p>The second sage takes out one black and one white ball and says, “I know the color of the third ball.”</p>
+</blockquote>
+
+<p>We know the contents of the box must be BBW or BWW. Similar to the first sage, we can assume the second sage has the opposite pairing:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Sage</th>
+      <th>Label</th>
+      <th>Ball</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2</td>
+      <td>BBW</td>
+      <td>BWW</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>BWW</td>
+      <td>BBW</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="the-third-sage-has-label-bb">The third sage has label BB*</h2>
+
+<p>The third sage is interesting:</p>
+
+<blockquote>
+  <p>The third sage takes out two white balls and says, “I don’t know the color of the third ball.”</p>
+</blockquote>
+
+<p>The third sage has the following information at this point:</p>
+
+<ul>
+  <li>sage 1’s box contains BB* (BBB or BBW)</li>
+  <li>sage 2’s box contains BW* (BBW or BWW)</li>
+  <li>sage 3’s box contains WW* (BWW or WWW)</li>
+  <li>sage 3’s label.</li>
+</ul>
+
+<p>So what label could sage 3 have such that he cannot eliminate either BWW or WWW as a possible candidate?</p>
+
+<p>Among the labels BBB, BBW, BWW, and WWW, the valid candidate are BBW and BBB:</p>
+
+<ul>
+  <li>if 3’s label is WWW, then the box must contain BWW.</li>
+  <li>if 3’s label is BWW, then the box must contain WWW.</li>
+</ul>
+
+<p>So the third sage must have the labels BBB or BBW, the opposite of whatever sage 1 has.</p>
+
+<p>So sage 3’s options are:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Sage</th>
+      <th>Label</th>
+      <th>Ball</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>3</td>
+      <td>BBB</td>
+      <td>WWB</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>BBB</td>
+      <td>WWW</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>BBW</td>
+      <td>WWB</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>BBW</td>
+      <td>WWW</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="sage-4">Sage 4</h2>
+
+<p>So now we get to sage 4:</p>
+
+<blockquote>
+  <p>The fourth sage says, without taking out any balls, “I know the color of all the balls in my box and also the content of all the other boxes.”</p>
+</blockquote>
+
+<p>Sage 4 has the same knowledge and reasoning as we do. So we know that:</p>
+
+<ul>
+  <li>Sage 1 and Sage 3’s labels are BBW or BBB.</li>
+  <li>Sage 2’s label is one of BBW or BWW.</li>
+</ul>
+
+<p>Since sage 1 and 3 have labels of BBW and BBB, then sage 2’s label must be BWW. Since all other labels are taken, sage 4’s label must be WWW.</p>
+
+<p>If sage 2’s label is BWW and they know the contents of their box, then their box must contain BBW.</p>
+
+<p>This also means that sage 1’s box is clear: it is BBB, which implies that sage 1’s label is BBW:</p>
+
+<p>So we know the following:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Sage</th>
+      <th>Label</th>
+      <th>Ball</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>BBW</td>
+      <td>BBB</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>BWW</td>
+      <td>BBW</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>BBB</td>
+      <td>WW*</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>WWW</td>
+      <td>???</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Since the sage knows their label is WWW, they know that their box must not contain WWW. Since sage 3 has drawn WW*, it must contain WWW. By deduction the last sage must have the oly remaining combination, which is WWB:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Sage</th>
+      <th>Label</th>
+      <th>Ball</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>BBW</td>
+      <td>BBB</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>BWW</td>
+      <td>BBW</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>BBB</td>
+      <td>WWW</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>WWW</td>
+      <td>WWB</td>
+    </tr>
+  </tbody>
+</table>]]></content><author><name></name></author><category term="puzzles" /><summary type="html"><![CDATA[I love Tanya Khovanova’s blog on math, and this puzzle around Balls In Boxes (which is from Creative Puzzles to Ignite your Mind by Shyam Sunder Gupta intrigued me.]]></summary></entry><entry><title type="html">sucralose-6-acetate</title><link href="https://y.tsutsumi.io/sucralose-6-acetate" rel="alternate" type="text/html" title="sucralose-6-acetate" /><published>2023-06-04T07:00:00+00:00</published><updated>2023-06-04T07:00:00+00:00</updated><id>https://y.tsutsumi.io/sucralose-6-acetate</id><content type="html" xml:base="https://y.tsutsumi.io/sucralose-6-acetate"><![CDATA[<p>A study came out recently about
 <a href="https://www.tandfonline.com/doi/full/10.1080/10937404.2023.2213903">sucralose-6-acetate</a>,
 a genotoxicin which is apparently found in sucralose.</p>
 
@@ -503,7 +722,7 @@ pacman -S xdg-desktop-portal
 </ul>
 
 <div class="jekyll-diagrams diagrams mermaid">
-  <svg id="mermaid-1691973347484" width="100%" xmlns="http://www.w3.org/2000/svg" style="max-width: 434.140625px;" viewBox="0 0 434.140625 54"><style>#mermaid-1691973347484 .label{font-family:trebuchet ms,verdana,arial;color:#333}#mermaid-1691973347484 .node circle,#mermaid-1691973347484 .node ellipse,#mermaid-1691973347484 .node polygon,#mermaid-1691973347484 .node rect{fill:#ececff;stroke:#9370db;stroke-width:1px}#mermaid-1691973347484 .node.clickable{cursor:pointer}#mermaid-1691973347484 .arrowheadPath{fill:#333}#mermaid-1691973347484 .edgePath .path{stroke:#333;stroke-width:1.5px}#mermaid-1691973347484 .edgeLabel{background-color:#e8e8e8}#mermaid-1691973347484 .cluster rect{fill:#ffffde!important;stroke:#aa3!important;stroke-width:1px!important}#mermaid-1691973347484 .cluster text{fill:#333}#mermaid-1691973347484 div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:trebuchet ms,verdana,arial;font-size:12px;background:#ffffde;border:1px solid #aa3;border-radius:2px;pointer-events:none;z-index:100}#mermaid-1691973347484 .actor{stroke:#ccf;fill:#ececff}#mermaid-1691973347484 text.actor{fill:#000;stroke:none}#mermaid-1691973347484 .actor-line{stroke:grey}#mermaid-1691973347484 .messageLine0{marker-end:"url(#arrowhead)"}#mermaid-1691973347484 .messageLine0,#mermaid-1691973347484 .messageLine1{stroke-width:1.5;stroke-dasharray:"2 2";stroke:#333}#mermaid-1691973347484 #arrowhead{fill:#333}#mermaid-1691973347484 #crosshead path{fill:#333!important;stroke:#333!important}#mermaid-1691973347484 .messageText{fill:#333;stroke:none}#mermaid-1691973347484 .labelBox{stroke:#ccf;fill:#ececff}#mermaid-1691973347484 .labelText,#mermaid-1691973347484 .loopText{fill:#000;stroke:none}#mermaid-1691973347484 .loopLine{stroke-width:2;stroke-dasharray:"2 2";marker-end:"url(#arrowhead)";stroke:#ccf}#mermaid-1691973347484 .note{stroke:#aa3;fill:#fff5ad}#mermaid-1691973347484 .noteText{fill:#000;stroke:none;font-family:trebuchet ms,verdana,arial;font-size:14px}#mermaid-1691973347484 .section{stroke:none;opacity:.2}#mermaid-1691973347484 .section0{fill:rgba(102,102,255,.49)}#mermaid-1691973347484 .section2{fill:#fff400}#mermaid-1691973347484 .section1,#mermaid-1691973347484 .section3{fill:#fff;opacity:.2}#mermaid-1691973347484 .sectionTitle0,#mermaid-1691973347484 .sectionTitle1,#mermaid-1691973347484 .sectionTitle2,#mermaid-1691973347484 .sectionTitle3{fill:#333}#mermaid-1691973347484 .sectionTitle{text-anchor:start;font-size:11px;text-height:14px}#mermaid-1691973347484 .grid .tick{stroke:#d3d3d3;opacity:.3;shape-rendering:crispEdges}#mermaid-1691973347484 .grid path{stroke-width:0}#mermaid-1691973347484 .today{fill:none;stroke:red;stroke-width:2px}#mermaid-1691973347484 .task{stroke-width:2}#mermaid-1691973347484 .taskText{text-anchor:middle;font-size:11px}#mermaid-1691973347484 .taskTextOutsideRight{fill:#000;text-anchor:start;font-size:11px}#mermaid-1691973347484 .taskTextOutsideLeft{fill:#000;text-anchor:end;font-size:11px}#mermaid-1691973347484 .taskText0,#mermaid-1691973347484 .taskText1,#mermaid-1691973347484 .taskText2,#mermaid-1691973347484 .taskText3{fill:#fff}#mermaid-1691973347484 .task0,#mermaid-1691973347484 .task1,#mermaid-1691973347484 .task2,#mermaid-1691973347484 .task3{fill:#8a90dd;stroke:#534fbc}#mermaid-1691973347484 .taskTextOutside0,#mermaid-1691973347484 .taskTextOutside1,#mermaid-1691973347484 .taskTextOutside2,#mermaid-1691973347484 .taskTextOutside3{fill:#000}#mermaid-1691973347484 .active0,#mermaid-1691973347484 .active1,#mermaid-1691973347484 .active2,#mermaid-1691973347484 .active3{fill:#bfc7ff;stroke:#534fbc}#mermaid-1691973347484 .activeText0,#mermaid-1691973347484 .activeText1,#mermaid-1691973347484 .activeText2,#mermaid-1691973347484 .activeText3{fill:#000!important}#mermaid-1691973347484 .done0,#mermaid-1691973347484 .done1,#mermaid-1691973347484 .done2,#mermaid-1691973347484 .done3{stroke:grey;fill:#d3d3d3;stroke-width:2}#mermaid-1691973347484 .doneText0,#mermaid-1691973347484 .doneText1,#mermaid-1691973347484 .doneText2,#mermaid-1691973347484 .doneText3{fill:#000!important}#mermaid-1691973347484 .crit0,#mermaid-1691973347484 .crit1,#mermaid-1691973347484 .crit2,#mermaid-1691973347484 .crit3{stroke:#f88;fill:red;stroke-width:2}#mermaid-1691973347484 .activeCrit0,#mermaid-1691973347484 .activeCrit1,#mermaid-1691973347484 .activeCrit2,#mermaid-1691973347484 .activeCrit3{stroke:#f88;fill:#bfc7ff;stroke-width:2}#mermaid-1691973347484 .doneCrit0,#mermaid-1691973347484 .doneCrit1,#mermaid-1691973347484 .doneCrit2,#mermaid-1691973347484 .doneCrit3{stroke:#f88;fill:#d3d3d3;stroke-width:2;cursor:pointer;shape-rendering:crispEdges}#mermaid-1691973347484 .activeCritText0,#mermaid-1691973347484 .activeCritText1,#mermaid-1691973347484 .activeCritText2,#mermaid-1691973347484 .activeCritText3,#mermaid-1691973347484 .doneCritText0,#mermaid-1691973347484 .doneCritText1,#mermaid-1691973347484 .doneCritText2,#mermaid-1691973347484 .doneCritText3{fill:#000!important}#mermaid-1691973347484 .titleText{text-anchor:middle;font-size:18px;fill:#000}#mermaid-1691973347484 g.classGroup text{fill:#9370db;stroke:none;font-family:trebuchet ms,verdana,arial;font-size:10px}#mermaid-1691973347484 g.classGroup rect{fill:#ececff;stroke:#9370db}#mermaid-1691973347484 g.classGroup line{stroke:#9370db;stroke-width:1}#mermaid-1691973347484 .classLabel .box{stroke:none;stroke-width:0;fill:#ececff;opacity:.5}#mermaid-1691973347484 .classLabel .label{fill:#9370db;font-size:10px}#mermaid-1691973347484 .relation{stroke:#9370db;stroke-width:1;fill:none}#mermaid-1691973347484 #compositionEnd,#mermaid-1691973347484 #compositionStart{fill:#9370db;stroke:#9370db;stroke-width:1}#mermaid-1691973347484 #aggregationEnd,#mermaid-1691973347484 #aggregationStart{fill:#ececff;stroke:#9370db;stroke-width:1}#mermaid-1691973347484 #dependencyEnd,#mermaid-1691973347484 #dependencyStart,#mermaid-1691973347484 #extensionEnd,#mermaid-1691973347484 #extensionStart{fill:#9370db;stroke:#9370db;stroke-width:1}#mermaid-1691973347484 .branch-label,#mermaid-1691973347484 .commit-id,#mermaid-1691973347484 .commit-msg{fill:#d3d3d3;color:#d3d3d3}</style><style>#mermaid-1691973347484 {
+  <svg id="mermaid-1692028256561" width="100%" xmlns="http://www.w3.org/2000/svg" style="max-width: 434.140625px;" viewBox="0 0 434.140625 54"><style>#mermaid-1692028256561 .label{font-family:trebuchet ms,verdana,arial;color:#333}#mermaid-1692028256561 .node circle,#mermaid-1692028256561 .node ellipse,#mermaid-1692028256561 .node polygon,#mermaid-1692028256561 .node rect{fill:#ececff;stroke:#9370db;stroke-width:1px}#mermaid-1692028256561 .node.clickable{cursor:pointer}#mermaid-1692028256561 .arrowheadPath{fill:#333}#mermaid-1692028256561 .edgePath .path{stroke:#333;stroke-width:1.5px}#mermaid-1692028256561 .edgeLabel{background-color:#e8e8e8}#mermaid-1692028256561 .cluster rect{fill:#ffffde!important;stroke:#aa3!important;stroke-width:1px!important}#mermaid-1692028256561 .cluster text{fill:#333}#mermaid-1692028256561 div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:trebuchet ms,verdana,arial;font-size:12px;background:#ffffde;border:1px solid #aa3;border-radius:2px;pointer-events:none;z-index:100}#mermaid-1692028256561 .actor{stroke:#ccf;fill:#ececff}#mermaid-1692028256561 text.actor{fill:#000;stroke:none}#mermaid-1692028256561 .actor-line{stroke:grey}#mermaid-1692028256561 .messageLine0{marker-end:"url(#arrowhead)"}#mermaid-1692028256561 .messageLine0,#mermaid-1692028256561 .messageLine1{stroke-width:1.5;stroke-dasharray:"2 2";stroke:#333}#mermaid-1692028256561 #arrowhead{fill:#333}#mermaid-1692028256561 #crosshead path{fill:#333!important;stroke:#333!important}#mermaid-1692028256561 .messageText{fill:#333;stroke:none}#mermaid-1692028256561 .labelBox{stroke:#ccf;fill:#ececff}#mermaid-1692028256561 .labelText,#mermaid-1692028256561 .loopText{fill:#000;stroke:none}#mermaid-1692028256561 .loopLine{stroke-width:2;stroke-dasharray:"2 2";marker-end:"url(#arrowhead)";stroke:#ccf}#mermaid-1692028256561 .note{stroke:#aa3;fill:#fff5ad}#mermaid-1692028256561 .noteText{fill:#000;stroke:none;font-family:trebuchet ms,verdana,arial;font-size:14px}#mermaid-1692028256561 .section{stroke:none;opacity:.2}#mermaid-1692028256561 .section0{fill:rgba(102,102,255,.49)}#mermaid-1692028256561 .section2{fill:#fff400}#mermaid-1692028256561 .section1,#mermaid-1692028256561 .section3{fill:#fff;opacity:.2}#mermaid-1692028256561 .sectionTitle0,#mermaid-1692028256561 .sectionTitle1,#mermaid-1692028256561 .sectionTitle2,#mermaid-1692028256561 .sectionTitle3{fill:#333}#mermaid-1692028256561 .sectionTitle{text-anchor:start;font-size:11px;text-height:14px}#mermaid-1692028256561 .grid .tick{stroke:#d3d3d3;opacity:.3;shape-rendering:crispEdges}#mermaid-1692028256561 .grid path{stroke-width:0}#mermaid-1692028256561 .today{fill:none;stroke:red;stroke-width:2px}#mermaid-1692028256561 .task{stroke-width:2}#mermaid-1692028256561 .taskText{text-anchor:middle;font-size:11px}#mermaid-1692028256561 .taskTextOutsideRight{fill:#000;text-anchor:start;font-size:11px}#mermaid-1692028256561 .taskTextOutsideLeft{fill:#000;text-anchor:end;font-size:11px}#mermaid-1692028256561 .taskText0,#mermaid-1692028256561 .taskText1,#mermaid-1692028256561 .taskText2,#mermaid-1692028256561 .taskText3{fill:#fff}#mermaid-1692028256561 .task0,#mermaid-1692028256561 .task1,#mermaid-1692028256561 .task2,#mermaid-1692028256561 .task3{fill:#8a90dd;stroke:#534fbc}#mermaid-1692028256561 .taskTextOutside0,#mermaid-1692028256561 .taskTextOutside1,#mermaid-1692028256561 .taskTextOutside2,#mermaid-1692028256561 .taskTextOutside3{fill:#000}#mermaid-1692028256561 .active0,#mermaid-1692028256561 .active1,#mermaid-1692028256561 .active2,#mermaid-1692028256561 .active3{fill:#bfc7ff;stroke:#534fbc}#mermaid-1692028256561 .activeText0,#mermaid-1692028256561 .activeText1,#mermaid-1692028256561 .activeText2,#mermaid-1692028256561 .activeText3{fill:#000!important}#mermaid-1692028256561 .done0,#mermaid-1692028256561 .done1,#mermaid-1692028256561 .done2,#mermaid-1692028256561 .done3{stroke:grey;fill:#d3d3d3;stroke-width:2}#mermaid-1692028256561 .doneText0,#mermaid-1692028256561 .doneText1,#mermaid-1692028256561 .doneText2,#mermaid-1692028256561 .doneText3{fill:#000!important}#mermaid-1692028256561 .crit0,#mermaid-1692028256561 .crit1,#mermaid-1692028256561 .crit2,#mermaid-1692028256561 .crit3{stroke:#f88;fill:red;stroke-width:2}#mermaid-1692028256561 .activeCrit0,#mermaid-1692028256561 .activeCrit1,#mermaid-1692028256561 .activeCrit2,#mermaid-1692028256561 .activeCrit3{stroke:#f88;fill:#bfc7ff;stroke-width:2}#mermaid-1692028256561 .doneCrit0,#mermaid-1692028256561 .doneCrit1,#mermaid-1692028256561 .doneCrit2,#mermaid-1692028256561 .doneCrit3{stroke:#f88;fill:#d3d3d3;stroke-width:2;cursor:pointer;shape-rendering:crispEdges}#mermaid-1692028256561 .activeCritText0,#mermaid-1692028256561 .activeCritText1,#mermaid-1692028256561 .activeCritText2,#mermaid-1692028256561 .activeCritText3,#mermaid-1692028256561 .doneCritText0,#mermaid-1692028256561 .doneCritText1,#mermaid-1692028256561 .doneCritText2,#mermaid-1692028256561 .doneCritText3{fill:#000!important}#mermaid-1692028256561 .titleText{text-anchor:middle;font-size:18px;fill:#000}#mermaid-1692028256561 g.classGroup text{fill:#9370db;stroke:none;font-family:trebuchet ms,verdana,arial;font-size:10px}#mermaid-1692028256561 g.classGroup rect{fill:#ececff;stroke:#9370db}#mermaid-1692028256561 g.classGroup line{stroke:#9370db;stroke-width:1}#mermaid-1692028256561 .classLabel .box{stroke:none;stroke-width:0;fill:#ececff;opacity:.5}#mermaid-1692028256561 .classLabel .label{fill:#9370db;font-size:10px}#mermaid-1692028256561 .relation{stroke:#9370db;stroke-width:1;fill:none}#mermaid-1692028256561 #compositionEnd,#mermaid-1692028256561 #compositionStart{fill:#9370db;stroke:#9370db;stroke-width:1}#mermaid-1692028256561 #aggregationEnd,#mermaid-1692028256561 #aggregationStart{fill:#ececff;stroke:#9370db;stroke-width:1}#mermaid-1692028256561 #dependencyEnd,#mermaid-1692028256561 #dependencyStart,#mermaid-1692028256561 #extensionEnd,#mermaid-1692028256561 #extensionStart{fill:#9370db;stroke:#9370db;stroke-width:1}#mermaid-1692028256561 .branch-label,#mermaid-1692028256561 .commit-id,#mermaid-1692028256561 .commit-msg{fill:#d3d3d3;color:#d3d3d3}</style><style>#mermaid-1692028256561 {
     color: rgb(0, 0, 0);
     font: normal normal 400 normal 16px / normal "Times New Roman";
   }</style><g transform="translate(-12, -12)"><g class="output"><g class="clusters"></g><g class="edgePaths"><g class="edgePath" style="opacity: 1;"><path class="path" d="M106.96875,39L131.96875,39L156.96875,39" marker-end="url(#arrowhead12)" style="fill:none"></path><defs><marker id="arrowhead12" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M235.65625,39L260.65625,39L285.65625,39" marker-end="url(#arrowhead13)" style="fill:none"></path><defs><marker id="arrowhead13" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g></g><g class="edgeLabels"><g class="edgeLabel" style="opacity: 1;" transform=""><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" style="opacity: 1;" transform=""><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g class="node" id="r" transform="translate(63.484375,39)" style="opacity: 1;"><rect rx="5" ry="5" x="-43.484375" y="-19" width="86.96875" height="38"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-33.484375,-9)"><foreignObject width="66.96875" height="18"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">RAW API</div></foreignObject></g></g></g><g class="node" id="g" transform="translate(196.3125,39)" style="opacity: 1;"><rect rx="5" ry="5" x="-39.34375" y="-19" width="78.6875" height="38"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-29.34375,-9)"><foreignObject width="58.6875" height="18"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">Go SDK</div></foreignObject></g></g></g><g class="node" id="t" transform="translate(361.8984375,39)" style="opacity: 1;"><rect rx="5" ry="5" x="-76.2421875" y="-19" width="152.484375" height="38"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-66.2421875,-9)"><foreignObject width="132.484375" height="18"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">Terraform Provider</div></foreignObject></g></g></g></g></g></g></svg>
@@ -649,70 +868,4 @@ pacman -S xdg-desktop-portal
   </li>
   <li>Reaching out helps you learn tools and techniques you may not learn otherwise.</li>
   <li>Reaching out can save you days to re-learn knowledge or learnings your team may already have.</li>
-</ul>]]></content><author><name></name></author><category term="swe-tip" /><summary type="html"><![CDATA[One of the most common mistakes I see software engineers make when they start in a role is not reaching out to a teammate sooner: for help, or to throw an idea around.]]></summary></entry><entry><title type="html">Walking desk treadmill</title><link href="https://y.tsutsumi.io/walking-desk-treadmill/" rel="alternate" type="text/html" title="Walking desk treadmill" /><published>2022-01-19T07:00:00+00:00</published><updated>2022-01-19T07:00:00+00:00</updated><id>https://y.tsutsumi.io/walking-desk-treadmill</id><content type="html" xml:base="https://y.tsutsumi.io/walking-desk-treadmill/"><![CDATA[<p>With work from home becoming a likely permanent fixture of my life, and being in front of my computer 8 hours accompanying that, I’ve been looking at ways to try get some exercise in.</p>
-
-<p>So I got a walking treadmill for under my desk.</p>
-
-<p><img src="treadmill-desk.jpg" alt="picture of my treadmill desk setup" /></p>
-
-<h2 id="background">Background</h2>
-
-<p>I’ve been using a standing desk for about 18 months. However, it’s been very difficult to stand for the whole time. My feet would hurt, or I would get restless.</p>
-
-<p>Eventually to help I got a tall office chair, and alternated between that and standing. However, I’d often contort myself in the office chair, and would end up sitting with poor posture for long periods of time.</p>
-
-<p>In addition I’m often in meetings rather than doing deep work, and it’s difficult to sit through meetings for prolonged periods of time. I would get fidgity or find myself drifting to activities on my other monitor, which made me a worse participant in meetings.</p>
-
-<p>I thought that the regular motion required with a walking treadmill would help with my concentration, and keep my body moving throughout the day.</p>
-
-<h2 id="the-treadmill">The Treadmill</h2>
-
-<p>I purchased the <a href="https://www.amazon.com/gp/product/B08FCFYHKL/ref=ppx_yo_dt_b_search_asin_title">Goplus 2 in 1 treadmill</a>.</p>
-
-<h3 id="weight">Weight</h3>
-
-<p>My original goal was to find a treadmill that was light enough that I can move in and out of my desk. the Goplus was one of the lightest I can find, but at 70 pounds, it wasn’t particularly easy to move around. I now leave it under my desk and walk or stand the whole time.</p>
-
-<h3 id="track-area">Track Area</h3>
-
-<p>The dimensions of the walking area is important: it’ll be your walking surface for multiple hours at a time.</p>
-
-<p>The Goplus has an area of 40” by 16”. The 16” isn’t very wide: I’ve had to rotate my hips much more than I would normally when walking. The 40” length hasn’t really been an issue, but doesn’t leave a significant amount of slack.</p>
-
-<h2 id="the-shoes">The Shoes</h2>
-
-<p>When I first walked on my treadmill, I did so in socks, and my feet really started to hurt after 3-4 hours. I tried some <a href="https://www.amazon.com/gp/product/B01N4W17YA/ref=ppx_yo_dt_b_search_asin_title">slip on loafers</a> and it’s helped a lot.</p>
-
-<h2 id="foot-pain">Foot pain</h2>
-
-<p>Since I’ve been using the shoes, I have been able to walk for about 1.5-2 hours without much issue: during days where I’m in meetings all day I don’t really notice fatigue from walking.</p>
-
-<p>The foot pain walking with shoes is actually must lower than standing: I think this is because walking forces you to rotate where the pressure is on your feet, which naturally prevents prolonged stress on any one part.</p>
-
-<h2 id="impact-on-focus">Impact on focus</h2>
-
-<p>Walking in meetings has helped me significantly with focus. The movement prevents me from fidgiting, and the constant use of my mental capacity to walk gives me no choice to focus on only one other task: the meeting itself.</p>
-
-<h2 id="the-routine">The routine</h2>
-
-<p>I started in December at the default pace of 0.6 miles per hour. Over the course of a month, I’ve gone up to walking 0.8 comfortably. And I think I may be able to walk faster.</p>
-
-<p>My routine has a natural break in the middle for lunch: so I walk 2-3 hours in the morning (hopping off a couple of times for snack or bathroom breaks), take the 1 hour break for lunch, and then another 3-4 hours before signing off for the day.</p>
-
-<p>After a couple of weeks, I can do the whole day without a break, but my legs do feel sore and I generally sit or lie down to give my legs rest after work for about an hour. After the break I sometimes hop right back on to do some personal computing tasks: the long stretches that are the most difficult.</p>
-
-<h2 id="what-i-would-do-differently-next-time">What I would do differently next time</h2>
-
-<ul>
-  <li>16” for width on a treadmill is uncomfortable, for my 6’ frame. I would get a wider treadmill.</li>
-</ul>
-
-<h2 id="energy-after-work">Energy after work</h2>
-
-<p>I have more energy after walking all day, and during meetings: I feel more alert since the constant exercise helps keep my blood pumping, and in the same way I feel more energetic after a hard workout, I notice I have more energy after walking.</p>
-
-<h2 id="conclusion">Conclusion</h2>
-
-<p>Although I originally felt a walking treadmill was an excessive addition to my setup, it has helped alleviate a lot of the problems I faced when working in front of my desk for eight hours a day.</p>
-
-<p>After about a month, it feels more natural to me that sitting, and it has had positive impact on my health, both physically and mentally.</p>]]></content><author><name></name></author><category term="gear" /><category term="treadmill" /><summary type="html"><![CDATA[With work from home becoming a likely permanent fixture of my life, and being in front of my computer 8 hours accompanying that, I’ve been looking at ways to try get some exercise in.]]></summary></entry></feed>
+</ul>]]></content><author><name></name></author><category term="swe-tip" /><summary type="html"><![CDATA[One of the most common mistakes I see software engineers make when they start in a role is not reaching out to a teammate sooner: for help, or to throw an idea around.]]></summary></entry></feed>
