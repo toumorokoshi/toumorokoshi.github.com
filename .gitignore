@@ -52,3 +52,4 @@ assets/*
 !assets/css
 vendor
 pages
+.jekyll-metadata
