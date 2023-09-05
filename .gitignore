@@ -51,3 +51,4 @@ _drafts
 assets/*
 !assets/css
 vendor
+pages
