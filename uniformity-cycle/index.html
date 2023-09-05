@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>The Uniformity Cycle | Yusuke Tsutsumi</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="The Uniformity Cycle" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="I’ve been doing a lot of work on platforms recently, specifically to how it pertains to clients. A general concept has solidified for me: a “uniformity cycle” and a “complexity cycle”, and without an intentional philosophy can fall into one naturally." />
+<meta property="og:description" content="I’ve been doing a lot of work on platforms recently, specifically to how it pertains to clients. A general concept has solidified for me: a “uniformity cycle” and a “complexity cycle”, and without an intentional philosophy can fall into one naturally." />
+<link rel="canonical" href="https://y.tsutsumi.io/uniformity-cycle/" />
+<meta property="og:url" content="https://y.tsutsumi.io/uniformity-cycle/" />
+<meta property="og:site_name" content="Yusuke Tsutsumi" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-09-01T07:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="The Uniformity Cycle" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-09-01T07:00:00+00:00","datePublished":"2023-09-01T07:00:00+00:00","description":"I’ve been doing a lot of work on platforms recently, specifically to how it pertains to clients. A general concept has solidified for me: a “uniformity cycle” and a “complexity cycle”, and without an intentional philosophy can fall into one naturally.","headline":"The Uniformity Cycle","mainEntityOfPage":{"@type":"WebPage","@id":"https://y.tsutsumi.io/uniformity-cycle/"},"url":"https://y.tsutsumi.io/uniformity-cycle/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" /><script async src="https://www.googletagmanager.com/gtag/js?id=G-325KP61WS9"></script>
+<script>
+  window['ga-disable-G-325KP61WS9'] = window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-325KP61WS9');
+</script>
+
+</head>
+<body><header class="site-header">
+
+    <div class="wrapper"><a class="site-title" rel="author" href="/">Yusuke Tsutsumi</a><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path
+                            d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger">
+                <a class="page-link" href="/tag/coding/">Coding Posts</a>
+                <a class="page-link"
+                    href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a><a class="page-link" href="/resources/">Resources</a><a class="page-link" href="/about/">About Yusuke Tsutsumi</a></div>
+        </nav></div>
+    <style>
+        .gse-control-cse td {
+            border: 0;
+        }
+
+        td.gsc-input {
+            border: 0;
+        }
+
+        td.gsc-search-button {
+            border: 0;
+        }
+
+        table.gsc-input {
+            margin-bottom: 0;
+        }
+    </style>
+</header><main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <header class="post-header">
+        <h1 class="post-title p-name" itemprop="name headline">The Uniformity Cycle</h1>
+        <p class="post-meta"><time class="dt-published" datetime="2023-09-01T07:00:00+00:00" itemprop="datePublished">
+                Sep 1, 2023
+            </time></p>
+    </header>
+
+    <div class="post-content e-content" itemprop="articleBody">
+        <p>I’ve been doing a lot of work on platforms recently, specifically to how it pertains to clients. A general concept has solidified for me: a “uniformity cycle” and a “complexity cycle”, and without an intentional philosophy can fall into one naturally.</p>
+                <h2 id="platforms-and-clients">   Platforms and Clients <a href="#platforms-and-clients">#</a>   </h2>
+                    
+
+<p>For this post, I’m using “platform” to refer to more than one service that together provides functionality or value to a customer. Think clouds where compute, disks, blob storage, and databases are provided and interoperate with each other. Or GitHub which provides repositories, issue tracking, project management tooling, and continuous integration.</p>
+
+<p>These services are designed to interoperate with each other, and often come with a set of shared <em>clients</em> that consume them. Think command lines, visual user interfaces, and SDKs in various languages.</p>
+                <h2 id="the-complexity-cycle">   The Complexity Cycle <a href="#the-complexity-cycle">#</a>   </h2>
+                    
+
+<p>Clients start out very simple: there are usually a small handful of services that exist, and the integration occurs manually. Not a lot of thought is given into what is sharable or not at this phase, sans common industry wide standards like HTTP or authentication. The services have autonomy, and the integration cost with clients seems marginal to an organization since the feature set is small.</p>
+
+<p>However, as time goes on, this cost of client-server integration becomes costly.
+What’s worse, if there’s a desire to introduce some common feature in a client
+for <em>all</em> services, it is difficult to do so since every client is hand-coded. For example, if generic functionality around listing resources is desired, it must be added to every integration, and must be integrated by hand as likely the service’s implementation of listing resources differs.</p>
+
+<p>Since everything in the clients is hand-written, there is little value in developing standard behavior, so services continue to implement differing functionality that serves a similar purpose.</p>
+
+<p>This whole loop is an example of what I’m calling a “complexity cycle”:</p>
+
+<div class="jekyll-diagrams diagrams mermaid">
+  <svg id="mermaid-1693925481872" width="100%" xmlns="http://www.w3.org/2000/svg" style="max-width: 857.828125px;" viewBox="0 0 857.828125 230"><style>#mermaid-1693925481872 .label{font-family:trebuchet ms,verdana,arial;color:#333}#mermaid-1693925481872 .node circle,#mermaid-1693925481872 .node ellipse,#mermaid-1693925481872 .node polygon,#mermaid-1693925481872 .node rect{fill:#ececff;stroke:#9370db;stroke-width:1px}#mermaid-1693925481872 .node.clickable{cursor:pointer}#mermaid-1693925481872 .arrowheadPath{fill:#333}#mermaid-1693925481872 .edgePath .path{stroke:#333;stroke-width:1.5px}#mermaid-1693925481872 .edgeLabel{background-color:#e8e8e8}#mermaid-1693925481872 .cluster rect{fill:#ffffde!important;stroke:#aa3!important;stroke-width:1px!important}#mermaid-1693925481872 .cluster text{fill:#333}#mermaid-1693925481872 div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:trebuchet ms,verdana,arial;font-size:12px;background:#ffffde;border:1px solid #aa3;border-radius:2px;pointer-events:none;z-index:100}#mermaid-1693925481872 .actor{stroke:#ccf;fill:#ececff}#mermaid-1693925481872 text.actor{fill:#000;stroke:none}#mermaid-1693925481872 .actor-line{stroke:grey}#mermaid-1693925481872 .messageLine0{marker-end:"url(#arrowhead)"}#mermaid-1693925481872 .messageLine0,#mermaid-1693925481872 .messageLine1{stroke-width:1.5;stroke-dasharray:"2 2";stroke:#333}#mermaid-1693925481872 #arrowhead{fill:#333}#mermaid-1693925481872 #crosshead path{fill:#333!important;stroke:#333!important}#mermaid-1693925481872 .messageText{fill:#333;stroke:none}#mermaid-1693925481872 .labelBox{stroke:#ccf;fill:#ececff}#mermaid-1693925481872 .labelText,#mermaid-1693925481872 .loopText{fill:#000;stroke:none}#mermaid-1693925481872 .loopLine{stroke-width:2;stroke-dasharray:"2 2";marker-end:"url(#arrowhead)";stroke:#ccf}#mermaid-1693925481872 .note{stroke:#aa3;fill:#fff5ad}#mermaid-1693925481872 .noteText{fill:#000;stroke:none;font-family:trebuchet ms,verdana,arial;font-size:14px}#mermaid-1693925481872 .section{stroke:none;opacity:.2}#mermaid-1693925481872 .section0{fill:rgba(102,102,255,.49)}#mermaid-1693925481872 .section2{fill:#fff400}#mermaid-1693925481872 .section1,#mermaid-1693925481872 .section3{fill:#fff;opacity:.2}#mermaid-1693925481872 .sectionTitle0,#mermaid-1693925481872 .sectionTitle1,#mermaid-1693925481872 .sectionTitle2,#mermaid-1693925481872 .sectionTitle3{fill:#333}#mermaid-1693925481872 .sectionTitle{text-anchor:start;font-size:11px;text-height:14px}#mermaid-1693925481872 .grid .tick{stroke:#d3d3d3;opacity:.3;shape-rendering:crispEdges}#mermaid-1693925481872 .grid path{stroke-width:0}#mermaid-1693925481872 .today{fill:none;stroke:red;stroke-width:2px}#mermaid-1693925481872 .task{stroke-width:2}#mermaid-1693925481872 .taskText{text-anchor:middle;font-size:11px}#mermaid-1693925481872 .taskTextOutsideRight{fill:#000;text-anchor:start;font-size:11px}#mermaid-1693925481872 .taskTextOutsideLeft{fill:#000;text-anchor:end;font-size:11px}#mermaid-1693925481872 .taskText0,#mermaid-1693925481872 .taskText1,#mermaid-1693925481872 .taskText2,#mermaid-1693925481872 .taskText3{fill:#fff}#mermaid-1693925481872 .task0,#mermaid-1693925481872 .task1,#mermaid-1693925481872 .task2,#mermaid-1693925481872 .task3{fill:#8a90dd;stroke:#534fbc}#mermaid-1693925481872 .taskTextOutside0,#mermaid-1693925481872 .taskTextOutside1,#mermaid-1693925481872 .taskTextOutside2,#mermaid-1693925481872 .taskTextOutside3{fill:#000}#mermaid-1693925481872 .active0,#mermaid-1693925481872 .active1,#mermaid-1693925481872 .active2,#mermaid-1693925481872 .active3{fill:#bfc7ff;stroke:#534fbc}#mermaid-1693925481872 .activeText0,#mermaid-1693925481872 .activeText1,#mermaid-1693925481872 .activeText2,#mermaid-1693925481872 .activeText3{fill:#000!important}#mermaid-1693925481872 .done0,#mermaid-1693925481872 .done1,#mermaid-1693925481872 .done2,#mermaid-1693925481872 .done3{stroke:grey;fill:#d3d3d3;stroke-width:2}#mermaid-1693925481872 .doneText0,#mermaid-1693925481872 .doneText1,#mermaid-1693925481872 .doneText2,#mermaid-1693925481872 .doneText3{fill:#000!important}#mermaid-1693925481872 .crit0,#mermaid-1693925481872 .crit1,#mermaid-1693925481872 .crit2,#mermaid-1693925481872 .crit3{stroke:#f88;fill:red;stroke-width:2}#mermaid-1693925481872 .activeCrit0,#mermaid-1693925481872 .activeCrit1,#mermaid-1693925481872 .activeCrit2,#mermaid-1693925481872 .activeCrit3{stroke:#f88;fill:#bfc7ff;stroke-width:2}#mermaid-1693925481872 .doneCrit0,#mermaid-1693925481872 .doneCrit1,#mermaid-1693925481872 .doneCrit2,#mermaid-1693925481872 .doneCrit3{stroke:#f88;fill:#d3d3d3;stroke-width:2;cursor:pointer;shape-rendering:crispEdges}#mermaid-1693925481872 .activeCritText0,#mermaid-1693925481872 .activeCritText1,#mermaid-1693925481872 .activeCritText2,#mermaid-1693925481872 .activeCritText3,#mermaid-1693925481872 .doneCritText0,#mermaid-1693925481872 .doneCritText1,#mermaid-1693925481872 .doneCritText2,#mermaid-1693925481872 .doneCritText3{fill:#000!important}#mermaid-1693925481872 .titleText{text-anchor:middle;font-size:18px;fill:#000}#mermaid-1693925481872 g.classGroup text{fill:#9370db;stroke:none;font-family:trebuchet ms,verdana,arial;font-size:10px}#mermaid-1693925481872 g.classGroup rect{fill:#ececff;stroke:#9370db}#mermaid-1693925481872 g.classGroup line{stroke:#9370db;stroke-width:1}#mermaid-1693925481872 .classLabel .box{stroke:none;stroke-width:0;fill:#ececff;opacity:.5}#mermaid-1693925481872 .classLabel .label{fill:#9370db;font-size:10px}#mermaid-1693925481872 .relation{stroke:#9370db;stroke-width:1;fill:none}#mermaid-1693925481872 #compositionEnd,#mermaid-1693925481872 #compositionStart{fill:#9370db;stroke:#9370db;stroke-width:1}#mermaid-1693925481872 #aggregationEnd,#mermaid-1693925481872 #aggregationStart{fill:#ececff;stroke:#9370db;stroke-width:1}#mermaid-1693925481872 #dependencyEnd,#mermaid-1693925481872 #dependencyStart,#mermaid-1693925481872 #extensionEnd,#mermaid-1693925481872 #extensionStart{fill:#9370db;stroke:#9370db;stroke-width:1}#mermaid-1693925481872 .branch-label,#mermaid-1693925481872 .commit-id,#mermaid-1693925481872 .commit-msg{fill:#d3d3d3;color:#d3d3d3}</style><style>#mermaid-1693925481872 {
+    color: rgb(0, 0, 0);
+    font: normal normal 400 normal 16px / normal "Times New Roman";
+  }</style><g transform="translate(-12, -12)"><g class="output"><g class="clusters"></g><g class="edgePaths"><g class="edgePath" style="opacity: 1;"><path class="path" d="M436.5958806818182,58L430.9140625,83L436.5958806818182,108" marker-end="url(#arrowhead14)" style="fill:none"></path><defs><marker id="arrowhead14" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M445.2322443181818,108L450.9140625,83L445.2322443181818,58" marker-end="url(#arrowhead15)" style="fill:none"></path><defs><marker id="arrowhead15" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M440.9140625,146L440.9140625,171L440.9140625,196" marker-end="url(#arrowhead16)" style="fill:none"></path><defs><marker id="arrowhead16" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g></g><g class="edgeLabels"><g class="edgeLabel" style="opacity: 1;" transform=""><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" style="opacity: 1;" transform=""><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" style="opacity: 1;" transform=""><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g class="node" id="x" transform="translate(440.9140625,39)" style="opacity: 1;"><rect rx="5" ry="5" x="-420.9140625" y="-19" width="841.828125" height="38"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-410.9140625,-9)"><foreignObject width="821.828125" height="18"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">Services vary in behavior, since integrations are hand-coded and there
+    is no value in building or following standards.</div></foreignObject></g></g></g><g class="node" id="y" transform="translate(440.9140625,127)" style="opacity: 1;"><rect rx="5" ry="5" x="-195.4296875" y="-19" width="390.859375" height="38"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-185.4296875,-9)"><foreignObject width="370.859375" height="18"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">Clients are hand-coded as services vary in behavior.</div></foreignObject></g></g></g><g class="node" id="z" transform="translate(440.9140625,215)" style="opacity: 1;"><rect rx="5" ry="5" x="-301.7109375" y="-19" width="603.421875" height="38"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-291.7109375,-9)"><foreignObject width="583.421875" height="18"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">New clients features take a long time to create
+  due to variation in service behavior.</div></foreignObject></g></g></g></g></g></g></svg>
+</div>
+                <h2 id="the-uniformity-cycle">   The Uniformity Cycle <a href="#the-uniformity-cycle">#</a>   </h2>
+                    
+
+<p>So how do we address this cycle of complexity, that will erode the value of a
+common platform? By promoting (or sometimes enforcing) <em>uniformity</em>.</p>
+
+<p>If non-uniform schema or behavior makes it harder for clients to integrate with
+services, then more uniform schema behavior reduces the cost. If the client
+depends <em>only</em> on uniform behavior, then the clients are extremely simple to
+maintain and author: their cost is effectively O(1) to integrate with all
+compliance services.</p>
+
+<p>This in turn motivates the services themselves to be more consistent: new services, as they are created, <em>must</em> adhere to the uniformity requirements (even if implicit) as the clients do not allow configuration or hand-written code.</p>
+
+<p>This opposite a complexity cycle can be described as a “uniformity cycle”:</p>
+
+<div class="jekyll-diagrams diagrams mermaid">
+  <svg id="mermaid-1693925482325" width="100%" xmlns="http://www.w3.org/2000/svg" style="max-width: 728.484375px;" viewBox="0 0 728.484375 230"><style>#mermaid-1693925482325 .label{font-family:trebuchet ms,verdana,arial;color:#333}#mermaid-1693925482325 .node circle,#mermaid-1693925482325 .node ellipse,#mermaid-1693925482325 .node polygon,#mermaid-1693925482325 .node rect{fill:#ececff;stroke:#9370db;stroke-width:1px}#mermaid-1693925482325 .node.clickable{cursor:pointer}#mermaid-1693925482325 .arrowheadPath{fill:#333}#mermaid-1693925482325 .edgePath .path{stroke:#333;stroke-width:1.5px}#mermaid-1693925482325 .edgeLabel{background-color:#e8e8e8}#mermaid-1693925482325 .cluster rect{fill:#ffffde!important;stroke:#aa3!important;stroke-width:1px!important}#mermaid-1693925482325 .cluster text{fill:#333}#mermaid-1693925482325 div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:trebuchet ms,verdana,arial;font-size:12px;background:#ffffde;border:1px solid #aa3;border-radius:2px;pointer-events:none;z-index:100}#mermaid-1693925482325 .actor{stroke:#ccf;fill:#ececff}#mermaid-1693925482325 text.actor{fill:#000;stroke:none}#mermaid-1693925482325 .actor-line{stroke:grey}#mermaid-1693925482325 .messageLine0{marker-end:"url(#arrowhead)"}#mermaid-1693925482325 .messageLine0,#mermaid-1693925482325 .messageLine1{stroke-width:1.5;stroke-dasharray:"2 2";stroke:#333}#mermaid-1693925482325 #arrowhead{fill:#333}#mermaid-1693925482325 #crosshead path{fill:#333!important;stroke:#333!important}#mermaid-1693925482325 .messageText{fill:#333;stroke:none}#mermaid-1693925482325 .labelBox{stroke:#ccf;fill:#ececff}#mermaid-1693925482325 .labelText,#mermaid-1693925482325 .loopText{fill:#000;stroke:none}#mermaid-1693925482325 .loopLine{stroke-width:2;stroke-dasharray:"2 2";marker-end:"url(#arrowhead)";stroke:#ccf}#mermaid-1693925482325 .note{stroke:#aa3;fill:#fff5ad}#mermaid-1693925482325 .noteText{fill:#000;stroke:none;font-family:trebuchet ms,verdana,arial;font-size:14px}#mermaid-1693925482325 .section{stroke:none;opacity:.2}#mermaid-1693925482325 .section0{fill:rgba(102,102,255,.49)}#mermaid-1693925482325 .section2{fill:#fff400}#mermaid-1693925482325 .section1,#mermaid-1693925482325 .section3{fill:#fff;opacity:.2}#mermaid-1693925482325 .sectionTitle0,#mermaid-1693925482325 .sectionTitle1,#mermaid-1693925482325 .sectionTitle2,#mermaid-1693925482325 .sectionTitle3{fill:#333}#mermaid-1693925482325 .sectionTitle{text-anchor:start;font-size:11px;text-height:14px}#mermaid-1693925482325 .grid .tick{stroke:#d3d3d3;opacity:.3;shape-rendering:crispEdges}#mermaid-1693925482325 .grid path{stroke-width:0}#mermaid-1693925482325 .today{fill:none;stroke:red;stroke-width:2px}#mermaid-1693925482325 .task{stroke-width:2}#mermaid-1693925482325 .taskText{text-anchor:middle;font-size:11px}#mermaid-1693925482325 .taskTextOutsideRight{fill:#000;text-anchor:start;font-size:11px}#mermaid-1693925482325 .taskTextOutsideLeft{fill:#000;text-anchor:end;font-size:11px}#mermaid-1693925482325 .taskText0,#mermaid-1693925482325 .taskText1,#mermaid-1693925482325 .taskText2,#mermaid-1693925482325 .taskText3{fill:#fff}#mermaid-1693925482325 .task0,#mermaid-1693925482325 .task1,#mermaid-1693925482325 .task2,#mermaid-1693925482325 .task3{fill:#8a90dd;stroke:#534fbc}#mermaid-1693925482325 .taskTextOutside0,#mermaid-1693925482325 .taskTextOutside1,#mermaid-1693925482325 .taskTextOutside2,#mermaid-1693925482325 .taskTextOutside3{fill:#000}#mermaid-1693925482325 .active0,#mermaid-1693925482325 .active1,#mermaid-1693925482325 .active2,#mermaid-1693925482325 .active3{fill:#bfc7ff;stroke:#534fbc}#mermaid-1693925482325 .activeText0,#mermaid-1693925482325 .activeText1,#mermaid-1693925482325 .activeText2,#mermaid-1693925482325 .activeText3{fill:#000!important}#mermaid-1693925482325 .done0,#mermaid-1693925482325 .done1,#mermaid-1693925482325 .done2,#mermaid-1693925482325 .done3{stroke:grey;fill:#d3d3d3;stroke-width:2}#mermaid-1693925482325 .doneText0,#mermaid-1693925482325 .doneText1,#mermaid-1693925482325 .doneText2,#mermaid-1693925482325 .doneText3{fill:#000!important}#mermaid-1693925482325 .crit0,#mermaid-1693925482325 .crit1,#mermaid-1693925482325 .crit2,#mermaid-1693925482325 .crit3{stroke:#f88;fill:red;stroke-width:2}#mermaid-1693925482325 .activeCrit0,#mermaid-1693925482325 .activeCrit1,#mermaid-1693925482325 .activeCrit2,#mermaid-1693925482325 .activeCrit3{stroke:#f88;fill:#bfc7ff;stroke-width:2}#mermaid-1693925482325 .doneCrit0,#mermaid-1693925482325 .doneCrit1,#mermaid-1693925482325 .doneCrit2,#mermaid-1693925482325 .doneCrit3{stroke:#f88;fill:#d3d3d3;stroke-width:2;cursor:pointer;shape-rendering:crispEdges}#mermaid-1693925482325 .activeCritText0,#mermaid-1693925482325 .activeCritText1,#mermaid-1693925482325 .activeCritText2,#mermaid-1693925482325 .activeCritText3,#mermaid-1693925482325 .doneCritText0,#mermaid-1693925482325 .doneCritText1,#mermaid-1693925482325 .doneCritText2,#mermaid-1693925482325 .doneCritText3{fill:#000!important}#mermaid-1693925482325 .titleText{text-anchor:middle;font-size:18px;fill:#000}#mermaid-1693925482325 g.classGroup text{fill:#9370db;stroke:none;font-family:trebuchet ms,verdana,arial;font-size:10px}#mermaid-1693925482325 g.classGroup rect{fill:#ececff;stroke:#9370db}#mermaid-1693925482325 g.classGroup line{stroke:#9370db;stroke-width:1}#mermaid-1693925482325 .classLabel .box{stroke:none;stroke-width:0;fill:#ececff;opacity:.5}#mermaid-1693925482325 .classLabel .label{fill:#9370db;font-size:10px}#mermaid-1693925482325 .relation{stroke:#9370db;stroke-width:1;fill:none}#mermaid-1693925482325 #compositionEnd,#mermaid-1693925482325 #compositionStart{fill:#9370db;stroke:#9370db;stroke-width:1}#mermaid-1693925482325 #aggregationEnd,#mermaid-1693925482325 #aggregationStart{fill:#ececff;stroke:#9370db;stroke-width:1}#mermaid-1693925482325 #dependencyEnd,#mermaid-1693925482325 #dependencyStart,#mermaid-1693925482325 #extensionEnd,#mermaid-1693925482325 #extensionStart{fill:#9370db;stroke:#9370db;stroke-width:1}#mermaid-1693925482325 .branch-label,#mermaid-1693925482325 .commit-id,#mermaid-1693925482325 .commit-msg{fill:#d3d3d3;color:#d3d3d3}</style><style>#mermaid-1693925482325 {
+    color: rgb(0, 0, 0);
+    font: normal normal 400 normal 16px / normal "Times New Roman";
+  }</style><g transform="translate(-12, -12)"><g class="output"><g class="clusters"></g><g class="edgePaths"><g class="edgePath" style="opacity: 1;"><path class="path" d="M371.9240056818182,58L366.2421875,83L371.9240056818182,108" marker-end="url(#arrowhead14)" style="fill:none"></path><defs><marker id="arrowhead14" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M380.5603693181818,108L386.2421875,83L380.5603693181818,58" marker-end="url(#arrowhead15)" style="fill:none"></path><defs><marker id="arrowhead15" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M376.2421875,146L376.2421875,171L376.2421875,196" marker-end="url(#arrowhead16)" style="fill:none"></path><defs><marker id="arrowhead16" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g></g><g class="edgeLabels"><g class="edgeLabel" style="opacity: 1;" transform=""><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" style="opacity: 1;" transform=""><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel" style="opacity: 1;" transform=""><g transform="translate(0,0)" class="label"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g class="node" id="x" transform="translate(376.2421875,39)" style="opacity: 1;"><rect rx="5" ry="5" x="-356.2421875" y="-19" width="712.484375" height="38"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-346.2421875,-9)"><foreignObject width="692.484375" height="18"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">Services are uniform, as the clients are simple and only support
+    services that behave consistently.</div></foreignObject></g></g></g><g class="node" id="y" transform="translate(376.2421875,127)" style="opacity: 1;"><rect rx="5" ry="5" x="-262.1328125" y="-19" width="524.265625" height="38"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-252.1328125,-9)"><foreignObject width="504.265625" height="18"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">Clients are simple, depending on the consistency behavior for services.</div></foreignObject></g></g></g><g class="node" id="z" transform="translate(376.2421875,215)" style="opacity: 1;"><rect rx="5" ry="5" x="-234.53125" y="-19" width="469.0625" height="38"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-224.53125,-9)"><foreignObject width="449.0625" height="18"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">New client features cost O(1) to roll out for all relevant services.</div></foreignObject></g></g></g></g></g></g></svg>
+</div>
+
+<p>A uniformity cycle can keep costs low across both services and clients:</p>
+
+<ul>
+  <li>As services must have more uniform behavior, more shared platforms can be created to reduce the cost of these features (e.g. auth or storing state)</li>
+  <li>New universal service features are also easier to roll out, as they rely more on a shared platform.</li>
+</ul>
+                <h2 id="how-to-flip-the-cycle">   How to flip the cycle <a href="#how-to-flip-the-cycle">#</a>   </h2>
+                    
+
+<p>Reversing the cycle from complexity to uniformity requires a strategy that spans across both the platform and it’s clients. Oftentimes a single individual does not have the ability to flip things, nor does a single change flip the cycle.</p>
+
+<p>But several patterns exist, including:</p>
+
+<ul>
+  <li>When supporting new features in a client using new server behavior (e.g. filtering on a list), require a specific implementation of that behavior. When asked to support a different implementation, have a hard design discussion on why, and try to fold any requirements back into the existing implementation.</li>
+  <li>Build fast feedback service-client loops: if service producers can see the
+direct impact on the clients and see undesirable behaviors, they can change them in the service early on in the cycle rather than right at the end when the team has deadlines.</li>
+  <li>Build common behavior into existing shared infrastructure such that services do not have control over the implementation: API gateways are a great place to introduce new features.</li>
+</ul>
+
+<p>After time, the cycle can flip.</p>
+                <h2 id="should-we-always-design-for-uniformity">   Should we always design for uniformity? <a href="#should-we-always-design-for-uniformity">#</a>   </h2>
+                    
+
+<p>No. It is a common case for the need to diverge in behavior to be justified, and a necessity for a platform to become more configurable to address it.</p>
+
+<p>However, it is best to <em>minimize</em> the variation for the services and the amount of flexible handling in the client.</p>
+    </div><a href="#0" onclick="loadDisqus()">click to load comments via Disqus (ad supported and will cause tracking to load.
+    requires javascript).</a>
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://y.tsutsumi.io/uniformity-cycle/';
+        this.page.identifier = '/uniformity-cycle/';
+    };
+
+    function loadDisqus() {
+        var d = document, s = d.createElement('script');
+
+        s.src = 'https://tsutsumi.disqus.com/embed.js';
+
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    }
+</script>
+<noscript>no comments avaialable with Javascript disabled.</noscript><a class="u-url" href="/uniformity-cycle/" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/%20/"></data>
+
+    <div class="wrapper">
+
+        <div class="footer-col-wrapper">
+            <script async src="https://cse.google.com/cse.js?cx=014358564571565173111:hnnbq4j54cy"></script>
+            <div class="gcse-search"></div>
+        </div>
+        <div class="footer-col-wrapper">
+            <div class="footer-col">
+                <p class="feed-subscribe">
+                    <a href="/feed/index.xml">
+                        <svg class="svg-icon orange">
+                            <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+                        </svg><span>Subscribe</span>
+                    </a>
+                </p>
+            </div>
+            <div class="footer-col">
+                <p>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</p>
+            </div>
+        </div>
+
+        <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/toumorokoshi" target="_blank" title="toumorokoshi"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/yusuke-tsutsumi" target="_blank" title="yusuke-tsutsumi"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/tsutsumiyusuke" target="_blank" title="tsutsumiyusuke"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+    </div>
+
+</footer></body>
+
+</html>
