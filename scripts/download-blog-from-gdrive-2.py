@@ -29,8 +29,7 @@ def download_file(target_path, file_id: str):
         downloader = MediaIoBaseDownload(file, request)
         done = False
         while done is False:
-            status, done = downloader.next_chunk()
-            print(F'Download {int(status.progress() * 100)}.')
+            _, done = downloader.next_chunk()
 
     except HttpError as error:
         print(F'An error occurred: {error}')
