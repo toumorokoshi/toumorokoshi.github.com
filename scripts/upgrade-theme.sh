@@ -6,7 +6,7 @@ for dir in "_includes" "_layouts" "_sass" "assets"
 do
     cp -r /tmp/minima/$dir/* $dir
 done
-# files to keep beacause they're heavily modified
+# files to keep because they're heavily modified
 git checkout _includes/disqus_comments.html
 git checkout _includes/header.html
 git checkout _includes/footer.html
