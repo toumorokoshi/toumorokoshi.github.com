@@ -53,3 +53,4 @@ assets/*
 vendor
 pages
 .jekyll-metadata
+node_modules

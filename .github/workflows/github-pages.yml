@@ -30,9 +30,9 @@ jobs:
           cache: 'pip'
       - name: install-deps
         run: |
-          npm install -g @mermaid-js/mermaid-cli
           pip install google-api-python-client
           pip install google-auth
+        # npm install -g @mermaid-js/mermaid-cli
       - name: build-site
         run: ./scripts/build.sh
         env:
