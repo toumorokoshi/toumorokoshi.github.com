@@ -17,14 +17,17 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.1.2
-      - name: download-blog-posts-from-gdrive
-        run: ./scripts/download-blog-from-gdrive.sh
       - name: install-deps
-        run: sudo apt install -y npm && npm install -g mermaid.cli
+        run: |
+          sudo apt install -y npm
+          && npm install -g @mermaid-js/mermaid.cli
+          && pip install google-api-python-client
+          && pip install google-auth
       - name: build-site
-        uses: limjh16/jekyll-action-ts@v2
-        with:
-          enable_cache: true
+        run: ./scripts/build.sh
+        env:
+          BLOG_FOLDER_ID: ${{ secrets.BLOG_FOLDER_ID }}
+          BLOG_CRED_FILE_CONTENT: ${{ secrets.BLOG_CRED_FILE_CONTENT }}
       - name: publish
         uses: peaceiris/actions-gh-pages@v3
         with:
