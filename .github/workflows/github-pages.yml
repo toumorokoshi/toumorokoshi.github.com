@@ -13,14 +13,23 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v2
+      - name: setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
       - name: setup-ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.1.2
+          bundler-cache: true
+      - name: setup-python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+          cache: 'pip'
       - name: install-deps
         run: |
-          sudo apt install -y npm
-          npm install -g @mermaid-js/mermaid.cli
+          npm install -g @mermaid-js/mermaid-cli
           pip install google-api-python-client
           pip install google-auth
       - name: build-site
