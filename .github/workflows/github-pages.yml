@@ -20,9 +20,9 @@ jobs:
       - name: install-deps
         run: |
           sudo apt install -y npm
-          && npm install -g @mermaid-js/mermaid.cli
-          && pip install google-api-python-client
-          && pip install google-auth
+          npm install -g @mermaid-js/mermaid.cli
+          pip install google-api-python-client
+          pip install google-auth
       - name: build-site
         run: ./scripts/build.sh
         env:
