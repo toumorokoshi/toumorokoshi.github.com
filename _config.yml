@@ -26,7 +26,7 @@ description: >- # this means to ignore newlines until "baseurl:"
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://y.tsutsumi.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: tsutsumiyusuke
-github_username:  toumorokoshi
+github_username: toumorokoshi
 permalink: /:year/:month/:day/:slug/
 
 # Build settings
@@ -43,7 +43,7 @@ feed:
 disqus:
   shortname: tsutsumi
 
-google_analytics: G-325KP61WS9
+google_analytics: UA-29270527-2
 
 header_pages:
   - pages/resources.md
@@ -58,8 +58,6 @@ minima:
 tag_page_layout: tag_page
 tag_page_dir: tag
 tag_permalink_style: pretty
-
-
 # Exclude from processing.
 # The following items will not be processed, by default.
 # Any item listed under the `exclude:` key here will be automatically added to
