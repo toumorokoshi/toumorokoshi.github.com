@@ -43,7 +43,7 @@ feed:
 disqus:
   shortname: tsutsumi
 
-google_analytics: UA-29270527-2
+google_analytics: G-325KP61WS9
 
 header_pages:
   - pages/resources.md
