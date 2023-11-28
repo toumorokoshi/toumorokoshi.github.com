@@ -20,7 +20,15 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"toumorokoshi"},"dateModified":"2011-10-25T00:25:00+00:00","datePublished":"2011-10-25T00:25:00+00:00","description":"Recently, I tried updating the browser for a WebPageTest instance to IE9. This proved to have some issues, specifically due to the pop-up dialogues that IE9 has now to tell you when something suspicious occurs.","headline":"WebPageTest and IE9","mainEntityOfPage":{"@type":"WebPage","@id":"https://y.tsutsumi.io/2011/10/25/webpagetest-and-ie9/"},"url":"https://y.tsutsumi.io/2011/10/25/webpagetest-and-ie9/"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" />
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" /><script async src="https://www.googletagmanager.com/gtag/js?id=UA-29270527-2"></script>
+<script>
+  window['ga-disable-UA-29270527-2'] = window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { window.dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'UA-29270527-2');
+</script>
 </head>
 <body><header class="site-header">
 
@@ -125,7 +133,25 @@ running urlblast. This can be done with a change in urlblast.ini:</p>
 </code></pre></div></div>
 
 <p>And that did it for me!</p>
-    </div><a class="u-url" href="/2011/10/25/webpagetest-and-ie9/" hidden></a>
+    </div><a href="#0" onclick="loadDisqus()">click to load comments via Disqus (ad supported and will cause tracking to load.
+    requires javascript).</a>
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://y.tsutsumi.io/2011/10/25/webpagetest-and-ie9/';
+        this.page.identifier = '/2011/10/25/webpagetest-and-ie9/';
+    };
+
+    function loadDisqus() {
+        var d = document, s = d.createElement('script');
+
+        s.src = 'https://tsutsumi.disqus.com/embed.js';
+
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    }
+</script>
+<noscript>no comments avaialable with Javascript disabled.</noscript><a class="u-url" href="/2011/10/25/webpagetest-and-ie9/" hidden></a>
 </article>
       </div>
     </main><footer class="site-footer h-card">

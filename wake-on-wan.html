@@ -19,7 +19,15 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-09-23T07:00:00+00:00","datePublished":"2022-09-23T07:00:00+00:00","description":"I’ve been using Moonlight for game streaming, and one thing I’ve learned about recently is wake-on-lan: the ability to wake up your machine by sending a magic packet to a device.","headline":"Wake-on-lan via WAN","mainEntityOfPage":{"@type":"WebPage","@id":"https://y.tsutsumi.io/wake-on-wan"},"url":"https://y.tsutsumi.io/wake-on-wan"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" />
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" /><script async src="https://www.googletagmanager.com/gtag/js?id=UA-29270527-2"></script>
+<script>
+  window['ga-disable-UA-29270527-2'] = window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { window.dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'UA-29270527-2');
+</script>
 </head>
 <body><header class="site-header">
 
@@ -99,7 +107,25 @@
   <li>verify that the computer wakes if you send it the WOL request directly.</li>
   <li>verify that the computer wakes if you send the broadcast IP (e.g. <code class="language-plaintext highlighter-rouge">255.255.255.255</code>) the request directly.</li>
 </ul>
-    </div><a class="u-url" href="/wake-on-wan" hidden></a>
+    </div><a href="#0" onclick="loadDisqus()">click to load comments via Disqus (ad supported and will cause tracking to load.
+    requires javascript).</a>
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://y.tsutsumi.io/wake-on-wan';
+        this.page.identifier = '/wake-on-wan';
+    };
+
+    function loadDisqus() {
+        var d = document, s = d.createElement('script');
+
+        s.src = 'https://tsutsumi.disqus.com/embed.js';
+
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    }
+</script>
+<noscript>no comments avaialable with Javascript disabled.</noscript><a class="u-url" href="/wake-on-wan" hidden></a>
 </article>
       </div>
     </main><footer class="site-footer h-card">

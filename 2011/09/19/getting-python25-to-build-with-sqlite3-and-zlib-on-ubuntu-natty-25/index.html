@@ -20,7 +20,15 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"toumorokoshi"},"dateModified":"2011-09-19T19:21:00+00:00","datePublished":"2011-09-19T19:21:00+00:00","description":"I had a really hard time finding this, so I’m posting it here:","headline":"Getting Python2.5 to Build with sqlite3 and zlib on Ubuntu Natty 2.5","mainEntityOfPage":{"@type":"WebPage","@id":"https://y.tsutsumi.io/2011/09/19/getting-python25-to-build-with-sqlite3-and-zlib-on-ubuntu-natty-25/"},"url":"https://y.tsutsumi.io/2011/09/19/getting-python25-to-build-with-sqlite3-and-zlib-on-ubuntu-natty-25/"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" />
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" /><script async src="https://www.googletagmanager.com/gtag/js?id=UA-29270527-2"></script>
+<script>
+  window['ga-disable-UA-29270527-2'] = window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { window.dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'UA-29270527-2');
+</script>
 </head>
 <body><header class="site-header">
 
@@ -98,7 +106,25 @@ variable must have the new library location (the
 
 <p>I have not tried this on a 32-bit machine. This may not be required
 then, or you may need to point the flag to load the proper directory.</p>
-    </div><a class="u-url" href="/2011/09/19/getting-python25-to-build-with-sqlite3-and-zlib-on-ubuntu-natty-25/" hidden></a>
+    </div><a href="#0" onclick="loadDisqus()">click to load comments via Disqus (ad supported and will cause tracking to load.
+    requires javascript).</a>
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://y.tsutsumi.io/2011/09/19/getting-python25-to-build-with-sqlite3-and-zlib-on-ubuntu-natty-25/';
+        this.page.identifier = '/2011/09/19/getting-python25-to-build-with-sqlite3-and-zlib-on-ubuntu-natty-25/';
+    };
+
+    function loadDisqus() {
+        var d = document, s = d.createElement('script');
+
+        s.src = 'https://tsutsumi.disqus.com/embed.js';
+
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    }
+</script>
+<noscript>no comments avaialable with Javascript disabled.</noscript><a class="u-url" href="/2011/09/19/getting-python25-to-build-with-sqlite3-and-zlib-on-ubuntu-natty-25/" hidden></a>
 </article>
       </div>
     </main><footer class="site-footer h-card">

@@ -21,7 +21,15 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2020-08-15T00:00:00+00:00","datePublished":"2020-08-15T00:00:00+00:00","description":"Summary","headline":"Setting up an eGPU with Linux and the Core X Chroma","image":"https://y.tsutsumi.io/assets/images/egpu-desktop.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://y.tsutsumi.io/2020/08/15/egpu-linux-core-x-chroma/"},"url":"https://y.tsutsumi.io/2020/08/15/egpu-linux-core-x-chroma/"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" />
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" /><script async src="https://www.googletagmanager.com/gtag/js?id=UA-29270527-2"></script>
+<script>
+  window['ga-disable-UA-29270527-2'] = window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { window.dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'UA-29270527-2');
+</script>
 </head>
 <body><header class="site-header">
 
@@ -226,7 +234,25 @@ EndSection
                     
 
 <p>As mentioned above, my main issue with the Core X Chroma is the non-functioning Ethernet port. There are a lot of anecdotal stories around the Core X Chroma working great for Windows and OSX, without any firmware updates on the Chroma side. As such, I hope that either a workaround comes out in the Linux kernel for the ASM1142 controller, or Razer releases something to address this on the controller side.</p>
-    </div><a class="u-url" href="/2020/08/15/egpu-linux-core-x-chroma/" hidden></a>
+    </div><a href="#0" onclick="loadDisqus()">click to load comments via Disqus (ad supported and will cause tracking to load.
+    requires javascript).</a>
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://y.tsutsumi.io/2020/08/15/egpu-linux-core-x-chroma/';
+        this.page.identifier = '/2020/08/15/egpu-linux-core-x-chroma/';
+    };
+
+    function loadDisqus() {
+        var d = document, s = d.createElement('script');
+
+        s.src = 'https://tsutsumi.disqus.com/embed.js';
+
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    }
+</script>
+<noscript>no comments avaialable with Javascript disabled.</noscript><a class="u-url" href="/2020/08/15/egpu-linux-core-x-chroma/" hidden></a>
 </article>
       </div>
     </main><footer class="site-footer h-card">

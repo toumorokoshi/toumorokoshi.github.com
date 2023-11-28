@@ -19,7 +19,15 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-08-07T07:00:00+00:00","datePublished":"2022-08-07T07:00:00+00:00","description":"I’ve recently had trouble with saving files from Google Chrome: rather than use the file manager that I had configured and installed myself (thunar), Google Chrome gave me a completely different file manager, one that would not let me type the name of the file I wanted to save, and instead constantly brought me to a search bar.","headline":"Setting the Google Chrome file manager on Linux","mainEntityOfPage":{"@type":"WebPage","@id":"https://y.tsutsumi.io/setting-google-chrome-file-manager-linux/"},"url":"https://y.tsutsumi.io/setting-google-chrome-file-manager-linux/"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" />
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" /><script async src="https://www.googletagmanager.com/gtag/js?id=UA-29270527-2"></script>
+<script>
+  window['ga-disable-UA-29270527-2'] = window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { window.dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'UA-29270527-2');
+</script>
 </head>
 <body><header class="site-header">
 
@@ -102,7 +110,25 @@ pacman -S xdg-desktop-portal
 <p>And that’s it! Here’s the end result:</p>
 
 <p><img src="chrome-with-dolphin.png" alt="picture of chrome using dolphin" /></p>
-    </div><a class="u-url" href="/setting-google-chrome-file-manager-linux/" hidden></a>
+    </div><a href="#0" onclick="loadDisqus()">click to load comments via Disqus (ad supported and will cause tracking to load.
+    requires javascript).</a>
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://y.tsutsumi.io/setting-google-chrome-file-manager-linux/';
+        this.page.identifier = '/setting-google-chrome-file-manager-linux/';
+    };
+
+    function loadDisqus() {
+        var d = document, s = d.createElement('script');
+
+        s.src = 'https://tsutsumi.disqus.com/embed.js';
+
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    }
+</script>
+<noscript>no comments avaialable with Javascript disabled.</noscript><a class="u-url" href="/setting-google-chrome-file-manager-linux/" hidden></a>
 </article>
       </div>
     </main><footer class="site-footer h-card">
