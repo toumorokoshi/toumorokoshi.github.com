@@ -3,20 +3,21 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>Yusuke Tsutsumi | My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</title>
+<title>Configure Elecom Trackballs on Linux | Yusuke Tsutsumi</title>
 <meta name="generator" content="Jekyll v4.1.1" />
-<meta property="og:title" content="Yusuke Tsutsumi" />
+<meta property="og:title" content="Configure Elecom Trackballs on Linux" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own." />
-<meta property="og:description" content="My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own." />
-<link rel="canonical" href="https://y.tsutsumi.io/tag/gear/" />
-<meta property="og:url" content="https://y.tsutsumi.io/tag/gear/" />
+<meta name="description" content="My finger joints are starting to hurt from all the scrolling I’m doing through Google docs and code, so I’ve looked at solutions that don’t stress my index finger." />
+<meta property="og:description" content="My finger joints are starting to hurt from all the scrolling I’m doing through Google docs and code, so I’ve looked at solutions that don’t stress my index finger." />
+<link rel="canonical" href="https://y.tsutsumi.io/elecom-on-linux/" />
+<meta property="og:url" content="https://y.tsutsumi.io/elecom-on-linux/" />
 <meta property="og:site_name" content="Yusuke Tsutsumi" />
-<meta property="og:type" content="website" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-12-12T07:00:00+00:00" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Yusuke Tsutsumi" />
+<meta property="twitter:title" content="Configure Elecom Trackballs on Linux" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","description":"My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.","headline":"Yusuke Tsutsumi","url":"https://y.tsutsumi.io/tag/gear/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-12-12T07:00:00+00:00","datePublished":"2023-12-12T07:00:00+00:00","description":"My finger joints are starting to hurt from all the scrolling I’m doing through Google docs and code, so I’ve looked at solutions that don’t stress my index finger.","headline":"Configure Elecom Trackballs on Linux","mainEntityOfPage":{"@type":"WebPage","@id":"https://y.tsutsumi.io/elecom-on-linux/"},"url":"https://y.tsutsumi.io/elecom-on-linux/"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" /><script async src="https://www.googletagmanager.com/gtag/js?id=G-325KP61WS9"></script>
 <script>
@@ -64,18 +65,68 @@
     </style>
 </header><main class="page-content" aria-label="Content">
       <div class="wrapper">
-        <h2>Posts with tag: gear</h2>
-<ul>
-    
-    <li><a href="/elecom-on-linux/">Configure Elecom Trackballs on Linux</a> (12 Dec 2023 | Tags: <a href="/tag/gear/" rel="tag">gear</a>, <a href="/tag/coding/" rel="tag">coding</a>)</li>
-    
-    <li><a href="/walking-desk-treadmill/">Walking desk treadmill</a> (19 Jan 2022 | Tags: <a href="/tag/gear/" rel="tag">gear</a>, <a href="/tag/treadmill/" rel="tag">treadmill</a>)</li>
-    
-    <li><a href="/quiet-keyboard/">The Quietest Mechanical Keyboard</a> (07 Jan 2021 | Tags: <a href="/tag/keyboard/" rel="tag">keyboard</a>, <a href="/tag/gear/" rel="tag">gear</a>, <a href="/tag/coding/" rel="tag">coding</a>)</li>
-    
-    <li><a href="/2020/10/16/likebook-ares/">Review: Boyue Likebook Ares</a> (16 Oct 2020 | Tags: <a href="/tag/e-reader/" rel="tag">e-reader</a>, <a href="/tag/gear/" rel="tag">gear</a>)</li>
-    
-</ul>
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <header class="post-header">
+        <h1 class="post-title p-name" itemprop="name headline">Configure Elecom Trackballs on Linux</h1>
+        <p class="post-meta"><time class="dt-published" datetime="2023-12-12T07:00:00+00:00" itemprop="datePublished">
+                Dec 12, 2023
+            </time></p>
+    </header>
+
+    <div class="post-content e-content" itemprop="articleBody">
+        <p>My finger joints are starting to hurt from all the scrolling I’m doing through
+Google docs and code, so I’ve looked at solutions that don’t stress my index
+finger.</p>
+
+<p>It looks like configuring alternate buttons to scroll on a regular mouse is
+really hard to do on Linux, but I’ve found that trackballs support the ability
+to click to make the trackball a scroll wheel, like the <a href="https://elecomusa.com/products/b07dmf2dnw">EX-G PRO
+Trackball</a> from Elecom.</p>
+
+<p>Click to scroll isn’t turned on by default, but it’s easy enough to turn it on
+in Linux:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>xinput set-prop <span class="s2">"pointer:ELECOM TrackBall Mouse EX-G Pro TrackBall"</span> <span class="s1">'libinput Scroll Method Enabled'</span> 0 0 1
+xinput set-prop <span class="s2">"pointer:ELECOM TrackBall Mouse EX-G Pro TrackBall"</span> <span class="s1">'libinput Button Scrolling Button'</span> 11
+</code></pre></div></div>
+
+<p>But this doesn’t persist when you unplug and plug the device in!</p>
+
+<p>I tried to automate this via udev rules, but unfortunately I never got it to
+work (dmesg gives me no output at all).</p>
+
+<p>Instead, an xorg config rule and restarting x did the trick:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Section "InputClass"
+    Identifier    "Elecom TrackBall"
+    MatchVendor    "ELECOM"
+    MatchProduct    "EX-G Pro"
+    Driver        "libinput"
+    Option        "ScrollMethod"        "button"
+    Option        "ScrollButton"        "11"
+EndSection
+</code></pre></div></div>
+    </div><a href="#0" onclick="loadDisqus()">click to load comments via Disqus (ad supported and will cause tracking to load.
+    requires javascript).</a>
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://y.tsutsumi.io/elecom-on-linux/';
+        this.page.identifier = '/elecom-on-linux/';
+    };
+
+    function loadDisqus() {
+        var d = document, s = d.createElement('script');
+
+        s.src = 'https://tsutsumi.disqus.com/embed.js';
+
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    }
+</script>
+<noscript>no comments avaialable with Javascript disabled.</noscript><a class="u-url" href="/elecom-on-linux/" hidden></a>
+</article>
       </div>
     </main><footer class="site-footer h-card">
     <data class="u-url" href="/%20/"></data>
