@@ -1,4 +1,97 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2024-01-16T00:31:35+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Find the last Git branches that you were working on.</title><link href="https://y.tsutsumi.io/git-r/" rel="alternate" type="text/html" title="Find the last Git branches that you were working on." /><published>2023-12-15T07:00:00+00:00</published><updated>2023-12-15T07:00:00+00:00</updated><id>https://y.tsutsumi.io/git-r</id><content type="html" xml:base="https://y.tsutsumi.io/git-r/"><![CDATA[<p>Here’s a quick script that prints the most recent branches you were working on,
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2024-01-17T00:32:02+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Reflecting on 2023</title><link href="https://y.tsutsumi.io/my-year/2023" rel="alternate" type="text/html" title="Reflecting on 2023" /><published>2023-12-31T07:00:00+00:00</published><updated>2023-12-31T07:00:00+00:00</updated><id>https://y.tsutsumi.io/my-year/reflecting-on-2023</id><content type="html" xml:base="https://y.tsutsumi.io/my-year/2023"><![CDATA[<p>Another year, another reflection to summarize 1%+ of my life.</p>
+
+<h2 id="japanese">Japanese</h2>
+
+<p>I think my Japanese has reached a plateau, but it’s something I’m comfortable
+with for now. The biggest gap is in my vocabulary - I’m still looking up words
+in a dictionary every page I read a book or a more mature manga.</p>
+
+<p>But whenever I play video games, I do it in Japanese! That’s a pretty good
+benchmark for me, and helps me keep practicing my Japanese aside from my weekly
+30 minutes lessons.</p>
+
+<h2 id="farsi">Farsi</h2>
+
+<p>My Farsi has not developed significantly since last year. I’m just on a slow,
+steady trajectory of reading one page at a time.</p>
+
+<p>I did pick up one of the stories I read last year and tried it again, and I was
+able to get through most of it by myself! In addition, I am able to have <em>some</em>
+conversation with my in-laws. So despite the relatively slow progress I’m making
+<em>sufficient</em> progress to be satisfied.</p>
+
+<p>Next year though, I’d like to invest more in my Farsi - get to the point where I
+can read a good chunk of literature without help from my teacher.</p>
+
+<h2 id="fitness-and-health">Fitness and Health</h2>
+
+<p>I focused heavily on fitness this year, similar to the tail end of last year.</p>
+
+<p>I have yet to do my Dexa scan for end of 2023, but I sit at roughly 180lbs. My
+Dexa scan in April showed I had lost 12 pounds of body fat and gained 6 pounds
+of muscle since October 2022 - not bad at all for six months!</p>
+
+<p>My second half of the year wasn’t as aggressive - I lost 2 pounds, hopefully fat
+but January we will see.</p>
+
+<p>It’s been grueling to get there - my diet now consists of one proper meal a day
+(dinner), with protein and huel shakes in between to provide 80 grams of
+protein. Between that and soy lattes, I get at minimum 90 grams of protein
+before dinner or snacks. That’s putting me at roughly 1.2+ g protein / kg of
+body weight, which is less than what most recommend for building muscle mass,
+but I haven’t seen much of an issue.</p>
+
+<p>Next year my goal is to stick my diet a bit more, and achieve 12% body fat or
+less. Once that happens I think I’ll try to maintain my weight and start
+focusing on other things.</p>
+
+<h2 id="zone-2-on-the-treadmill">Zone 2 on the treadmill</h2>
+
+<p>I’ve been struggling to get more Zone 2 exercise into my routine - basically 30+
+minutes of my heart rate at 70%-80% of my max heart rate.</p>
+
+<p>This year I found something that works for me - playing videogames on the
+treadmill!</p>
+
+<p>I’ve been playing an RPG that keeps me engaged - Persona 4 has worked really
+well for me. It also helps that it’s a long RPG, with 100+ hours to beat it.</p>
+
+<p>With that I’ve been able to clear 30 minutes at a 12% incline and 4 miles per
+hour without issue, although I don’t get past 45 very often (too late at night
+or just get tired of it).</p>
+
+<h2 id="oss-contributions">OSS Contributions</h2>
+
+<p>Since I’ve left Google as TL of API design, I’ve been working on a fork called
+https://aep.dev/. It’s been an interesting ride, discussing API design with API
+leads at Roblox, IBM, Netflix, and Microsoft.</p>
+
+<p>I built a prototype protobuf generator as part of my work, which was a fun
+coding side project. Hopefully in 2024 we’ll see more established and some parts
+of the spec entering production use.</p>
+
+<h2 id="random-other-things">Random other things</h2>
+
+<ul>
+  <li>My vscode PR was completed by someone else! <a href="https://github.com/microsoft/vscode/issues/6966">awesome, this means I can finally
+translate my emacs keybindings
+over</a>.</li>
+</ul>
+
+<h2 id="goals-for-2024">Goals for 2024</h2>
+
+<p>Similar to 2023, my 2024 goals are conservative - I’d like to focus on my family
+and that means all of my afternoons and a good chunk of my evenings are working
+on things relative to them.</p>
+
+<p>But among my goals, they are:</p>
+
+<ul>
+  <li>Be able to read a Farsi book and understand most of the story (a movie may be
+too hard for me).</li>
+  <li>Learn to play 5 new pieces on the piano.</li>
+  <li>Built a foundational knowledge of machine learning and abstract math.</li>
+</ul>]]></content><author><name></name></author><category term="2023" /><category term="reflection" /><summary type="html"><![CDATA[Another year, another reflection to summarize 1%+ of my life.]]></summary></entry><entry><title type="html">Find the last Git branches that you were working on.</title><link href="https://y.tsutsumi.io/git-r/" rel="alternate" type="text/html" title="Find the last Git branches that you were working on." /><published>2023-12-15T07:00:00+00:00</published><updated>2023-12-15T07:00:00+00:00</updated><id>https://y.tsutsumi.io/git-r</id><content type="html" xml:base="https://y.tsutsumi.io/git-r/"><![CDATA[<p>Here’s a quick script that prints the most recent branches you were working on,
 since I find myself needing to lswitching across multiple branches frequently.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/env python
@@ -477,7 +570,7 @@ concentration of genotoxins to lead to a meaningful increase in cancer.</li>
 
 <h2 id="dinner-whatever-usually-vegan">Dinner: whatever, usually vegan</h2>
 
-<p>For dinner I’m pretty loose, since the rest of my meals are quite regimented. A majority are vegan or minimal animal-based (grain bowls, veggie burgers and fries, phad thai), and sometimes things like sushi, grilled salmon, past, etc.</p>]]></content><author><name></name></author><category term="diet" /><category term="health" /><summary type="html"><![CDATA[NOTE: this is a copy of /diet from 2020. I’m putting the old one as a blog post for posterity.]]></summary></entry><entry><title type="html">Reflecting on 2022</title><link href="https://y.tsutsumi.io/my-year/2022" rel="alternate" type="text/html" title="Reflecting on 2022" /><published>2022-12-31T07:00:00+00:00</published><updated>2022-12-31T07:00:00+00:00</updated><id>https://y.tsutsumi.io/my-year/my-year-in-words-2022</id><content type="html" xml:base="https://y.tsutsumi.io/my-year/2022"><![CDATA[<p>In the vein of <a href="/my-year/2020">previous</a> <a href="/my-year/2021">years</a>, I wanted to finish up my 2022 with a blog post.</p>
+<p>For dinner I’m pretty loose, since the rest of my meals are quite regimented. A majority are vegan or minimal animal-based (grain bowls, veggie burgers and fries, phad thai), and sometimes things like sushi, grilled salmon, past, etc.</p>]]></content><author><name></name></author><category term="diet" /><category term="health" /><summary type="html"><![CDATA[NOTE: this is a copy of /diet from 2020. I’m putting the old one as a blog post for posterity.]]></summary></entry><entry><title type="html">Reflecting on 2022</title><link href="https://y.tsutsumi.io/my-year/2022" rel="alternate" type="text/html" title="Reflecting on 2022" /><published>2022-12-31T07:00:00+00:00</published><updated>2022-12-31T07:00:00+00:00</updated><id>https://y.tsutsumi.io/my-year/reflecting-on-2022</id><content type="html" xml:base="https://y.tsutsumi.io/my-year/2022"><![CDATA[<p>In the vein of <a href="/my-year/2020">previous</a> <a href="/my-year/2021">years</a>, I wanted to finish up my 2022 with a blog post.</p>
 
 <p>2022 was a largely unventful year for me professionally: my kids are going to new schools and kindergartens, so a lot of my focus was on my family, more or less as planned.</p>
 
@@ -590,95 +683,7 @@ concentration of genotoxins to lead to a meaningful increase in cancer.</li>
 
 <p>2022 was again a non-transformative year for me, but making steady, principled progress on my goals has been great.</p>
 
-<p>Happy New Year!</p>]]></content><author><name></name></author><category term="2022" /><category term="reflection" /><summary type="html"><![CDATA[In the vein of previous years, I wanted to finish up my 2022 with a blog post.]]></summary></entry><entry><title type="html">Reflecting on 2023</title><link href="https://y.tsutsumi.io/my-year/2023" rel="alternate" type="text/html" title="Reflecting on 2023" /><published>2022-12-31T07:00:00+00:00</published><updated>2022-12-31T07:00:00+00:00</updated><id>https://y.tsutsumi.io/my-year/my-year-in-words-2023</id><content type="html" xml:base="https://y.tsutsumi.io/my-year/2023"><![CDATA[<p>Another year, another reflection to summarize 1%+ of my life.</p>
-
-<h2 id="japanese">Japanese</h2>
-
-<p>I think my Japanese has reached a plateau, but it’s something I’m comfortable
-with for now. The biggest gap is in my vocabulary - I’m still looking up words
-in a dictionary every page I read a book or a more mature manga.</p>
-
-<p>But whenever I play video games, I do it in Japanese! That’s a pretty good
-benchmark for me, and helps me keep practicing my Japanese aside from my weekly
-30 minutes lessons.</p>
-
-<h2 id="farsi">Farsi</h2>
-
-<p>My Farsi has not developed significantly since last year. I’m just on a slow,
-steady trajectory of reading one page at a time.</p>
-
-<p>I did pick up one of the stories I read last year and tried it again, and I was
-able to get through most of it by myself! In addition, I am able to have <em>some</em>
-conversation with my in-laws. So despite the relatively slow progress I’m making
-<em>sufficient</em> progress to be satisfied.</p>
-
-<p>Next year though, I’d like to invest more in my Farsi - get to the point where I
-can read a good chunk of literature without help from my teacher.</p>
-
-<h2 id="fitness-and-health">Fitness and Health</h2>
-
-<p>I focused heavily on fitness this year, similar to the tail end of last year.</p>
-
-<p>I have yet to do my Dexa scan for end of 2023, but I sit at roughly 180lbs. My
-Dexa scan in April showed I had lost 12 pounds of body fat and gained 6 pounds
-of muscle since October 2022 - not bad at all for six months!</p>
-
-<p>My second half of the year wasn’t as aggressive - I lost 2 pounds, hopefully fat
-but January we will see.</p>
-
-<p>It’s been grueling to get there - my diet now consists of one proper meal a day
-(dinner), with protein and huel shakes in between to provide 80 grams of
-protein. Between that and soy lattes, I get at minimum 90 grams of protein
-before dinner or snacks. That’s putting me at roughly 1.2+ g protein / kg of
-body weight, which is less than what most recommend for building muscle mass,
-but I haven’t seen much of an issue.</p>
-
-<p>Next year my goal is to stick my diet a bit more, and achieve 12% body fat or
-less. Once that happens I think I’ll try to maintain my weight and start
-focusing on other things.</p>
-
-<h2 id="zone-2-on-the-treadmill">Zone 2 on the treadmill</h2>
-
-<p>I’ve been struggling to get more Zone 2 exercise into my routine - basically 30+ minutes of my heart rate at 70%-80% of my max heart rate.</p>
-
-<p>This year I found something that works for me - playing videogames on the treadmill!</p>
-
-<p>I’ve been playing an RPG that keeps me engaged - Persona 4 has worked really well for me. It also helps that it’s a long RPG, with 100+ hours to beat it.</p>
-
-<p>With that I’ve been able to clear 30 minutes at a 12% incline and 4 miles per hour without issue, although I don’t get past 45 very often (too late at night or just get tired of it).</p>
-
-<h2 id="oss-contributions">OSS Contributions</h2>
-
-<p>Since I’ve left Google as TL of API design, I’ve been working on a fork called
-https://aep.dev/. It’s been an interesting ride, discussing API design with API
-leads at Roblox, IBM, Netflix, and Microsoft.</p>
-
-<p>I built a prototype protobuf generator as part of my work, which was a fun
-coding side project. Hopefully in 2024 we’ll see more established and some parts
-of the spec entering production use.</p>
-
-<h2 id="random-other-things">Random other things</h2>
-
-<ul>
-  <li>My vscode PR was completed by someone else! <a href="https://github.com/microsoft/vscode/issues/6966">awesome, this means I can finally
-translate my emacs keybindings
-over</a>.</li>
-</ul>
-
-<h2 id="goals-for-2024">Goals for 2024</h2>
-
-<p>Similar to 2023, my 2024 goals are conservative - I’d like to focus on my family
-and that means all of my afternoons and a good chunk of my evenings are working
-on things relative to them.</p>
-
-<p>But among my goals, they are:</p>
-
-<ul>
-  <li>Be able to read a Farsi book and understand most of the story (a movie may be
-too hard for me).</li>
-  <li>Learn to play 5 new pieces on the piano.</li>
-  <li>Built a foundational knowledge of machine learning and abstract math.</li>
-</ul>]]></content><author><name></name></author><category term="2022" /><category term="reflection" /><summary type="html"><![CDATA[Another year, another reflection to summarize 1%+ of my life.]]></summary></entry><entry><title type="html">Wake-on-lan via WAN</title><link href="https://y.tsutsumi.io/wake-on-wan" rel="alternate" type="text/html" title="Wake-on-lan via WAN" /><published>2022-09-23T07:00:00+00:00</published><updated>2022-09-23T07:00:00+00:00</updated><id>https://y.tsutsumi.io/wake-on-wan</id><content type="html" xml:base="https://y.tsutsumi.io/wake-on-wan"><![CDATA[<p>I’ve been using <a href="https://moonlight-stream.org/">Moonlight</a> for game streaming, and one thing I’ve learned about recently is <a href="https://wiki.archlinux.org/title/Wake-on-LAN#Trigger_a_wake_up">wake-on-lan</a>: the ability to wake up your machine by sending a magic packet to a device.</p>
+<p>Happy New Year!</p>]]></content><author><name></name></author><category term="2022" /><category term="reflection" /><summary type="html"><![CDATA[In the vein of previous years, I wanted to finish up my 2022 with a blog post.]]></summary></entry><entry><title type="html">Wake-on-lan via WAN</title><link href="https://y.tsutsumi.io/wake-on-wan" rel="alternate" type="text/html" title="Wake-on-lan via WAN" /><published>2022-09-23T07:00:00+00:00</published><updated>2022-09-23T07:00:00+00:00</updated><id>https://y.tsutsumi.io/wake-on-wan</id><content type="html" xml:base="https://y.tsutsumi.io/wake-on-wan"><![CDATA[<p>I’ve been using <a href="https://moonlight-stream.org/">Moonlight</a> for game streaming, and one thing I’ve learned about recently is <a href="https://wiki.archlinux.org/title/Wake-on-LAN#Trigger_a_wake_up">wake-on-lan</a>: the ability to wake up your machine by sending a magic packet to a device.</p>
 
 <p>I regularly use wake-on-lan on my local network to start up my gaming desktop, but I began to wonder if it’s possible to wake my machine up from the public internet (The “WAN”)? And here is how I got to successfully accomplish a wake-on-wan.</p>
 
