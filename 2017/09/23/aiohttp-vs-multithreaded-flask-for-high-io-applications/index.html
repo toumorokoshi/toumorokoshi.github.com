@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Aiohttp vs Multithreaded Flask for High I/O Applications | Yusuke Tsutsumi</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Aiohttp vs Multithreaded Flask for High I/O Applications" />
+<meta name="author" content="toumorokoshi" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Over the past year, my team has been making the transition from Flask to aiohttp. We&#39;re making this transition because of a lot of the situations where non-blocking I/O theoretically scales better:" />
+<meta property="og:description" content="Over the past year, my team has been making the transition from Flask to aiohttp. We&#39;re making this transition because of a lot of the situations where non-blocking I/O theoretically scales better:" />
+<link rel="canonical" href="https://y.tsutsumi.io/2017/09/23/aiohttp-vs-multithreaded-flask-for-high-io-applications/" />
+<meta property="og:url" content="https://y.tsutsumi.io/2017/09/23/aiohttp-vs-multithreaded-flask-for-high-io-applications/" />
+<meta property="og:site_name" content="Yusuke Tsutsumi" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-09-23T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Aiohttp vs Multithreaded Flask for High I/O Applications" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"toumorokoshi"},"dateModified":"2017-09-23T00:00:00+00:00","datePublished":"2017-09-23T00:00:00+00:00","description":"Over the past year, my team has been making the transition from Flask to aiohttp. We&#39;re making this transition because of a lot of the situations where non-blocking I/O theoretically scales better:","headline":"Aiohttp vs Multithreaded Flask for High I/O Applications","mainEntityOfPage":{"@type":"WebPage","@id":"https://y.tsutsumi.io/2017/09/23/aiohttp-vs-multithreaded-flask-for-high-io-applications/"},"url":"https://y.tsutsumi.io/2017/09/23/aiohttp-vs-multithreaded-flask-for-high-io-applications/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" /><script async src="https://www.googletagmanager.com/gtag/js?id=G-325KP61WS9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { window.dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-325KP61WS9');
+</script>
+</head>
+<body><header class="site-header">
+
+    <div class="wrapper"><a class="site-title" rel="author" href="/">Yusuke Tsutsumi</a><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path
+                            d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger">
+                <a class="page-link" href="/tag/coding/">Coding Posts</a>
+                <a class="page-link"
+                    href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a><a class="page-link" href="/resources/">Resources</a><a class="page-link" href="/about/">About Yusuke Tsutsumi</a></div>
+        </nav></div>
+    <style>
+        .gse-control-cse td {
+            border: 0;
+        }
+
+        td.gsc-input {
+            border: 0;
+        }
+
+        td.gsc-search-button {
+            border: 0;
+        }
+
+        table.gsc-input {
+            margin-bottom: 0;
+        }
+    </style>
+</header><main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <header class="post-header">
+        <h1 class="post-title p-name" itemprop="name headline">Aiohttp vs Multithreaded Flask for High I/O Applications</h1>
+        <p class="post-meta"><time class="dt-published" datetime="2017-09-23T00:00:00+00:00" itemprop="datePublished">
+                Sep 23, 2017
+            </time>• 
+            <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+                <span class="p-author h-card" itemprop="name">toumorokoshi</span></span></p>
+    </header>
+
+    <div class="post-content e-content" itemprop="articleBody">
+        <p>Over the past year, my team has been making the transition from Flask to
+<a href="http://aiohttp.readthedocs.io/en/stable/">aiohttp</a>. We're making this
+transition because of a lot of the situations where non-blocking I/O
+theoretically scales better:</p>
+
+<ul>
+  <li>large numbers of simultaneous connections</li>
+  <li>remote http requests with long response times</li>
+</ul>
+
+<p>There is agreement that asyncio scales better memory-wise: a green
+thread in Python consumes less memory than a system thread.</p>
+
+<p>However, performance for latency and load is a bit more contentious. The
+best way to find out is to run a practical experiment.</p>
+
+<p>To find out, I forked
+<a href="https://github.com/klen/py-frameworks-bench">py-frameworks-benchmark</a>,
+and designed an experiment.</p>
+                <h2 id="the-experiment">   The Experiment <a href="#the-experiment">#</a>   </h2>
+                    
+
+<p>The conditions of the web application, and the work performed, are
+identical:</p>
+
+<ul>
+  <li>a route on a web server that: 1. returns the response as json 2.
+queries a</li>
+  <li>http request to an nginx server returning back html.</li>
+  <li>a <a href="https://github.com/wg/wrk">wrk</a> benchmark run, with 400
+concurrent requests for 20 seconds</li>
+  <li>running under gunicorn, with two worker processes.</li>
+  <li>python3.6</li>
+</ul>
+                <h2 id="the-variants">   The Variants <a href="#the-variants">#</a>   </h2>
+                    
+
+<p>The variants are:</p>
+
+<ul>
+  <li>aiohttp</li>
+  <li>flask + meinheld</li>
+  <li>flask + gevent</li>
+  <li>flask + multithreading, varying from 10 to 1000.</li>
+</ul>
+
+<p>Results</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>variant</th>
+      <th>min</th>
+      <th>p50</th>
+      <th>p99</th>
+      <th>p99.9</th>
+      <th>max</th>
+      <th>mean</th>
+      <th>duration</th>
+      <th>requests</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>aiohttp</td>
+      <td>163.27</td>
+      <td>247.72</td>
+      <td>352.75</td>
+      <td>404.59</td>
+      <td>1414.08</td>
+      <td>257.59</td>
+      <td>20.10</td>
+      <td>30702</td>
+    </tr>
+    <tr>
+      <td>flask:gevent</td>
+      <td>85.02</td>
+      <td>945.17</td>
+      <td>6587.19</td>
+      <td>8177.32</td>
+      <td>8192.75</td>
+      <td>1207.66</td>
+      <td>20.08</td>
+      <td>7491</td>
+    </tr>
+    <tr>
+      <td>flask:meinheld</td>
+      <td>124.99</td>
+      <td>2526.55</td>
+      <td>6753.13</td>
+      <td>6857.55</td>
+      <td>6857.55</td>
+      <td>3036.93</td>
+      <td>20.10</td>
+      <td>190</td>
+    </tr>
+    <tr>
+      <td>flask:10</td>
+      <td>163.05</td>
+      <td>4419.11</td>
+      <td>4505.59</td>
+      <td>4659.46</td>
+      <td>4667.55</td>
+      <td>3880.05</td>
+      <td>20.05</td>
+      <td>1797</td>
+    </tr>
+    <tr>
+      <td>flask:20</td>
+      <td>110.23</td>
+      <td>2368.20</td>
+      <td>3140.01</td>
+      <td>3434.39</td>
+      <td>3476.06</td>
+      <td>2163.02</td>
+      <td>20.09</td>
+      <td>3364</td>
+    </tr>
+    <tr>
+      <td>flask:50</td>
+      <td>122.17</td>
+      <td>472.98</td>
+      <td>3978.68</td>
+      <td>8599.01</td>
+      <td>9845.94</td>
+      <td>541.13</td>
+      <td>20.10</td>
+      <td>4606</td>
+    </tr>
+    <tr>
+      <td>flask:100</td>
+      <td>118.26</td>
+      <td>499.16</td>
+      <td>4428.77</td>
+      <td>8714.60</td>
+      <td>9987.37</td>
+      <td>556.77</td>
+      <td>20.10</td>
+      <td>4555</td>
+    </tr>
+    <tr>
+      <td>flask:200</td>
+      <td>112.06</td>
+      <td>459.85</td>
+      <td>4493.61</td>
+      <td>8548.99</td>
+      <td>9683.27</td>
+      <td>527.02</td>
+      <td>20.10</td>
+      <td>4378</td>
+    </tr>
+    <tr>
+      <td>flask:400</td>
+      <td>121.63</td>
+      <td>526.72</td>
+      <td>3195.23</td>
+      <td>8069.06</td>
+      <td>9686.35</td>
+      <td>580.54</td>
+      <td>20.06</td>
+      <td>4336</td>
+    </tr>
+    <tr>
+      <td>flask:800</td>
+      <td>127.94</td>
+      <td>430.07</td>
+      <td>4503.95</td>
+      <td>8653.69</td>
+      <td>9722.19</td>
+      <td>514.47</td>
+      <td>20.09</td>
+      <td>4381</td>
+    </tr>
+    <tr>
+      <td>flask:1000</td>
+      <td>184.76</td>
+      <td>732.21</td>
+      <td>1919.72</td>
+      <td>5323.73</td>
+      <td>7364.60</td>
+      <td>786.26</td>
+      <td>20.04</td>
+      <td>4121</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>You can probably get a sense that aiohttp can server more requests than
+any other. To get a real sense of how threads scale we can put the
+request count on a chart:</p>
+
+<p><img src="async-vs-threads-chart.png" alt="image" /></p>
+
+<p>The interesting note is that the meinheld worker didn't scale very well
+at all. Gevent handled requests faster than any threading
+implementation.</p>
+
+<p>But nothing handled nearly as many requests as aiohttp.</p>
+
+<p>These are the results on my machine. I'd strongly suggest you try the
+experiment for yourself: the code is available in <a href="https://github.com/toumorokoshi/py-frameworks-bench">my
+fork</a>.</p>
+
+<p>If anyone has any improvements on the multithreading side, or can
+explain the discrepency in performance, I'd love to understand more.</p>
+    </div><a class="u-url" href="/2017/09/23/aiohttp-vs-multithreaded-flask-for-high-io-applications/" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/%20/"></data>
+
+    <div class="wrapper">
+
+        <div class="footer-col-wrapper">
+            <script async src="https://cse.google.com/cse.js?cx=014358564571565173111:hnnbq4j54cy"></script>
+            <div class="gcse-search"></div>
+        </div>
+        <div class="footer-col-wrapper">
+            <div class="footer-col">
+                <p class="feed-subscribe">
+                    <a href="/feed/index.xml">
+                        <svg class="svg-icon orange">
+                            <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+                        </svg><span>Subscribe</span>
+                    </a>
+                </p>
+            </div>
+            <div class="footer-col">
+                <p>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</p>
+            </div>
+        </div>
+
+        <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/toumorokoshi" target="_blank" title="toumorokoshi"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/yusuke-tsutsumi" target="_blank" title="yusuke-tsutsumi"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/tsutsumiyusuke" target="_blank" title="tsutsumiyusuke"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+    </div>
+
+</footer></body>
+
+</html>

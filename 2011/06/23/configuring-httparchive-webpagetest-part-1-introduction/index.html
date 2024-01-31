@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Configuring HttpArchive + Webpagetest (Part 1: Introduction) | Yusuke Tsutsumi</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Configuring HttpArchive + Webpagetest (Part 1: Introduction)" />
+<meta name="author" content="toumorokoshi" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Testing is an integral part of developing code, and this is usually a lesson that is learned the hard way. I can’t name all the times that I’ve made a trivial mistake that goes unnoticed until the code has ballooned to the point where rooting around and figuring it out is an impossibility." />
+<meta property="og:description" content="Testing is an integral part of developing code, and this is usually a lesson that is learned the hard way. I can’t name all the times that I’ve made a trivial mistake that goes unnoticed until the code has ballooned to the point where rooting around and figuring it out is an impossibility." />
+<link rel="canonical" href="https://y.tsutsumi.io/2011/06/23/configuring-httparchive-webpagetest-part-1-introduction/" />
+<meta property="og:url" content="https://y.tsutsumi.io/2011/06/23/configuring-httparchive-webpagetest-part-1-introduction/" />
+<meta property="og:site_name" content="Yusuke Tsutsumi" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2011-06-23T22:40:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Configuring HttpArchive + Webpagetest (Part 1: Introduction)" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"toumorokoshi"},"dateModified":"2011-06-23T22:40:00+00:00","datePublished":"2011-06-23T22:40:00+00:00","description":"Testing is an integral part of developing code, and this is usually a lesson that is learned the hard way. I can’t name all the times that I’ve made a trivial mistake that goes unnoticed until the code has ballooned to the point where rooting around and figuring it out is an impossibility.","headline":"Configuring HttpArchive + Webpagetest (Part 1: Introduction)","mainEntityOfPage":{"@type":"WebPage","@id":"https://y.tsutsumi.io/2011/06/23/configuring-httparchive-webpagetest-part-1-introduction/"},"url":"https://y.tsutsumi.io/2011/06/23/configuring-httparchive-webpagetest-part-1-introduction/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" /><script async src="https://www.googletagmanager.com/gtag/js?id=G-325KP61WS9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { window.dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-325KP61WS9');
+</script>
+</head>
+<body><header class="site-header">
+
+    <div class="wrapper"><a class="site-title" rel="author" href="/">Yusuke Tsutsumi</a><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path
+                            d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger">
+                <a class="page-link" href="/tag/coding/">Coding Posts</a>
+                <a class="page-link"
+                    href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a><a class="page-link" href="/resources/">Resources</a><a class="page-link" href="/about/">About Yusuke Tsutsumi</a></div>
+        </nav></div>
+    <style>
+        .gse-control-cse td {
+            border: 0;
+        }
+
+        td.gsc-input {
+            border: 0;
+        }
+
+        td.gsc-search-button {
+            border: 0;
+        }
+
+        table.gsc-input {
+            margin-bottom: 0;
+        }
+    </style>
+</header><main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <header class="post-header">
+        <h1 class="post-title p-name" itemprop="name headline">Configuring HttpArchive + Webpagetest (Part 1: Introduction)</h1>
+        <p class="post-meta"><time class="dt-published" datetime="2011-06-23T22:40:00+00:00" itemprop="datePublished">
+                Jun 23, 2011
+            </time>• 
+            <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+                <span class="p-author h-card" itemprop="name">toumorokoshi</span></span></p>
+    </header>
+
+    <div class="post-content e-content" itemprop="articleBody">
+        <p>Testing is an integral part of developing code, and this is usually a lesson that is learned the hard way. I can’t name all the times that I’ve made a trivial mistake that goes unnoticed until the code has ballooned to the point where rooting around and figuring it out is an impossibility.</p>
+
+<p>For even the best tester, it’s a rare occurrence that every single possible exception is captured the first time around. On top of this, certain kinds of tests are also less frequently even
+considered. Among these are performance tests for web developers.</p>
+
+<p>Figuring out how quickly each part of a website responds is not an easy task, and is not a concern for must until it goes wrong. Luckily, there
+exists a pair of tools that provide a great look at these performance issues: <a href="http://httparchive.org">HttpArchive</a> and <a href="http://webpagetest.org">Webpagetest</a>.</p>
+                <h2 id="webpagetest">   Webpagetest <a href="#webpagetest">#</a>   </h2>
+                    
+
+<p>Webpagetest is a tool for testing website performance. Originally a
+piece of in-house AOL software, the site is now available as both a
+public <a href="http://www.webpagetest.org/">website</a>, and <a href="http://code.google.com/p/webpagetest/source/checkout">open-source</a> for users to download. It is an
+amazing tool that provides various tools that measure website
+performance, from a waterfall chart (of both resources accessed and
+connections):</p>
+
+<p><img src="./waterfall1.png" alt="" /></p>
+
+<p>to Google’s Pagespeed app (gives a rating out of 100 for page
+performance):</p>
+
+<p><img src="./pagespeed.png" alt="" /></p>
+
+<p>to actual screenshots of the page:</p>
+
+<p><img src="./snapshot.png" alt="" /></p>
+
+<p>I would give it a shot on your own site to see how amazing of a product
+it really is. It is a comprehensive at look at a site, and a timeline
+for the time it takes to load, start to finish. Webpagetest by itself is
+a great tool for debugging a slow site, but there is another level with
+which one can examine the performance of a site: over time. If one could
+take the information from Webpagetest, store it in a database of some
+kind, and analyze the results, there would be another dimension through
+which one can analyze where the site was, how it is now, and predict the
+direction, performance wise, it is heading.</p>
+
+<p>Well, that is exactly what HttpArchive is built to do!</p>
+                <h2 id="httparchive">   HttpArchive <a href="#httparchive">#</a>   </h2>
+                    
+
+<p>HttpArchive is another open-source project, meant to be similar to
+<a href="http://www.archive.org">archive.org</a>, which snapshots various sites on the internet, providing
+a look back into the past. HttpArchive archives the performance of
+various websites, providing a different look back: at site
+performance.Using Webpagetest as a backbone, HttpArchive saves snapshots
+of information from webpagetest.org, and analyzes trends in various
+websites. For example, take a look at it’s analysis of wordpress.com:</p>
+
+<p><a href="http://httparchive.org/viewsite.php?pageid=268424">http://httparchive.org/viewsite.php?pageid=268424</a></p>
+
+<p>The site is able to give insight that is interesting to both developers
+and users alike!</p>
+                <h2 id="conclusion">   Conclusion <a href="#conclusion">#</a>   </h2>
+                    
+
+<p>The goal of this tutorial is to go over how to implement a private
+instance of Webpagetest and HttpArchive, and how to link the pair
+together. This will create a powerful and useful performance testing
+suite.</p>
+
+<p>Stay tuned for part 2, where we’ll go over installing and configuring
+Webpagetest!</p>
+
+<p>Part3: going over installing HttpArchive.</p>
+
+<p>Part4: putting them together and conclusion.</p>
+    </div><a href="#0" onclick="loadDisqus()">click to load comments via Disqus (ad supported and will cause tracking to load.
+    requires javascript).</a>
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://y.tsutsumi.io/2011/06/23/configuring-httparchive-webpagetest-part-1-introduction/';
+        this.page.identifier = '/2011/06/23/configuring-httparchive-webpagetest-part-1-introduction/';
+    };
+
+    function loadDisqus() {
+        var d = document, s = d.createElement('script');
+
+        s.src = 'https://tsutsumi.disqus.com/embed.js';
+
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    }
+</script>
+<noscript>no comments avaialable with Javascript disabled.</noscript><a class="u-url" href="/2011/06/23/configuring-httparchive-webpagetest-part-1-introduction/" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/%20/"></data>
+
+    <div class="wrapper">
+
+        <div class="footer-col-wrapper">
+            <script async src="https://cse.google.com/cse.js?cx=014358564571565173111:hnnbq4j54cy"></script>
+            <div class="gcse-search"></div>
+        </div>
+        <div class="footer-col-wrapper">
+            <div class="footer-col">
+                <p class="feed-subscribe">
+                    <a href="/feed/index.xml">
+                        <svg class="svg-icon orange">
+                            <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+                        </svg><span>Subscribe</span>
+                    </a>
+                </p>
+            </div>
+            <div class="footer-col">
+                <p>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</p>
+            </div>
+        </div>
+
+        <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/toumorokoshi" target="_blank" title="toumorokoshi"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/yusuke-tsutsumi" target="_blank" title="yusuke-tsutsumi"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/tsutsumiyusuke" target="_blank" title="tsutsumiyusuke"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+    </div>
+
+</footer></body>
+
+</html>

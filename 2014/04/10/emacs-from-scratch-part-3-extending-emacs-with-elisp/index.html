@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Emacs From Scratch, Part 3: Extending Emacs with Elisp | Yusuke Tsutsumi</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Emacs From Scratch, Part 3: Extending Emacs with Elisp" />
+<meta name="author" content="toumorokoshi" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="This is a series of tutorials geared around building up your own customized environment, using emacs, from scratch." />
+<meta property="og:description" content="This is a series of tutorials geared around building up your own customized environment, using emacs, from scratch." />
+<link rel="canonical" href="https://y.tsutsumi.io/2014/04/10/emacs-from-scratch-part-3-extending-emacs-with-elisp/" />
+<meta property="og:url" content="https://y.tsutsumi.io/2014/04/10/emacs-from-scratch-part-3-extending-emacs-with-elisp/" />
+<meta property="og:site_name" content="Yusuke Tsutsumi" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2014-04-10T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Emacs From Scratch, Part 3: Extending Emacs with Elisp" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"toumorokoshi"},"dateModified":"2014-04-10T00:00:00+00:00","datePublished":"2014-04-10T00:00:00+00:00","description":"This is a series of tutorials geared around building up your own customized environment, using emacs, from scratch.","headline":"Emacs From Scratch, Part 3: Extending Emacs with Elisp","mainEntityOfPage":{"@type":"WebPage","@id":"https://y.tsutsumi.io/2014/04/10/emacs-from-scratch-part-3-extending-emacs-with-elisp/"},"url":"https://y.tsutsumi.io/2014/04/10/emacs-from-scratch-part-3-extending-emacs-with-elisp/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" /><script async src="https://www.googletagmanager.com/gtag/js?id=G-325KP61WS9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { window.dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-325KP61WS9');
+</script>
+</head>
+<body><header class="site-header">
+
+    <div class="wrapper"><a class="site-title" rel="author" href="/">Yusuke Tsutsumi</a><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path
+                            d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger">
+                <a class="page-link" href="/tag/coding/">Coding Posts</a>
+                <a class="page-link"
+                    href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a><a class="page-link" href="/resources/">Resources</a><a class="page-link" href="/about/">About Yusuke Tsutsumi</a></div>
+        </nav></div>
+    <style>
+        .gse-control-cse td {
+            border: 0;
+        }
+
+        td.gsc-input {
+            border: 0;
+        }
+
+        td.gsc-search-button {
+            border: 0;
+        }
+
+        table.gsc-input {
+            margin-bottom: 0;
+        }
+    </style>
+</header><main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <header class="post-header">
+        <h1 class="post-title p-name" itemprop="name headline">Emacs From Scratch, Part 3: Extending Emacs with Elisp</h1>
+        <p class="post-meta"><time class="dt-published" datetime="2014-04-10T00:00:00+00:00" itemprop="datePublished">
+                Apr 10, 2014
+            </time>• 
+            <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+                <span class="p-author h-card" itemprop="name">toumorokoshi</span></span></p>
+    </header>
+
+    <div class="post-content e-content" itemprop="articleBody">
+        <p>This is a series of tutorials geared around building up your own
+customized environment, using emacs, from scratch.</p>
+
+<p>You can find <a href="/emacs-from-scratch-part-1-extending-emacs-basics.html">part 1 here</a>
+You can find <a href="/emacs-from-scratch-part-2-package-management.html">part 2 here</a></p>
+                <h2 id="extending-emacs-with-elisp">   Extending Emacs with Elisp <a href="#extending-emacs-with-elisp">#</a>   </h2>
+                    
+
+<p>If you've followed the previous tutorials, you're familiar with
+loading configuration, and you now have a system that can download
+packages for you from the various Emacs package repositories. Now let's
+dive into where Emacs get's really fun: extending Emacs yourself.</p>
+
+<p>One of the things I love about modern programming is the idea of
+feedback as quickly as possible: it's great to see the result of the
+changes of your code instantly. So let's try writing a generic way to
+do this. We'll write a function that adds a hook to an Emacs buffer, so
+when it saves, a shell command will run. (e.g. 'python myscript.py'
+for a python script, or running unit tests, etc)</p>
+
+<p>Create a file called my-methods.el, adding it to your .emacs.d/
+directory. To write our command, we'll need to do the following:</p>
+
+<ul>
+  <li>a hash to store (buffer, command) pairs to run</li>
+  <li>create a method to add a (buffer, command) pair to our hash</li>
+  <li>look in our hash if a buffer is saved, and run the command if the
+buffer exists in the hash</li>
+  <li>remove entries from our hash if the buffer is killed</li>
+</ul>
+
+<p>So let's start by adding our hash:</p>
+
+<pre><code class="language-{.lisp}">; my-methods.el
+(setq my-command-buffer-hooks (make-hash-table))
+</code></pre>
+
+<p>(setq &lt;name&gt; &lt;value&gt;) will set a variable &lt;name&gt; to a value
+&lt;value&gt;. This is one way of instantiating a variable in elisp. There
+are other ways, such as
+<a href="http://www.gnu.org/software/emacs/manual/html_node/elisp/Defining-Variables.html">defvar</a>,
+but I chose setq because we are simply defining an internal variable for
+usage. Other variations which define variables typically provide some
+other purpose, such as a user-customizable value or a constant.</p>
+
+<p>Now that we have our hash table, let's start adding to it! We'll write
+our first function to my-methods.el:</p>
+
+<pre><code class="language-{.lisp}">; my-methods.el
+
+(defun my-command-on-save-buffer (c)
+    "Run a command &lt;c&gt; every time the buffer is saved "
+    (interactive "sShell command: ")
+    (puthash (buffer-file-name) c my-command-buffer-hooks))
+</code></pre>
+
+<p>This method takes in a variable 'c', takes the current buffer, and
+adds pair of (buffer-name, command-as-a-string) to our hash. This is a
+short function, but it's a dense amount of functionality, so it's
+worth explaining a bit further.</p>
+                <h3 id="defun">   defun <a href="#defun">#</a>   </h3>
+                    
+
+<p>Defun is the standard way to define a function. It uses the following
+syntax:</p>
+
+<pre><code class="language-{.lisp}">(defun &lt;method_name&gt; (&lt;var_a&gt; &lt;var_b&gt;...)
+  &lt;docstring&gt;
+  &lt;interactive?&gt;
+  &lt;method_body&gt;)
+</code></pre>
+
+<p>Here's a description of each:</p>
+
+<ul>
+  <li>&lt;method_name&gt;: a symbol to populate with the method</li>
+  <li>&lt;var_a&gt; &lt;var_b&gt;... : a list of symbols to populate with passed
+parameters</li>
+  <li>&lt;docstring&gt;: a string explaining what your method does</li>
+  <li>&lt;interactive?&gt;: options. we'll take about this more in a second</li>
+  <li>&lt;method_body&gt;: a lisp expression which has access to &lt;var_a&gt;
+&lt;var_b&gt;... symbols described above.</li>
+</ul>
+
+<p>So pretty standard for a method definition in any language, except for
+(interactive?).</p>
+                <h3 id="interactive">   interactive <a href="#interactive">#</a>   </h3>
+                    
+
+<p>So what is interactive? Well, it's an optional expression, which, if
+passed in to defun, makes the method 'interactive'. Interactive
+basically means it's one of the command that can be run by 'M-x': it
+becomes a publicly exposed command that an Emacs user should be able to
+run.</p>
+
+<p>(interactive) by itself results in a command that does not ask the user
+for input. In other words, it's only useful for commands that have no
+variables.</p>
+
+<p>If we want the user to be able to type some input, we need to add in a
+string into interactive, like our example above:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(interactive "sShell Command:")
+</code></pre></div></div>
+
+<p>So this will take in a single string. So how do we know it always takes
+a string and only a string? Well, it's the first 's' in the "sShell
+Command". The first character is called an 'interactive code': it's
+a way to express what the expected input is. Specifying the proper
+interactive code is important: codes such as 'D' (directory name) or
+'C' (emacs command) can provide auto-completion, making your function
+all the more useful.</p>
+
+<p>Multiple arguments can be passed by delimiting with newlines:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(interactive "sA String:\nDA Directory")
+</code></pre></div></div>
+
+<p>A full list of interactive codes can be found here: <a href="http://www.gnu.org/software/emacs/manual/html_node/elisp/Interactive-Codes.html#Interactive-Codes">interactive
+codes</a></p>
+                <h3 id="puthashgethashremhash">   puthash/gethash/remhash <a href="#puthashgethashremhash">#</a>   </h3>
+                    
+
+<p>So the one thing that might be a little strange if you work in a
+primarily OOP environment: (puthash &lt;map&gt; &lt;key&gt; &lt;value&gt;) instead
+of something like &lt;map&gt;.put(&lt;key&gt; &lt;value&gt;).</p>
+
+<p>elisp is a functional language, which means that everything is,
+essentially, a function or data. There is no real concept of
+object-oriented programming: if you want to modify an object, you call a
+method with the object as the argument, not an object calling a method.</p>
+
+<p>To work with a hash, elisp provides puthash/gethash/remhash. You can
+read more here:
+<a href="http://www.gnu.org/software/emacs/manual/html_node/elisp/Hash-Access.html#Hash-Access">hash-access</a></p>
+
+<p>So at this point, you should have all the info you need to understand
+the my-command-on-save-buffer option.</p>
+
+<p>Now let's add a couple more functions to complete our hook.</p>
+                <h3 id="my-command-on-buffer-run-hook">   my-command-on-buffer-run-hook <a href="#my-command-on-buffer-run-hook">#</a>   </h3>
+                    
+
+<p>Add the following to you my-methods.el:</p>
+
+<pre><code class="language-{.lisp}">; .emacs.d/my-methods.el
+
+(defun my-command-buffer-kill-hook ()
+  "Remove a key from &lt;command-buffer-hooks&gt; if it exists"
+  (remhash (buffer-file-name) my-command-buffer-hooks))
+</code></pre>
+
+<p>This function removes the current buffer from the hooks hash. Pretty
+straightforward with what we know now.</p>
+
+<p>And this one:</p>
+
+<pre><code class="language-{.lisp}">; .emacs.d/my-methods.el
+
+(defun my-command-buffer-run-hook ()
+  "Run a command if it exists in the hook"
+  (let ((hook (gethash (buffer-file-name) my-command-buffer-hooks)))
+    (when hook
+        (shell-command hook))))
+</code></pre>
+
+<p>This is the actual function that runs the hook. Note the extra check
+wrappend in a with. (when is a shorthand for if with only one argument.
+It's more lisp-esque to provide shorthands like this).</p>
+
+<p>Finally we need to add the hooks so that these function actually run:</p>
+
+<pre><code class="language-{.lisp}">; .emacs.d/my-methods.el
+
+;; add hooks
+(add-hook 'kill-buffer-hook 'my-command-buffer-kill-hook)
+(add-hook 'after-save-hook 'my-command-buffer-run-hook)
+</code></pre>
+
+<p>Emacs provides a nice hook implementation. pass in the hook name you
+want to listen to, and the function name you want to call.</p>
+
+<p>And that's it! give it a shot. In fact, let's try it our Emacs now.
+open up my-methods.el and type: M-x eval-buffer. Voila! you know have
+your my-command-on-save-buffer. Emacs has the ability to evaluate code
+with it's lisp interpreter, which allows modifying the global state of
+the editor itself. By evaluating our code, we basically just added the
+functions we writing to the actual emacs instance we've been working
+in!</p>
+
+<p>Now this is what I'm saying when I love modern programming. Getting
+automated feedback faster is always better, and Emacs is great at
+providing fast feedback on editor changes. You don't even have to
+restart your process! You can modify the environment you're working in,
+as you're working on it, and see the changes instantly!</p>
+
+<p>Anyway, let's try our new functions with a test file.</p>
+
+<p>Open a file /tmp/tmp.txt, save it (C-x C-s), and run: M-x
+my-command-on-buffer-save. It'll ask you far a shell argument.</p>
+
+<p><img src="emacs-from-scratch-part-3-myhook.png" alt="image" /></p>
+
+<p>Type in the following:</p>
+
+<pre><code class="language-{.bash}">echo 'hello world'
+</code></pre>
+
+<p>Now type something and save your file. boom! The output should be in the
+mini-buffer (you can see the full output in the *Shell Command Output*
+buffer).</p>
+
+<p><img src="emacs-from-scratch-part-3-echo.png" alt="image" /></p>
+
+<p>Congrats! You've just written your first functional elisp function. And
+it's pretty useful too.</p>
+
+<p>If you want to learn more about developing elisp code, you can't go
+wrong with the <a href="http://www.gnu.org/software/emacs/manual/html_node/elisp/index.html#Top">elisp
+manual</a>.
+Like most languages, some things are not going to be the most intuitive
+in the beginning. However, as you become more comfortable elisp will
+start to feel like just another amazing feature of Emacs.</p>
+
+<p>The other way to learn a lot is by looking at other people's emacs
+packages and files. Go to <a href="http://melpa.milkbox.net/#/">melpa</a>, find a
+package you like, and click the 'source' link, and start reading!</p>
+                <h3 id="summary">   Summary <a href="#summary">#</a>   </h3>
+                    
+
+<p>Here's what we learned:</p>
+
+<ul>
+  <li>elisp is a functional languages: everything is done through
+functions</li>
+  <li>defun is used te define methods, and can have docstrings and can be
+interactive</li>
+  <li>elisp uses hashes, and uses puthash/gethash/remhash</li>
+  <li>Emacs can evaluate code and modify it's interpreter on the fly</li>
+</ul>
+                <h3 id="final-code">   Final Code <a href="#final-code">#</a>   </h3>
+                    
+
+<p>Note: this includes code from part one</p>
+
+<p>.emacs:</p>
+
+<pre><code class="language-{.lisp}">(load "~/.emacs.d/my-loadpackages.el")
+(load "~/.emacs.d/my-methods.el")
+(add-hook 'after-init-hook '(lambda ()
+  (load "~/.emacs.d/my-noexternals.el")))
+</code></pre>
+
+<p>.emacs.d/my-methods:</p>
+
+<pre><code class="language-{.lisp}">;  ~/.emacs.d/my-methods.el
+
+(setq my-command-buffer-hooks (make-hash-table))
+
+(defun my-command-on-save-buffer (c)
+    "Run a command &lt;c&gt; every time the buffer is saved "
+    (interactive "sShell command: ")
+    (puthash (buffer-file-name) c my-command-buffer-hooks))
+
+(defun my-command-buffer-kill-hook ()
+  "Remove a key from &lt;command-buffer-hooks&gt; if it exists"
+  (remhash (buffer-file-name) my-command-buffer-hooks))
+
+(defun my-command-buffer-run-hook ()
+  "Run a command if it exists in the hook"
+  (let ((hook (gethash (buffer-file-name) my-command-buffer-hooks)))
+    (when hook
+        (shell-command hook))))
+
+;; add hooks
+(add-hook 'kill-buffer-hook 'my-command-buffer-kill-hook)
+(add-hook 'after-save-hook 'my-command-buffer-run-hook)
+</code></pre>
+
+<p>.emacs.d/my-noexternals.el:</p>
+
+<pre><code class="language-{.lisp}">; ~/.emacs.d/my-noexternals.el
+
+;; Remove scrollbars, menu bars, and toolbars
+(when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+(when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+(when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+
+;; Wind-move
+(global-set-key (kbd "C-c C-j") 'windmove-left)
+(global-set-key (kbd "C-c C-k") 'windmove-down)
+(global-set-key (kbd "C-c C-l") 'windmove-up)
+(global-set-key (kbd "C-c C-;") 'windmove-right)
+</code></pre>
+
+<p>.emacs.d/my-packages.el:</p>
+
+<pre><code class="language-{.lisp}">; ~/.emacs.d/my-packages.el
+(require 'cl)
+
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(add-to-list 'package-archives
+             '("marmalade" . "http://marmalade-repo.org/packages/") t)
+(package-initialize)
+
+(defvar required-packages
+  '(
+    magit
+    yasnippet
+  ) "a list of packages to ensure are installed at launch.")
+
+; method to check if all packages are installed
+(defun packages-installed-p ()
+  (loop for p in required-packages
+        when (not (package-installed-p p)) do (return nil)
+        finally (return t)))
+
+; if not all packages are installed, check one by one and install the missing ones.
+(unless (packages-installed-p)
+  ; check for new packages (package versions)
+  (message "%s" "Emacs is now refreshing its package database...")
+  (package-refresh-contents)
+  (message "%s" " done.")
+  ; install the missing packages
+  (dolist (p required-packages)
+    (when (not (package-installed-p p))
+      (package-install p))))
+</code></pre>
+
+<p>.emacs.d/my-loadpackages.el:</p>
+
+<pre><code class="language-{.lisp}">; ~/.emacs.d/my-loadpackages.el
+; loading package
+(load "~/.emacs.d/my-packages.el")
+
+(require 'magit)
+(define-key global-map (kbd "C-c m") 'magit-status)
+
+(require 'yasnippet)
+(yas-global-mode 1)
+(yas-load-directory "~/.emacs.d/snippets")
+(add-hook 'term-mode-hook (lambda()
+    (setq yas-dont-activate t)))
+</code></pre>
+                <h4 id="whats-next">   What's Next <a href="#whats-next">#</a>   </h4>
+                    
+
+<p>That's it for now! You should now have the basic set of knowledge to
+start hacking and trying things yourself:</p>
+
+<ul>
+  <li>an automated way to install packages and define the ones you want</li>
+  <li>a place to load the packages, and augment behaviour</li>
+  <li>an introduction to coding new functions yourself</li>
+</ul>
+
+<p>If there's other things you want to me to cover or discuss, leave a
+comment with your suggestions.</p>
+
+<p>Happy hacking!</p>
+                <h4 id="further-reading--references">   Further Reading / References <a href="#further-reading--references">#</a>   </h4>
+                    
+
+<ul>
+  <li><a href="http://www.gnu.org/software/emacs/manual/html_node/elisp/index.html#Top">elisp
+manual</a></li>
+  <li><a href="http://www.gnu.org/software/emacs/manual/html_node/elisp/Hash-Access.html#Hash-Access">hash-access</a></li>
+  <li><a href="http://www.gnu.org/software/emacs/manual/html_node/elisp/Interactive-Codes.html#Interactive-Codes">interactive
+codes</a></li>
+</ul>
+    </div><a href="#0" onclick="loadDisqus()">click to load comments via Disqus (ad supported and will cause tracking to load.
+    requires javascript).</a>
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://y.tsutsumi.io/2014/04/10/emacs-from-scratch-part-3-extending-emacs-with-elisp/';
+        this.page.identifier = '/2014/04/10/emacs-from-scratch-part-3-extending-emacs-with-elisp/';
+    };
+
+    function loadDisqus() {
+        var d = document, s = d.createElement('script');
+
+        s.src = 'https://tsutsumi.disqus.com/embed.js';
+
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    }
+</script>
+<noscript>no comments avaialable with Javascript disabled.</noscript><a class="u-url" href="/2014/04/10/emacs-from-scratch-part-3-extending-emacs-with-elisp/" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/%20/"></data>
+
+    <div class="wrapper">
+
+        <div class="footer-col-wrapper">
+            <script async src="https://cse.google.com/cse.js?cx=014358564571565173111:hnnbq4j54cy"></script>
+            <div class="gcse-search"></div>
+        </div>
+        <div class="footer-col-wrapper">
+            <div class="footer-col">
+                <p class="feed-subscribe">
+                    <a href="/feed/index.xml">
+                        <svg class="svg-icon orange">
+                            <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+                        </svg><span>Subscribe</span>
+                    </a>
+                </p>
+            </div>
+            <div class="footer-col">
+                <p>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</p>
+            </div>
+        </div>
+
+        <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/toumorokoshi" target="_blank" title="toumorokoshi"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/yusuke-tsutsumi" target="_blank" title="yusuke-tsutsumi"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/tsutsumiyusuke" target="_blank" title="tsutsumiyusuke"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+    </div>
+
+</footer></body>
+
+</html>
