@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Python Internals | Yusuke Tsutsumi</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Python Internals" />
+<meta name="author" content="toumorokoshi" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="The internals of Python are actually pretty straightforward, but it’s still worth a dive. I recently gave a talk at Zillow about it, so I’d thought I’d share some points here as well." />
+<meta property="og:description" content="The internals of Python are actually pretty straightforward, but it’s still worth a dive. I recently gave a talk at Zillow about it, so I’d thought I’d share some points here as well." />
+<link rel="canonical" href="https://y.tsutsumi.io/2013/08/05/python-internals/" />
+<meta property="og:url" content="https://y.tsutsumi.io/2013/08/05/python-internals/" />
+<meta property="og:site_name" content="Yusuke Tsutsumi" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2013-08-05T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Python Internals" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"toumorokoshi"},"dateModified":"2013-08-05T00:00:00+00:00","datePublished":"2013-08-05T00:00:00+00:00","description":"The internals of Python are actually pretty straightforward, but it’s still worth a dive. I recently gave a talk at Zillow about it, so I’d thought I’d share some points here as well.","headline":"Python Internals","mainEntityOfPage":{"@type":"WebPage","@id":"https://y.tsutsumi.io/2013/08/05/python-internals/"},"url":"https://y.tsutsumi.io/2013/08/05/python-internals/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" /><script async src="https://www.googletagmanager.com/gtag/js?id=G-325KP61WS9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { window.dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-325KP61WS9');
+</script>
+</head>
+<body><header class="site-header">
+
+    <div class="wrapper"><a class="site-title" rel="author" href="/">Yusuke Tsutsumi</a><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path
+                            d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger">
+                <a class="page-link" href="/tag/coding/">Coding Posts</a>
+                <a class="page-link"
+                    href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a><a class="page-link" href="/resources/">Resources</a><a class="page-link" href="/about/">About Yusuke Tsutsumi</a></div>
+        </nav></div>
+    <style>
+        .gse-control-cse td {
+            border: 0;
+        }
+
+        td.gsc-input {
+            border: 0;
+        }
+
+        td.gsc-search-button {
+            border: 0;
+        }
+
+        table.gsc-input {
+            margin-bottom: 0;
+        }
+    </style>
+</header><main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <header class="post-header">
+        <h1 class="post-title p-name" itemprop="name headline">Python Internals</h1>
+        <p class="post-meta"><time class="dt-published" datetime="2013-08-05T00:00:00+00:00" itemprop="datePublished">
+                Aug 5, 2013
+            </time>• 
+            <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+                <span class="p-author h-card" itemprop="name">toumorokoshi</span></span></p>
+    </header>
+
+    <div class="post-content e-content" itemprop="articleBody">
+        <p>The internals of Python are actually pretty straightforward, but it’s
+still worth a dive. I recently gave a talk at Zillow about it, so I’d
+thought I’d share some points here as well.</p>
+
+<p>Everything here prefixed with »&gt; can be typed into the python
+interpreter (activated by typing ‘python’ in your shell if you have
+python installed). I strongly encourage playing and trying some of
+this stuff out yourself!</p>
+                <h2 id="basics">   Basics <a href="#basics">#</a>   </h2>
+                    
+
+<p>At the core, everything in python is an object. Each object has three properties:</p>
+
+<ul>
+  <li>a unique identifier of the object via ‘id()’</li>
+  <li>a type of the object via ‘type()’</li>
+  <li>and it’s value</li>
+</ul>
+
+<p>The base object is represented by the keyword ‘object’ in python:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="nb">object</span> <span class="o">&lt;</span><span class="nb">type</span> <span class="s">'object'</span><span class="o">&gt;</span>
+</code></pre></div></div>
+
+<p>And you can always find the methods available on any object (i.e. anything) using ‘dir’:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="nb">dir</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span> <span class="p">[</span><span class="s">'class'</span><span class="p">,</span> <span class="s">'delattr'</span><span class="p">,</span> <span class="s">'doc'</span><span class="p">,</span> <span class="s">'format'</span><span class="p">,</span> <span class="s">'getattribute'</span><span class="p">,</span> <span class="s">'hash'</span><span class="p">,</span> <span class="s">'init'</span><span class="p">,</span> <span class="s">'new'</span><span class="p">,</span> <span class="s">'reduce'</span><span class="p">,</span> <span class="s">'reduce_ex'</span><span class="p">,</span> <span class="s">'repr'</span><span class="p">,</span> <span class="s">'setattr'</span><span class="p">,</span> <span class="s">'sizeof'</span><span class="p">,</span> <span class="s">'str'</span><span class="p">,</span> <span class="s">'subclasshook'</span><span class="p">]</span>
+</code></pre></div></div>
+
+<p>So let’s talk a little bit about the more interesting ones:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">__class__</code> returns the type of an object. If the object is a type, it returns the type ‘type’</li>
+  <li><code class="language-plaintext highlighter-rouge">__doc__</code> is the docstring attached to a file. These are the triple quotes contained directly below a method or class declaration.</li>
+  <li><code class="language-plaintext highlighter-rouge">__new__</code> is called whenever a new instance of an object is created. It almost always calls <code class="language-plaintext highlighter-rouge">__init__</code></li>
+  <li><code class="language-plaintext highlighter-rouge">__sizeof__</code> get the size of the object. One can also use sys.getsizeof. This isn’t the most reliable because it doesn’t get the size of referenced objects, just the size of the reference itself.</li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td><code class="language-plaintext highlighter-rouge">__delattr__</code>, <code class="language-plaintext highlighter-rouge">__getattribute__</code>, and <code class="language-plaintext highlighter-rouge">__setattr__</code> are used to get the attributes regarding a particular object. However, you should use (set</td>
+          <td>get</td>
+          <td>has)attr methods instead of directly calling these.</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+</ul>
+                <h2 id="types">   Types <a href="#types">#</a>   </h2>
+                    
+
+<p>Types are special kind of object in Python, designed to be
+constructors for classes. It’s not possible to create a new object
+(aside from built-in shorthand like {} for dictionaries and [] for
+lists) without using a type object and instantiating something with it:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="nb">object</span><span class="p">()</span> <span class="o">&lt;</span><span class="nb">object</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f1e14eee080</span><span class="o">&gt;</span>
+</code></pre></div></div>
+                <h2 id="exec-eval-and-compile">   exec, eval, and compile <a href="#exec-eval-and-compile">#</a>   </h2>
+                    
+
+<p>exec, eval, and compile are also built-in functions in Python. They
+compile and evaluate code.</p>
+
+<p>‘exec’ executes a particlular string of code</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="k">exec</span><span class="p">(</span><span class="s">"print 'hello world'"</span><span class="p">)</span> <span class="n">hello</span> <span class="n">world</span>
+</code></pre></div></div>
+
+<p>‘eval’ evaluates an expression. <em>Note</em>: this can not be a statement. e.g. assigning a value.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="nb">eval</span><span class="p">(</span><span class="s">"1"</span><span class="p">)</span> <span class="mi">1</span>
+</code></pre></div></div>
+
+<p>‘compile’ compiles an expression or statement into a ‘code’ objects,
+which actually contained the byte-compiled executable code, and is
+what gets ultimately executed by Python.</p>
+
+<p>Note that you have to choose to either ‘eval’ or ‘exec’ the string
+passed.  Conversely, you can pass a file.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="nb">compile</span><span class="p">(</span><span class="s">'./test.py'</span><span class="p">)</span> <span class="o">&gt;&gt;&gt;</span> <span class="nb">compile</span><span class="p">(</span><span class="s">'print "hello world", '', '</span><span class="k">exec</span><span class="s">')
+</span></code></pre></div></div>
+                <h2 id="functions">   Functions <a href="#functions">#</a>   </h2>
+                    
+
+<p>Functions (or methods) consist of two objects:</p>
+
+<ul>
+  <li>a code object, containing the bytecode for a particular object</li>
+  <li>a globals dictionary, containing the global variables necessary</li>
+</ul>
+
+<p>One can’t instantiate functions directly, so we have to get the type of a function first:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">ftype</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="bp">None</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">fn</span> <span class="o">=</span> <span class="n">ftype</span><span class="p">(</span><span class="nb">compile</span><span class="p">(</span><span class="s">'print test'</span><span class="p">,</span> <span class="s">''</span><span class="p">,</span> <span class="s">'exec'</span><span class="p">),</span> <span class="p">{</span><span class="s">'test'</span><span class="p">:</span> <span class="s">"hello world"</span><span class="p">})</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">fn</span> <span class="o">&lt;</span><span class="n">function</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;&gt;</span> <span class="o">&gt;&gt;&gt;</span> <span class="n">fn</span><span class="p">()</span> <span class="n">hello</span> <span class="n">world</span>
+</code></pre></div></div>
+
+<p>So what’s actually going on here?</p>
+
+<ul>
+  <li>I get the type object of function. The easiest method to do this is
+to get the type of a lambda method which returns None. Since the
+type of the lambda is a ‘function’, it’s the quickest way to get
+what we need.</li>
+</ul>
+
+<p>If you wanted to modify a function directly, you can! There’s a large
+number of method available that you can play with.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">'func'</span><span class="p">),</span> <span class="nb">dir</span><span class="p">(</span><span class="n">fn</span><span class="p">))</span>
+<span class="p">[</span><span class="s">'func_closure'</span><span class="p">,</span> <span class="s">'func_code'</span><span class="p">,</span> <span class="s">'func_defaults'</span><span class="p">,</span> <span class="s">'func_dict'</span><span class="p">,</span> <span class="s">'func_doc'</span><span class="p">,</span> <span class="s">'func_globals'</span><span class="p">,</span> <span class="s">'func_name'</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">fn</span><span class="p">.</span><span class="n">func_name</span>
+<span class="s">''</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">fn</span><span class="p">.</span><span class="n">func_name</span> <span class="o">=</span> <span class="s">'hello_world'</span> <span class="s">'hello_world'</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">fn</span><span class="p">.</span><span class="n">func_code</span> <span class="o">=</span> <span class="nb">compile</span><span class="p">(</span><span class="s">'print "not " + test'</span><span class="p">,</span> <span class="s">''</span><span class="p">,</span> <span class="s">'exec'</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">fn</span><span class="p">()</span>
+<span class="ow">not</span> <span class="n">hello</span> <span class="n">world</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">fn</span><span class="p">.</span><span class="n">func_globals</span><span class="p">[</span><span class="s">'test'</span><span class="p">]</span> <span class="o">=</span> <span class="s">"goodbye world"</span>
+<span class="ow">not</span> <span class="n">goodbye</span> <span class="n">world</span>
+</code></pre></div></div>
+                <h2 id="classes">   Classes <a href="#classes">#</a>   </h2>
+                    
+
+<p>Classes are just basically custom types. How can you tell? It’s made by using the ‘type’ constructor!</p>
+
+<p>The ‘type’ method can not only return the type of an object, it can
+create one for you too! Since ‘type’ is a type object, it can be used
+to instantiate new types.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="s">'MyClassType'</span><span class="p">,</span> <span class="p">(),</span> <span class="p">{</span><span class="s">'test'</span><span class="p">:</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="mi">1</span> <span class="p">})</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">b</span> <span class="o">=</span> <span class="n">a</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">b</span><span class="p">.</span><span class="n">test</span>
+<span class="o">&lt;</span><span class="n">bound</span> <span class="n">method</span> <span class="n">MyClassType</span><span class="p">.</span><span class="o">&lt;</span><span class="k">lambda</span><span class="o">&gt;</span> <span class="n">of</span> <span class="o">&lt;</span><span class="n">main</span><span class="p">.</span><span class="n">MyClassType</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f524b71e510</span><span class="o">&gt;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">b</span><span class="p">.</span><span class="n">test</span><span class="p">()</span>
+<span class="mi">1</span>
+</code></pre></div></div>
+
+<p>The syntax is:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>type(name, parents, attributes + values)
+</code></pre></div></div>
+
+<ul>
+  <li>Name: the name of the new type</li>
+  <li>Parents: references to the parent classes</li>
+  <li>attributes + values: a list of tuples of the key and values of the attributes of the class.</li>
+</ul>
+
+<p>Python’s objects are incredibly maleable. You can actually modify class methods directly:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">a</span><span class="p">.</span><span class="n">test</span> <span class="o">=</span> <span class="k">lambda</span> <span class="bp">self</span> <span class="p">:</span> <span class="k">return</span> <span class="s">"noooo!"</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">b</span><span class="p">.</span><span class="n">test</span><span class="p">()</span>
+<span class="n">noooo</span><span class="err">!</span>
+</code></pre></div></div>
+
+<p>Although you can also override the method on the instance directly:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">b</span><span class="p">.</span><span class="n">test</span> <span class="o">=</span> <span class="k">lambda</span> <span class="bp">self</span> <span class="p">:</span> <span class="k">return</span> <span class="s">"yes!"</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">b</span><span class="p">.</span><span class="n">test</span><span class="p">()</span> <span class="n">yes</span><span class="err">!</span>
+</code></pre></div></div>
+
+<p>So how does this work? Well every python object who’s type isn’t a
+built in (think str, int) contains a dictionary-like object with all
+of it’s attributes. This can be viewed by the <code class="language-plaintext highlighter-rouge">__dict__</code> attribute of an object:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="k">class</span> <span class="nc">ABC</span><span class="p">:</span>
+    <span class="p">...</span>
+    <span class="k">pass</span>
+    <span class="p">...</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="n">ABC</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">a</span>
+<span class="o">&lt;</span><span class="n">main</span><span class="p">.</span><span class="n">ABC</span> <span class="n">instance</span> <span class="n">at</span> <span class="mh">0x19879e0</span><span class="o">&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">a</span><span class="p">.</span><span class="nb">dict</span> <span class="p">{}</span>
+</code></pre></div></div>
+
+<p>So how does Python know which attribute to call? This is actually
+dictated in a method! If you noticed, when I ran a dir() on the
+object, there was an attribute <code class="language-plaintext highlighter-rouge">__getattribute__</code>. This method
+defaults to:</p>
+
+<ul>
+  <li>if the attribute is in the object’s own <code class="language-plaintext highlighter-rouge">__dict__</code>, then use that method.</li>
+  <li>if not, the attribute call’s it’s parents <code class="language-plaintext highlighter-rouge">__getattribute__</code> method,
+which of course recurses to it’s own parents on being unable to find it</li>
+</ul>
+
+<p>One of the things about <code class="language-plaintext highlighter-rouge">__dict__</code> is it’s not directly writable. If you
+want to modify attributes on an object, python provides built-in
+functions for this:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">hasattr(foo, 'bar')</code> returns true if the object <code class="language-plaintext highlighter-rouge">foo</code> has the attribute <code class="language-plaintext highlighter-rouge">bar</code></li>
+  <li><code class="language-plaintext highlighter-rouge">getattr(foo, 'bar')</code> returns the attribute <code class="language-plaintext highlighter-rouge">foo.bar</code></li>
+  <li><code class="language-plaintext highlighter-rouge">setattr(foo, 'bar', val)</code> is equivalent to <code class="language-plaintext highlighter-rouge">foo.bar = val</code></li>
+</ul>
+
+<p>back to classes/types, there’s some interesting hidden features as well:</p>
+
+<p>You can find out all the superclasses of a type with <code class="language-plaintext highlighter-rouge">__bases__</code>:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">a</span><span class="p">.</span><span class="n">bases</span> <span class="p">(</span><span class="nb">object</span><span class="p">,)</span>
+</code></pre></div></div>
+
+<p>And all subclasses:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="nb">str</span><span class="p">.</span><span class="n">subclasses</span><span class="p">()</span>
+<span class="p">[</span><span class="o">&lt;</span><span class="k">class</span> <span class="err">'</span><span class="nc">apt</span><span class="p">.</span><span class="n">package</span><span class="p">.</span><span class="n">__dstr</span><span class="s">'&gt;]
+</span></code></pre></div></div>
+
+<p>So how could I find all the classes in my scope? Since everything is
+an object, we just find all subclasses of it.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="nb">object</span><span class="p">.</span><span class="n">subclasses</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Pop Quiz: Is object a subclass of type, or visa versa?</p>
+
+<p>Answer: both are subclasses of each other! Kind of.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span>
+<span class="bp">True</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">type</span><span class="p">,</span> <span class="nb">object</span><span class="p">)</span>
+<span class="bp">True</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">issubclass</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span>
+<span class="bp">False</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">issubclass</span><span class="p">(</span><span class="nb">type</span><span class="p">,</span> <span class="nb">object</span><span class="p">)</span>
+<span class="bp">True</span>
+</code></pre></div></div>
+                <h2 id="frames">   Frames <a href="#frames">#</a>   </h2>
+                    
+
+<p>Want to look at the stack frames within python? That’s possible too.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">sys</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">sys</span><span class="p">.</span><span class="n">_getframe</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Will get you an instance of the existing frame, with references to the variables in the inner scope, outer scope, and more!</p>
+                <h2 id="conclusion">   Conclusion <a href="#conclusion">#</a>   </h2>
+                    
+
+<p>There’s a lot of interesting stuff going on under the hood of Python,
+way beyond the brief discussion I covered here. The interpretive
+nature of python is one that promotes exploration, so don’t hesitate!
+Explore the wonderful world of python internals.</p>
+    </div><a class="u-url" href="/2013/08/05/python-internals/" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/%20/"></data>
+
+    <div class="wrapper">
+
+        <div class="footer-col-wrapper">
+            <script async src="https://cse.google.com/cse.js?cx=014358564571565173111:hnnbq4j54cy"></script>
+            <div class="gcse-search"></div>
+        </div>
+        <div class="footer-col-wrapper">
+            <div class="footer-col">
+                <p class="feed-subscribe">
+                    <a href="/feed/index.xml">
+                        <svg class="svg-icon orange">
+                            <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+                        </svg><span>Subscribe</span>
+                    </a>
+                </p>
+            </div>
+            <div class="footer-col">
+                <p>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</p>
+            </div>
+        </div>
+
+        <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/toumorokoshi" target="_blank" title="toumorokoshi"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/yusuke-tsutsumi" target="_blank" title="yusuke-tsutsumi"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/tsutsumiyusuke" target="_blank" title="tsutsumiyusuke"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+    </div>
+
+</footer></body>
+
+</html>
