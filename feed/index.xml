@@ -1,1 +1,826 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2024-04-08T00:31:02+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle></feed>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2024-04-09T00:30:48+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Reflecting on 2023</title><link href="https://y.tsutsumi.io/my-year/2023" rel="alternate" type="text/html" title="Reflecting on 2023" /><published>2023-12-31T07:00:00+00:00</published><updated>2023-12-31T07:00:00+00:00</updated><id>https://y.tsutsumi.io/my-year/reflecting-on-2023</id><content type="html" xml:base="https://y.tsutsumi.io/my-year/2023"><![CDATA[<p>Another year, another reflection to summarize 1%+ of my life.</p>
+
+<h2 id="japanese">Japanese</h2>
+
+<p>I think my Japanese has reached a plateau, but it’s something I’m comfortable
+with for now. The biggest gap is in my vocabulary - I’m still looking up words
+in a dictionary every page I read a book or a more mature manga.</p>
+
+<p>But whenever I play video games, I do it in Japanese! That’s a pretty good
+benchmark for me, and helps me keep practicing my Japanese aside from my weekly
+30 minutes lessons.</p>
+
+<h2 id="farsi">Farsi</h2>
+
+<p>My Farsi has not developed significantly since last year. I’m just on a slow,
+steady trajectory of reading one page at a time.</p>
+
+<p>I did pick up one of the stories I read last year and tried it again, and I was
+able to get through most of it by myself! In addition, I am able to have <em>some</em>
+conversation with my in-laws. So despite the relatively slow progress I’m making
+<em>sufficient</em> progress to be satisfied.</p>
+
+<p>Next year though, I’d like to invest more in my Farsi - get to the point where I
+can read a good chunk of literature without help from my teacher.</p>
+
+<h2 id="fitness-and-health">Fitness and Health</h2>
+
+<p>I focused heavily on fitness this year, similar to the tail end of last year.</p>
+
+<p>I have yet to do my Dexa scan for end of 2023, but I sit at roughly 180lbs. My
+Dexa scan in April showed I had lost 12 pounds of body fat and gained 6 pounds
+of muscle since October 2022 - not bad at all for six months!</p>
+
+<p>My second half of the year wasn’t as aggressive - I lost 2 pounds, hopefully fat
+but January we will see.</p>
+
+<p>It’s been grueling to get there - my diet now consists of one proper meal a day
+(dinner), with protein and huel shakes in between to provide 80 grams of
+protein. Between that and soy lattes, I get at minimum 90 grams of protein
+before dinner or snacks. That’s putting me at roughly 1.2+ g protein / kg of
+body weight, which is less than what most recommend for building muscle mass,
+but I haven’t seen much of an issue.</p>
+
+<p>Next year my goal is to stick my diet a bit more, and achieve 12% body fat or
+less. Once that happens I think I’ll try to maintain my weight and start
+focusing on other things.</p>
+
+<h2 id="zone-2-on-the-treadmill">Zone 2 on the treadmill</h2>
+
+<p>I’ve been struggling to get more Zone 2 exercise into my routine - basically 30+
+minutes of my heart rate at 70%-80% of my max heart rate.</p>
+
+<p>This year I found something that works for me - playing videogames on the
+treadmill!</p>
+
+<p>I’ve been playing an RPG that keeps me engaged - Persona 4 has worked really
+well for me. It also helps that it’s a long RPG, with 100+ hours to beat it.</p>
+
+<p>With that I’ve been able to clear 30 minutes at a 12% incline and 4 miles per
+hour without issue, although I don’t get past 45 very often (too late at night
+or just get tired of it).</p>
+
+<h2 id="oss-contributions">OSS Contributions</h2>
+
+<p>Since I’ve left Google as TL of API design, I’ve been working on a fork called
+https://aep.dev/. It’s been an interesting ride, discussing API design with API
+leads at Roblox, IBM, Netflix, and Microsoft.</p>
+
+<p>I built a prototype protobuf generator as part of my work, which was a fun
+coding side project. Hopefully in 2024 we’ll see more established and some parts
+of the spec entering production use.</p>
+
+<h2 id="random-other-things">Random other things</h2>
+
+<ul>
+  <li>My vscode PR was completed by someone else! <a href="https://github.com/microsoft/vscode/issues/6966">awesome, this means I can finally
+translate my emacs keybindings
+over</a>.</li>
+</ul>
+
+<h2 id="goals-for-2024">Goals for 2024</h2>
+
+<p>Similar to 2023, my 2024 goals are conservative - I’d like to focus on my family
+and that means all of my afternoons and a good chunk of my evenings are working
+on things relative to them.</p>
+
+<p>But among my goals, they are:</p>
+
+<ul>
+  <li>Be able to read a Farsi book and understand most of the story (a movie may be
+too hard for me).</li>
+  <li>Learn to play 5 new pieces on the piano.</li>
+  <li>Built a foundational knowledge of machine learning and abstract math.</li>
+</ul>]]></content><author><name></name></author><category term="2023" /><category term="reflection" /><summary type="html"><![CDATA[Another year, another reflection to summarize 1%+ of my life.]]></summary></entry><entry><title type="html">Find the last Git branches that you were working on.</title><link href="https://y.tsutsumi.io/git-r/" rel="alternate" type="text/html" title="Find the last Git branches that you were working on." /><published>2023-12-15T07:00:00+00:00</published><updated>2023-12-15T07:00:00+00:00</updated><id>https://y.tsutsumi.io/git-r</id><content type="html" xml:base="https://y.tsutsumi.io/git-r/"><![CDATA[<p>Here’s a quick script that prints the most recent branches you were working on,
+since I find myself needing to lswitching across multiple branches frequently.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/env python
+# git-r prints the last local branches that were checked out in git.
+# This is useful if you want to find the last branch that you were working on.
+</span><span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="n">seen</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+<span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">subprocess</span><span class="p">.</span><span class="n">check_output</span><span class="p">(</span><span class="s">"git log -g --oneline --decorate-refs='refs/heads' --pretty=format:'%d: %s' -100"</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">output</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">l</span><span class="p">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">" ("</span><span class="p">):</span>
+        <span class="k">continue</span>
+    <span class="k">if</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span>
+        <span class="k">continue</span>
+    <span class="n">seen</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+    <span class="n">lines</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">))</span>
+</code></pre></div></div>]]></content><author><name></name></author><category term="coding" /><summary type="html"><![CDATA[Here’s a quick script that prints the most recent branches you were working on, since I find myself needing to lswitching across multiple branches frequently.]]></summary></entry><entry><title type="html">Configure Elecom Trackballs on Linux</title><link href="https://y.tsutsumi.io/elecom-on-linux/" rel="alternate" type="text/html" title="Configure Elecom Trackballs on Linux" /><published>2023-12-12T07:00:00+00:00</published><updated>2023-12-12T07:00:00+00:00</updated><id>https://y.tsutsumi.io/xorg-elecom-trackball</id><content type="html" xml:base="https://y.tsutsumi.io/elecom-on-linux/"><![CDATA[<p>My finger joints are starting to hurt from all the scrolling I’m doing through
+Google docs and code, so I’ve looked at solutions that don’t stress my index
+finger.</p>
+
+<p>It looks like configuring alternate buttons to scroll on a regular mouse is
+really hard to do on Linux, but I’ve found that trackballs support the ability
+to click to make the trackball a scroll wheel, like the <a href="https://elecomusa.com/products/b07dmf2dnw">EX-G PRO
+Trackball</a> from Elecom.</p>
+
+<p>Click to scroll isn’t turned on by default, but it’s easy enough to turn it on
+in Linux:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>xinput set-prop <span class="s2">"pointer:ELECOM TrackBall Mouse EX-G Pro TrackBall"</span> <span class="s1">'libinput Scroll Method Enabled'</span> 0 0 1
+xinput set-prop <span class="s2">"pointer:ELECOM TrackBall Mouse EX-G Pro TrackBall"</span> <span class="s1">'libinput Button Scrolling Button'</span> 11
+</code></pre></div></div>
+
+<p>But this doesn’t persist when you unplug and plug the device in!</p>
+
+<p>I tried to automate this via udev rules, but unfortunately I never got it to
+work (dmesg gives me no output at all).</p>
+
+<p>Instead, an xorg config rule and restarting x did the trick:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Section "InputClass"
+    Identifier    "Elecom TrackBall"
+    MatchVendor    "ELECOM"
+    MatchProduct    "EX-G Pro"
+    Driver        "libinput"
+    Option        "ScrollMethod"        "button"
+    Option        "ScrollButton"        "11"
+EndSection
+</code></pre></div></div>]]></content><author><name></name></author><category term="gear" /><category term="coding" /><summary type="html"><![CDATA[My finger joints are starting to hurt from all the scrolling I’m doing through Google docs and code, so I’ve looked at solutions that don’t stress my index finger.]]></summary></entry><entry><title type="html">The Uniformity Cycle</title><link href="https://y.tsutsumi.io/uniformity-cycle/" rel="alternate" type="text/html" title="The Uniformity Cycle" /><published>2023-09-01T07:00:00+00:00</published><updated>2023-09-01T07:00:00+00:00</updated><id>https://y.tsutsumi.io/uniformity-cycle</id><content type="html" xml:base="https://y.tsutsumi.io/uniformity-cycle/"><![CDATA[<p>I’ve been doing a lot of work on platforms recently, specifically to how it pertains to clients. A general concept has solidified for me: a “uniformity cycle” and a “complexity cycle”, and without an intentional philosophy can fall into one naturally.</p>
+
+<h2 id="platforms-and-clients">Platforms and Clients</h2>
+
+<p>For this post, I’m using “platform” to refer to more than one service that together provides functionality or value to a customer. Think clouds where compute, disks, blob storage, and databases are provided and interoperate with each other. Or GitHub which provides repositories, issue tracking, project management tooling, and continuous integration.</p>
+
+<p>These services are designed to interoperate with each other, and often come with a set of shared <em>clients</em> that consume them. Think command lines, visual user interfaces, and SDKs in various languages.</p>
+
+<h2 id="the-complexity-cycle">The Complexity Cycle</h2>
+
+<p>Clients start out very simple: there are usually a small handful of services that exist, and the integration occurs manually. Not a lot of thought is given into what is sharable or not at this phase, sans common industry wide standards like HTTP or authentication. The services have autonomy, and the integration cost with clients seems marginal to an organization since the feature set is small.</p>
+
+<p>However, as time goes on, this cost of client-server integration becomes costly.
+What’s worse, if there’s a desire to introduce some common feature in a client
+for <em>all</em> services, it is difficult to do so since every client is hand-coded. For example, if generic functionality around listing resources is desired, it must be added to every integration, and must be integrated by hand as likely the service’s implementation of listing resources differs.</p>
+
+<p>Since everything in the clients is hand-written, there is little value in developing standard behavior, so services continue to implement differing functionality that serves a similar purpose.</p>
+
+<p>This whole loop is an example of what I’m calling a “complexity cycle”:</p>
+
+<div class="jekyll-diagrams diagrams mermaid">
+  Command Not Found: mmdc
+</div>
+
+<h2 id="the-uniformity-cycle">The Uniformity Cycle</h2>
+
+<p>So how do we address this cycle of complexity, that will erode the value of a
+common platform? By promoting (or sometimes enforcing) <em>uniformity</em>.</p>
+
+<p>If non-uniform schema or behavior makes it harder for clients to integrate with
+services, then more uniform schema behavior reduces the cost. If the client
+depends <em>only</em> on uniform behavior, then the clients are extremely simple to
+maintain and author: their cost is effectively O(1) to integrate with all
+compliance services.</p>
+
+<p>This in turn motivates the services themselves to be more consistent: new services, as they are created, <em>must</em> adhere to the uniformity requirements (even if implicit) as the clients do not allow configuration or hand-written code.</p>
+
+<p>This opposite a complexity cycle can be described as a “uniformity cycle”:</p>
+
+<div class="jekyll-diagrams diagrams mermaid">
+  Command Not Found: mmdc
+</div>
+
+<p>A uniformity cycle can keep costs low across both services and clients:</p>
+
+<ul>
+  <li>As services must have more uniform behavior, more shared platforms can be created to reduce the cost of these features (e.g. auth or storing state)</li>
+  <li>New universal service features are also easier to roll out, as they rely more on a shared platform.</li>
+</ul>
+
+<h2 id="how-to-flip-the-cycle">How to flip the cycle</h2>
+
+<p>Reversing the cycle from complexity to uniformity requires a strategy that spans across both the platform and it’s clients. Oftentimes a single individual does not have the ability to flip things, nor does a single change flip the cycle.</p>
+
+<p>But several patterns exist, including:</p>
+
+<ul>
+  <li>When supporting new features in a client using new server behavior (e.g. filtering on a list), require a specific implementation of that behavior. When asked to support a different implementation, have a hard design discussion on why, and try to fold any requirements back into the existing implementation.</li>
+  <li>Build fast feedback service-client loops: if service producers can see the
+direct impact on the clients and see undesirable behaviors, they can change them in the service early on in the cycle rather than right at the end when the team has deadlines.</li>
+  <li>Build common behavior into existing shared infrastructure such that services do not have control over the implementation: API gateways are a great place to introduce new features.</li>
+</ul>
+
+<p>After time, the cycle can flip.</p>
+
+<h2 id="should-we-always-design-for-uniformity">Should we always design for uniformity?</h2>
+
+<p>No. It is a common case for the need to diverge in behavior to be justified, and a necessity for a platform to become more configurable to address it.</p>
+
+<p>However, it is best to <em>minimize</em> the variation for the services and the amount of flexible handling in the client.</p>]]></content><author><name></name></author><category term="coding" /><summary type="html"><![CDATA[I’ve been doing a lot of work on platforms recently, specifically to how it pertains to clients. A general concept has solidified for me: a “uniformity cycle” and a “complexity cycle”, and without an intentional philosophy can fall into one naturally.]]></summary></entry><entry><title type="html">Ball in Boxes: Solution</title><link href="https://y.tsutsumi.io/balls-in-boxes-solution/" rel="alternate" type="text/html" title="Ball in Boxes: Solution" /><published>2023-08-13T07:00:00+00:00</published><updated>2023-08-13T07:00:00+00:00</updated><id>https://y.tsutsumi.io/balls-in-boxes-solution</id><content type="html" xml:base="https://y.tsutsumi.io/balls-in-boxes-solution/"><![CDATA[<p>I love Tanya Khovanova’s blog on math, and this puzzle around <a href="https://blog.tanyakhovanova.com/2023/07/balls-in-boxes/">Balls In Boxes</a> (which is from <a href="https://amzn.to/3PGKvxm">Creative Puzzles to Ignite your Mind</a> by  Shyam Sunder Gupta intrigued me.</p>
+
+<p>The solution I’ve come to is that the fourth sage has the label WWW, with the contents of his box WWB. My reasoning is as follows:</p>
+
+<h2 id="the-first-sage-has-bb">The first sage has BB*</h2>
+
+<p>The puzzle states:</p>
+
+<blockquote>
+  <p>The first sage takes out two black balls and says, “I know the color of the third ball.”</p>
+</blockquote>
+
+<p>If the sage has taken out BB, there are only two options for the final ball: W and B. The only way for the first sage to know the answer is if the sage has a label with the opposite. For example, if the label is BBW, then the contents of the box must be BBB since we know the contents of the boxes must not match the label.</p>
+
+<p>Therefore, there are two options for the first sage:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Sage</th>
+      <th>Label</th>
+      <th>Ball</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>BBB</td>
+      <td>BBW</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>BBW</td>
+      <td>BBB</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="the-second-sage-has-bw">The second sage has BW*</h2>
+
+<p>Onto the second sage, who says:</p>
+
+<blockquote>
+  <p>The second sage takes out one black and one white ball and says, “I know the color of the third ball.”</p>
+</blockquote>
+
+<p>We know the contents of the box must be BBW or BWW. Similar to the first sage, we can assume the second sage has the opposite pairing:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Sage</th>
+      <th>Label</th>
+      <th>Ball</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2</td>
+      <td>BBW</td>
+      <td>BWW</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>BWW</td>
+      <td>BBW</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="the-third-sage-has-label-bb">The third sage has label BB*</h2>
+
+<p>The third sage is interesting:</p>
+
+<blockquote>
+  <p>The third sage takes out two white balls and says, “I don’t know the color of the third ball.”</p>
+</blockquote>
+
+<p>The third sage has the following information at this point:</p>
+
+<ul>
+  <li>sage 1’s box contains BB* (BBB or BBW)</li>
+  <li>sage 2’s box contains BW* (BBW or BWW)</li>
+  <li>sage 3’s box contains WW* (BWW or WWW)</li>
+  <li>sage 3’s label.</li>
+</ul>
+
+<p>So what label could sage 3 have such that he cannot eliminate either BWW or WWW as a possible candidate?</p>
+
+<p>Among the labels BBB, BBW, BWW, and WWW, the valid candidate are BBW and BBB:</p>
+
+<ul>
+  <li>if 3’s label is WWW, then the box must contain BWW.</li>
+  <li>if 3’s label is BWW, then the box must contain WWW.</li>
+</ul>
+
+<p>So the third sage must have the labels BBB or BBW, the opposite of whatever sage 1 has.</p>
+
+<p>So sage 3’s options are:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Sage</th>
+      <th>Label</th>
+      <th>Ball</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>3</td>
+      <td>BBB</td>
+      <td>WWB</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>BBB</td>
+      <td>WWW</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>BBW</td>
+      <td>WWB</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>BBW</td>
+      <td>WWW</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="sage-4">Sage 4</h2>
+
+<p>So now we get to sage 4:</p>
+
+<blockquote>
+  <p>The fourth sage says, without taking out any balls, “I know the color of all the balls in my box and also the content of all the other boxes.”</p>
+</blockquote>
+
+<p>Sage 4 has the same knowledge and reasoning as we do. So we know that:</p>
+
+<ul>
+  <li>Sage 1 and Sage 3’s labels are BBW or BBB.</li>
+  <li>Sage 2’s label is one of BBW or BWW.</li>
+</ul>
+
+<p>Since sage 1 and 3 have labels of BBW and BBB, then sage 2’s label must be BWW. Since all other labels are taken, sage 4’s label must be WWW.</p>
+
+<p>If sage 2’s label is BWW and they know the contents of their box, then their box must contain BBW.</p>
+
+<p>This also means that sage 1’s box is clear: it is BBB, which implies that sage 1’s label is BBW:</p>
+
+<p>So we know the following:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Sage</th>
+      <th>Label</th>
+      <th>Ball</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>BBW</td>
+      <td>BBB</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>BWW</td>
+      <td>BBW</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>BBB</td>
+      <td>WW*</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>WWW</td>
+      <td>???</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Since the sage knows their label is WWW, they know that their box must not contain WWW. Since sage 3 has drawn WW*, it must contain WWW. By deduction the last sage must have the oly remaining combination, which is WWB:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Sage</th>
+      <th>Label</th>
+      <th>Ball</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>BBW</td>
+      <td>BBB</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>BWW</td>
+      <td>BBW</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>BBB</td>
+      <td>WWW</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>WWW</td>
+      <td>WWB</td>
+    </tr>
+  </tbody>
+</table>]]></content><author><name></name></author><category term="puzzles" /><summary type="html"><![CDATA[I love Tanya Khovanova’s blog on math, and this puzzle around Balls In Boxes (which is from Creative Puzzles to Ignite your Mind by Shyam Sunder Gupta intrigued me.]]></summary></entry><entry><title type="html">sucralose-6-acetate</title><link href="https://y.tsutsumi.io/sucralose-6-acetate" rel="alternate" type="text/html" title="sucralose-6-acetate" /><published>2023-06-04T07:00:00+00:00</published><updated>2023-06-04T07:00:00+00:00</updated><id>https://y.tsutsumi.io/sucralose-6-acetate</id><content type="html" xml:base="https://y.tsutsumi.io/sucralose-6-acetate"><![CDATA[<p>A study came out recently about
+<a href="https://www.tandfonline.com/doi/full/10.1080/10937404.2023.2213903">sucralose-6-acetate</a>,
+a genotoxicin which is apparently found in sucralose.</p>
+
+<p>I wanted to dive in a little bit more, here are some findings and thoughts.</p>
+
+<p><em>note</em>: I am not a medical professional, and nothing I say here constitutes
+any medical advice. It’s my own opinions and theories.</p>
+
+<h2 id="is-sucralose-safe">Is sucralose safe</h2>
+
+<p>To answer the most important question first: I think there’s evidence that at
+minimum, sucralose does not lead to a significant increase in cancer. Several
+studies exist that show at best a minor increase (~10%) <em>correlated</em> with
+sucralose.</p>
+
+<p>That said, the following concerns is making me consider removing sucralose from
+my daily diet:</p>
+
+<ul>
+  <li>The study mentioned showing it contains a possible genotoxin.</li>
+  <li>The possible correlation between sucralose and increased insulin levels.</li>
+  <li>A possible correlation between sucralose and <a href="https://en.wikipedia.org/wiki/Non-alcoholic_fatty_liver_disease">NAFLD</a>.</li>
+</ul>
+
+<p>The NAFLD one especially gives me pause, as it is a good marker for metabolic
+health.</p>
+
+<p>Over the past year (2023), I’ve lowered my sucralose intake by 75%, down to
+roughly one sweetened protein shake a day.</p>
+
+<h2 id="in-vivo-vs-in-vitro">In-vivo vs in-vitro</h2>
+
+<p>It’s worth noting that the study talks about <em>in-vitro</em> experiments: these are
+done in a petri dish or something similar, and not in a live animal. Therefore
+there could be other biological processes that make this a non-concern. On the
+other hand, there could also be processes in an in-vivo environment that make
+this worse.</p>
+
+<h2 id="what-is-a-a-genotoxin">What is a a genotoxin?</h2>
+
+<p>At it’s core, a genotoxin is something that is known to break down DNA. Since
+cancer is caused by mutations in the DNA, genotoxins are highly correlate to
+cancer.</p>
+
+<p>I found a <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6195886/">paper that explains the definition in a little bit more
+detail</a>, at least
+defining what genotixicity means in the context of carcinogens. The summary is
+genotoxic carcinogens directly affect DNA and that is the cause of the
+carcinogen, while non-genotoxic uses some other mechanism, perhaps indirect
+like hormonal.</p>
+
+<p>It’s not super clear if there is such a thing as non-carcinogenic genotoxin. The
+abstract states that there is no such thing as a same threshold with a
+genotoxin: It’s really just a matter of risk level.</p>
+
+<h2 id="what-amount-of-sucralose-is-safe">What amount of sucralose is safe?</h2>
+
+<p>Assuming the study holds true, what amount of sucralose is safe?</p>
+
+<ul>
+  <li>The study says 0.67% of sucralose is sucralose-6-acetate.</li>
+  <li>The European Food and Safety Administration states the limit of genotoxins
+ingested should be 0.0025 μg/kg bw.</li>
+</ul>
+
+<p>The amount of sucralose relative to a microgram of sucralose-6-acetate is ~150.
+so 150μg of sucralose per 1μg of sucralose-6-acetate.</p>
+
+<p>So for an 80kb person, the daily limit would be: 80 * 0.0025 = 0.2μg. So * 150
+that would be at most <em>30μg</em> of sucralose-6-acetate.</p>
+
+<p>The US sucralose recommended daily allotment is 5mg/kg bw /d. most drinks
+contains at least 10mg.</p>
+
+<p>So 10mg of sucralose would be <em>333 times</em> the amount of genotoxin I should be
+ingesting.</p>
+
+<p>Effectively, there is no practical amount of sucralose that is safe.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>The study is worth taking seriously: clearly sucralose contains a lot of a
+genotoxin. However, this doesn’t correlate well with the fact that multiple
+studies have shown that sucralose does not lead to a meaningful increase in
+cancer.</p>
+
+<p>Although I won’t be buying any more sucralose products, I think the above
+means one of three things:</p>
+
+<ol>
+  <li>The studies on cancer correlations have the wrong conclusion.</li>
+  <li>The genotoxic nature of sucralose-6-acetate is somehow ameliorated by some
+other biological process.</li>
+  <li>The EFSA limitations are low: as weird as it sounds, it may take a higher
+concentration of genotoxins to lead to a meaningful increase in cancer.</li>
+</ol>]]></content><author><name></name></author><category term="diet" /><summary type="html"><![CDATA[A study came out recently about sucralose-6-acetate, a genotoxicin which is apparently found in sucralose.]]></summary></entry><entry><title type="html">My Diet: 2020 edition</title><link href="https://y.tsutsumi.io/diet/2022" rel="alternate" type="text/html" title="My Diet: 2020 edition" /><published>2023-01-17T07:00:00+00:00</published><updated>2023-01-17T07:00:00+00:00</updated><id>https://y.tsutsumi.io/diet/diet-2020</id><content type="html" xml:base="https://y.tsutsumi.io/diet/2022"><![CDATA[<p><em>NOTE</em>: this is a copy of <a href="/diet">/diet</a> from 2020. I’m putting the old one as a blog post for posterity.</p>
+
+<p>This is some notes about how I eat, and why.</p>
+
+<h2 id="mostly-vegan-plant-based-diet">Mostly vegan (plant-based diet)</h2>
+
+<p><a href="https://y.tsutsumi.io/2020/03/04/book-report-the-blue-zones/">People who eat a plant-based diet live 7 years longer</a>.</p>
+
+<p>It’s hard for me to go completely vegan (I like my seafood and dairy), so I try to go for vegan meals most of the week, with 1-2 dinners non-vegan.</p>
+
+<p>From what I read in Blue Zones (above), eating meat once a week still helps you get a lot of the longevity benefits.</p>
+
+<h2 id="breakfast-oatmeal-almonds-and-fruit">Breakfast: Oatmeal, almonds, and fruit</h2>
+
+<p>Trying to eat something fairly health, I’ve found that oatmeal is more filling than other vegan breakfast meals I’ve tried:</p>
+
+<ul>
+  <li>croissants</li>
+  <li>muffins</li>
+  <li>pancakes</li>
+</ul>
+
+<p>I add almonds and some high-in-fiber fruit like banana to stay sated.</p>
+
+<h2 id="lunch-huel-hot-and-savory">Lunch: Huel Hot and Savory</h2>
+
+<p><a href="http://huel.com/">Huel</a> aims to provide sustainable, plant-based meals cheap. Their normal offering is a meal replacement shake, which I can’t get myself to consume regularly. I like their <a href="https://huel.com/products/huel-hot-savory">“Hot and Savory”</a> meals because:</p>
+
+<ul>
+  <li>easy to prepare and clean up: you just throw some hydrated food in and add water.</li>
+  <li>extremely filling. I eat a 400 calorie amount and I’m full for hours (noon until ~4-5pm).</li>
+  <li>plant-based</li>
+</ul>
+
+<p>“Hot and Savory” is amazing for that: I’ve fiddled with various plant-based lunch combinations and found it impossible to find something filling.</p>
+
+<h2 id="snack-protein-shake--almondmilk">Snack: protein shake + almondmilk</h2>
+
+<p>To help get a boost of protein, I drink a shake made from protein powder
+ (plant-based) and almondmilk.</p>
+
+<h2 id="dinner-whatever-usually-vegan">Dinner: whatever, usually vegan</h2>
+
+<p>For dinner I’m pretty loose, since the rest of my meals are quite regimented. A majority are vegan or minimal animal-based (grain bowls, veggie burgers and fries, phad thai), and sometimes things like sushi, grilled salmon, past, etc.</p>]]></content><author><name></name></author><category term="diet" /><category term="health" /><summary type="html"><![CDATA[NOTE: this is a copy of /diet from 2020. I’m putting the old one as a blog post for posterity.]]></summary></entry><entry><title type="html">Reflecting on 2022</title><link href="https://y.tsutsumi.io/my-year/2022" rel="alternate" type="text/html" title="Reflecting on 2022" /><published>2022-12-31T07:00:00+00:00</published><updated>2022-12-31T07:00:00+00:00</updated><id>https://y.tsutsumi.io/my-year/reflecting-on-2022</id><content type="html" xml:base="https://y.tsutsumi.io/my-year/2022"><![CDATA[<p>In the vein of <a href="/my-year/2020">previous</a> <a href="/my-year/2021">years</a>, I wanted to finish up my 2022 with a blog post.</p>
+
+<p>2022 was a largely unventful year for me professionally: my kids are going to new schools and kindergartens, so a lot of my focus was on my family, more or less as planned.</p>
+
+<p>This was also supposed to be a year of finishing up loose ends: I think I have continued to make some progress there.</p>
+
+<h2 id="oss-contributions-in-a-nutshell">OSS Contributions in a nutshell</h2>
+
+<ul>
+  <li>Continued to maintain
+    <ul>
+      <li>jsonschema-extractor</li>
+    </ul>
+  </li>
+  <li>Finished
+    <ul>
+      <li>tome with a 0.9 effectively final release</li>
+    </ul>
+  </li>
+  <li>Cleaned up the google.cloud Ansible collection.</li>
+</ul>
+
+<h2 id="finished-tome">Finished Tome</h2>
+
+<p>I finally shipped <a href="https://github.com/toumorokoshi/tome">a version of tome that I was happy with</a>! This was a side project of mine that was mostly there, I just needed to take it over the finish line.</p>
+
+<p>I’m happy to have done so! Tome helps me in my daily tasks, and maybe it’ll help you too.</p>
+
+<h2 id="updating-cloudgoogles-collection-for-ansible">Updating cloud.google’s collection for Ansible</h2>
+
+<p>Professional needs aligned with my love for Open Source, and I ended up working on the <a href="https://github.com/ansible-collections/google.cloud">cloud.google Ansible provider</a>, bringing it back up to snuff as an Ansible collection certified for ansible-core 2.13 and above.</p>
+
+<p>I’m pretty proud of my work here, totalling <a href="https://github.com/ansible-collections/google.cloud/graphs/contributors">50 commits in 2022Q4</a>:</p>
+
+<ul>
+  <li>Proposing the split from the magic-modules repository from which it was based, enabling a handful of PRs and bugfixes to get merged.</li>
+  <li>Added continuous integration for integration and sanity tests.</li>
+  <li>Fixed the 80+ integration tests that existed.</li>
+</ul>
+
+<p>Culminating in the release of <a href="https://galaxy.ansible.com/google/cloud">1.1.2</a>, the first release in almost a year and a half.</p>
+
+<p>Unfortunately my time allotments don’t let me spend that much time on the project, but my intention is to keep it healthy and accept PRs with the new <a href="https://github.com/ansible-collections/google.cloud/blob/master/CONTRIBUTING.md">contribution process documented</a>.</p>
+
+<h2 id="continuing-japanese">Continuing Japanese</h2>
+
+<p>I continue to work on my Japanese, but I think I’ve hit a hard plateau there: I have hundreds of words I still need to learn, and I’m not really remembering any of them with my flash card system.</p>
+
+<p>For next steps, I think I’m going to just continue to grow my Japanese with continued weekly italki classes for speech and reading to try to get to the point where there’s almost no words I don’t know.</p>
+
+<p>I think consuming more TV / Films could be helpful: I don’t get enough exposure from a spoken perspective, to pick up on common conversationalexchanges</p>
+
+<h2 id="continuing-farsi">Continuing Farsi</h2>
+
+<p>My Farsi has been getting better as well: it’s been roughly a year and half since I started to learn.</p>
+
+<p>I can’t say I’ve dedicated a lot of time here, but I’m able to:</p>
+
+<ul>
+  <li>read some simple stories by myself.</li>
+  <li>understand quite a bit.</li>
+  <li>have some basic conversations around family, vacations, etc.</li>
+  <li>write very, very slowly.</li>
+</ul>
+
+<p>I think with the limited time I have, I won’t make much progress in 2023 either. But as my biggest stumbling block is in vocabularly, I hope to spend a lot of time fleshing that out so I can muddle through conversations.</p>
+
+<h2 id="fitness">Fitness</h2>
+
+<p>I made some minor, but significant strides this year health-wise:</p>
+
+<p>I lost 4 pounds purposefully, from 188 to 184, in 2022Q4. It’s a major step forward for me since I haven’t sucessfully been able to lose weight on purpose before. Although I was down to 190 from 200 right after the pandemic started (presumably due to me eating salads for lunch daily during that time), it wasn’t a purposeful action.</p>
+
+<p>I was able to run a 5k in a single run, and actually even started running 5k’s regularly throughout the week! 18 year old me never even completed the mile run, so to get to a 5k 16 years later is quite an improvement for me.</p>
+
+<p>My focus on a plant-based diet is the same as 2021: I generally eat plant-based meals for most meals in a day. Near the tail end of the year I’ve been focusing on a high-protein, calorie restricted diet with the goal of getting to 15% body fat to start (I was 21% according to a Dexa scan in October).</p>
+
+<p>My diet looks on a regular weekday looks like:</p>
+
+<ul>
+  <li>Breakfast: 150 calories, 30g protein of a vegan protein shake.</li>
+  <li>Brunch: 150 calorie coffee with Soy (something I’m trying to minimize).</li>
+  <li>Lunch: 400 calories, 25G protein (Huel hot and savory).</li>
+  <li>Dinner: whatever is on the plate: this is highly varied.</li>
+  <li>After dinner: 150 calories, 30g protein  of a vegan protein shake.</li>
+</ul>
+
+<p>My goal is to get to 1.5g / protein / KG bodyweight, and also restricting to 1700 calories a day. Generally some sweet or snack gets in the way, but that’s my target.</p>
+
+<h2 id="random-other-things-i-did">Random other things I did</h2>
+
+<ul>
+  <li>Set up game streaming from my desktop: with Stadia shutting down, I needed a proper replacment. Turns out Moonlight, A 4 year old nvidia GPU, and a 10 year old desktop is sufficient to run the games I want to! I just stream from my desktop: even on 4G it works with imperceptible lag.</li>
+  <li>I learned Shogi and Mahjong, mainly so I could get some achievements in a video game “Judgement”.</li>
+</ul>
+
+<h2 id="goals-for-2023">Goals for 2023</h2>
+
+<p>2023 will be another year of conservative goals for me: there’s a lot of family obligations and some random personal dablings I’d like to spend my time with.</p>
+
+<p>That said, there’s some goals I want to continue progress on. Here’s a list:</p>
+
+<ul>
+  <li>Consume 20 minutes of Japanese media a day. TV and books mostly (conversational and literacy / vocabulary).</li>
+  <li>Be able to watch a Farsi movie and understand a majority of the story.</li>
+  <li>Lose fat and gain muscle to get to 12% body fat, validated via a Dexa.</li>
+  <li>Finish a long-standing PR to add infinite depth keychords into VSCode.</li>
+</ul>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>2022 was again a non-transformative year for me, but making steady, principled progress on my goals has been great.</p>
+
+<p>Happy New Year!</p>]]></content><author><name></name></author><category term="2022" /><category term="reflection" /><summary type="html"><![CDATA[In the vein of previous years, I wanted to finish up my 2022 with a blog post.]]></summary></entry><entry><title type="html">Wake-on-lan via WAN</title><link href="https://y.tsutsumi.io/wake-on-wan" rel="alternate" type="text/html" title="Wake-on-lan via WAN" /><published>2022-09-23T07:00:00+00:00</published><updated>2022-09-23T07:00:00+00:00</updated><id>https://y.tsutsumi.io/wake-on-wan</id><content type="html" xml:base="https://y.tsutsumi.io/wake-on-wan"><![CDATA[<p>I’ve been using <a href="https://moonlight-stream.org/">Moonlight</a> for game streaming, and one thing I’ve learned about recently is <a href="https://wiki.archlinux.org/title/Wake-on-LAN#Trigger_a_wake_up">wake-on-lan</a>: the ability to wake up your machine by sending a magic packet to a device.</p>
+
+<p>I regularly use wake-on-lan on my local network to start up my gaming desktop, but I began to wonder if it’s possible to wake my machine up from the public internet (The “WAN”)? And here is how I got to successfully accomplish a wake-on-wan.</p>
+
+<h2 id="background">Background</h2>
+
+<p>My existing setup already enables me to stream Moonlight over wan. I accomplished that by:</p>
+
+<ul>
+  <li>Port forwarding for <a href="https://github.com/moonlight-stream/moonlight-docs/wiki/Setup-Guide#manual-port-forwarding-advanced">all of ports recommended by moonlight</a>.</li>
+  <li>Using a dynamic DNS provider (I use tplink, but there’s also <a href="https://www.noip.com/">noip</a>).</li>
+</ul>
+
+<h2 id="how-wake-on-lan-works">How wake-on-lan works</h2>
+
+<p>Wake on lan works by sending an ethernet frame with the contents of the MAC address. This is often send to the broadcast IP of a network, ensuring that all devices connected to the network will receive it.</p>
+
+<h2 id="configuring-wake-on-wan">Configuring wake-on-wan</h2>
+
+<p>I originally tried to do direct port forwarding of the UDP 7 through 9 ports, but I found out that my internet provider (Comcast) sometimes does not allow their modem to forward the packet.</p>
+
+<p>As such, I ended up doing a separate port forward from an arbitrary port and mapped it to port 7. And that was it!</p>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+
+<p>If you have issues, try the following:</p>
+
+<ul>
+  <li>verify that the computer wakes if you send it the WOL request directly.</li>
+  <li>verify that the computer wakes if you send the broadcast IP (e.g. <code class="language-plaintext highlighter-rouge">255.255.255.255</code>) the request directly.</li>
+</ul>]]></content><author><name></name></author><category term="networking" /><summary type="html"><![CDATA[I’ve been using Moonlight for game streaming, and one thing I’ve learned about recently is wake-on-lan: the ability to wake up your machine by sending a magic packet to a device.]]></summary></entry><entry><title type="html">Introducing Tome: convert directories of scripts to an auto-completable, single command</title><link href="https://y.tsutsumi.io/introducing-tome/" rel="alternate" type="text/html" title="Introducing Tome: convert directories of scripts to an auto-completable, single command" /><published>2022-09-22T07:00:00+00:00</published><updated>2022-09-22T07:00:00+00:00</updated><id>https://y.tsutsumi.io/introducing-tome</id><content type="html" xml:base="https://y.tsutsumi.io/introducing-tome/"><![CDATA[<p>Today I’m happy to introduce <a href="https://tome-scripts.readthedocs.org/">Tome</a>, a CLI generator that takes directories of shell scripts and bundles them under a single command, complete with auto-completion, help text, and more.</p>
+
+<p>Here is a quick demo of creating some scripts in a directory, and a command <code class="language-plaintext highlighter-rouge">s</code> from it:</p>
+
+<p><img src="https://github.com/toumorokoshi/tome/raw/master/demo.gif" alt="demo of Tome" /></p>
+
+<p>You can find the <a href="https://tome-scripts.readthedocs.io/en/latest/">documentation here</a>, and the <a href="https://github.com/toumorokoshi/tome">source code</a> and <a href="https://github.com/toumorokoshi/tome/releases">releases</a> on GitHub.</p>
+
+<p>Give it a try and please file bugs or give feedback!</p>
+
+<p>That’s really what this post is all about, but if you want to hear more about why and the history, read on.</p>
+
+<h2 id="the-beginning-using-sub-at-zillow">The beginning: using sub at Zillow</h2>
+
+<p>In 2011, I worked at Zillow, as a relatively new engineer obsessed with efficiency. I loved writing little scripts that helped simplify my workflow, such as:</p>
+
+<ul>
+  <li>configuring environment variables to work with our development environment.</li>
+  <li>installation of binaries that were required locally.</li>
+  <li>starting up our web server monolith.</li>
+</ul>
+
+<p>At the time, there were a lot of small things that needed to be done to start developing.</p>
+
+<p>Eventually someone posted about <a href="https://github.com/qrush/sub">sub</a> in our engineering mailing list, which was created by 37 Signals, a company also obsessed with the developer experience and had a bit of a following at Zillow.</p>
+
+<p>Sub was a great tool: it provided the ability to bootstrap a single command from a directory of scripts, and I saw an opportunity to use this to create a community-owned pool of scripts to help Zillow developers be productive and share productivity tooling as well. I created a git repository, called it <a href="https://www.zillow.com/tech/dev-bootstrapping-zb-zillows-swiss-army-knife/">zb</a>, and shared it with the other engineers. Zillow-bootstrap did some other things too (like local environment setup with some Python scripts), but the <code class="language-plaintext highlighter-rouge">zb</code> commands were the most famous.</p>
+
+<p>zb was used for years at Zillow after that. We even <a href="https://github.com/zillow/sub">forked the code</a> and added some features like shell script sourcing, which enables setting environment variables in the parent executing the command.</p>
+
+<h2 id="using-sub-personally">Using sub personally</h2>
+
+<p>On top of usage at an organization, I found sub to be very useful for my <a href="https://github.com/toumorokoshi/ytlaces/tree/master/files/cookbook">own scripts as well</a>. Single-letter directories help me quickly navigate to the commands that are the most useful, and provide some namespacing.</p>
+
+<p>I call this <code class="language-plaintext highlighter-rouge">s</code> in my setup, short for sub.</p>
+
+<h2 id="challenges-with-sub">Challenges with sub</h2>
+
+<p>sub itself was fairly stable for a while, but it had some challenges.</p>
+
+<h3 id="sub-was-designed-for-forking">Sub was designed for forking</h3>
+
+<p>Sub’s design expects the user to fork the whole repository to generate your own command. This coupling of the <strong>user’s</strong> scripts with the scripts of the core sub command made it difficult to stay up to date, due to dealing with merge conflicts and mapping variables that were renamed to initialize the script.</p>
+
+<h3 id="sub-was-written-in-bash">Sub was written in bash</h3>
+
+<p>sub was written in bash, and in particular relies on commands that are generated to build functionality like completion, etc. It makes the code hard to reason about.</p>
+
+<p>In addition, bash is not the most performant language in the world, so more complex commands can become slower. Here’s the amount of time it takes to call <code class="language-plaintext highlighter-rouge">sub</code>, which maps to <code class="language-plaintext highlighter-rouge">help</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ time sub
+real    0m0.122s
+user    0m0.081s
+sys     0m0.053s
+</code></pre></div></div>
+
+<p>Considering I may invoke sub hundreds of times in my day, even gaining 50 milliseconds per command would save me a few minutes a day. I think in practice this doesn’t mean a lot, but to the performance-obsessed, any opportunity for optimization looks promising.</p>
+
+<h2 id="creating-tome">Creating Tome</h2>
+
+<p>One of the best parts of sub is its simplicity and minimal set of functionality, which made it an appealing project for a re-write! After a couple of months, <a href="https://github.com/toumorokoshi/tome">Tome</a> was born.</p>
+
+<p>Tome addresses the challenges above :</p>
+
+<ul>
+  <li>written in Rust, enabling incredibly low overhead on top of the underlying scripts.</li>
+  <li>complete separation of the commands themselves (instances) and the core functionality that drives it (added into <code class="language-plaintext highlighter-rouge">tome</code>).</li>
+  <li>some other features contributed like fish support (thanks <a href="https://github.com/zph">Zander Hill</a>!).</li>
+</ul>
+
+<p>The initialization is straightforward as well: add <code class="language-plaintext highlighter-rouge">tome</code> to your path after <a href="https://github.com/toumorokoshi/tome/releases">downloading it from the releases</a>, and initialize with a one-liner in your rc file:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>eval "$(tome init my-commands ~/my-scripts zsh)"
+</code></pre></div></div>
+
+<p>where</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">my-commands</code> is the command you want to make (I recommend a short, 1-2 character acronym to not type a lot).</li>
+  <li><code class="language-plaintext highlighter-rouge">~/my-scripts</code> is the directory with the scripts and directories.</li>
+  <li><code class="language-plaintext highlighter-rouge">zsh</code> should be replaced with the shell you are invoking.</li>
+</ul>
+
+<p>In particular I’m very happy with the choice of Rust: it enables fairly portable static binaries, as well as a significant boost in performance:</p>
+
+<p>Example of calling help using tome (rust):</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ time s
+real    0m0.003s
+user    0m0.003s
+sys     0m0.000s
+</code></pre></div></div>
+
+<p>Recall the 100ms+ time when using sub above.</p>
+
+<p>One of the last things I did before I left Zillow was switch us over to use Tome, although in the 2 years since then It could very well be that Zillow-bootstrap use has decreased significantly: the Zillow tech stack was rapidly modernizing, and then eliminated the need for many of the scripts that were used to bootstrap the dev environment.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<ul>
+  <li>Tome was inspired by Sub, which was heavily used at Zillow.</li>
+  <li>There were some difficulties in development and shortcomings in features.
+    <ul>
+      <li>Using bash as the language it was written in had performance and maintenance overhead.</li>
+      <li>It was built to be forked, which made it difficult to keep forked command up to date.</li>
+    </ul>
+  </li>
+  <li>Tome was written to address those, and has much lower performance overhead as well as features like Fish completion!</li>
+</ul>
+
+<p>That’s it! Please give Tome a try.</p>]]></content><author><name></name></author><category term="coding" /><category term="my-projects" /><summary type="html"><![CDATA[Today I’m happy to introduce Tome, a CLI generator that takes directories of shell scripts and bundles them under a single command, complete with auto-completion, help text, and more.]]></summary></entry></feed>
