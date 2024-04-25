@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2024-04-24T00:31:06+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Reflecting on 2023</title><link href="https://y.tsutsumi.io/my-year/2023" rel="alternate" type="text/html" title="Reflecting on 2023" /><published>2023-12-31T07:00:00+00:00</published><updated>2023-12-31T07:00:00+00:00</updated><id>https://y.tsutsumi.io/my-year/reflecting-on-2023</id><content type="html" xml:base="https://y.tsutsumi.io/my-year/2023"><![CDATA[<p>Another year, another reflection to summarize 1%+ of my life.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2024-04-25T00:34:04+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Reflecting on 2023</title><link href="https://y.tsutsumi.io/my-year/2023" rel="alternate" type="text/html" title="Reflecting on 2023" /><published>2023-12-31T07:00:00+00:00</published><updated>2023-12-31T07:00:00+00:00</updated><id>https://y.tsutsumi.io/my-year/reflecting-on-2023</id><content type="html" xml:base="https://y.tsutsumi.io/my-year/2023"><![CDATA[<p>Another year, another reflection to summarize 1%+ of my life.</p>
 
 <h2 id="japanese">Japanese</h2>
 
@@ -143,7 +143,434 @@ work (dmesg gives me no output at all).</p>
     Option        "ScrollMethod"        "button"
     Option        "ScrollButton"        "11"
 EndSection
-</code></pre></div></div>]]></content><author><name></name></author><category term="gear" /><category term="coding" /><summary type="html"><![CDATA[My finger joints are starting to hurt from all the scrolling I’m doing through Google docs and code, so I’ve looked at solutions that don’t stress my index finger.]]></summary></entry><entry><title type="html">Reflecting on 2022</title><link href="https://y.tsutsumi.io/my-year/2022" rel="alternate" type="text/html" title="Reflecting on 2022" /><published>2022-12-31T07:00:00+00:00</published><updated>2022-12-31T07:00:00+00:00</updated><id>https://y.tsutsumi.io/my-year/reflecting-on-2022</id><content type="html" xml:base="https://y.tsutsumi.io/my-year/2022"><![CDATA[<p>In the vein of <a href="/my-year/2020">previous</a> <a href="/my-year/2021">years</a>, I wanted to finish up my 2022 with a blog post.</p>
+</code></pre></div></div>]]></content><author><name></name></author><category term="gear" /><category term="coding" /><summary type="html"><![CDATA[My finger joints are starting to hurt from all the scrolling I’m doing through Google docs and code, so I’ve looked at solutions that don’t stress my index finger.]]></summary></entry><entry><title type="html">The Uniformity Cycle</title><link href="https://y.tsutsumi.io/uniformity-cycle/" rel="alternate" type="text/html" title="The Uniformity Cycle" /><published>2023-09-01T07:00:00+00:00</published><updated>2023-09-01T07:00:00+00:00</updated><id>https://y.tsutsumi.io/uniformity-cycle</id><content type="html" xml:base="https://y.tsutsumi.io/uniformity-cycle/"><![CDATA[<p>I’ve been doing a lot of work on platforms recently, specifically to how it pertains to clients. A general concept has solidified for me: a “uniformity cycle” and a “complexity cycle”, and without an intentional philosophy can fall into one naturally.</p>
+
+<h2 id="platforms-and-clients">Platforms and Clients</h2>
+
+<p>For this post, I’m using “platform” to refer to more than one service that together provides functionality or value to a customer. Think clouds where compute, disks, blob storage, and databases are provided and interoperate with each other. Or GitHub which provides repositories, issue tracking, project management tooling, and continuous integration.</p>
+
+<p>These services are designed to interoperate with each other, and often come with a set of shared <em>clients</em> that consume them. Think command lines, visual user interfaces, and SDKs in various languages.</p>
+
+<h2 id="the-complexity-cycle">The Complexity Cycle</h2>
+
+<p>Clients start out very simple: there are usually a small handful of services that exist, and the integration occurs manually. Not a lot of thought is given into what is sharable or not at this phase, sans common industry wide standards like HTTP or authentication. The services have autonomy, and the integration cost with clients seems marginal to an organization since the feature set is small.</p>
+
+<p>However, as time goes on, this cost of client-server integration becomes costly.
+What’s worse, if there’s a desire to introduce some common feature in a client
+for <em>all</em> services, it is difficult to do so since every client is hand-coded. For example, if generic functionality around listing resources is desired, it must be added to every integration, and must be integrated by hand as likely the service’s implementation of listing resources differs.</p>
+
+<p>Since everything in the clients is hand-written, there is little value in developing standard behavior, so services continue to implement differing functionality that serves a similar purpose.</p>
+
+<p>This whole loop is an example of what I’m calling a “complexity cycle”:</p>
+
+<div class="jekyll-diagrams diagrams mermaid">
+  Command Not Found: mmdc
+</div>
+
+<h2 id="the-uniformity-cycle">The Uniformity Cycle</h2>
+
+<p>So how do we address this cycle of complexity, that will erode the value of a
+common platform? By promoting (or sometimes enforcing) <em>uniformity</em>.</p>
+
+<p>If non-uniform schema or behavior makes it harder for clients to integrate with
+services, then more uniform schema behavior reduces the cost. If the client
+depends <em>only</em> on uniform behavior, then the clients are extremely simple to
+maintain and author: their cost is effectively O(1) to integrate with all
+compliance services.</p>
+
+<p>This in turn motivates the services themselves to be more consistent: new services, as they are created, <em>must</em> adhere to the uniformity requirements (even if implicit) as the clients do not allow configuration or hand-written code.</p>
+
+<p>This opposite a complexity cycle can be described as a “uniformity cycle”:</p>
+
+<div class="jekyll-diagrams diagrams mermaid">
+  Command Not Found: mmdc
+</div>
+
+<p>A uniformity cycle can keep costs low across both services and clients:</p>
+
+<ul>
+  <li>As services must have more uniform behavior, more shared platforms can be created to reduce the cost of these features (e.g. auth or storing state)</li>
+  <li>New universal service features are also easier to roll out, as they rely more on a shared platform.</li>
+</ul>
+
+<h2 id="how-to-flip-the-cycle">How to flip the cycle</h2>
+
+<p>Reversing the cycle from complexity to uniformity requires a strategy that spans across both the platform and it’s clients. Oftentimes a single individual does not have the ability to flip things, nor does a single change flip the cycle.</p>
+
+<p>But several patterns exist, including:</p>
+
+<ul>
+  <li>When supporting new features in a client using new server behavior (e.g. filtering on a list), require a specific implementation of that behavior. When asked to support a different implementation, have a hard design discussion on why, and try to fold any requirements back into the existing implementation.</li>
+  <li>Build fast feedback service-client loops: if service producers can see the
+direct impact on the clients and see undesirable behaviors, they can change them in the service early on in the cycle rather than right at the end when the team has deadlines.</li>
+  <li>Build common behavior into existing shared infrastructure such that services do not have control over the implementation: API gateways are a great place to introduce new features.</li>
+</ul>
+
+<p>After time, the cycle can flip.</p>
+
+<h2 id="should-we-always-design-for-uniformity">Should we always design for uniformity?</h2>
+
+<p>No. It is a common case for the need to diverge in behavior to be justified, and a necessity for a platform to become more configurable to address it.</p>
+
+<p>However, it is best to <em>minimize</em> the variation for the services and the amount of flexible handling in the client.</p>]]></content><author><name></name></author><category term="coding" /><summary type="html"><![CDATA[I’ve been doing a lot of work on platforms recently, specifically to how it pertains to clients. A general concept has solidified for me: a “uniformity cycle” and a “complexity cycle”, and without an intentional philosophy can fall into one naturally.]]></summary></entry><entry><title type="html">Ball in Boxes: Solution</title><link href="https://y.tsutsumi.io/balls-in-boxes-solution/" rel="alternate" type="text/html" title="Ball in Boxes: Solution" /><published>2023-08-13T07:00:00+00:00</published><updated>2023-08-13T07:00:00+00:00</updated><id>https://y.tsutsumi.io/balls-in-boxes-solution</id><content type="html" xml:base="https://y.tsutsumi.io/balls-in-boxes-solution/"><![CDATA[<p>I love Tanya Khovanova’s blog on math, and this puzzle around <a href="https://blog.tanyakhovanova.com/2023/07/balls-in-boxes/">Balls In Boxes</a> (which is from <a href="https://amzn.to/3PGKvxm">Creative Puzzles to Ignite your Mind</a> by  Shyam Sunder Gupta intrigued me.</p>
+
+<p>The solution I’ve come to is that the fourth sage has the label WWW, with the contents of his box WWB. My reasoning is as follows:</p>
+
+<h2 id="the-first-sage-has-bb">The first sage has BB*</h2>
+
+<p>The puzzle states:</p>
+
+<blockquote>
+  <p>The first sage takes out two black balls and says, “I know the color of the third ball.”</p>
+</blockquote>
+
+<p>If the sage has taken out BB, there are only two options for the final ball: W and B. The only way for the first sage to know the answer is if the sage has a label with the opposite. For example, if the label is BBW, then the contents of the box must be BBB since we know the contents of the boxes must not match the label.</p>
+
+<p>Therefore, there are two options for the first sage:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Sage</th>
+      <th>Label</th>
+      <th>Ball</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>BBB</td>
+      <td>BBW</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>BBW</td>
+      <td>BBB</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="the-second-sage-has-bw">The second sage has BW*</h2>
+
+<p>Onto the second sage, who says:</p>
+
+<blockquote>
+  <p>The second sage takes out one black and one white ball and says, “I know the color of the third ball.”</p>
+</blockquote>
+
+<p>We know the contents of the box must be BBW or BWW. Similar to the first sage, we can assume the second sage has the opposite pairing:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Sage</th>
+      <th>Label</th>
+      <th>Ball</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2</td>
+      <td>BBW</td>
+      <td>BWW</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>BWW</td>
+      <td>BBW</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="the-third-sage-has-label-bb">The third sage has label BB*</h2>
+
+<p>The third sage is interesting:</p>
+
+<blockquote>
+  <p>The third sage takes out two white balls and says, “I don’t know the color of the third ball.”</p>
+</blockquote>
+
+<p>The third sage has the following information at this point:</p>
+
+<ul>
+  <li>sage 1’s box contains BB* (BBB or BBW)</li>
+  <li>sage 2’s box contains BW* (BBW or BWW)</li>
+  <li>sage 3’s box contains WW* (BWW or WWW)</li>
+  <li>sage 3’s label.</li>
+</ul>
+
+<p>So what label could sage 3 have such that he cannot eliminate either BWW or WWW as a possible candidate?</p>
+
+<p>Among the labels BBB, BBW, BWW, and WWW, the valid candidate are BBW and BBB:</p>
+
+<ul>
+  <li>if 3’s label is WWW, then the box must contain BWW.</li>
+  <li>if 3’s label is BWW, then the box must contain WWW.</li>
+</ul>
+
+<p>So the third sage must have the labels BBB or BBW, the opposite of whatever sage 1 has.</p>
+
+<p>So sage 3’s options are:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Sage</th>
+      <th>Label</th>
+      <th>Ball</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>3</td>
+      <td>BBB</td>
+      <td>WWB</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>BBB</td>
+      <td>WWW</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>BBW</td>
+      <td>WWB</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>BBW</td>
+      <td>WWW</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="sage-4">Sage 4</h2>
+
+<p>So now we get to sage 4:</p>
+
+<blockquote>
+  <p>The fourth sage says, without taking out any balls, “I know the color of all the balls in my box and also the content of all the other boxes.”</p>
+</blockquote>
+
+<p>Sage 4 has the same knowledge and reasoning as we do. So we know that:</p>
+
+<ul>
+  <li>Sage 1 and Sage 3’s labels are BBW or BBB.</li>
+  <li>Sage 2’s label is one of BBW or BWW.</li>
+</ul>
+
+<p>Since sage 1 and 3 have labels of BBW and BBB, then sage 2’s label must be BWW. Since all other labels are taken, sage 4’s label must be WWW.</p>
+
+<p>If sage 2’s label is BWW and they know the contents of their box, then their box must contain BBW.</p>
+
+<p>This also means that sage 1’s box is clear: it is BBB, which implies that sage 1’s label is BBW:</p>
+
+<p>So we know the following:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Sage</th>
+      <th>Label</th>
+      <th>Ball</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>BBW</td>
+      <td>BBB</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>BWW</td>
+      <td>BBW</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>BBB</td>
+      <td>WW*</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>WWW</td>
+      <td>???</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Since the sage knows their label is WWW, they know that their box must not contain WWW. Since sage 3 has drawn WW*, it must contain WWW. By deduction the last sage must have the oly remaining combination, which is WWB:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Sage</th>
+      <th>Label</th>
+      <th>Ball</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>BBW</td>
+      <td>BBB</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>BWW</td>
+      <td>BBW</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>BBB</td>
+      <td>WWW</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>WWW</td>
+      <td>WWB</td>
+    </tr>
+  </tbody>
+</table>]]></content><author><name></name></author><category term="puzzles" /><summary type="html"><![CDATA[I love Tanya Khovanova’s blog on math, and this puzzle around Balls In Boxes (which is from Creative Puzzles to Ignite your Mind by Shyam Sunder Gupta intrigued me.]]></summary></entry><entry><title type="html">sucralose-6-acetate</title><link href="https://y.tsutsumi.io/sucralose-6-acetate" rel="alternate" type="text/html" title="sucralose-6-acetate" /><published>2023-06-04T07:00:00+00:00</published><updated>2023-06-04T07:00:00+00:00</updated><id>https://y.tsutsumi.io/sucralose-6-acetate</id><content type="html" xml:base="https://y.tsutsumi.io/sucralose-6-acetate"><![CDATA[<p>A study came out recently about
+<a href="https://www.tandfonline.com/doi/full/10.1080/10937404.2023.2213903">sucralose-6-acetate</a>,
+a genotoxicin which is apparently found in sucralose.</p>
+
+<p>I wanted to dive in a little bit more, here are some findings and thoughts.</p>
+
+<p><em>note</em>: I am not a medical professional, and nothing I say here constitutes
+any medical advice. It’s my own opinions and theories.</p>
+
+<h2 id="is-sucralose-safe">Is sucralose safe</h2>
+
+<p>To answer the most important question first: I think there’s evidence that at
+minimum, sucralose does not lead to a significant increase in cancer. Several
+studies exist that show at best a minor increase (~10%) <em>correlated</em> with
+sucralose.</p>
+
+<p>That said, the following concerns is making me consider removing sucralose from
+my daily diet:</p>
+
+<ul>
+  <li>The study mentioned showing it contains a possible genotoxin.</li>
+  <li>The possible correlation between sucralose and increased insulin levels.</li>
+  <li>A possible correlation between sucralose and <a href="https://en.wikipedia.org/wiki/Non-alcoholic_fatty_liver_disease">NAFLD</a>.</li>
+</ul>
+
+<p>The NAFLD one especially gives me pause, as it is a good marker for metabolic
+health.</p>
+
+<p>Over the past year (2023), I’ve lowered my sucralose intake by 75%, down to
+roughly one sweetened protein shake a day.</p>
+
+<h2 id="in-vivo-vs-in-vitro">In-vivo vs in-vitro</h2>
+
+<p>It’s worth noting that the study talks about <em>in-vitro</em> experiments: these are
+done in a petri dish or something similar, and not in a live animal. Therefore
+there could be other biological processes that make this a non-concern. On the
+other hand, there could also be processes in an in-vivo environment that make
+this worse.</p>
+
+<h2 id="what-is-a-a-genotoxin">What is a a genotoxin?</h2>
+
+<p>At it’s core, a genotoxin is something that is known to break down DNA. Since
+cancer is caused by mutations in the DNA, genotoxins are highly correlate to
+cancer.</p>
+
+<p>I found a <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6195886/">paper that explains the definition in a little bit more
+detail</a>, at least
+defining what genotixicity means in the context of carcinogens. The summary is
+genotoxic carcinogens directly affect DNA and that is the cause of the
+carcinogen, while non-genotoxic uses some other mechanism, perhaps indirect
+like hormonal.</p>
+
+<p>It’s not super clear if there is such a thing as non-carcinogenic genotoxin. The
+abstract states that there is no such thing as a same threshold with a
+genotoxin: It’s really just a matter of risk level.</p>
+
+<h2 id="what-amount-of-sucralose-is-safe">What amount of sucralose is safe?</h2>
+
+<p>Assuming the study holds true, what amount of sucralose is safe?</p>
+
+<ul>
+  <li>The study says 0.67% of sucralose is sucralose-6-acetate.</li>
+  <li>The European Food and Safety Administration states the limit of genotoxins
+ingested should be 0.0025 μg/kg bw.</li>
+</ul>
+
+<p>The amount of sucralose relative to a microgram of sucralose-6-acetate is ~150.
+so 150μg of sucralose per 1μg of sucralose-6-acetate.</p>
+
+<p>So for an 80kb person, the daily limit would be: 80 * 0.0025 = 0.2μg. So * 150
+that would be at most <em>30μg</em> of sucralose-6-acetate.</p>
+
+<p>The US sucralose recommended daily allotment is 5mg/kg bw /d. most drinks
+contains at least 10mg.</p>
+
+<p>So 10mg of sucralose would be <em>333 times</em> the amount of genotoxin I should be
+ingesting.</p>
+
+<p>Effectively, there is no practical amount of sucralose that is safe.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>The study is worth taking seriously: clearly sucralose contains a lot of a
+genotoxin. However, this doesn’t correlate well with the fact that multiple
+studies have shown that sucralose does not lead to a meaningful increase in
+cancer.</p>
+
+<p>Although I won’t be buying any more sucralose products, I think the above
+means one of three things:</p>
+
+<ol>
+  <li>The studies on cancer correlations have the wrong conclusion.</li>
+  <li>The genotoxic nature of sucralose-6-acetate is somehow ameliorated by some
+other biological process.</li>
+  <li>The EFSA limitations are low: as weird as it sounds, it may take a higher
+concentration of genotoxins to lead to a meaningful increase in cancer.</li>
+</ol>]]></content><author><name></name></author><category term="diet" /><summary type="html"><![CDATA[A study came out recently about sucralose-6-acetate, a genotoxicin which is apparently found in sucralose.]]></summary></entry><entry><title type="html">My Diet: 2020 edition</title><link href="https://y.tsutsumi.io/diet/2022" rel="alternate" type="text/html" title="My Diet: 2020 edition" /><published>2023-01-17T07:00:00+00:00</published><updated>2023-01-17T07:00:00+00:00</updated><id>https://y.tsutsumi.io/diet/diet-2020</id><content type="html" xml:base="https://y.tsutsumi.io/diet/2022"><![CDATA[<p><em>NOTE</em>: this is a copy of <a href="/diet">/diet</a> from 2020. I’m putting the old one as a blog post for posterity.</p>
+
+<p>This is some notes about how I eat, and why.</p>
+
+<h2 id="mostly-vegan-plant-based-diet">Mostly vegan (plant-based diet)</h2>
+
+<p><a href="https://y.tsutsumi.io/2020/03/04/book-report-the-blue-zones/">People who eat a plant-based diet live 7 years longer</a>.</p>
+
+<p>It’s hard for me to go completely vegan (I like my seafood and dairy), so I try to go for vegan meals most of the week, with 1-2 dinners non-vegan.</p>
+
+<p>From what I read in Blue Zones (above), eating meat once a week still helps you get a lot of the longevity benefits.</p>
+
+<h2 id="breakfast-oatmeal-almonds-and-fruit">Breakfast: Oatmeal, almonds, and fruit</h2>
+
+<p>Trying to eat something fairly health, I’ve found that oatmeal is more filling than other vegan breakfast meals I’ve tried:</p>
+
+<ul>
+  <li>croissants</li>
+  <li>muffins</li>
+  <li>pancakes</li>
+</ul>
+
+<p>I add almonds and some high-in-fiber fruit like banana to stay sated.</p>
+
+<h2 id="lunch-huel-hot-and-savory">Lunch: Huel Hot and Savory</h2>
+
+<p><a href="http://huel.com/">Huel</a> aims to provide sustainable, plant-based meals cheap. Their normal offering is a meal replacement shake, which I can’t get myself to consume regularly. I like their <a href="https://huel.com/products/huel-hot-savory">“Hot and Savory”</a> meals because:</p>
+
+<ul>
+  <li>easy to prepare and clean up: you just throw some hydrated food in and add water.</li>
+  <li>extremely filling. I eat a 400 calorie amount and I’m full for hours (noon until ~4-5pm).</li>
+  <li>plant-based</li>
+</ul>
+
+<p>“Hot and Savory” is amazing for that: I’ve fiddled with various plant-based lunch combinations and found it impossible to find something filling.</p>
+
+<h2 id="snack-protein-shake--almondmilk">Snack: protein shake + almondmilk</h2>
+
+<p>To help get a boost of protein, I drink a shake made from protein powder
+ (plant-based) and almondmilk.</p>
+
+<h2 id="dinner-whatever-usually-vegan">Dinner: whatever, usually vegan</h2>
+
+<p>For dinner I’m pretty loose, since the rest of my meals are quite regimented. A majority are vegan or minimal animal-based (grain bowls, veggie burgers and fries, phad thai), and sometimes things like sushi, grilled salmon, past, etc.</p>]]></content><author><name></name></author><category term="diet" /><category term="health" /><summary type="html"><![CDATA[NOTE: this is a copy of /diet from 2020. I’m putting the old one as a blog post for posterity.]]></summary></entry><entry><title type="html">Reflecting on 2022</title><link href="https://y.tsutsumi.io/my-year/2022" rel="alternate" type="text/html" title="Reflecting on 2022" /><published>2022-12-31T07:00:00+00:00</published><updated>2022-12-31T07:00:00+00:00</updated><id>https://y.tsutsumi.io/my-year/reflecting-on-2022</id><content type="html" xml:base="https://y.tsutsumi.io/my-year/2022"><![CDATA[<p>In the vein of <a href="/my-year/2020">previous</a> <a href="/my-year/2021">years</a>, I wanted to finish up my 2022 with a blog post.</p>
 
 <p>2022 was a largely unventful year for me professionally: my kids are going to new schools and kindergartens, so a lot of my focus was on my family, more or less as planned.</p>
 
@@ -396,258 +823,4 @@ sys     0m0.000s
   <li>Tome was written to address those, and has much lower performance overhead as well as features like Fish completion!</li>
 </ul>
 
-<p>That’s it! Please give Tome a try.</p>]]></content><author><name></name></author><category term="coding" /><category term="my-projects" /><summary type="html"><![CDATA[Today I’m happy to introduce Tome, a CLI generator that takes directories of shell scripts and bundles them under a single command, complete with auto-completion, help text, and more.]]></summary></entry><entry><title type="html">Setting the Google Chrome file manager on Linux</title><link href="https://y.tsutsumi.io/setting-google-chrome-file-manager-linux/" rel="alternate" type="text/html" title="Setting the Google Chrome file manager on Linux" /><published>2022-08-07T07:00:00+00:00</published><updated>2022-08-07T07:00:00+00:00</updated><id>https://y.tsutsumi.io/chrome-file-manager</id><content type="html" xml:base="https://y.tsutsumi.io/setting-google-chrome-file-manager-linux/"><![CDATA[<p>I’ve recently had trouble with saving files from Google Chrome: rather than use the file manager that I had configured and installed myself (thunar), Google Chrome gave me a completely different file manager, one that would not let me type the name of the file I wanted to save, and instead
-constantly brought me to a search bar.</p>
-
-<p>In most other apps, thunar was used. That is because I have xdg-mime for <code class="language-plaintext highlighter-rouge">inode/directory</code> set to thunar:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>xdg-mime query default "inode/directory"
-Thunar.desktop
-</code></pre></div></div>
-
-<p>But Chrome doesn’t seem to honor that. I came to learn that Chrome will, for GTK desktop environments, us the GTK file manager, which had the bug I mentioned above.</p>
-
-<p>I tried a few things, which did not change the file manager from GTK:</p>
-
-<ul>
-  <li>uninstalled thunar, and installed <a href="https://apps.kde.org/dolphin/">dolphin</a> to see if it’s an issue with the file manager.</li>
-  <li>use <code class="language-plaintext highlighter-rouge">XDG_CURRENT_DESKTOP=kde</code> to see if Chrome is using that setting to find dolphin.</li>
-</ul>
-
-<p>However, I eventually found out about <a href="https://www.reddit.com/r/openSUSE/comments/pjuf27/leap_fix_gtk_file_dialog_in_recent_version_of/">xdg-desktop-portal</a>, and a user bringing up that KDE no longer had the write file picker, either.</p>
-
-<p>So it seems that Chrome somehow uses xdg-desktop-portal. Looking it up, <a href="https://github.com/flatpak/xdg-desktop-portal">xdg-desktop-portal</a> seems to be primarily used for flatpaks, but does provide a Dbus interface for which an application in a sandboxed application could communicate to applications in the host (e.g. a file manager).</p>
-
-<p>I didn’t <a href="https://source.chromium.org/search?q=xdg-desktop-portal&amp;sq=&amp;ss=chromium%2Fchromium%2Fsrc">find any hard evidence that xdg-desktop-portal</a> was used in this fashion, but it does seem that the <a href="https://source.chromium.org/search?q=%22org.freedesktop.portal.Desktop%22&amp;ss=chromium%2Fchromium%2Fsrc">dbus interfaces exposed by the portal are used in some situations</a>.</p>
-
-<p>The next step was to get my desktop to use one of the variants of xdg-desktop-portal. The design is a little limiting in that xdg-desktop-portal has profiles for specific desktop environments and not a per-unit customizable interface that would work better for my bespoke environment. However, since I had started installng KDE components anyway, the final step for me was to install the packages necessary to completely this KDE-like environment. On Arch Linux, that was:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pacman -S kdialog
-pacman -S xdg-desktop-portal-kde
-pacman -S xdg-desktop-portal
-</code></pre></div></div>
-
-<p>And that’s it! Here’s the end result:</p>
-
-<p><img src="chrome-with-dolphin.png" alt="picture of chrome using dolphin" /></p>]]></content><author><name></name></author><category term="google-chrome" /><summary type="html"><![CDATA[I’ve recently had trouble with saving files from Google Chrome: rather than use the file manager that I had configured and installed myself (thunar), Google Chrome gave me a completely different file manager, one that would not let me type the name of the file I wanted to save, and instead constantly brought me to a search bar.]]></summary></entry><entry><title type="html">Flashing the HotDox V2</title><link href="https://y.tsutsumi.io/flashing-hotdox-v2/" rel="alternate" type="text/html" title="Flashing the HotDox V2" /><published>2022-07-19T07:00:00+00:00</published><updated>2022-07-19T07:00:00+00:00</updated><id>https://y.tsutsumi.io/flashing-hotdox-v2</id><content type="html" xml:base="https://y.tsutsumi.io/flashing-hotdox-v2/"><![CDATA[<p>I purchased a <a href="https://kono.store/products/ergodox-76-hot-dox-mechanical-keyboard-v2">HotDox V2</a>, which has been great:</p>
-
-<ul>
-  <li>The keyboard has LEDs! if that’s your thing.</li>
-  <li>Left and right sides can be used independently.</li>
-  <li>LCD screen show you the layer you’re in.</li>
-</ul>
-
-<p>But I accidentally flashed it with the HotDox V1 firmware, and needed to flash it back.</p>
-
-<p>The steps are pretty simple:</p>
-
-<ol>
-  <li>Get the HotDox V2 firmware. I had to e-mail kono directly at support@kono.store.</li>
-  <li>press the reset button on the side you’re flashing(different sides different firmwares)</li>
-  <li>Erase the firmware with dfu-programmer:
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> dfu-programmer atmega32u4 erase
-</code></pre></div>    </div>
-  </li>
-  <li>Flash the firmware (example has the right side)
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> dfu-programmer atmega32u4 flash hotdox76v2_rightkb_via.hex
-</code></pre></div>    </div>
-  </li>
-</ol>
-
-<p>And that’s it!</p>]]></content><author><name></name></author><category term="keyboard" /><summary type="html"><![CDATA[I purchased a HotDox V2, which has been great:]]></summary></entry><entry><title type="html">Don’t introduce a V2 API</title><link href="https://y.tsutsumi.io/no-v2-apis/" rel="alternate" type="text/html" title="Don’t introduce a V2 API" /><published>2022-05-01T07:00:00+00:00</published><updated>2022-05-01T07:00:00+00:00</updated><id>https://y.tsutsumi.io/no-v2-apis</id><content type="html" xml:base="https://y.tsutsumi.io/no-v2-apis/"><![CDATA[<p>It’s time for a blanket statement: <strong>users will prefer improving extending existing API versions over adopting a new version due to a backwards-incompatible change</strong>.</p>
-
-<p>The reason: the cost to the user to start using the next version of the API is larger than any value they would derive from that next version alone (e.g. sans new features).</p>
-
-<p>Let’s break this down.</p>
-
-<h2 id="definitions">Definitions</h2>
-
-<p>For the context of this article, I wanted to scope the conversation with the following terms:</p>
-
-<ul>
-  <li>API: I’m really talking about <strong>remote</strong> APIs: any programming interface that is performing a remote procedure call. The simplest example is HTTP + JSON, so I’ll be using that for the rest of this article.</li>
-</ul>
-
-<h2 id="what-types-of-changes-require-a-new-api-version">What types of changes require a new API version</h2>
-
-<p>Generally speaking, a new API version should only be published in the case where the API author needs to introduce a backwards-incompatible change (e.g. a <a href="https://semver.org/">semver</a>-like convention). The scope of a backwards-incompatible change varies depending on the context, but examples include:</p>
-
-<ul>
-  <li>Renaming a field.</li>
-  <li>Modifying the schema of an object.</li>
-  <li>Introducing entirely new conventions and handling of values.</li>
-</ul>
-
-<p>The motivation for a new API when introducing breaking changes is reasonable: API authors should build trust with their users by providing a mechanism to notify them when there is a need for them to change their code to interface with said API. Versioning makes the choice on the user explicit to upgrade.</p>
-
-<h2 id="but-api-migration-is-expensive-for-customers">But API migration is expensive for customers</h2>
-
-<p>The challenge comes in the logistics of the users upgrading their clients.</p>
-
-<p>Often API authors can find themselves sufficiently removed from the problem of dealing with the churn of API upgrades, and get an unrealistic idea of the cost of the API migration.</p>
-
-<p>Some of the reasons upgrades can become expensive are outlined below.</p>
-
-<h3 id="tightly-coupled-dependencies-requiring-lockstep-upgrades">Tightly coupled dependencies requiring lockstep upgrades</h3>
-
-<p>Clients and SDKs to interface with APIs are often not written in a highly modular fashion: instead, they are whole surfaces that must be upgraded, such as with all the APIs on a cloud like AWS or GCP, or for all services offered by a platform like Stripe.</p>
-
-<p>The breadth of this surface often means that you update your code for multiple different clients at once, often unrelated to the one service or tool that you want to use.</p>
-
-<h3 id="upgrades-can-be-multiple-layers-deep">Upgrades can be multiple layers deep</h3>
-
-<p>In some cases, although the upgrade of the client is trivial, it can be nested a dependency chain that makes upgrades take significantly more effort and time.</p>
-
-<p>For example, consider the usage of a raw SDK, wrapped in a convenience wrapper like a Terraform provider. The sketch could look like:</p>
-
-<ul>
-  <li>Raw API.</li>
-  <li>Go SDK.</li>
-  <li>Terraform provider.</li>
-</ul>
-
-<div class="jekyll-diagrams diagrams mermaid">
-  Command Not Found: mmdc
-</div>
-
-<p>In order for the user to finally get the upgraded SDK, they have to update the Go SDK version, and update the Terraform provider it is chained to. Each have their own cost associated, and an incompatible change can leak the cost of the upgrade into every downstream.</p>
-
-<p>Not only does this make upgrades more <strong>costly</strong>, but it can make them take longer: what if the team who upgrades the provider is separate from the team who upgrades the SDK? What if one of those pieces is an open source project that is swamped and slow to respond? This can make a simple code change extend into a multi-week or sometimes multi-month endeavor, including the cost of coordination overhead.</p>
-
-<h2 id="api-upgrades-do-not-benefit-the-end-user">API upgrades do not benefit the end user</h2>
-
-<p>We’ve established that an API upgrade can be expensive. What about the benefits?</p>
-
-<p>The reality is the reasons that engineers often <strong>want</strong> to introduce a new change isn’t particularly valuable for the end user. Let’s look at some of these arguments now.</p>
-
-<h3 id="api-intuitiveness">API intuitiveness</h3>
-
-<p>The most common example of improving usability is renaming a field in an API payload: the previous name didn’t really capture the purpose, so the field should be renamed to something that does.</p>
-
-<p>There’s similar changes in the category as well:</p>
-
-<ul>
-  <li>Moving fields from one object to another.</li>
-  <li>Gathering a set of fields and interning that into a subobject.</li>
-</ul>
-
-<p>The problem is intuitiveness of anything is highly subjective: intuition around a user interface is dependent on the experience that an individual had previously, which itself is dependent on the frequency of an accepted idiom.</p>
-
-<p>Consider the now-famous hamburger icon (≡) or triple dots (⋮) that we see on every website: neither was “intuitive” until they become common in styles guides and applications. Someone viewing these for the first type wouldn’t immediately be able to reason what they mean: they have to be taught.</p>
-
-<p>Therefore, one has to assume that, unless a user can somehow completely intuit the schema of an API, they will be forced to look up <strong>some</strong> form of documentation to be able to use the API.</p>
-
-<p>Even if a user could theoretically intuit the whole API, they will <strong>still</strong> be likely to look it up, and have to verify the meaning of every field: if you had the choice of just looking up what these terms mean or a workflow of guess-and-verify-the-field-does-what-I-think-it-does, many would look up the meaning to save the time spent fiddling with the API if they’re wrong.</p>
-
-<p>Therefore, API intuitiveness is largely irrelevant: <strong>accurate, clear documentation or examples will be more valuable every time</strong>, and comes with zero cost in end-user toil to update their API calls to new schemas or field names.</p>
-
-<h3 id="most-api-changes-can-live-on-the-same-version">Most API changes can live on the same version</h3>
-
-<p>Most API changes can actually live on the same version! In some of the examples above, instead of introducing a new version of an API entirely, one could instead:</p>
-
-<ol>
-  <li>Introduce a new field with the new name / schema / behavior.</li>
-  <li>Accept both indefinitely, and add validation to make new fields mutually exclusively with any old conflicting fields.</li>
-</ol>
-
-<p>This is largely similar to the burden of maintaining multiple version of the API simultaneously, but comes with the benefit that the work is largely <strong>additive</strong>: the work to use a new feature is only the cost of adding support for that field in one’s SDK / library, and is not coupled with other additional burdens that don’t provide immediate value (like refactoring your integration to support some new v2 schema).</p>
-
-<h3 id="new-features">New Features</h3>
-
-<p>Often new APIs versions also become the only way to consume new features in the underlying service: engineers don’t want to have to maintain multiple code paths or update legacy ones to support new features, so new fields will only be introduced in the new API.</p>
-
-<p>However, there is no technical reason why these fields cannot be introduced in the older API versions, and this in turn results additional user friction: the user is made to pay the cost of an expensive upgrade, even to get a single feature flag.</p>
-
-<h2 id="examples-around-the-internet-of-pain-of-migration-costs">Examples around the internet of pain of migration costs</h2>
-
-<p>I think there’s very few tangible examples of someone praising a new API, but there’s a plentiful amount of complaints around an API changing and the users being unhappy with paying the cost to upgrade:</p>
-
-<ul>
-  <li><a href="https://steve-yegge.medium.com/dear-google-cloud-your-deprecation-policy-is-killing-you-ee7525dc05dc">Steve Yegge’s blog post on rapid deprecation policies making maintaining project unsustainable.</a></li>
-</ul>
-
-<h2 id="summary">Summary</h2>
-
-<ul>
-  <li>A new version of an API is expensive for consumers to migrate to.
-    <ul>
-      <li>Often clients have a much wider surface area than the single API being upgraded, and therefore are that much more expensive to upgrade.</li>
-      <li>Clients and SDKs tend to have a chain of dependencies (e.g. wrapped providers or CLIs wrapping SDKs), resulting in significant coordination to support new APIs.</li>
-    </ul>
-  </li>
-  <li>Many of the percieved benefits of new APIs aren’t true in practice
-    <ul>
-      <li>API changes that are more “intuitive” is highly subjective, and without sufficient standardization will require the user to look up documentation. Documentation is the default fallback and the first things users look at, regardless of schema of the payload.</li>
-      <li>New features and fields could be added to the old API without issue.</li>
-      <li>Many desired changes can be made incrementally to existing API version, by introducing new fields with mutual exclusivity.</li>
-    </ul>
-  </li>
-</ul>]]></content><author><name></name></author><category term="coding" /><summary type="html"><![CDATA[It’s time for a blanket statement: users will prefer improving extending existing API versions over adopting a new version due to a backwards-incompatible change.]]></summary></entry><entry><title type="html">SWE tip: ask for help</title><link href="https://y.tsutsumi.io/ask-for-help/" rel="alternate" type="text/html" title="SWE tip: ask for help" /><published>2022-03-26T07:00:00+00:00</published><updated>2022-03-26T07:00:00+00:00</updated><id>https://y.tsutsumi.io/ask-for-help</id><content type="html" xml:base="https://y.tsutsumi.io/ask-for-help/"><![CDATA[<p>One of the most common mistakes I see software engineers make when they start in a role is not reaching out to a teammate sooner: for help, or to throw an idea around.</p>
-
-<p>Here’s some reasons why, especially in a new role, you should ask for help if you get stuck.</p>
-
-<h2 id="the-pros">The Pros</h2>
-
-<h3 id="get-ramped-up-quicker">Get ramped up quicker</h3>
-
-<p>If you’re working in a new tech stack, or on a new team, there’s always going to be some tribal knowledge: information that isn’t stored in any easily searchable system of record, but is readily available in memory from a colleague.</p>
-
-<p>Every team has that extremely esoteric issue that has yet to be documented yet, and it can cause someone new to spin their wheels for days: things like:</p>
-
-<ul>
-  <li>A known bug in a dependency that has yet to be fixed.</li>
-  <li>A particular error that is caused by a misconfiguration in setup of a local environment.</li>
-</ul>
-
-<p>Reaching out as you encounter issues to verify if this is something others have seen can avoid <em>days</em> of time.</p>
-
-<h3 id="you-learn-about-tools-and-techniques">You learn about tools and techniques</h3>
-
-<p>Someone who’s been on the team for a long time will generally have a large collection of command-line tools, browser extensions, and shell scripts to assist with common issues. As someone new to the team, you don’t have that yet, and building those from scratch all by yourself will take time.</p>
-
-<p>Reaching out and seeing how a teammate investigates or fixes an issue can teach you about valuable tools that you may have not been aware of.</p>
-
-<h3 id="learn-about-prior-art">Learn about prior art</h3>
-
-<p>One of the most valuable pieces of knowledge your team has is experience from previous attempts to solve a problem. It’s best to run your ideas to improve the codebase (improved linters, or perhaps a refactor of a particularly hairy piece of code) by someone on the team to see if it hasn’t already been tried.</p>
-
-<h2 id="the-cons">The cons</h2>
-
-<h3 id="losing-out-on-learnings-from-struggling">Losing out on learnings from struggling</h3>
-
-<p>Sometimes, struggling through an issue is good:</p>
-
-<ul>
-  <li>You learn techniques that you wouldn’t have otherwise.</li>
-  <li>You’ll need read through and understand a technology deeply to diagnose.</li>
-  <li>You’ll improve your search-foo and debugging skillset.</li>
-</ul>
-
-<p>And reaching out too quickly can rob you of that opportunity.</p>
-
-<h3 id="randomizing-colleagues">Randomizing colleagues</h3>
-
-<p>Asking your team does come with a cost: it can randomize your teammates from their work.</p>
-
-<p>But consider the cost benefit: ultimately, it benefits the team to have a productive member of the team more than a few one-time randomization costs. The contribution you make as you add new features, fix bugs, and contribute new ideas will easily pay off the hours it takes the other engineers to answer your question.</p>
-
-<p>If you’re really worried about randomizing the team, consider asking questions at dedicated times or around regular events that are already randomizing like standups or sprint planning.</p>
-
-<h2 id="the-compromise-timebox-then-ask">The compromise: timebox then ask</h2>
-
-<p>To try to strike the balance of reaching out and solving problems yourself, try <strong>timeboxing</strong> your investigations: give yourself a set time to investigate and unblock yourself, and ask if you’re still stuck when time is up.</p>
-
-<p>Setting an upper limit on an investigation helps you stay productive while not bugging your colleages too much. Without a timebox, you can get lost in investigation indefinitely: who hasn’t had a bug that they fixed and felt great about, but felt like they took a bit too long?</p>
-
-<h2 id="summary-asking-for-help-is-a-good-thing">Summary: asking for help is a good thing</h2>
-
-<ul>
-  <li>Timebox your investigations: once you hit your limit on investigation, ask for help.</li>
-  <li>Reaching out can help you ramp up quicker.
-    <ul>
-      <li>Ramping up quicker is better for your team.</li>
-    </ul>
-  </li>
-  <li>Reaching out helps you learn tools and techniques you may not learn otherwise.</li>
-  <li>Reaching out can save you days to re-learn knowledge or learnings your team may already have.</li>
-</ul>]]></content><author><name></name></author><category term="swe-tip" /><summary type="html"><![CDATA[One of the most common mistakes I see software engineers make when they start in a role is not reaching out to a teammate sooner: for help, or to throw an idea around.]]></summary></entry></feed>
+<p>That’s it! Please give Tome a try.</p>]]></content><author><name></name></author><category term="coding" /><category term="my-projects" /><summary type="html"><![CDATA[Today I’m happy to introduce Tome, a CLI generator that takes directories of shell scripts and bundles them under a single command, complete with auto-completion, help text, and more.]]></summary></entry></feed>
