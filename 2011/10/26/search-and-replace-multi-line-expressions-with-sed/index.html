@@ -3,20 +3,22 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>Yusuke Tsutsumi | My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</title>
+<title>Search and replace multi-line expressions with SED | Yusuke Tsutsumi</title>
 <meta name="generator" content="Jekyll v4.1.1" />
-<meta property="og:title" content="Yusuke Tsutsumi" />
+<meta property="og:title" content="Search and replace multi-line expressions with SED" />
+<meta name="author" content="toumorokoshi" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own." />
-<meta property="og:description" content="My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own." />
-<link rel="canonical" href="https://y.tsutsumi.io/tag/ide/" />
-<meta property="og:url" content="https://y.tsutsumi.io/tag/ide/" />
+<meta name="description" content="Now here’s an interesting problem:" />
+<meta property="og:description" content="Now here’s an interesting problem:" />
+<link rel="canonical" href="https://y.tsutsumi.io/2011/10/26/search-and-replace-multi-line-expressions-with-sed/" />
+<meta property="og:url" content="https://y.tsutsumi.io/2011/10/26/search-and-replace-multi-line-expressions-with-sed/" />
 <meta property="og:site_name" content="Yusuke Tsutsumi" />
-<meta property="og:type" content="website" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2011-10-26T23:55:00+00:00" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Yusuke Tsutsumi" />
+<meta property="twitter:title" content="Search and replace multi-line expressions with SED" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","description":"My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.","headline":"Yusuke Tsutsumi","url":"https://y.tsutsumi.io/tag/ide/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"toumorokoshi"},"dateModified":"2011-10-26T23:55:00+00:00","datePublished":"2011-10-26T23:55:00+00:00","description":"Now here’s an interesting problem:","headline":"Search and replace multi-line expressions with SED","mainEntityOfPage":{"@type":"WebPage","@id":"https://y.tsutsumi.io/2011/10/26/search-and-replace-multi-line-expressions-with-sed/"},"url":"https://y.tsutsumi.io/2011/10/26/search-and-replace-multi-line-expressions-with-sed/"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" /><script async src="https://www.googletagmanager.com/gtag/js?id=G-325KP61WS9"></script>
 <script>
@@ -64,22 +66,52 @@
     </style>
 </header><main class="page-content" aria-label="Content">
       <div class="wrapper">
-        <h2>Posts with tag: ide</h2>
-<ul>
-    
-    <li><a href="/2013/03/24/automatic-package-installation-for-emacs-24-part-2/">Automatic Package Installation for Emacs 24 - Part 2</a> (24 Mar 2013 | Tags: <a href="/tag/coding/" rel="tag">coding</a>, <a href="/tag/emacs/" rel="tag">emacs</a>, <a href="/tag/ide/" rel="tag">ide</a>)</li>
-    
-    <li><a href="/2012/08/16/my-emacs-environment/">My Emacs Environment</a> (16 Aug 2012 | Tags: <a href="/tag/emacs/" rel="tag">emacs</a>, <a href="/tag/ide/" rel="tag">ide</a>, <a href="/tag/coding/" rel="tag">coding</a>)</li>
-    
-    <li><a href="/2012/08/13/fine-pydev-is-better-than-emacs-for-python-im-still-using-emacs-though/">fine, PyDev is better than Emacs for Python. I'm still using Emacs though.</a> (13 Aug 2012 | Tags: <a href="/tag/coding/" rel="tag">coding</a>, <a href="/tag/eclipse/" rel="tag">eclipse</a>, <a href="/tag/emacs/" rel="tag">emacs</a>, <a href="/tag/ide/" rel="tag">ide</a>, <a href="/tag/pydev/" rel="tag">pydev</a>, <a href="/tag/python/" rel="tag">python</a>)</li>
-    
-    <li><a href="/2012/02/16/automatic-package-installation-using-elpa-in-emacs-24/">Automatic Package installation using ELPA in Emacs 24</a> (16 Feb 2012 | Tags: <a href="/tag/emacs/" rel="tag">emacs</a>, <a href="/tag/ide/" rel="tag">ide</a>, <a href="/tag/coding/" rel="tag">coding</a>)</li>
-    
-    <li><a href="/2011/08/23/my-ide-in-emacs-mainly-for-python/">My IDE in Emacs (mainly for Python)</a> (23 Aug 2011 | Tags: <a href="/tag/coding/" rel="tag">coding</a>, <a href="/tag/emacs/" rel="tag">emacs</a>, <a href="/tag/ide/" rel="tag">ide</a>, <a href="/tag/python/" rel="tag">python</a>)</li>
-    
-    <li><a href="/2011/08/17/code-folding-in-emacs-viper-mode/">Code folding in Emacs Viper-Mode</a> (17 Aug 2011 | Tags: <a href="/tag/coding/" rel="tag">coding</a>, <a href="/tag/emacs/" rel="tag">emacs</a>, <a href="/tag/ide/" rel="tag">ide</a>, <a href="/tag/viper-mode/" rel="tag">viper-mode</a>)</li>
-    
-</ul>
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <header class="post-header">
+        <h1 class="post-title p-name" itemprop="name headline">Search and replace multi-line expressions with SED</h1>
+        <p class="post-meta"><time class="dt-published" datetime="2011-10-26T23:55:00+00:00" itemprop="datePublished">
+                Oct 26, 2011
+            </time>• 
+            <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+                <span class="p-author h-card" itemprop="name">toumorokoshi</span></span></p>
+    </header>
+
+    <div class="post-content e-content" itemprop="articleBody">
+        <p>Now here’s an interesting problem:</p>
+
+<p>I wanted to do a recursive search and replace in unix, AND I wanted to
+do an expression that spans multiple lines. Here’s what I came up with:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>find ./ <span class="nt">-type</span> f | xargs <span class="nb">sed</span> <span class="nt">-E</span> <span class="nt">-i</span> <span class="nt">-n</span><span class="s1">'1h;1!H;${;g;s/&lt;\/fileSet&gt;.*&lt;fileSet&gt;.*RevisionVersion.*&lt;\/fileSet&gt;.*&lt;\/fileSets&gt;/&lt;\/fileSet&gt;\n&lt;\/fileSets&gt;/g;p}'</span>
+</code></pre></div></div>
+
+<p>There a lot of examples showing you how to do this.</p>
+
+<p>The first argument lists all files recursively. These are the piped to
+sed, which uses an inline search and replace (-i or –in-line), then
+using the expression ‘{}’ which is then modified for multi-line
+expressions (1h;1!H;).</p>
+    </div><a href="#0" onclick="loadDisqus()">click to load comments via Disqus (ad supported and will cause tracking to load.
+    requires javascript).</a>
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://y.tsutsumi.io/2011/10/26/search-and-replace-multi-line-expressions-with-sed/';
+        this.page.identifier = '/2011/10/26/search-and-replace-multi-line-expressions-with-sed/';
+    };
+
+    function loadDisqus() {
+        var d = document, s = d.createElement('script');
+
+        s.src = 'https://tsutsumi.disqus.com/embed.js';
+
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    }
+</script>
+<noscript>no comments avaialable with Javascript disabled.</noscript><a class="u-url" href="/2011/10/26/search-and-replace-multi-line-expressions-with-sed/" hidden></a>
+</article>
       </div>
     </main><footer class="site-footer h-card">
     <data class="u-url" href="/%20/"></data>
