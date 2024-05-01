@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Solving the Four Wizards Puzzle | Yusuke Tsutsumi</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Solving the Four Wizards Puzzle" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="This is a solution to the “Four Wizards” puzzle. Credit for the puzzle goes to Tanya Khovanova, who found it on Facebook." />
+<meta property="og:description" content="This is a solution to the “Four Wizards” puzzle. Credit for the puzzle goes to Tanya Khovanova, who found it on Facebook." />
+<link rel="canonical" href="https://y.tsutsumi.io/puzzles/four-wizards" />
+<meta property="og:url" content="https://y.tsutsumi.io/puzzles/four-wizards" />
+<meta property="og:site_name" content="Yusuke Tsutsumi" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-01-05T07:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Solving the Four Wizards Puzzle" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-01-05T07:00:00+00:00","datePublished":"2022-01-05T07:00:00+00:00","description":"This is a solution to the “Four Wizards” puzzle. Credit for the puzzle goes to Tanya Khovanova, who found it on Facebook.","headline":"Solving the Four Wizards Puzzle","mainEntityOfPage":{"@type":"WebPage","@id":"https://y.tsutsumi.io/puzzles/four-wizards"},"url":"https://y.tsutsumi.io/puzzles/four-wizards"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" /><script async src="https://www.googletagmanager.com/gtag/js?id=G-325KP61WS9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { window.dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-325KP61WS9');
+</script>
+</head>
+<body><header class="site-header">
+
+    <div class="wrapper"><a class="site-title" rel="author" href="/">Yusuke Tsutsumi</a><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path
+                            d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger">
+                <a class="page-link" href="/tag/coding/">Coding Posts</a>
+                <a class="page-link"
+                    href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a><a class="page-link" href="/resources/">Resources</a><a class="page-link" href="/about/">About Yusuke Tsutsumi</a></div>
+        </nav></div>
+    <style>
+        .gse-control-cse td {
+            border: 0;
+        }
+
+        td.gsc-input {
+            border: 0;
+        }
+
+        td.gsc-search-button {
+            border: 0;
+        }
+
+        table.gsc-input {
+            margin-bottom: 0;
+        }
+    </style>
+</header><main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <header class="post-header">
+        <h1 class="post-title p-name" itemprop="name headline">Solving the Four Wizards Puzzle</h1>
+        <p class="post-meta"><time class="dt-published" datetime="2022-01-05T07:00:00+00:00" itemprop="datePublished">
+                Jan 5, 2022
+            </time></p>
+    </header>
+
+    <div class="post-content e-content" itemprop="articleBody">
+        <p>This is a solution to the “Four Wizards” puzzle. Credit for the puzzle goes to <a href="https://blog.tanyakhovanova.com/2021/12/four-wizards/">Tanya Khovanova</a>, who found it on Facebook.</p>
+
+<p>The puzzle itself is inlined for convenience:</p>
+                <h2 id="wizards-puzzle-statement">   Wizards Puzzle Statement <a href="#wizards-puzzle-statement">#</a>   </h2>
+                    
+
+<p>Four wizards A, B, C, and D, were given three cards each. They were told that the cards had numbers from 1 to 12 written without repeats. The wizards only knew their own three numbers and had the following exchange.</p>
+
+<p>A: “I have number 8 on one of my cards.”</p>
+
+<p>B: “All my numbers are prime.”</p>
+
+<p>C: “All my numbers are composite. Moreover, they all have a common prime factor.”</p>
+
+<p>D: “Then I know the cards of each of you.”</p>
+
+<p>Given that every wizard told the truth, what cards does A have?</p>
+                <h2 id="reasoning">   Reasoning <a href="#reasoning">#</a>   </h2>
+                    
+
+<p>This problem is a great example of deductive reasoning. First, let’s define some terms.</p>
+
+<blockquote>
+  <p>A “composite” number is one that comprises of multiple smaller numbers, excluding 1. Therefore, any non-prime, non-1 number is a composite.</p>
+</blockquote>
+
+<p>Note that C’s cards have to share a common prime factor. Since the numbers only go up to 12, the prime factor options are 2 and 3. A hand that shares a prime factor of 5 would be {5,10,15}, and 15 isn’t a valid card.</p>
+
+<p>With that, we can outline the possible candidates for the cards in each players hands:</p>
+
+<ul>
+  <li>A: definitely 8, possibly 1,2,3,4,5,6,7,9,10,11,12</li>
+  <li>B: possibly 2,3,5,7,11</li>
+  <li>C: 3 out of the set of {6,9,12} (composites of 3) or {4,6,10,12} (composites of 2)</li>
+  <li>D: possibly: 1,2,3,4,5,6,7,9,10,11,12</li>
+</ul>
+
+<p>In order for player D to be able to deduct that hands of A, B, and C, they have to have cards in their hand that allow them to rule out all but one possibility for the other’s hands. This means that player D must have cards in their hand that overlap with possible cards of A, B, and C.</p>
+
+<p>Let’s start with what cards could remove options for player C. Enumerating cards that C and D could both have:</p>
+
+<ul>
+  <li>D has 6: rules out composites of 3, C must have {4,10,12}</li>
+  <li>D has 9 or 12: rules out composites of 3, C must have 3 of {4, 6, 10,12}</li>
+  <li>D has 2 of 4, 6, 10, or 12: rules out composites of 2, leaves composites of 3.</li>
+</ul>
+
+<p>Out of these options, the option that uses the least cards in D’s hands to uniquely identify C’s hand is one card with the value 6: this means C must have {4, 10, 12}.</p>
+
+<p>If we make that assumption, then that leaves 2 cards in D’s hand to uniquely identify B and A’s hand.</p>
+
+<p>Note that for B, there are 5 possible prime numbers. If we take any 2 and put them in D’s hand, then we know what cards are in B’s hand. Note that we don’t need to what the <em>precise</em> primes are in B and D’s hands: we just need to know that, if D had two prime cards in their hand, then they would be able to deduce the three primes in B’s.</p>
+
+<p>So with the D’s hand of 6 and 2 prime numbers, we know exactly what is in B and C’s hands. That leaves A.</p>
+
+<p>Among the set of possibilities that A has:</p>
+
+<blockquote>
+  <p>{8} + 2 x {1,2,3,4,5,6,7,9,10,11,12}</p>
+</blockquote>
+
+<p>We can remove 6 and {4,10,12} that we derived from player C:</p>
+
+<blockquote>
+  <p>{8} + 2x {1,2,3,6,7,9,11}</p>
+</blockquote>
+
+<p>And remove all the prime numbers since they will be in either B or D’s hand:</p>
+
+<blockquote>
+  <p>{8} + 2x {1,9} = {1,8,9}</p>
+</blockquote>
+
+<p>And figure out that A has the cards 1,8 and 9.</p>
+                <h2 id="solution">   Solution <a href="#solution">#</a>   </h2>
+                    
+
+<p>In summary, the solution is 1,8 and 9. Note that since the question doesn’t ask what cards are in the hands of the other players, there are multiple permutations of cards that could satisfy the problem: namely, the primes can be distributed freely as long as 3 are in B’s hand and 2 are in D’s.</p>
+    </div><a href="#0" onclick="loadDisqus()">click to load comments via Disqus (ad supported and will cause tracking to load.
+    requires javascript).</a>
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://y.tsutsumi.io/puzzles/four-wizards';
+        this.page.identifier = '/puzzles/four-wizards';
+    };
+
+    function loadDisqus() {
+        var d = document, s = d.createElement('script');
+
+        s.src = 'https://tsutsumi.disqus.com/embed.js';
+
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    }
+</script>
+<noscript>no comments avaialable with Javascript disabled.</noscript><a class="u-url" href="/puzzles/four-wizards" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/%20/"></data>
+
+    <div class="wrapper">
+
+        <div class="footer-col-wrapper">
+            <script async src="https://cse.google.com/cse.js?cx=014358564571565173111:hnnbq4j54cy"></script>
+            <div class="gcse-search"></div>
+        </div>
+        <div class="footer-col-wrapper">
+            <div class="footer-col">
+                <p class="feed-subscribe">
+                    <a href="/feed/index.xml">
+                        <svg class="svg-icon orange">
+                            <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+                        </svg><span>Subscribe</span>
+                    </a>
+                </p>
+            </div>
+            <div class="footer-col">
+                <p>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</p>
+            </div>
+        </div>
+
+        <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/toumorokoshi" target="_blank" title="toumorokoshi"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/yusuke-tsutsumi" target="_blank" title="yusuke-tsutsumi"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/tsutsumiyusuke" target="_blank" title="tsutsumiyusuke"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+    </div>
+
+</footer></body>
+
+</html>
