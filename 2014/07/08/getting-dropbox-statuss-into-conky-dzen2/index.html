@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Getting Dropbox Status’s into Conky + Dzen2 | Yusuke Tsutsumi</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Getting Dropbox Status’s into Conky + Dzen2" />
+<meta name="author" content="toumorokoshi" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="I&#39;m an avid xmonad user, and I&#39;ve recently switched over to conky + dzen as my status bar. A recent issue I had is with getting Dropbox status information into my conky." />
+<meta property="og:description" content="I&#39;m an avid xmonad user, and I&#39;ve recently switched over to conky + dzen as my status bar. A recent issue I had is with getting Dropbox status information into my conky." />
+<link rel="canonical" href="https://y.tsutsumi.io/2014/07/08/getting-dropbox-statuss-into-conky-dzen2/" />
+<meta property="og:url" content="https://y.tsutsumi.io/2014/07/08/getting-dropbox-statuss-into-conky-dzen2/" />
+<meta property="og:site_name" content="Yusuke Tsutsumi" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2014-07-08T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Getting Dropbox Status’s into Conky + Dzen2" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"toumorokoshi"},"dateModified":"2014-07-08T00:00:00+00:00","datePublished":"2014-07-08T00:00:00+00:00","description":"I&#39;m an avid xmonad user, and I&#39;ve recently switched over to conky + dzen as my status bar. A recent issue I had is with getting Dropbox status information into my conky.","headline":"Getting Dropbox Status’s into Conky + Dzen2","mainEntityOfPage":{"@type":"WebPage","@id":"https://y.tsutsumi.io/2014/07/08/getting-dropbox-statuss-into-conky-dzen2/"},"url":"https://y.tsutsumi.io/2014/07/08/getting-dropbox-statuss-into-conky-dzen2/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" /><script async src="https://www.googletagmanager.com/gtag/js?id=G-325KP61WS9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { window.dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-325KP61WS9');
+</script>
+</head>
+<body><header class="site-header">
+
+    <div class="wrapper"><a class="site-title" rel="author" href="/">Yusuke Tsutsumi</a><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path
+                            d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger">
+                <a class="page-link" href="/tag/coding/">Coding Posts</a>
+                <a class="page-link"
+                    href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a><a class="page-link" href="/resources/">Resources</a><a class="page-link" href="/about/">About Yusuke Tsutsumi</a></div>
+        </nav></div>
+    <style>
+        .gse-control-cse td {
+            border: 0;
+        }
+
+        td.gsc-input {
+            border: 0;
+        }
+
+        td.gsc-search-button {
+            border: 0;
+        }
+
+        table.gsc-input {
+            margin-bottom: 0;
+        }
+    </style>
+</header><main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <header class="post-header">
+        <h1 class="post-title p-name" itemprop="name headline">Getting Dropbox Status&#39;s into Conky + Dzen2</h1>
+        <p class="post-meta"><time class="dt-published" datetime="2014-07-08T00:00:00+00:00" itemprop="datePublished">
+                Jul 8, 2014
+            </time>• 
+            <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+                <span class="p-author h-card" itemprop="name">toumorokoshi</span></span></p>
+    </header>
+
+    <div class="post-content e-content" itemprop="articleBody">
+        <p>I'm an avid xmonad user, and I've recently switched over to conky +
+dzen as my status bar. A recent issue I had is with getting Dropbox
+status information into my conky.</p>
+
+<p>I did some hacking and here's the result. I love the way it turned out:</p>
+
+<p><img src="conky-dropbox-demo.png" alt="image" /></p>
+
+<p>This is a pretty generic approach on adding anything into conky + dzen.
+Here's the steps I took:</p>
+                <h2 id="1-write-some-scripts-to-produce-the-text-you-want">   1. Write some scripts to produce the text you want <a href="#1-write-some-scripts-to-produce-the-text-you-want">#</a>   </h2>
+                    
+
+<p>Conky has methods to run arbitrary scripts and echo their output. This
+abstraction makes it easy to get the text you want.</p>
+
+<p>I started writing a couple shell scripts that get me the info I need:</p>
+
+<p>::: {.parsed-literal}
+Note: I used the Dropbox command line tool to get this info. You'll
+need that installed. on arch, it's the 'dropbox-cli' package.
+:::</p>
+
+<pre><code class="language-{.bash}"># drobox-down
+# echos the Dropbox download speed
+#!/usr/bin/env bash
+
+status=`dropbox status | grep Downloading`
+SYNC_REGEX="([0-9,]+) KB/sec"
+
+[[ $status =~ $SYNC_REGEX ]]
+download_speed="${BASH_REMATCH[1]}"
+if [[ $download_speed != "" ]] ; then
+  echo "$download_speed KB/sec"
+fi
+</code></pre>
+
+<pre><code class="language-{.bash}"># drobox-up
+# echos the Dropbox upload speed
+#!/usr/bin/env bash
+
+status=`dropbox status | grep Uploading`
+SYNC_REGEX="([0-9,]+) KB/sec"
+
+[[ $status =~ $SYNC_REGEX ]]
+upload_speed="${BASH_REMATCH[1]}"
+if [[ $upload_speed != "" ]] ; then
+  echo "$upload_speed KB/sec"
+fi
+</code></pre>
+
+<pre><code class="language-{.bash}">#!/usr/bin/env bash
+# Dropbox-files
+# lists a single filename if only a single file is being synced
+# otherwise, echos the number of files synced
+
+status=`dropbox status | grep Syncing`
+SYNC_REGEX="([0-9,]+) files remaining"
+FILENAME_REGEX='"(.*)"'
+
+[[ $status =~ $SYNC_REGEX ]]
+files_remaining="${BASH_REMATCH[1]}"
+if [[ $files_remaining == "" ]]; then
+
+    [[ $status =~ $FILENAME_REGEX ]]
+    filename="${BASH_REMATCH[1]}"
+    echo $filename
+
+else
+    echo "$files_remaining files"
+fi
+</code></pre>
+                <h2 id="2-create-your-own-xbm-logo">   2. Create your own xbm logo <a href="#2-create-your-own-xbm-logo">#</a>   </h2>
+                    
+
+<p>Now to get that cool Dropbox icon in there. The thing to note about
+conky + dzen specifically is that you can't pipe images into your bar
+(as far as I know, someone please correct me here). You're left with
+the options of xbm files, which are bitmap descriptions.</p>
+
+<p>Luckily, it's not too hard to generate your own. Gimp, the Photoshop of
+Linux, can save into xbm files for you. Simply open it up, export it,
+and you're done!</p>
+
+<p>::: {.parsed-literal}
+Note: make sure to export the xbm to fit the size of your bar. I
+couldn't find a way of telling conky to scale the image (which makes
+sense, conky is just piping output dzen so it has no way of knowing the
+height). My bar is about 16 pixels high, so I exported 16 pixels.
+:::</p>
+
+<p>You can also download the xbm I created if you'd like: <a href="https://github.com/toumorokoshi/yt.rc/blob/master/xmonad/icons/Dropbox.xbm">my Dropbox
+xbm</a></p>
+                <h2 id="3-add-them-to-your-conky-script">   3. Add them to your conky script <a href="#3-add-them-to-your-conky-script">#</a>   </h2>
+                    
+
+<p>Now that we have our shell scripts, and our icons, you can execute them
+in your conky script. I got the arrows from the <a href="http://awesome.naquadah.org/wiki/Nice_Icons">nice icon
+set</a>. If you're lazy you
+can also get them from <a href="https://github.com/toumorokoshi/yt.rc">my rc
+files</a>.</p>
+
+<p>Once you have all your assets, add in the relevant pieces into your
+conky:</p>
+
+<pre><code class="language-{.bash}">out_to_console yes
+out_to_x no
+update_interval 1
+
+lua_load $HOME/.xmonad/conky_scripts/conky_lua_scripts.lua
+
+# note: Dropbox needed dropbox-cli on arch
+
+TEXT
+# ---- START DROPBOX STUFF ---
+^fg(\#007ee5) ^i($HOME/.xmonad/icons/Dropbox.xbm) \
+# ---- description of files changing ---
+^fg(\#FFFF00) ${execi 6 $HOME/.xmonad/conky_scripts/Dropbox-files} ^fg()\
+# ---- download speed info ---
+^fg(\#8888FF) ^i($HOME/.xmonad/icons/net_down_03.xbm) ${execi 6 $HOME/.xmonad/conky_scripts/Dropbox-down} ^fg() / \
+# ---- upload speed info ---
+^fg(\#AA0000) ^i($HOME/.xmonad/icons/net_up_03.xbm) ${execi 6 $HOME/.xmonad/conky_scripts/Dropbox-up} ^fg() \
+</code></pre>
+
+<p>Notes:</p>
+
+<ul>
+  <li>I changed the colors with \^fg(#COLOR_HASH)</li>
+  <li>to split your conky on multiple lines, I use the delimiter '\'</li>
+</ul>
+
+<p>And there you go! You have a nice, clean Dropbox activity bar.</p>
+    </div><a class="u-url" href="/2014/07/08/getting-dropbox-statuss-into-conky-dzen2/" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/%20/"></data>
+
+    <div class="wrapper">
+
+        <div class="footer-col-wrapper">
+            <script async src="https://cse.google.com/cse.js?cx=014358564571565173111:hnnbq4j54cy"></script>
+            <div class="gcse-search"></div>
+        </div>
+        <div class="footer-col-wrapper">
+            <div class="footer-col">
+                <p class="feed-subscribe">
+                    <a href="/feed/index.xml">
+                        <svg class="svg-icon orange">
+                            <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+                        </svg><span>Subscribe</span>
+                    </a>
+                </p>
+            </div>
+            <div class="footer-col">
+                <p>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</p>
+            </div>
+        </div>
+
+        <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/toumorokoshi" target="_blank" title="toumorokoshi"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/yusuke-tsutsumi" target="_blank" title="yusuke-tsutsumi"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/tsutsumiyusuke" target="_blank" title="tsutsumiyusuke"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+    </div>
+
+</footer></body>
+
+</html>
