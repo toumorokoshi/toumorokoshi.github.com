@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Setting up an eGPU with Linux and the Core X Chroma | Yusuke Tsutsumi</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Setting up an eGPU with Linux and the Core X Chroma" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Summary" />
+<meta property="og:description" content="Summary" />
+<link rel="canonical" href="https://y.tsutsumi.io/2020/08/15/egpu-linux-core-x-chroma/" />
+<meta property="og:url" content="https://y.tsutsumi.io/2020/08/15/egpu-linux-core-x-chroma/" />
+<meta property="og:site_name" content="Yusuke Tsutsumi" />
+<meta property="og:image" content="https://y.tsutsumi.io/assets/images/egpu-desktop.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-08-15T00:00:00+00:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="https://y.tsutsumi.io/assets/images/egpu-desktop.png" />
+<meta property="twitter:title" content="Setting up an eGPU with Linux and the Core X Chroma" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2020-08-15T00:00:00+00:00","datePublished":"2020-08-15T00:00:00+00:00","description":"Summary","headline":"Setting up an eGPU with Linux and the Core X Chroma","image":"https://y.tsutsumi.io/assets/images/egpu-desktop.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://y.tsutsumi.io/2020/08/15/egpu-linux-core-x-chroma/"},"url":"https://y.tsutsumi.io/2020/08/15/egpu-linux-core-x-chroma/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" /><script async src="https://www.googletagmanager.com/gtag/js?id=G-325KP61WS9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { window.dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-325KP61WS9');
+</script>
+</head>
+<body><header class="site-header">
+
+    <div class="wrapper"><a class="site-title" rel="author" href="/">Yusuke Tsutsumi</a><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path
+                            d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger">
+                <a class="page-link" href="/tag/coding/">Coding Posts</a>
+                <a class="page-link"
+                    href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a><a class="page-link" href="/resources/">Resources</a><a class="page-link" href="/about/">About Yusuke Tsutsumi</a></div>
+        </nav></div>
+    <style>
+        .gse-control-cse td {
+            border: 0;
+        }
+
+        td.gsc-input {
+            border: 0;
+        }
+
+        td.gsc-search-button {
+            border: 0;
+        }
+
+        table.gsc-input {
+            margin-bottom: 0;
+        }
+    </style>
+</header><main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <header class="post-header">
+        <img src="/assets/images/egpu-desktop.png" class="post-image" />
+        <h1 class="post-title p-name" itemprop="name headline">Setting up an eGPU with Linux and the Core X Chroma</h1>
+        <p class="post-meta"><time class="dt-published" datetime="2020-08-15T00:00:00+00:00" itemprop="datePublished">
+                Aug 15, 2020
+            </time></p>
+    </header>
+
+    <div class="post-content e-content" itemprop="articleBody">
+        <h2 id="summary">   Summary <a href="#summary">#</a>   </h2>
+                    
+
+<p>I’ll talk about:</p>
+
+<ul>
+  <li>Why I invested in an eGPU</li>
+  <li>The Razer Core X Chroma, and why I chose it</li>
+  <li>How to get eGPUs working with Linux</li>
+  <li>Lessons Learned</li>
+</ul>
+                <h2 id="introduction">   Introduction <a href="#introduction">#</a>   </h2>
+                    
+
+<p>eGPUs is short for external GPUs: With the advent of <a href="https://thunderbolttechnology.net/consumer/">Thunderbolt 3</a> and it’s ability to expose PCI express buses via a USB-C cable, it is now possible to connect a GPU to any device that has a thunderbolt 3 controller. Laptops with a USB-C thunderbolt port has become extremely common, and both my personal and work laptops expose such a port.</p>
+                <h2 id="motivation">   Motivation <a href="#motivation">#</a>   </h2>
+                    
+
+<p>Typically, one would buy a separate GPU either to play video games or to run some machine learning models. However, I purchased an eGPU for my day-to-day work and for coding.</p>
+
+<p>Why? Because:</p>
+
+<ul>
+  <li>my day-to-day work environment utilizes web applications heavily, which in turn run much smoother when there is a powerful GPU to accelerate rendering.</li>
+  <li>I use two 4k Displays at home, and the current GPUs that are embedded into ultrabooks (for Intel laptops, typically Intel UHD Graphics 6xx) struggle with that resolution (effectively 2 x 4K).</li>
+</ul>
+
+<p>I originally tried to just use a laptop with a thunderbolt 3 dock, but I found that the stuttering of the screen and the very slow rendering experience when I had 4 browser windows opened was putting a hamper on my productivity. I had a desktop with a GTX 1060 at home for comparison, so I knew the experience that a high performance GPU can enable.</p>
+                <h2 id="choosing-an-egpu">   Choosing an eGPU <a href="#choosing-an-egpu">#</a>   </h2>
+                    
+
+<p>So what eGPU should I choose? There’s typically two varieties:</p>
+                <h3 id="egpu-enclosure">   eGPU Enclosure <a href="#egpu-enclosure">#</a>   </h3>
+                    
+
+<p>Effectively bring-your-own-graphics card. An eGPU enclosure provides:</p>
+
+<ul>
+  <li>a thunderbolt 3 controller and port to connect your device to the GPU</li>
+  <li>a power supply to power whatever GPU you want to use</li>
+  <li>a PCI-E slot to insert your GPU</li>
+</ul>
+                <h3 id="embedded-egpu">   Embedded eGPU <a href="#embedded-egpu">#</a>   </h3>
+                    
+
+<p>An embedded GPU provides everything mentioned above, but also includes the GPU, hard-wired. I don’t believe there are a lot of advantages to this setup, aside from the smaller size due to the ability to have a custom board that wires all the components together.</p>
+                <h3 id="my-choice-razer-core-x-chroma">   My Choice: Razer Core X Chroma <a href="#my-choice-razer-core-x-chroma">#</a>   </h3>
+                    
+
+<p>UPDATE 20200905: I’d recommend checking out the <a href="https://egpu.io/mantiz-saturn-pro-review-king-of-the-ring/">Mantiz Saturn Pro</a>. I haven’t tried it, but it seems to work better than the Chroma on Linux due to different USB boards.</p>
+
+<p>Ideally, I wanted to go for something that reduced the amount of cables that I had to mess with. The <a href="https://www.razer.com/gaming-egpus/razer-core-x/RC21-01430100-R3U1">Razer Core X Chroma</a> not not only provided an eGPU, but also provided a 4 USB 3.0 ports and a 1GBps Ethernet port. With those ports, I wouldn’t need to connect a dock on top of my eGPU to connect my keyboard, mouse, headset, and video camera. Theoretically, I should just be able to connect a single USB-c port to get all of that.</p>
+
+<p>I chose an external GPU because I wanted to be able to upgrade my graphics card and not have to buy a new encoslure (as the Core X Chroma is already $400 USD!).</p>
+
+<p><em>note: The reality turned out to be a bit different, so I wouldn’t recommend a Core X Chroma (or any eGPU I’ve seen) for the additional USB ports and Linux. But read on for details.</em></p>
+                <h3 id="tangent-with-thunderbolt3-gpu-performance-is-bottlenecked">   Tangent: with thunderbolt3, GPU performance is bottlenecked <a href="#tangent-with-thunderbolt3-gpu-performance-is-bottlenecked">#</a>   </h3>
+                    
+
+<p>As part of my research, I learned that thunderbolt3 will not be able to provide as much bandwidth as a PCI-E port. The reason is that thunderbolt3 actually exposes 4 lanes of a PCI-E v3.0 bus (aka PCIEX4).</p>
+
+<p>Most motherboards provide at least 16 lanes of PCIE and versions much higher than 3.0, and provide similar ports on their motherboard. In other words, thunderbolt3 will be limited by the PCIEx4 v3.0 bandwidth (32Gbps), while desktop GPUs will be able to leverage 128Gbps (PCIEx16 v5.0) by 2021.</p>
+
+<p>For my purposes (mostly development, heavy web browsing), I never noticed the difference. But really heavy gaming could see a hit. <a href="https://egpu.io/forums/mac-setup/pcie-slot-dgpu-vs-thunderbolt-3-egpu-internal-display-test/">This forum post indicates a 20% loss in FPS and thus effective performance</a>.</p>
+                <h3 id="tangent-2-peripheral-performance-is-also-bottlenecked">   Tangent 2: Peripheral performance is also bottlenecked <a href="#tangent-2-peripheral-performance-is-also-bottlenecked">#</a>   </h3>
+                    
+
+<p>The issues that I mentioned above are not specific to GPUs. The reality is that the data that can transfer through the Thunderbolt3 is capped, regardless of the number of devices communicating through that bus.</p>
+
+<p>That means, if your eGPU also comes with additional ports (e.g. USB or Ethernet), the data transferring through those peripherals are also
+consuming of the bandwidth of the port.</p>
+
+<p>So if you have a lot of data running through your eGPU, Ethernet, and USB ports, you’ll see some throttling due to the fact that Thunderbolt3 cannot handle all the throughput of all devices at the same time. Most likely, this will affect the GPU the most.</p>
+
+<p>In my anecdotal experience, this hasn’t been a problem, but it is a likely theoretical one.</p>
+                <h3 id="tangent-3-the-core-x-chroma-usb-ports--ethernet-dont-work-well">   Tangent 3: The Core X Chroma USB ports + ethernet don’t work well <a href="#tangent-3-the-core-x-chroma-usb-ports--ethernet-dont-work-well">#</a>   </h3>
+                    
+
+<p>With the Core X Chroma, there were a few Linux-specific limitations I ran into:</p>
+
+<ol>
+  <li>All USB 3.0 splitters I tried didn’t work.</li>
+  <li>The Ethernet works inconsistently.</li>
+</ol>
+
+<p>I think 1 isn’t a huge problem for most people: I had a setup that required me to use at least one USB 3.0 splitter. 4 ports are generally enough for any docks.</p>
+
+<p>However, the ethernet not working at all was a big issue for me. It would work fine for a few seconds, but then completely cut out. Using an ethernet-to-usb3.0 adapter doesn’t work either, on the couple I’ve tried.</p>
+
+<p>It turns out these are both due to the fact that they are leveraging ASM1142 USB 3.1 Controllers, and seem to require a firmware update to reconcile:</p>
+
+<ul>
+  <li>https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1749961</li>
+  <li>https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1667750</li>
+</ul>
+
+<p>Unfortunately these bugs have been around for a while.</p>
+                <h2 id="egpu-on-linux">   eGPU on Linux <a href="#egpu-on-linux">#</a>   </h2>
+                    
+
+<p>In July 2020, there are still some rough edges around eGPUs on Linux. In Windows and OSX I’ve heard stories of seamless hotplugging: the OS detecting and utilizing the eGPU as soon as it’s plugged in. On Windows, some games are even sophisticated enough to leverage the eGPU when it’s connected, and seamlessly switch pack to the internal GPU on eGPU removal.</p>
+
+<p>With Linux, there’s a constraint today with Xorg. Although the Linux kernel does detect the GPU as soon as it’s connected, Xorg must be restarted with configuration specifying the eGPU before it’s displays and device are available to Xorg.</p>
+                <h3 id="two-ways-to-egpu-prime-and-separate-device">   Two ways to eGPU: prime and separate device <a href="#two-ways-to-egpu-prime-and-separate-device">#</a>   </h3>
+                    
+
+<p>There’s a second way of leveraging an eGPU: Using something like Nvidia’s <a href="https://wiki.archlinux.org/index.php/NVIDIA_Optimus">optimus</a> where rendering is offloaded to the eGPU, but the result is sent back to the dedicated GPU for rendering.</p>
+
+<p>This still requires a restart of Xorg to expose the eGPU as something that can be leveraged, and also comes with the added overhead of sending the rendered result back to the host machine via thunderbolt3 (really the PCI-E lanes exposed under the hood).</p>
+
+<p>As a result, I didn’t explore this option.</p>
+                <h3 id="the-step-by-step">   The step by step <a href="#the-step-by-step">#</a>   </h3>
+                    
+
+<p>Ultimately, the process to enable and disable eGPUs are:</p>
+
+<ol>
+  <li>plug in the eGPU</li>
+  <li>authorize the thunderbolt3 eGPU (if that hasn’t been done already)</li>
+  <li>modify Xorg configuration (typically /etc/x11/xorg.conf) to be set to discover the newly plugged in eGPU.</li>
+  <li>restart Xorg</li>
+</ol>
+
+<p>There’s a few scripts which help make this process a one-line CLI call, which can also be integrated into systemd or whatever init system.</p>
+
+<p>Here’s an example of the xorg.conf configuration I used:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># /etx/x11/xorg.conf
+Section "Module"
+    Load           "modesetting"
+EndSection
+
+Section "Device"
+    Identifier     "Device0"
+    Driver         "nvidia"
+    VendorName     "NVIDIA Corporation"
+    BusID          "PCI:8:0:0"
+    Option         "AllowEmptyInitialConfiguration"
+    Option         "AllowExternalGpus" "True"
+EndSection
+</code></pre></div></div>
+
+<p>The BusID will need to be replaced with your device’s BusID as it shows up in <code class="language-plaintext highlighter-rouge">lspci</code>.</p>
+
+<p>Ultimately I used a script called <a href="https://github.com/hertg/egpu-switcher">egpu-switcher</a> which does all of this automatically (besides restart Xorg). This has been working great.</p>
+                <h2 id="final-thoughts">   Final Thoughts <a href="#final-thoughts">#</a>   </h2>
+                    
+
+<p>There is still a lot of work that needs to be done for eGPUs to be as seamless on Linux as on Windows and OSX. It also seems like there’s some hardware logistics that needs to be reconciled as well, and some level of acceptance that no Thunderbolt protocol will be as fast as the cutting-edge PCI standard.</p>
+
+<p>I needed an eGPU to have a seamless development experience, and my setup works really well for that. But if you’re looking for a bleeding-edge gaming experience, you’ll have to take concessions with eGPUs.</p>
+                <h3 id="side-note-why-i-still-have-hope-for-the-core-x-chroma">   Side note: why I still have hope for the Core X Chroma <a href="#side-note-why-i-still-have-hope-for-the-core-x-chroma">#</a>   </h3>
+                    
+
+<p>As mentioned above, my main issue with the Core X Chroma is the non-functioning Ethernet port. There are a lot of anecdotal stories around the Core X Chroma working great for Windows and OSX, without any firmware updates on the Chroma side. As such, I hope that either a workaround comes out in the Linux kernel for the ASM1142 controller, or Razer releases something to address this on the controller side.</p>
+    </div><a href="#0" onclick="loadDisqus()">click to load comments via Disqus (ad supported and will cause tracking to load.
+    requires javascript).</a>
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://y.tsutsumi.io/2020/08/15/egpu-linux-core-x-chroma/';
+        this.page.identifier = '/2020/08/15/egpu-linux-core-x-chroma/';
+    };
+
+    function loadDisqus() {
+        var d = document, s = d.createElement('script');
+
+        s.src = 'https://tsutsumi.disqus.com/embed.js';
+
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    }
+</script>
+<noscript>no comments avaialable with Javascript disabled.</noscript><a class="u-url" href="/2020/08/15/egpu-linux-core-x-chroma/" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/%20/"></data>
+
+    <div class="wrapper">
+
+        <div class="footer-col-wrapper">
+            <script async src="https://cse.google.com/cse.js?cx=014358564571565173111:hnnbq4j54cy"></script>
+            <div class="gcse-search"></div>
+        </div>
+        <div class="footer-col-wrapper">
+            <div class="footer-col">
+                <p class="feed-subscribe">
+                    <a href="/feed/index.xml">
+                        <svg class="svg-icon orange">
+                            <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+                        </svg><span>Subscribe</span>
+                    </a>
+                </p>
+            </div>
+            <div class="footer-col">
+                <p>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</p>
+            </div>
+        </div>
+
+        <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/toumorokoshi" target="_blank" title="toumorokoshi"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/yusuke-tsutsumi" target="_blank" title="yusuke-tsutsumi"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/tsutsumiyusuke" target="_blank" title="tsutsumiyusuke"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+    </div>
+
+</footer></body>
+
+</html>
