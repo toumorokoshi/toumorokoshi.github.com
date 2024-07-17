@@ -3,20 +3,21 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>Yusuke Tsutsumi’s Health | Yusuke Tsutsumi</title>
+<title>Getting mp4’s from Steam’s Game Recordings | Yusuke Tsutsumi</title>
 <meta name="generator" content="Jekyll v4.1.1" />
-<meta property="og:title" content="Yusuke Tsutsumi’s Health" />
+<meta property="og:title" content="Getting mp4’s from Steam’s Game Recordings" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own." />
-<meta property="og:description" content="My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own." />
-<link rel="canonical" href="https://y.tsutsumi.io/health/" />
-<meta property="og:url" content="https://y.tsutsumi.io/health/" />
+<meta name="description" content="The Punchline" />
+<meta property="og:description" content="The Punchline" />
+<link rel="canonical" href="https://y.tsutsumi.io/reading-steam-game-recordings" />
+<meta property="og:url" content="https://y.tsutsumi.io/reading-steam-game-recordings" />
 <meta property="og:site_name" content="Yusuke Tsutsumi" />
-<meta property="og:type" content="website" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-07-11T07:00:00+00:00" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Yusuke Tsutsumi’s Health" />
+<meta property="twitter:title" content="Getting mp4’s from Steam’s Game Recordings" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","description":"My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.","headline":"Yusuke Tsutsumi’s Health","url":"https://y.tsutsumi.io/health/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-07-11T07:00:00+00:00","datePublished":"2024-07-11T07:00:00+00:00","description":"The Punchline","headline":"Getting mp4’s from Steam’s Game Recordings","mainEntityOfPage":{"@type":"WebPage","@id":"https://y.tsutsumi.io/reading-steam-game-recordings"},"url":"https://y.tsutsumi.io/reading-steam-game-recordings"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" /><script async src="https://www.googletagmanager.com/gtag/js?id=G-325KP61WS9"></script>
 <script>
@@ -64,64 +65,62 @@
     </style>
 </header><main class="page-content" aria-label="Content">
       <div class="wrapper">
-        <article class="post">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
-  <header class="post-header">
-    <h1 class="post-title">Yusuke Tsutsumi&#39;s Health</h1>
-  </header>
+    <header class="post-header">
+        <h1 class="post-title p-name" itemprop="name headline">Getting mp4&#39;s from Steam&#39;s Game Recordings</h1>
+        <p class="post-meta"><time class="dt-published" datetime="2024-07-11T07:00:00+00:00" itemprop="datePublished">
+                Jul 11, 2024
+            </time></p>
+    </header>
 
-  <div class="post-content">
-    <p>Includes some notes on health and my targets and tips.</p>
+    <div class="post-content e-content" itemprop="articleBody">
+        <h2 id="the-punchline">   The Punchline <a href="#the-punchline">#</a>   </h2>
+                    
 
-<p><em>NOTE</em>: I am not a doctor. I’m sharing my philosophy and my beliefs, and I’ll site sources when I am able. But I am not a medical proffesional, and this is not professional medical advice.</p>
+<p>If you want to cut to the chase, here’s how you can get your stream recording to create a video if the UI isn’t working:</p>
 
-<h2 id="blood-pressure-targets">Blood Pressure Targets</h2>
+<ol>
+  <li>Navigate to your gamerecording/video directory (under <code class="language-plaintext highlighter-rouge">.local/share/Steam/userdata/{id}/gamerecordings/video</code>).</li>
+  <li>Find the recording you’re looking for (it’s prefixed by date).</li>
+  <li>Run: <code class="language-plaintext highlighter-rouge">ffmpeg -i session.mpd -c copy out.mp4</code></li>
+</ol>
 
-<p><a href="https://peterattiamd.com/kellyannniotis/">Kellyanne Niotis, M.D</a>, a neurologist, mentioned in a podcast with Peter Attia that &gt; 120 systolic blood pressure and &gt; 70 diastolic blood pressure is a range correlated with neurodegenerative damage.</p>
+<p>And you’re done! There’s <code class="language-plaintext highlighter-rouge">out.mp4</code>.</p>
+                <h2 id="the-story">   The story <a href="#the-story">#</a>   </h2>
+                    
 
-<p>This makes me think that the relatively lax perspective on the 120-140 systolic range (prehypertensive) should be taken more seriously.</p>
+<p>Steam recently came out with their <a href="https://store.steampowered.com/gamerecording">Game Recording</a> feature, which is absolutely amazing! I love the ability to be able to take videos and share them.</p>
 
-<ul>
-  <li>As of 2023/03/19, my evening blood pressure reading is ~120 systolic, ~75 diastolic. My target is to lower to 110/65.</li>
-</ul>
+<p>I’ve been using it to record videos of <a href="https://childrenofmorta.com/">Children of Morta</a> in Farsi, and watch the videos later as practice for learning the language. To do so, I like to export my videos to disk, and upload them privately to my youtube account.</p>
 
-<h2 id="summary-from-peter-attias-ama-60">Summary From Peter Attia’s AMA 60</h2>
+<p>But sometimes, the UI doesn’t work as expected, and I can’t download the video. So what do you do?</p>
 
-<p>From <a href="https://peterattiamd.com/ama60/">60</a>.</p>
+<p>After some spelunking, I came up with the <a href="#the-punchline">instructions above</a>. The long and the short of it is: steam records your game as a stream, using the <code class="language-plaintext highlighter-rouge">.m4s</code> format, and puts the stream information into <code class="language-plaintext highlighter-rouge">session.mpd</code>.</p>
 
-<ul>
-  <li>to minimize cognitive decline
-    <ul>
-      <li>8 hours sleep (helps clear amyloid and tau)</li>
-      <li>Learn skills that require mental and physical abilities</li>
-      <li>Metabolicly health</li>
-    </ul>
-  </li>
-  <li>Lowering glucose levels
-    <ul>
-      <li>minimize carb intake</li>
-      <li>good sleep</li>
-    </ul>
-  </li>
-  <li>Lowering APOB
-    <ul>
-      <li>lower triclycerides intake</li>
-      <li>lower saturated fat intake</li>
-    </ul>
-  </li>
-  <li>Blood pressure
-    <ul>
-      <li>exercise</li>
-      <li>weight loss (1 hg/mm) per 5lbs</li>
-      <li>sodium restriction</li>
-    </ul>
-  </li>
-</ul>
+<p>Luckily, .mpd is a native format supported by <code class="language-plaintext highlighter-rouge">ffmpeg </code> for input, so all you need to do is run ffmpeg!</p>
 
-  </div>
+<p>That’s it! Happy clipping.</p>
+    </div><a href="#0" onclick="loadDisqus()">click to load comments via Disqus (ad supported and will cause tracking to load.
+    requires javascript).</a>
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://y.tsutsumi.io/reading-steam-game-recordings';
+        this.page.identifier = '/reading-steam-game-recordings';
+    };
 
+    function loadDisqus() {
+        var d = document, s = d.createElement('script');
+
+        s.src = 'https://tsutsumi.disqus.com/embed.js';
+
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    }
+</script>
+<noscript>no comments avaialable with Javascript disabled.</noscript><a class="u-url" href="/reading-steam-game-recordings" hidden></a>
 </article>
-
       </div>
     </main><footer class="site-footer h-card">
     <data class="u-url" href="/%20/"></data>

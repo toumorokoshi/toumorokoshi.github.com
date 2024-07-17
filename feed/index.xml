@@ -1,4 +1,28 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2024-07-17T00:46:24+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Reflecting on 2023</title><link href="https://y.tsutsumi.io/my-year/2023" rel="alternate" type="text/html" title="Reflecting on 2023" /><published>2023-12-31T07:00:00+00:00</published><updated>2023-12-31T07:00:00+00:00</updated><id>https://y.tsutsumi.io/my-year/reflecting-on-2023</id><content type="html" xml:base="https://y.tsutsumi.io/my-year/2023"><![CDATA[<p>Another year, another reflection to summarize 1%+ of my life.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2024-07-17T16:37:32+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Getting mp4’s from Steam’s Game Recordings</title><link href="https://y.tsutsumi.io/reading-steam-game-recordings" rel="alternate" type="text/html" title="Getting mp4’s from Steam’s Game Recordings" /><published>2024-07-11T07:00:00+00:00</published><updated>2024-07-11T07:00:00+00:00</updated><id>https://y.tsutsumi.io/reading-steam-game-recordings</id><content type="html" xml:base="https://y.tsutsumi.io/reading-steam-game-recordings"><![CDATA[<h2 id="the-punchline">The Punchline</h2>
+
+<p>If you want to cut to the chase, here’s how you can get your stream recording to create a video if the UI isn’t working:</p>
+
+<ol>
+  <li>Navigate to your gamerecording/video directory (under <code class="language-plaintext highlighter-rouge">.local/share/Steam/userdata/{id}/gamerecordings/video</code>).</li>
+  <li>Find the recording you’re looking for (it’s prefixed by date).</li>
+  <li>Run: <code class="language-plaintext highlighter-rouge">ffmpeg -i session.mpd -c copy out.mp4</code></li>
+</ol>
+
+<p>And you’re done! There’s <code class="language-plaintext highlighter-rouge">out.mp4</code>.</p>
+
+<h2 id="the-story">The story</h2>
+
+<p>Steam recently came out with their <a href="https://store.steampowered.com/gamerecording">Game Recording</a> feature, which is absolutely amazing! I love the ability to be able to take videos and share them.</p>
+
+<p>I’ve been using it to record videos of <a href="https://childrenofmorta.com/">Children of Morta</a> in Farsi, and watch the videos later as practice for learning the language. To do so, I like to export my videos to disk, and upload them privately to my youtube account.</p>
+
+<p>But sometimes, the UI doesn’t work as expected, and I can’t download the video. So what do you do?</p>
+
+<p>After some spelunking, I came up with the <a href="#the-punchline">instructions above</a>. The long and the short of it is: steam records your game as a stream, using the <code class="language-plaintext highlighter-rouge">.m4s</code> format, and puts the stream information into <code class="language-plaintext highlighter-rouge">session.mpd</code>.</p>
+
+<p>Luckily, .mpd is a native format supported by <code class="language-plaintext highlighter-rouge">ffmpeg </code> for input, so all you need to do is run ffmpeg!</p>
+
+<p>That’s it! Happy clipping.</p>]]></content><author><name></name></author><category term="steam" /><category term="coding" /><summary type="html"><![CDATA[The Punchline]]></summary></entry><entry><title type="html">Reflecting on 2023</title><link href="https://y.tsutsumi.io/my-year/2023" rel="alternate" type="text/html" title="Reflecting on 2023" /><published>2023-12-31T07:00:00+00:00</published><updated>2023-12-31T07:00:00+00:00</updated><id>https://y.tsutsumi.io/my-year/reflecting-on-2023</id><content type="html" xml:base="https://y.tsutsumi.io/my-year/2023"><![CDATA[<p>Another year, another reflection to summarize 1%+ of my life.</p>
 
 <h2 id="japanese">Japanese</h2>
 
@@ -713,114 +737,4 @@ concentration of genotoxins to lead to a meaningful increase in cancer.</li>
 <ul>
   <li>verify that the computer wakes if you send it the WOL request directly.</li>
   <li>verify that the computer wakes if you send the broadcast IP (e.g. <code class="language-plaintext highlighter-rouge">255.255.255.255</code>) the request directly.</li>
-</ul>]]></content><author><name></name></author><category term="networking" /><summary type="html"><![CDATA[I’ve been using Moonlight for game streaming, and one thing I’ve learned about recently is wake-on-lan: the ability to wake up your machine by sending a magic packet to a device.]]></summary></entry><entry><title type="html">Introducing Tome: convert directories of scripts to an auto-completable, single command</title><link href="https://y.tsutsumi.io/introducing-tome/" rel="alternate" type="text/html" title="Introducing Tome: convert directories of scripts to an auto-completable, single command" /><published>2022-09-22T07:00:00+00:00</published><updated>2022-09-22T07:00:00+00:00</updated><id>https://y.tsutsumi.io/introducing-tome</id><content type="html" xml:base="https://y.tsutsumi.io/introducing-tome/"><![CDATA[<p>Today I’m happy to introduce <a href="https://tome-scripts.readthedocs.org/">Tome</a>, a CLI generator that takes directories of shell scripts and bundles them under a single command, complete with auto-completion, help text, and more.</p>
-
-<p>Here is a quick demo of creating some scripts in a directory, and a command <code class="language-plaintext highlighter-rouge">s</code> from it:</p>
-
-<p><img src="https://github.com/toumorokoshi/tome/raw/master/demo.gif" alt="demo of Tome" /></p>
-
-<p>You can find the <a href="https://tome-scripts.readthedocs.io/en/latest/">documentation here</a>, and the <a href="https://github.com/toumorokoshi/tome">source code</a> and <a href="https://github.com/toumorokoshi/tome/releases">releases</a> on GitHub.</p>
-
-<p>Give it a try and please file bugs or give feedback!</p>
-
-<p>That’s really what this post is all about, but if you want to hear more about why and the history, read on.</p>
-
-<h2 id="the-beginning-using-sub-at-zillow">The beginning: using sub at Zillow</h2>
-
-<p>In 2011, I worked at Zillow, as a relatively new engineer obsessed with efficiency. I loved writing little scripts that helped simplify my workflow, such as:</p>
-
-<ul>
-  <li>configuring environment variables to work with our development environment.</li>
-  <li>installation of binaries that were required locally.</li>
-  <li>starting up our web server monolith.</li>
-</ul>
-
-<p>At the time, there were a lot of small things that needed to be done to start developing.</p>
-
-<p>Eventually someone posted about <a href="https://github.com/qrush/sub">sub</a> in our engineering mailing list, which was created by 37 Signals, a company also obsessed with the developer experience and had a bit of a following at Zillow.</p>
-
-<p>Sub was a great tool: it provided the ability to bootstrap a single command from a directory of scripts, and I saw an opportunity to use this to create a community-owned pool of scripts to help Zillow developers be productive and share productivity tooling as well. I created a git repository, called it <a href="https://www.zillow.com/tech/dev-bootstrapping-zb-zillows-swiss-army-knife/">zb</a>, and shared it with the other engineers. Zillow-bootstrap did some other things too (like local environment setup with some Python scripts), but the <code class="language-plaintext highlighter-rouge">zb</code> commands were the most famous.</p>
-
-<p>zb was used for years at Zillow after that. We even <a href="https://github.com/zillow/sub">forked the code</a> and added some features like shell script sourcing, which enables setting environment variables in the parent executing the command.</p>
-
-<h2 id="using-sub-personally">Using sub personally</h2>
-
-<p>On top of usage at an organization, I found sub to be very useful for my <a href="https://github.com/toumorokoshi/ytlaces/tree/master/files/cookbook">own scripts as well</a>. Single-letter directories help me quickly navigate to the commands that are the most useful, and provide some namespacing.</p>
-
-<p>I call this <code class="language-plaintext highlighter-rouge">s</code> in my setup, short for sub.</p>
-
-<h2 id="challenges-with-sub">Challenges with sub</h2>
-
-<p>sub itself was fairly stable for a while, but it had some challenges.</p>
-
-<h3 id="sub-was-designed-for-forking">Sub was designed for forking</h3>
-
-<p>Sub’s design expects the user to fork the whole repository to generate your own command. This coupling of the <strong>user’s</strong> scripts with the scripts of the core sub command made it difficult to stay up to date, due to dealing with merge conflicts and mapping variables that were renamed to initialize the script.</p>
-
-<h3 id="sub-was-written-in-bash">Sub was written in bash</h3>
-
-<p>sub was written in bash, and in particular relies on commands that are generated to build functionality like completion, etc. It makes the code hard to reason about.</p>
-
-<p>In addition, bash is not the most performant language in the world, so more complex commands can become slower. Here’s the amount of time it takes to call <code class="language-plaintext highlighter-rouge">sub</code>, which maps to <code class="language-plaintext highlighter-rouge">help</code>:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ time sub
-real    0m0.122s
-user    0m0.081s
-sys     0m0.053s
-</code></pre></div></div>
-
-<p>Considering I may invoke sub hundreds of times in my day, even gaining 50 milliseconds per command would save me a few minutes a day. I think in practice this doesn’t mean a lot, but to the performance-obsessed, any opportunity for optimization looks promising.</p>
-
-<h2 id="creating-tome">Creating Tome</h2>
-
-<p>One of the best parts of sub is its simplicity and minimal set of functionality, which made it an appealing project for a re-write! After a couple of months, <a href="https://github.com/toumorokoshi/tome">Tome</a> was born.</p>
-
-<p>Tome addresses the challenges above :</p>
-
-<ul>
-  <li>written in Rust, enabling incredibly low overhead on top of the underlying scripts.</li>
-  <li>complete separation of the commands themselves (instances) and the core functionality that drives it (added into <code class="language-plaintext highlighter-rouge">tome</code>).</li>
-  <li>some other features contributed like fish support (thanks <a href="https://github.com/zph">Zander Hill</a>!).</li>
-</ul>
-
-<p>The initialization is straightforward as well: add <code class="language-plaintext highlighter-rouge">tome</code> to your path after <a href="https://github.com/toumorokoshi/tome/releases">downloading it from the releases</a>, and initialize with a one-liner in your rc file:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>eval "$(tome init my-commands ~/my-scripts zsh)"
-</code></pre></div></div>
-
-<p>where</p>
-
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">my-commands</code> is the command you want to make (I recommend a short, 1-2 character acronym to not type a lot).</li>
-  <li><code class="language-plaintext highlighter-rouge">~/my-scripts</code> is the directory with the scripts and directories.</li>
-  <li><code class="language-plaintext highlighter-rouge">zsh</code> should be replaced with the shell you are invoking.</li>
-</ul>
-
-<p>In particular I’m very happy with the choice of Rust: it enables fairly portable static binaries, as well as a significant boost in performance:</p>
-
-<p>Example of calling help using tome (rust):</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ time s
-real    0m0.003s
-user    0m0.003s
-sys     0m0.000s
-</code></pre></div></div>
-
-<p>Recall the 100ms+ time when using sub above.</p>
-
-<p>One of the last things I did before I left Zillow was switch us over to use Tome, although in the 2 years since then It could very well be that Zillow-bootstrap use has decreased significantly: the Zillow tech stack was rapidly modernizing, and then eliminated the need for many of the scripts that were used to bootstrap the dev environment.</p>
-
-<h2 id="conclusion">Conclusion</h2>
-
-<ul>
-  <li>Tome was inspired by Sub, which was heavily used at Zillow.</li>
-  <li>There were some difficulties in development and shortcomings in features.
-    <ul>
-      <li>Using bash as the language it was written in had performance and maintenance overhead.</li>
-      <li>It was built to be forked, which made it difficult to keep forked command up to date.</li>
-    </ul>
-  </li>
-  <li>Tome was written to address those, and has much lower performance overhead as well as features like Fish completion!</li>
-</ul>
-
-<p>That’s it! Please give Tome a try.</p>]]></content><author><name></name></author><category term="coding" /><category term="my-projects" /><summary type="html"><![CDATA[Today I’m happy to introduce Tome, a CLI generator that takes directories of shell scripts and bundles them under a single command, complete with auto-completion, help text, and more.]]></summary></entry></feed>
+</ul>]]></content><author><name></name></author><category term="networking" /><summary type="html"><![CDATA[I’ve been using Moonlight for game streaming, and one thing I’ve learned about recently is wake-on-lan: the ability to wake up your machine by sending a magic packet to a device.]]></summary></entry></feed>
