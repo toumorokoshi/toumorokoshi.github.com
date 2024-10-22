@@ -1,4 +1,137 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2024-10-22T00:46:33+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Getting mp4s from Steam’s Game Recordings</title><link href="https://y.tsutsumi.io/reading-steam-game-recordings" rel="alternate" type="text/html" title="Getting mp4s from Steam’s Game Recordings" /><published>2024-07-11T07:00:00+00:00</published><updated>2024-07-11T07:00:00+00:00</updated><id>https://y.tsutsumi.io/reading-steam-game-recordings</id><content type="html" xml:base="https://y.tsutsumi.io/reading-steam-game-recordings"><![CDATA[<h2 id="the-punchline">The Punchline</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2024-10-22T16:55:17+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">AEPCLI’s design decisions</title><link href="https://y.tsutsumi.io/aepcli-design/" rel="alternate" type="text/html" title="AEPCLI’s design decisions" /><published>2024-10-22T07:00:00+00:00</published><updated>2024-10-22T07:00:00+00:00</updated><id>https://y.tsutsumi.io/aepcli-thoughts</id><content type="html" xml:base="https://y.tsutsumi.io/aepcli-design/"><![CDATA[<h1 id="aepclis-design-decisions">aepcli’s design decisions</h1>
+
+<h2 id="background">Background</h2>
+
+<p>In my spare time, I work on <a href="https://aep.dev/">aep.dev</a>, an resource-oriented
+API design specification. We’ve done a lot of work around standarization, like
+<a href="https://aep.dev/121/">updating guidance on resource-oriented design</a>, fleshing
+out standard
+<a href="https://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUDL</a> methods, and design patterns.</p>
+
+<p>I wanted to really prove out that those patterns and consistency could be used
+to create powerful clients, so I’ve been working on
+<a href="https://github.com/aep-dev/aepcli">aepcli</a>: a command-line interface to APIs
+that can consume AEP-compliant HTTP+JSON APIs.</p>
+
+<p>I’ve had some design musings as I’ve been writing it, and I wanted to expand on
+some here.</p>
+
+<h2 id="installing-aepcli">Installing aepcli</h2>
+
+<p>If you’d like to follow along (<em>warning</em>: it is a very early alpha as of
+2024-10-19), you can install aepcli yourself.</p>
+
+<p>See <a href="https://github.com/aep-dev/aepcli">the readme</a> for the latest instructions,
+but as of the moment the installation method is a <code class="language-plaintext highlighter-rouge">go install</code>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>go <span class="nb">install </span>github.com/aep-dev/aepcli/cmd/aepcli@latest
+</code></pre></div></div>
+
+<h2 id="overall-design">Overall design</h2>
+
+<p>aepcli is heavily inspired by
+<a href="https://kubernetes.io/docs/reference/kubectl/">kubectl</a> - itself a command-line
+interface that is able to interact with a heterogenous collection of resources (those exposed by the Kubernetes API server). It has been a great reference when designing aepcli.</p>
+
+<h2 id="consuming-an-openapi-definition">Consuming an openapi definition</h2>
+
+<p>aepcli does not need to re-invent the wheel and use a new API description
+language - <a href="https://spec.openapis.org/oas/latest.html">The OpenAPI
+specification</a> is descriptive enough
+(with the appropriate
+<a href="https://aep.dev/4/#annotating-resource-types">extensions</a>) to describe the
+resources and operations supported.</p>
+
+<p>This is also similar to how kubectl works - reading and caching an OpenAPI
+definition exposed by the Kubernetes api server. For aepcli, the location of the
+definition is required, so the path is first positional argument, no matter the
+command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aepcli https://bookstore.example.com/openapi.json publishers list
+</code></pre></div></div>
+
+<p>The first argument accepts either a URL, or a local file path: this is helpful
+in the situation where the API itself does not expose an OpenAPI definition, and
+you need to write one yourself. Or better yet, generate one with
+<a href="https://github.com/aep-dev/aepc">aepc</a>!</p>
+
+<h2 id="adding-a-config-file">Adding a config file</h2>
+
+<p>It’s a little cumbersome to add configuration for aepcli every time. In
+addition, it doesn’t look particularly elegant to include a URL/filename on
+every invocation.</p>
+
+<p>Kubectl has the concept of a <a href="https://kubernetes.io/docs/reference/kubectl/quick-reference/#kubectl-context-and-configuration">context</a>, which helps configure it to the appropriate API server. This allows kubectl to have a one-to-many relationship, being able to operate on multiple different api servers.</p>
+
+<p>So what if we could do that with aepcli? aepcli supports a config file, located at <code class="language-plaintext highlighter-rouge">$HOME/.config/aepcli/config.toml</code> for Linux. You can write something like this:</p>
+
+<div class="language-toml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">[apis.roblox]</span>
+<span class="py">openapipath</span> <span class="p">=</span> <span class="s">"openapi/roblox.json"</span> <span class="c"># relative paths are taken from the `$HOME/.config/aepcli` directory.</span>
+<span class="py">headers</span> <span class="p">=</span> <span class="p">[</span>
+    <span class="py">"x-api-key</span><span class="p">=</span><span class="err">${ROBLOX_API_KEY}</span><span class="s">" # add your api key here.</span><span class="err">
+</span><span class="p">]</span>
+</code></pre></div></div>
+
+<p>And aepcli will let you easily refer to that API by it’s name:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aepcli roblox <span class="nb">users </span>get <span class="k">${</span><span class="nv">USER_ID</span><span class="k">}</span>
+<span class="o">{</span>
+  <span class="s2">"path"</span>: <span class="s2">"users/</span><span class="k">${</span><span class="nv">USER_ID</span><span class="k">}</span><span class="s2">"</span>,
+  <span class="s2">"name"</span>: <span class="s2">"NAME"</span>,
+  <span class="s2">"about"</span>: <span class="s2">""</span>,
+  <span class="s2">"locale"</span>: <span class="s2">"en_us"</span>,
+  <span class="s2">"premium"</span>: <span class="nb">false</span>,
+  <span class="s2">"idVerified"</span>: <span class="nb">false</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>This makes support of a new API very easy - just write the appropriate entry in
+your config, and you’re done!</p>
+
+<p>This one-to-many CLI opens new use cases that other, bespoke CLIs cannot - like
+using two APIs together. If you need a user id from an authentication provider,
+and want to use that to do a lookup in some other service, you can do something
+like:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">USERNAME</span><span class="o">=</span><span class="si">$(</span>aepcli auth-service get <span class="nb">users </span>foo | jq .username<span class="si">)</span>
+aepcli docs-service list documents <span class="nt">--user</span><span class="o">=</span><span class="k">${</span><span class="nv">USERNAME</span><span class="k">}</span>
+</code></pre></div></div>
+
+<h2 id="client-side-dynamicism-over-code-generation">client-side dynamicism over code generation</h2>
+
+<p>This point is more nuanced - but aepcli explicity chose to generate the CLI
+based on an API description schema, instead of opting toward a code-generated
+client.</p>
+
+<p>From my time working at cloud companies, a common issue customers encountered
+was with upgrading clients. Whether it was a command-line interface, Terraform
+provider or SDK, customers would often have to go through painful upgrades to
+use new fields exposed in the resources, since those clients were code-generated or hand-written and
+only knew about the fields that the API exposed at the time it was authored.</p>
+
+<p>There are multiple reasons why, in a worst case scenario, these upgrades would take months:</p>
+
+<ul>
+  <li>Security review.</li>
+  <li>Other executive approvals.</li>
+  <li>Waiting for a centralized platform team to perform the update, who often have
+limited bandwidth due to serving requests across the whole company.</li>
+  <li>A change in the client for a separate resource being backwards-incompatible,
+requiring updating usages of that other resource to upgrade.</li>
+</ul>
+
+<p>These delays are harmful to both sides: inaccessible features for the consumer
+and lost revenue for the service provider.</p>
+
+<p>aepcli is fully dynamic - to use a new field, you don’t need to update any
+<em>binaries</em> - you just update the schema description, which is completely in the
+control of the consumer. Do you want access to a new field? Just add it to your
+local copy of the openapi description.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Although these are some of the big design considerations, there’s dozens of
+smaller ones that I’m sure I’ll hash over at some point. If you have ideas or suggestions, please share them! File an issue over at <a href="https://github.com/aep-dev/aepcli/issues">aepcli</a>, or <a href="/about#contact">reach out to me</a>!</p>]]></content><author><name></name></author><category term="coding" /><summary type="html"><![CDATA[aepcli’s design decisions]]></summary></entry><entry><title type="html">Getting mp4s from Steam’s Game Recordings</title><link href="https://y.tsutsumi.io/reading-steam-game-recordings" rel="alternate" type="text/html" title="Getting mp4s from Steam’s Game Recordings" /><published>2024-07-11T07:00:00+00:00</published><updated>2024-07-11T07:00:00+00:00</updated><id>https://y.tsutsumi.io/reading-steam-game-recordings</id><content type="html" xml:base="https://y.tsutsumi.io/reading-steam-game-recordings"><![CDATA[<h2 id="the-punchline">The Punchline</h2>
 
 <p>If you want to cut to the chase, here’s how you can get your stream recording to create a video if the UI isn’t working:</p>
 
@@ -707,34 +840,4 @@ concentration of genotoxins to lead to a meaningful increase in cancer.</li>
 
 <p>2022 was again a non-transformative year for me, but making steady, principled progress on my goals has been great.</p>
 
-<p>Happy New Year!</p>]]></content><author><name></name></author><category term="2022" /><category term="reflection" /><summary type="html"><![CDATA[In the vein of previous years, I wanted to finish up my 2022 with a blog post.]]></summary></entry><entry><title type="html">Wake-on-lan via WAN</title><link href="https://y.tsutsumi.io/wake-on-wan" rel="alternate" type="text/html" title="Wake-on-lan via WAN" /><published>2022-09-23T07:00:00+00:00</published><updated>2022-09-23T07:00:00+00:00</updated><id>https://y.tsutsumi.io/wake-on-wan</id><content type="html" xml:base="https://y.tsutsumi.io/wake-on-wan"><![CDATA[<p>I’ve been using <a href="https://moonlight-stream.org/">Moonlight</a> for game streaming, and one thing I’ve learned about recently is <a href="https://wiki.archlinux.org/title/Wake-on-LAN#Trigger_a_wake_up">wake-on-lan</a>: the ability to wake up your machine by sending a magic packet to a device.</p>
-
-<p>I regularly use wake-on-lan on my local network to start up my gaming desktop, but I began to wonder if it’s possible to wake my machine up from the public internet (The “WAN”)? And here is how I got to successfully accomplish a wake-on-wan.</p>
-
-<h2 id="background">Background</h2>
-
-<p>My existing setup already enables me to stream Moonlight over wan. I accomplished that by:</p>
-
-<ul>
-  <li>Port forwarding for <a href="https://github.com/moonlight-stream/moonlight-docs/wiki/Setup-Guide#manual-port-forwarding-advanced">all of ports recommended by moonlight</a>.</li>
-  <li>Using a dynamic DNS provider (I use tplink, but there’s also <a href="https://www.noip.com/">noip</a>).</li>
-</ul>
-
-<h2 id="how-wake-on-lan-works">How wake-on-lan works</h2>
-
-<p>Wake on lan works by sending an ethernet frame with the contents of the MAC address. This is often send to the broadcast IP of a network, ensuring that all devices connected to the network will receive it.</p>
-
-<h2 id="configuring-wake-on-wan">Configuring wake-on-wan</h2>
-
-<p>I originally tried to do direct port forwarding of the UDP 7 through 9 ports, but I found out that my internet provider (Comcast) sometimes does not allow their modem to forward the packet.</p>
-
-<p>As such, I ended up doing a separate port forward from an arbitrary port and mapped it to port 7. And that was it!</p>
-
-<h2 id="troubleshooting">Troubleshooting</h2>
-
-<p>If you have issues, try the following:</p>
-
-<ul>
-  <li>verify that the computer wakes if you send it the WOL request directly.</li>
-  <li>verify that the computer wakes if you send the broadcast IP (e.g. <code class="language-plaintext highlighter-rouge">255.255.255.255</code>) the request directly.</li>
-</ul>]]></content><author><name></name></author><category term="networking" /><summary type="html"><![CDATA[I’ve been using Moonlight for game streaming, and one thing I’ve learned about recently is wake-on-lan: the ability to wake up your machine by sending a magic packet to a device.]]></summary></entry></feed>
+<p>Happy New Year!</p>]]></content><author><name></name></author><category term="2022" /><category term="reflection" /><summary type="html"><![CDATA[In the vein of previous years, I wanted to finish up my 2022 with a blog post.]]></summary></entry></feed>
