@@ -110,13 +110,12 @@ but as of the moment the installation method is a <code class="language-plaintex
 <p>aepcli is heavily inspired by
 <a href="https://kubernetes.io/docs/reference/kubectl/">kubectl</a> - itself a command-line
 interface that is able to interact with a heterogenous collection of resources (those exposed by the Kubernetes API server). It has been a great reference when designing aepcli.</p>
-                <h2 id="consuming-an-openapi-definition">   Consuming an openapi definition <a href="#consuming-an-openapi-definition">#</a>   </h2>
+                <h2 id="consuming-an-openapi-definition">   Consuming an OpenAPI definition <a href="#consuming-an-openapi-definition">#</a>   </h2>
                     
 
-<p>aepcli does not need to re-invent the wheel and use a new API description
-language - <a href="https://spec.openapis.org/oas/latest.html">The OpenAPI
-specification</a> is descriptive enough
-(with the appropriate
+<p>aepcli does not need to re-invent the wheel and use new API document syntax -
+<a href="https://spec.openapis.org/oas/latest.html">The OpenAPI Specification</a> is
+descriptive enough (with the appropriate
 <a href="https://aep.dev/4/#annotating-resource-types">extensions</a>) to describe the
 resources and operations supported.</p>
 
@@ -202,9 +201,9 @@ requiring updating usages of that other resource to upgrade.</li>
 and lost revenue for the service provider.</p>
 
 <p>aepcli is fully dynamic - to use a new field, you don’t need to update any
-<em>binaries</em> - you just update the schema description, which is completely in the
+<em>binaries</em> - you just update the OpenAPI document, which is completely in the
 control of the consumer. Do you want access to a new field? Just add it to your
-local copy of the openapi description.</p>
+local copy of the OpenAPI document.</p>
                 <h2 id="conclusion">   Conclusion <a href="#conclusion">#</a>   </h2>
                     
 
