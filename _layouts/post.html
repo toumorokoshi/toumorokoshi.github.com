@@ -34,9 +34,10 @@ layout: default
         {% include anchor_headings.html html=content anchorBody="#" %}
     </div>
 
-    {%- if site.disqus.shortname -%}
-    {%- include disqus_comments.html -%}
-    {%- endif -%}
+    {% if page.bsky_post_url %}
+    <script type="module" src="https://esm.sh/gh/loueed/bsky@v1.0.0/comments"></script>
+    <bsky-comments post="{{ page.bsky_post_url }}"></bsky-comments>
+    {% endif %}
 
     <a class="u-url" href="{{ page.url | relative_url }}" hidden></a>
 </article>
