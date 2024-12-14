@@ -40,8 +40,8 @@ feed:
   path: feed/index.xml
 # Disqus is ad-supported and includes telemetry, so
 # only load it if people opt-in.
-disqus:
-  shortname: tsutsumi
+# disqus:
+#   shortname: tsutsumi
 
 google_analytics: G-325KP61WS9
 
