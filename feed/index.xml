@@ -1,4 +1,344 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2024-12-28T00:10:53+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Design patterns for multi-organization project management</title><link href="https://y.tsutsumi.io/multi-org-project-planning/" rel="alternate" type="text/html" title="Design patterns for multi-organization project management" /><published>2024-12-12T07:00:00+00:00</published><updated>2024-12-12T07:00:00+00:00</updated><id>https://y.tsutsumi.io/multi-org-project-planning</id><content type="html" xml:base="https://y.tsutsumi.io/multi-org-project-planning/"><![CDATA[<h1 id="design-patterns-for-organizing-multi-organization-projects">Design patterns for organizing multi-organization Projects</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2024-12-29T00:10:51+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">depsaw: analyze and stop overbuilding in bazel</title><link href="https://y.tsutsumi.io/depsaw/" rel="alternate" type="text/html" title="depsaw: analyze and stop overbuilding in bazel" /><published>2024-12-27T07:00:00+00:00</published><updated>2024-12-27T07:00:00+00:00</updated><id>https://y.tsutsumi.io/depsaw</id><content type="html" xml:base="https://y.tsutsumi.io/depsaw/"><![CDATA[<h2 id="summary">Summary</h2>
+
+<p>Today, I’m introducing <a href="https://github.com/toumorokoshi/depsaw/">depsaw</a>: an
+experimental tool that can be used to reduce overbuilding and overtesting in bazel.</p>
+
+<p>In its current state, it is a tool that is used to analyze the dependency graph
+and commit frequencies per file to produce a list of targets that could be
+optimized significantly.</p>
+
+<p>Here is an example from the <a href="https://github.com/bazelbuild/bazel">bazel</a> codebase itself:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>depsaw trigger-scores-map ~/workspace/bazel <span class="s2">"//:bazel-distfile"</span>
+targets:
+- name: //src/main/java/com/google/devtools/build/lib/analysis:srcs
+  rebuilds: 3604
+  immediate_dependents: 1
+  total_dependents: 5
+  score: 3604
+- name: //src/test/shell:srcs
+  rebuilds: 3092
+  immediate_dependents: 1
+  total_dependents: 4
+  score: 3092
+- name: //src/main/java/com/google/devtools/build/lib/bazel:srcs
+  rebuilds: 2741
+  immediate_dependents: 1
+  total_dependents: 5
+  score: 2741
+- name: //src/test/java/com/google/devtools/build/lib/rules:srcs
+  rebuilds: 2647
+  immediate_dependents: 1
+  total_dependents: 5
+  score: 2647
+... <span class="c"># a few thousand other lines</span>
+</code></pre></div></div>
+
+<p>This shows that <code class="language-plaintext highlighter-rouge">//src/main/java/com/google/devtools/build/lib/analysis:srcs</code>
+caused 3604 rebuilds of <code class="language-plaintext highlighter-rouge">//:bazel-distfile</code> and its dependents over the history
+of the repo.</p>
+
+<p>In the future, I’d like to also introduce tooling to help automatically reduce
+or split dependencies. If you want to just dive in, look at the
+<a href="https://github.com/toumorokoshi/depsaw/tree/main?tab=readme-ov-file#depsaw">readme</a>
+and give it a shot! If you’re interested in learning the story and design
+considerations, read on.</p>
+
+<h2 id="backstory-overbuilding-and-overtesting-downstream-targets">Backstory: overbuilding and overtesting downstream targets</h2>
+
+<p>At Cruise, we use <a href="https://bazel.build">bazel</a> as our build system for a
+significant chunk of the code base. Combined with a monorepo (where all source
+code for an organization is in a single code repository), it has allowed for a
+fluid experience with building and testing software. This will not be a deep
+dive into bazel and its capabilities, but bazel at a high level organizes
+projects in the following way:</p>
+
+<ol>
+  <li>Source <em>files</em> are consumed into buildable units known as <em>targets</em>. Each
+target is generated from a <em><a href="https://bazel.build/extending/rules">rule</a></em>.</li>
+  <li>Targets can be dependants for other targets, runnable as
+tests, or as a generic executable (e.g. a command-line interface).</li>
+  <li>Bazel runs in two phases: an analyze phase that is able to understand the
+relationship between these dependencies.</li>
+</ol>
+
+<p>Bazel has rules and <a href="https://bazel.build/extending/toolchains">toolchains</a> for a
+wide variety of languages, allowing intermingling of python on C/C++
+dependencies (e.g. with pybind), or adding in a static file (e.g. yaml or some
+binary asset) that a target depends upon.</p>
+
+<p>Like all codebases, functionality gravitates toward a few upstream dependencies,
+on which thousands or more downstream targets depend on. For example, a utility
+library for wrapping shell scripts might have hundreds of thousands of
+dependants.</p>
+
+<p>To reduce the cost of building everything, all the time, build systems often
+cache their results. Bazel is no exception, providing both local and <a href="https://bazel.build/remote/caching">remote
+caching</a> functionality. This means that you
+only rebuild a target when it, or its dependencies, actually changes.</p>
+
+<p>As this continues, we can run into <em>overbuilding</em>, where downstream targets are
+rebuliding too often, even when the code they actually depend on don’t change.
+This happens due to:</p>
+
+<ol>
+  <li>Depending on only a handful of files in a target that has a large number of
+files in its source files.</li>
+  <li>Depending on a target which pulls in another dependency, which is not used in
+your particular code path or is included erreously.</li>
+</ol>
+
+<p>So how do you solve overbuilding? That’s what this post and depsaw are all
+about.</p>
+
+<h2 id="fixing-overbuilding-and-overtesting">Fixing overbuilding and overtesting</h2>
+
+<p>If you have a codebase where things are being overbuilt, the general workflow is
+to solve that is along the lines of:</p>
+
+<ol>
+  <li>Find the targets that are causing the most rebuilds: it’s good to scope the
+problem to the high-value targets.</li>
+  <li>Identify why the target is contributing so much to the builds. Apply the
+appropriate solution.</li>
+  <li>Back to 1.</li>
+</ol>
+
+<p>Let’s dive into each of those in detail.</p>
+
+<h3 id="1-find-the-targets-causing-the-most-rebuilds">1: Find the targets causing the most rebuilds</h3>
+
+<p>The targets that are causing rebuilds comes down to a couple dimensions:</p>
+
+<ol>
+  <li>Invalidations of the target’s builds. Targets can invalidate frequently
+because:
+    <ul>
+      <li>They depend on a things that also invalidate frequently.</li>
+      <li>There are a frequent changes to their source files.</li>
+    </ul>
+  </li>
+  <li>Dependants. If you have a target that hundreds or thousands of other targets
+depend on, that can cascade and result in invalidating downstream targets
+very frequently.</li>
+</ol>
+
+<p>We can create a scoring like:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>score(target) = total_recursive_dependants(target) * len(commits_to_build(target))
+</code></pre></div></div>
+
+<p>The score is very high if there are a lot of dependents, or the target itself is
+changing very frequently. This is actually very similar to the <a href="https://www.youtube.com/watch?v=k4H20WxhbsA&amp;t=534s">metrics that
+Spotify used to analyze their overbuilding for their mobile
+apps</a>.</p>
+
+<p>Here’s a table to help you get a sense of the score:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>score</th>
+      <th>dependents</th>
+      <th>average_distinct_commits_per_file</th>
+      <th>num_input_files</th>
+      <th>commits_dependencies_built</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1000</td>
+      <td>100</td>
+      <td>1</td>
+      <td>10</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>501</td>
+      <td>10</td>
+      <td>1</td>
+      <td>1</td>
+      <td>50</td>
+    </tr>
+    <tr>
+      <td>500</td>
+      <td>10</td>
+      <td>10</td>
+      <td>5</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>200</td>
+      <td>2</td>
+      <td>1</td>
+      <td>100</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+
+<ul>
+  <li>Targets that have a lot of dependents will score higher, since the invalidate
+multiple targets.</li>
+  <li>Targets that have a lot of rapidly input files will score higher.</li>
+  <li>Targets that have a fair number of dependents, and depend on a fair number of
+targets, will score higher.</li>
+  <li>Targets that have a fair number of dependents, as well as have a high number
+of files modified, will score higher.</li>
+</ul>
+
+<p>Using depsaw, you can get these scores with the following, running it against a
+git repository using bazel:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">TARGET</span><span class="o">=</span>YOUR_TARGET_HERE
+depsaw trigger-scores-map <span class="si">$(</span><span class="nb">pwd</span><span class="si">)</span> <span class="s2">"</span><span class="k">${</span><span class="nv">TARGET</span><span class="k">}</span><span class="s2">"</span> <span class="nt">--format</span><span class="o">=</span>csv <span class="nt">--since</span> 2024-11-01 <span class="nt">--deps-file</span> <span class="s2">"</span><span class="k">${</span><span class="nv">DEPS_FILE</span><span class="k">}</span><span class="s2">"</span> <span class="o">&gt;</span> /tmp/deps.csv
+</code></pre></div></div>
+
+<p>Here’s some rough pseudocode of the algorithm:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">commits_to_build</span><span class="p">(</span><span class="n">target</span><span class="p">):</span>
+   <span class="n">commits</span> <span class="o">=</span> <span class="n">commits_that_modified_files</span><span class="p">(</span><span class="n">targets</span><span class="p">.</span><span class="n">input_files</span><span class="p">)</span>
+   <span class="k">for</span> <span class="n">dep</span> <span class="ow">in</span> <span class="n">target</span><span class="p">.</span><span class="n">dependencies</span><span class="p">:</span>
+      <span class="n">commits</span> <span class="o">=</span> <span class="n">commits</span> <span class="o">|</span> <span class="n">commits_to_build</span><span class="p">(</span><span class="n">dep</span><span class="p">)</span>
+   <span class="k">return</span> <span class="n">commits</span>
+</code></pre></div></div>
+
+<p>Basically, looking at all the commits that modified the input files of your
+target, and taking the union of that and all the commits that would have
+triggered a build of a dependency.</p>
+
+<p>This is also recursive - which means that as you build the list of commits for
+one target, you can easily build it for all the targets it depends on at the
+same time.</p>
+
+<p>We can build this algorithm by first getting the list of modified files in git,
+per commit, via a command like:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git log <span class="nt">--numstat</span> | <span class="nb">awk</span> <span class="s1">'/^[0-9-]+/{ print $NF}'</span> | <span class="nb">sort</span> | <span class="nb">uniq</span> <span class="nt">-c</span> | <span class="nb">sort</span> <span class="nt">-nr</span>
+</code></pre></div></div>
+
+<p>And use the information around dependencies extracted from bazel:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bazel query <span class="s2">"deps(//...)"</span> <span class="nt">--output</span> streamed_jsonproto<span class="sb">`</span>
+</code></pre></div></div>
+
+<h3 id="2-causes-and-solutions">2: Causes and solutions</h3>
+
+<p>Fundamentally, overbuilding comes from depending on targets that are too big,
+for one reason or another.</p>
+
+<h4 id="too-many-files-in-a-single-package">too many files in a single package</h4>
+
+<p>In this case, there are too many files that are grouped in the same target, such
+that targets must now depend on that single mega-target, rebuilding all
+dependants.</p>
+
+<p>Solution: files should be split up into more granular targets. Using a code
+search tool to find the references to various files and imports. Analyzing those
+would help you determine which refactors are easiest by hand.</p>
+
+<h4 id="too-much-functionality-in-a-single-file">too much functionality in a single file</h4>
+
+<p>In this case, there is a single file that is depended on by too many targets.</p>
+
+<p>Solution: separate the file into multiple other files, then split those up into
+separate targets. Modify dependents to use the split dependency. Using a code
+analysis tool, you can see which functions are used the most, then factor those
+into separate targets.</p>
+
+<h4 id="unnescessary-dependencies">unnescessary dependencies</h4>
+
+<p>In this case, there are dependencies that are completely unnescessary.
+Anecdotally I think this is overexagerrated as an issue, but it is possible
+without some proper pruning that a target that was previously relevant no longer
+is.</p>
+
+<p>Solution: remove that target.</p>
+
+<h2 id="conclusions-and-other-thoughts">conclusions and other thoughts</h2>
+
+<p>This tooling has already been helpful: I’ve found opportunities to factor
+dependencies of some of my targets by 30%!</p>
+
+<p>The above process is a start, but, like depsaw, there’s a lot more to do to make
+eliminating overbuilding a more automated and simpler exercise. I will probably
+have a follow-up post at some point when I have some better insights. If you
+have some ideas, please join the conversation at the bottom or contact me!</p>
+
+<p>In the meantime, here’s some other musings:</p>
+
+<h3 id="considering-sibling-dependencies-for-more-score-accuracy">Considering sibling dependencies for more score accuracy</h3>
+
+<p>Even the score above is a bit naive - it ignores the fact that there are common
+dependencies that would be pulled in via other means anyway. for example, a
+utility library may be pulled in even if a different dependent is removed:</p>
+
+<pre><code class="language-mermaid">graph LR
+    A[A]
+    B[B]
+    C[C]
+    D[D]
+
+    A --&gt; B
+    A --&gt; C
+    B --&gt; D
+    B --&gt; E
+    C --&gt; D
+</code></pre>
+
+<p>In this case, removing B from A wouldn’t actually prevent rebuilds of Target A
+when D changes, since it would still be pulled in through B and C. So the value
+in removing a dependency would be more accurate if it included a way to measure
+the reduction in builds by removing B, and thereby removing the dependencies
+that are unique to it (like E).</p>
+
+<p>For now, this can be emulated in depsaw by first re-running depsaw before and
+after removing a dependency - this will tell you what the actual net difference
+would be in eliminating that specific dependent from the graph.</p>
+
+<h2 id="bazel-is-amazing">Bazel is amazing</h2>
+
+<p>Although separate from the point of this post, bazel is an extremely powerful
+tool. I would argue that for a monorepo to succeed, you need <em>some</em> sort of
+system that is used to define the complex relationship between software units,
+and is able to give you descriptive answers about these relationships. To that
+end, bazel provides the <a href="https://bazel.build/query/guide">query</a> command. You
+can use it to answer the following questions, and more:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>question</th>
+      <th>bazel query</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>What targets does my code depend on?</td>
+      <td><code class="language-plaintext highlighter-rouge">bazel query "deps(//foo)"</code></td>
+    </tr>
+    <tr>
+      <td>What targets depend on the code I’m working on?</td>
+      <td><code class="language-plaintext highlighter-rouge">bazel query --infer_universe_scope "rdeps(//..., //foo)"</code></td>
+    </tr>
+    <tr>
+      <td>Why does foo depend on bar?</td>
+      <td><code class="language-plaintext highlighter-rouge">bazel query "somepath(//foo, //bar)"</code></td>
+    </tr>
+    <tr>
+      <td>What are the test targets that depend on me?</td>
+      <td><code class="language-plaintext highlighter-rouge">bazel query "tests(//...) intersect rdeps(//..., //foo)"</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>These types of queries are critical to identifying common build problems, including:</p>
+
+<ul>
+  <li>overbuilding: rebuilding targets that are not needed.</li>
+  <li>overtesting: testing downstreams that are not actually affected by your change.</li>
+  <li>identifying how an extraneous target is pulled into your dependencies.</li>
+</ul>]]></content><author><name></name></author><category term="coding" /><category term="bazel" /><summary type="html"><![CDATA[Summary]]></summary></entry><entry><title type="html">Design patterns for multi-organization project management</title><link href="https://y.tsutsumi.io/multi-org-project-planning/" rel="alternate" type="text/html" title="Design patterns for multi-organization project management" /><published>2024-12-12T07:00:00+00:00</published><updated>2024-12-12T07:00:00+00:00</updated><id>https://y.tsutsumi.io/multi-org-project-planning</id><content type="html" xml:base="https://y.tsutsumi.io/multi-org-project-planning/"><![CDATA[<h1 id="design-patterns-for-organizing-multi-organization-projects">Design patterns for organizing multi-organization Projects</h1>
 
 <p>Recently, I needed to help plan a project that spanned across dozens of teams,
 as wel as product areas and VPs. My task was planning my team’s deliverables,
@@ -902,47 +1242,4 @@ means one of three things:</p>
 other biological process.</li>
   <li>The EFSA limitations are low: as weird as it sounds, it may take a higher
 concentration of genotoxins to lead to a meaningful increase in cancer.</li>
-</ol>]]></content><author><name></name></author><category term="diet" /><summary type="html"><![CDATA[A study came out recently about sucralose-6-acetate, a genotoxicin which is apparently found in sucralose.]]></summary></entry><entry><title type="html">My Diet: 2020 edition</title><link href="https://y.tsutsumi.io/diet/2022" rel="alternate" type="text/html" title="My Diet: 2020 edition" /><published>2023-01-17T07:00:00+00:00</published><updated>2023-01-17T07:00:00+00:00</updated><id>https://y.tsutsumi.io/diet/diet-2020</id><content type="html" xml:base="https://y.tsutsumi.io/diet/2022"><![CDATA[<p><em>NOTE</em>: this is a copy of <a href="/diet">/diet</a> from 2020. I’m putting the old one as a blog post for posterity.</p>
-
-<p>This is some notes about how I eat, and why.</p>
-
-<h2 id="mostly-vegan-plant-based-diet">Mostly vegan (plant-based diet)</h2>
-
-<p><a href="https://y.tsutsumi.io/2020/03/04/book-report-the-blue-zones/">People who eat a plant-based diet live 7 years longer</a>.</p>
-
-<p>It’s hard for me to go completely vegan (I like my seafood and dairy), so I try to go for vegan meals most of the week, with 1-2 dinners non-vegan.</p>
-
-<p>From what I read in Blue Zones (above), eating meat once a week still helps you get a lot of the longevity benefits.</p>
-
-<h2 id="breakfast-oatmeal-almonds-and-fruit">Breakfast: Oatmeal, almonds, and fruit</h2>
-
-<p>Trying to eat something fairly health, I’ve found that oatmeal is more filling than other vegan breakfast meals I’ve tried:</p>
-
-<ul>
-  <li>croissants</li>
-  <li>muffins</li>
-  <li>pancakes</li>
-</ul>
-
-<p>I add almonds and some high-in-fiber fruit like banana to stay sated.</p>
-
-<h2 id="lunch-huel-hot-and-savory">Lunch: Huel Hot and Savory</h2>
-
-<p><a href="http://huel.com/">Huel</a> aims to provide sustainable, plant-based meals cheap. Their normal offering is a meal replacement shake, which I can’t get myself to consume regularly. I like their <a href="https://huel.com/products/huel-hot-savory">“Hot and Savory”</a> meals because:</p>
-
-<ul>
-  <li>easy to prepare and clean up: you just throw some hydrated food in and add water.</li>
-  <li>extremely filling. I eat a 400 calorie amount and I’m full for hours (noon until ~4-5pm).</li>
-  <li>plant-based</li>
-</ul>
-
-<p>“Hot and Savory” is amazing for that: I’ve fiddled with various plant-based lunch combinations and found it impossible to find something filling.</p>
-
-<h2 id="snack-protein-shake--almondmilk">Snack: protein shake + almondmilk</h2>
-
-<p>To help get a boost of protein, I drink a shake made from protein powder
- (plant-based) and almondmilk.</p>
-
-<h2 id="dinner-whatever-usually-vegan">Dinner: whatever, usually vegan</h2>
-
-<p>For dinner I’m pretty loose, since the rest of my meals are quite regimented. A majority are vegan or minimal animal-based (grain bowls, veggie burgers and fries, phad thai), and sometimes things like sushi, grilled salmon, past, etc.</p>]]></content><author><name></name></author><category term="diet" /><category term="health" /><summary type="html"><![CDATA[NOTE: this is a copy of /diet from 2020. I’m putting the old one as a blog post for posterity.]]></summary></entry></feed>
+</ol>]]></content><author><name></name></author><category term="diet" /><summary type="html"><![CDATA[A study came out recently about sucralose-6-acetate, a genotoxicin which is apparently found in sucralose.]]></summary></entry></feed>
