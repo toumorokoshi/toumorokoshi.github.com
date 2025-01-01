@@ -1,4 +1,94 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2025-01-01T00:10:36+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">depsaw: analyze and stop overbuilding in bazel</title><link href="https://y.tsutsumi.io/depsaw/" rel="alternate" type="text/html" title="depsaw: analyze and stop overbuilding in bazel" /><published>2024-12-27T07:00:00+00:00</published><updated>2024-12-27T07:00:00+00:00</updated><id>https://y.tsutsumi.io/depsaw</id><content type="html" xml:base="https://y.tsutsumi.io/depsaw/"><![CDATA[<h2 id="summary">Summary</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2025-01-01T22:12:04+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Winning Deduckto</title><link href="https://y.tsutsumi.io/deduckto/" rel="alternate" type="text/html" title="Winning Deduckto" /><published>2024-12-31T07:00:00+00:00</published><updated>2024-12-31T07:00:00+00:00</updated><id>https://y.tsutsumi.io/deduckto</id><content type="html" xml:base="https://y.tsutsumi.io/deduckto/"><![CDATA[<h1 id="winning-deduckto">Winning Deduckto</h1>
+
+<p>For the holidays, my kids got a game called
+<a href="https://gamewright.com/product/deduckto">Deduckto</a>. It’s a cute game for 8
+years and older, where each player has their own mystery suspect which consists
+of a suspect (like a pig), a disguise (a mustache), and a location (the
+library). The goal of the game is to be able to identify all three attributes.</p>
+
+<p>The game works by playing cards that are also a suspect, disguise, and location,
+and putting each one into piles of “yes”, where there is one or more attributes
+shared by a card, or “no” where none of the attributes are shared.</p>
+
+<p>The game is meant for children and building their reasoning ability. And for my
+kids, it’s been a great way for them to exercise that skill. I usually play more
+cooperatively, where I talk with my kids about what the possibilities are, and
+help them find relationships they didn’t before, like the fact that a card in
+the “no” pile eliminates all of the attributes as possibilities.</p>
+
+<p>So optimal play, I’m sure, won’t be the goal for most. That said: what is the
+most optimal way to play? Here’s my thoughts.</p>
+
+<h2 id="tldr">TLDR</h2>
+
+<p>Try to get as many pairs of cards that have a single common attribute in the
+“yes” pile as possible. The strategy is:</p>
+
+<ol>
+  <li>If possible, play a card with only one common attribute with a single “yes”
+card you already have.</li>
+  <li>If you have no such card, play a card that shares nothing in common with any
+of your yes or no cards, to find a new “yes” card. Between the two, prefer
+yes (since something that matches cards you already have), then no.</li>
+</ol>
+
+<h2 id="why">Why</h2>
+
+<p>The optimal play is the one that eliminates the most possibilities.</p>
+
+<p>Getting a “no” will at most eliminate three possiblities: a suspect, a disguise,
+and a location.</p>
+
+<p>Getting a “yes” can, at best, validate three attributes. But in most cases, it
+will validate one. One way that is done by finding a pair of cards that are
+disjoint in all but one attribute, but both are yes.</p>
+
+<p>If you find a common attribute, you immediately eliminate all the other choices
+for that feature. That means you can eliminate up to 6 other possibilities in a
+single turn! Much more effective than eliminate 6 possibilities with 6 cards.</p>
+
+<p>Getting a pair of yes cards would leave one of two possibilities:</p>
+
+<ol>
+  <li>The common attribute matches the secret suspect (e.g. they both are at the
+“library”).</li>
+  <li>The two cards match for a different reason, and each on a separate attribute
+(e.g. for a (fox,bandana,library) and a (bear,mustache,library), fox and
+mustache are matching or  bear and bandana are matching).</li>
+</ol>
+
+<p>Either could be validated by having a <em>third</em> matching card that shares
+attributes with one or the other. And so on.</p>
+
+<p>Among the cards, you will have the following, in order of preference to play.</p>
+
+<ol>
+  <li>card(s) that share 2 attributes, each with one or more yes cards, if the
+attributes are not yet validated.</li>
+  <li>card(s) that share 1 attribute with only one yes card, that does not already
+share an attribute with another yes card.</li>
+  <li>card(s) that share 1 attribute with two other yes cards.</li>
+  <li>card(s) that share 0 attributes with any yes cards.</li>
+  <li>all other cards.</li>
+</ol>
+
+<p>The reason is:</p>
+
+<p>1: This will validate multiple attributes simultaneously. Although rare, it is
+an ideal play.</p>
+
+<p>2: A single attribute, common with a single yes card, will help identify a
+unique attribute of your suspect.</p>
+
+<p>3: This will help confirm that the attribute shared by the other 2 cards is
+indeed the card that is unique to the suspect.</p>
+
+<p>3: The above work to validate attributes your suspect may have. But if you can’t
+do that, then it’s best to find new “yes” cards. The best way to do that is to
+play unique cards as much as possible, disjoint to “yes”es, but ideally also
+“no”s as well.</p>
+
+<p>Anything else is effectively useless, giving no information.</p>]]></content><author><name></name></author><category term="board-games" /><summary type="html"><![CDATA[Winning Deduckto]]></summary></entry><entry><title type="html">depsaw: analyze and stop overbuilding in bazel</title><link href="https://y.tsutsumi.io/depsaw/" rel="alternate" type="text/html" title="depsaw: analyze and stop overbuilding in bazel" /><published>2024-12-27T07:00:00+00:00</published><updated>2024-12-27T07:00:00+00:00</updated><id>https://y.tsutsumi.io/depsaw</id><content type="html" xml:base="https://y.tsutsumi.io/depsaw/"><![CDATA[<h2 id="summary">Summary</h2>
 
 <p>Today, I’m introducing <a href="https://github.com/toumorokoshi/depsaw/">depsaw</a>: an
 experimental tool that can be used to reduce overbuilding and overtesting in bazel.</p>
@@ -1146,100 +1236,4 @@ direct impact on the clients and see undesirable behaviors, they can change them
       <td>WWB</td>
     </tr>
   </tbody>
-</table>]]></content><author><name></name></author><category term="puzzles" /><summary type="html"><![CDATA[I love Tanya Khovanova’s blog on math, and this puzzle around Balls In Boxes (which is from Creative Puzzles to Ignite your Mind by Shyam Sunder Gupta intrigued me.]]></summary></entry><entry><title type="html">sucralose-6-acetate</title><link href="https://y.tsutsumi.io/sucralose-6-acetate" rel="alternate" type="text/html" title="sucralose-6-acetate" /><published>2023-06-04T07:00:00+00:00</published><updated>2023-06-04T07:00:00+00:00</updated><id>https://y.tsutsumi.io/sucralose-6-acetate</id><content type="html" xml:base="https://y.tsutsumi.io/sucralose-6-acetate"><![CDATA[<p>A study came out recently about
-<a href="https://www.tandfonline.com/doi/full/10.1080/10937404.2023.2213903">sucralose-6-acetate</a>,
-a genotoxicin which is apparently found in sucralose.</p>
-
-<p>I wanted to dive in a little bit more, here are some findings and thoughts.</p>
-
-<p><em>note</em>: I am not a medical professional, and nothing I say here constitutes
-any medical advice. It’s my own opinions and theories.</p>
-
-<h2 id="is-sucralose-safe">Is sucralose safe</h2>
-
-<p>To answer the most important question first: I think there’s evidence that at
-minimum, sucralose does not lead to a significant increase in cancer. Several
-studies exist that show at best a minor increase (~10%) <em>correlated</em> with
-sucralose.</p>
-
-<p>That said, the following concerns is making me consider removing sucralose from
-my daily diet:</p>
-
-<ul>
-  <li>The study mentioned showing it contains a possible genotoxin.</li>
-  <li>The possible correlation between sucralose and increased insulin levels.</li>
-  <li>A possible correlation between sucralose and <a href="https://en.wikipedia.org/wiki/Non-alcoholic_fatty_liver_disease">NAFLD</a>.</li>
-</ul>
-
-<p>The NAFLD one especially gives me pause, as it is a good marker for metabolic
-health.</p>
-
-<p>Over the past year (2023), I’ve lowered my sucralose intake by 75%, down to
-roughly one sweetened protein shake a day.</p>
-
-<h2 id="in-vivo-vs-in-vitro">In-vivo vs in-vitro</h2>
-
-<p>It’s worth noting that the study talks about <em>in-vitro</em> experiments: these are
-done in a petri dish or something similar, and not in a live animal. Therefore
-there could be other biological processes that make this a non-concern. On the
-other hand, there could also be processes in an in-vivo environment that make
-this worse.</p>
-
-<h2 id="what-is-a-a-genotoxin">What is a a genotoxin?</h2>
-
-<p>At it’s core, a genotoxin is something that is known to break down DNA. Since
-cancer is caused by mutations in the DNA, genotoxins are highly correlate to
-cancer.</p>
-
-<p>I found a <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6195886/">paper that explains the definition in a little bit more
-detail</a>, at least
-defining what genotixicity means in the context of carcinogens. The summary is
-genotoxic carcinogens directly affect DNA and that is the cause of the
-carcinogen, while non-genotoxic uses some other mechanism, perhaps indirect
-like hormonal.</p>
-
-<p>It’s not super clear if there is such a thing as non-carcinogenic genotoxin. The
-abstract states that there is no such thing as a same threshold with a
-genotoxin: It’s really just a matter of risk level.</p>
-
-<h2 id="what-amount-of-sucralose-is-safe">What amount of sucralose is safe?</h2>
-
-<p>Assuming the study holds true, what amount of sucralose is safe?</p>
-
-<ul>
-  <li>The study says 0.67% of sucralose is sucralose-6-acetate.</li>
-  <li>The European Food and Safety Administration states the limit of genotoxins
-ingested should be 0.0025 μg/kg bw.</li>
-</ul>
-
-<p>The amount of sucralose relative to a microgram of sucralose-6-acetate is ~150.
-so 150μg of sucralose per 1μg of sucralose-6-acetate.</p>
-
-<p>So for an 80kb person, the daily limit would be: 80 * 0.0025 = 0.2μg. So * 150
-that would be at most <em>30μg</em> of sucralose-6-acetate.</p>
-
-<p>The US sucralose recommended daily allotment is 5mg/kg bw /d. most drinks
-contains at least 10mg.</p>
-
-<p>So 10mg of sucralose would be <em>333 times</em> the amount of genotoxin I should be
-ingesting.</p>
-
-<p>Effectively, there is no practical amount of sucralose that is safe.</p>
-
-<h2 id="conclusion">Conclusion</h2>
-
-<p>The study is worth taking seriously: clearly sucralose contains a lot of a
-genotoxin. However, this doesn’t correlate well with the fact that multiple
-studies have shown that sucralose does not lead to a meaningful increase in
-cancer.</p>
-
-<p>Although I won’t be buying any more sucralose products, I think the above
-means one of three things:</p>
-
-<ol>
-  <li>The studies on cancer correlations have the wrong conclusion.</li>
-  <li>The genotoxic nature of sucralose-6-acetate is somehow ameliorated by some
-other biological process.</li>
-  <li>The EFSA limitations are low: as weird as it sounds, it may take a higher
-concentration of genotoxins to lead to a meaningful increase in cancer.</li>
-</ol>]]></content><author><name></name></author><category term="diet" /><summary type="html"><![CDATA[A study came out recently about sucralose-6-acetate, a genotoxicin which is apparently found in sucralose.]]></summary></entry></feed>
+</table>]]></content><author><name></name></author><category term="puzzles" /><summary type="html"><![CDATA[I love Tanya Khovanova’s blog on math, and this puzzle around Balls In Boxes (which is from Creative Puzzles to Ignite your Mind by Shyam Sunder Gupta intrigued me.]]></summary></entry></feed>
