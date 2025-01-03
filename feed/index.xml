@@ -1,4 +1,80 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2025-01-02T00:10:36+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Winning Deduckto</title><link href="https://y.tsutsumi.io/deduckto/" rel="alternate" type="text/html" title="Winning Deduckto" /><published>2024-12-31T07:00:00+00:00</published><updated>2024-12-31T07:00:00+00:00</updated><id>https://y.tsutsumi.io/deduckto</id><content type="html" xml:base="https://y.tsutsumi.io/deduckto/"><![CDATA[<h1 id="winning-deduckto">Winning Deduckto</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2025-01-03T00:10:59+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Reflecting on 2024</title><link href="https://y.tsutsumi.io/my-year/2024" rel="alternate" type="text/html" title="Reflecting on 2024" /><published>2025-01-01T07:00:00+00:00</published><updated>2025-01-01T07:00:00+00:00</updated><id>https://y.tsutsumi.io/my-year/reflecting-on-2024</id><content type="html" xml:base="https://y.tsutsumi.io/my-year/2024"><![CDATA[<h2 id="farsi">Farsi</h2>
+
+<p>This year, I think my Farsi has gotten quite a bit better:</p>
+
+<ul>
+  <li>Conversationally I can express most things.</li>
+  <li>I can watch some Farsi TV and news and get the general idea.</li>
+</ul>
+
+<p>The only video game with a Farsi translation I found is <a href="https://childrenofmorta.com/">Children of
+Morta</a>: I guess one of the developers is Iranian
+and wanted to get a Farsi translation in. I’m super thankful for that, so I can watch those cutscenes a few times and learn the Farsi from there.</p>
+
+<p>The big thing I did is start listening to TV in the car regularly: it’s a good
+way to reinforce my listening abilities.</p>
+
+<p>I still take Farsi lessons weekly.</p>
+
+<h2 id="fitness-and-health">Fitness and Health</h2>
+
+<p>I’ve continued working on fitness this year. Primarily lowering body fat, building muscle, and lowering my apob.</p>
+
+<p>I haven’t taken a Dexa scan since July, but my body fat actually went up at the
+time compared to January: I think it was due to a two-week long trip I took to
+Japan in June. I was not able to work out at all, and also walked a significant
+amount of time so I was still, somewhat, in a caloric deficit.</p>
+
+<p>That said, my weight at the end of the year is about 174 pounds. Losing roughly
+4 pounds in the first half of the year to 176, and 2 pounds in the last half.
+I’m not sure where my body fat is at, but likely 13% where it stood in July.</p>
+
+<p>Interestingly I lost muscle mass across the board except for my stomach in July.
+I still need to check to see if I was able to regain it or not.</p>
+
+<p>I’ve found a good routine for a caloric deficit and overall weight loss, which
+is:</p>
+
+<ul>
+  <li>400 calories daily burned at the treadmill (walking 30 minutes at 3.5mph, at a
+12 degree incline).</li>
+  <li>A 30 minute weightlifting workout, mixing in some crossfit-style workouts from
+time to time to do some interval training.</li>
+  <li>Maintaining ~1400 calories a day.</li>
+</ul>
+
+<p>I cheat on the calories regularly, so my weight is yo-yoing for now, but I’m
+able to keep it between 171 and 175, and able to lose a pound a week with the
+above. Given the holidays, I think this is invitable, but hoping to get back on
+the wagon next year.</p>
+
+<p>I upped my protein to 1.6g protein / kg, which I’ve read is about where the
+benefits to hypertrophy level off.</p>
+
+<p>For 2025, with a consistent technique to lose weight, I’m shifting my focus to
+figure out how to build more muscle. I think there’s a lot of optimization I’m
+missing out on there.</p>
+
+<h2 id="japanese">Japanese</h2>
+
+<p>For this year, my Japanese took a back burner.</p>
+
+<ul>
+  <li>Ended my lessons. Now just playing video games. Persona 4, Witcher 3, Tactics</li>
+  <li>Ogre: Let us Cling Together.</li>
+</ul>
+
+<h2 id="oss-aepdev">OSS: aep.dev</h2>
+
+<h2 id="goals-for-2025">Goals for 2025</h2>
+
+<p>For 2025, my goals are still to primarily have ample time to do impromptu things
+with my family. But I do have a few goals:</p>
+
+<ul>
+  <li>Play piano 10 minutes a day. Last year, I did not learn new 5 piano pieces.
+Darn! But I’ll make this my new goal for the year.</li>
+</ul>]]></content><author><name></name></author><category term="2024" /><category term="reflection" /><summary type="html"><![CDATA[Farsi]]></summary></entry><entry><title type="html">Winning Deduckto</title><link href="https://y.tsutsumi.io/deduckto/" rel="alternate" type="text/html" title="Winning Deduckto" /><published>2024-12-31T07:00:00+00:00</published><updated>2024-12-31T07:00:00+00:00</updated><id>https://y.tsutsumi.io/deduckto</id><content type="html" xml:base="https://y.tsutsumi.io/deduckto/"><![CDATA[<h1 id="winning-deduckto">Winning Deduckto</h1>
 
 <p>For the holidays, my kids got a game called
 <a href="https://gamewright.com/product/deduckto">Deduckto</a>. It’s a cute game for 8
@@ -1017,223 +1093,4 @@ direct impact on the clients and see undesirable behaviors, they can change them
 
 <p>No. It is a common case for the need to diverge in behavior to be justified, and a necessity for a platform to become more configurable to address it.</p>
 
-<p>However, it is best to <em>minimize</em> the variation for the services and the amount of flexible handling in the client.</p>]]></content><author><name></name></author><category term="coding" /><summary type="html"><![CDATA[I’ve been doing a lot of work on platforms recently, specifically to how it pertains to clients. A general concept has solidified for me: a “uniformity cycle” and a “complexity cycle”, and without an intentional philosophy can fall into one naturally.]]></summary></entry><entry><title type="html">Ball in Boxes: Solution</title><link href="https://y.tsutsumi.io/balls-in-boxes-solution/" rel="alternate" type="text/html" title="Ball in Boxes: Solution" /><published>2023-08-13T07:00:00+00:00</published><updated>2023-08-13T07:00:00+00:00</updated><id>https://y.tsutsumi.io/balls-in-boxes-solution</id><content type="html" xml:base="https://y.tsutsumi.io/balls-in-boxes-solution/"><![CDATA[<p>I love Tanya Khovanova’s blog on math, and this puzzle around <a href="https://blog.tanyakhovanova.com/2023/07/balls-in-boxes/">Balls In Boxes</a> (which is from <a href="https://amzn.to/3PGKvxm">Creative Puzzles to Ignite your Mind</a> by  Shyam Sunder Gupta intrigued me.</p>
-
-<p>The solution I’ve come to is that the fourth sage has the label WWW, with the contents of his box WWB. My reasoning is as follows:</p>
-
-<h2 id="the-first-sage-has-bb">The first sage has BB*</h2>
-
-<p>The puzzle states:</p>
-
-<blockquote>
-  <p>The first sage takes out two black balls and says, “I know the color of the third ball.”</p>
-</blockquote>
-
-<p>If the sage has taken out BB, there are only two options for the final ball: W and B. The only way for the first sage to know the answer is if the sage has a label with the opposite. For example, if the label is BBW, then the contents of the box must be BBB since we know the contents of the boxes must not match the label.</p>
-
-<p>Therefore, there are two options for the first sage:</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Sage</th>
-      <th>Label</th>
-      <th>Ball</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>1</td>
-      <td>BBB</td>
-      <td>BBW</td>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>BBW</td>
-      <td>BBB</td>
-    </tr>
-  </tbody>
-</table>
-
-<h2 id="the-second-sage-has-bw">The second sage has BW*</h2>
-
-<p>Onto the second sage, who says:</p>
-
-<blockquote>
-  <p>The second sage takes out one black and one white ball and says, “I know the color of the third ball.”</p>
-</blockquote>
-
-<p>We know the contents of the box must be BBW or BWW. Similar to the first sage, we can assume the second sage has the opposite pairing:</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Sage</th>
-      <th>Label</th>
-      <th>Ball</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>2</td>
-      <td>BBW</td>
-      <td>BWW</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>BWW</td>
-      <td>BBW</td>
-    </tr>
-  </tbody>
-</table>
-
-<h2 id="the-third-sage-has-label-bb">The third sage has label BB*</h2>
-
-<p>The third sage is interesting:</p>
-
-<blockquote>
-  <p>The third sage takes out two white balls and says, “I don’t know the color of the third ball.”</p>
-</blockquote>
-
-<p>The third sage has the following information at this point:</p>
-
-<ul>
-  <li>sage 1’s box contains BB* (BBB or BBW)</li>
-  <li>sage 2’s box contains BW* (BBW or BWW)</li>
-  <li>sage 3’s box contains WW* (BWW or WWW)</li>
-  <li>sage 3’s label.</li>
-</ul>
-
-<p>So what label could sage 3 have such that he cannot eliminate either BWW or WWW as a possible candidate?</p>
-
-<p>Among the labels BBB, BBW, BWW, and WWW, the valid candidate are BBW and BBB:</p>
-
-<ul>
-  <li>if 3’s label is WWW, then the box must contain BWW.</li>
-  <li>if 3’s label is BWW, then the box must contain WWW.</li>
-</ul>
-
-<p>So the third sage must have the labels BBB or BBW, the opposite of whatever sage 1 has.</p>
-
-<p>So sage 3’s options are:</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Sage</th>
-      <th>Label</th>
-      <th>Ball</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>3</td>
-      <td>BBB</td>
-      <td>WWB</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>BBB</td>
-      <td>WWW</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>BBW</td>
-      <td>WWB</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>BBW</td>
-      <td>WWW</td>
-    </tr>
-  </tbody>
-</table>
-
-<h2 id="sage-4">Sage 4</h2>
-
-<p>So now we get to sage 4:</p>
-
-<blockquote>
-  <p>The fourth sage says, without taking out any balls, “I know the color of all the balls in my box and also the content of all the other boxes.”</p>
-</blockquote>
-
-<p>Sage 4 has the same knowledge and reasoning as we do. So we know that:</p>
-
-<ul>
-  <li>Sage 1 and Sage 3’s labels are BBW or BBB.</li>
-  <li>Sage 2’s label is one of BBW or BWW.</li>
-</ul>
-
-<p>Since sage 1 and 3 have labels of BBW and BBB, then sage 2’s label must be BWW. Since all other labels are taken, sage 4’s label must be WWW.</p>
-
-<p>If sage 2’s label is BWW and they know the contents of their box, then their box must contain BBW.</p>
-
-<p>This also means that sage 1’s box is clear: it is BBB, which implies that sage 1’s label is BBW:</p>
-
-<p>So we know the following:</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Sage</th>
-      <th>Label</th>
-      <th>Ball</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>1</td>
-      <td>BBW</td>
-      <td>BBB</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>BWW</td>
-      <td>BBW</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>BBB</td>
-      <td>WW*</td>
-    </tr>
-    <tr>
-      <td>4</td>
-      <td>WWW</td>
-      <td>???</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>Since the sage knows their label is WWW, they know that their box must not contain WWW. Since sage 3 has drawn WW*, it must contain WWW. By deduction the last sage must have the oly remaining combination, which is WWB:</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Sage</th>
-      <th>Label</th>
-      <th>Ball</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>1</td>
-      <td>BBW</td>
-      <td>BBB</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>BWW</td>
-      <td>BBW</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>BBB</td>
-      <td>WWW</td>
-    </tr>
-    <tr>
-      <td>4</td>
-      <td>WWW</td>
-      <td>WWB</td>
-    </tr>
-  </tbody>
-</table>]]></content><author><name></name></author><category term="puzzles" /><summary type="html"><![CDATA[I love Tanya Khovanova’s blog on math, and this puzzle around Balls In Boxes (which is from Creative Puzzles to Ignite your Mind by Shyam Sunder Gupta intrigued me.]]></summary></entry></feed>
+<p>However, it is best to <em>minimize</em> the variation for the services and the amount of flexible handling in the client.</p>]]></content><author><name></name></author><category term="coding" /><summary type="html"><![CDATA[I’ve been doing a lot of work on platforms recently, specifically to how it pertains to clients. A general concept has solidified for me: a “uniformity cycle” and a “complexity cycle”, and without an intentional philosophy can fall into one naturally.]]></summary></entry></feed>
