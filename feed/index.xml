@@ -1,4 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2025-01-03T00:10:59+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Reflecting on 2024</title><link href="https://y.tsutsumi.io/my-year/2024" rel="alternate" type="text/html" title="Reflecting on 2024" /><published>2025-01-01T07:00:00+00:00</published><updated>2025-01-01T07:00:00+00:00</updated><id>https://y.tsutsumi.io/my-year/reflecting-on-2024</id><content type="html" xml:base="https://y.tsutsumi.io/my-year/2024"><![CDATA[<h2 id="farsi">Farsi</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2025-01-03T21:45:00+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Reflecting on 2024</title><link href="https://y.tsutsumi.io/my-year/2024" rel="alternate" type="text/html" title="Reflecting on 2024" /><published>2025-01-03T07:00:00+00:00</published><updated>2025-01-03T07:00:00+00:00</updated><id>https://y.tsutsumi.io/my-year/reflecting-on-2024</id><content type="html" xml:base="https://y.tsutsumi.io/my-year/2024"><![CDATA[<p>I’m reflecting on my personal time during 2024. A lot of my time was spent
+working on things with my family that I won’t share here, but nontheless I did
+make some progress with my personal goals.</p>
+
+<h2 id="farsi">Farsi</h2>
 
 <p>This year, I think my Farsi has gotten quite a bit better:</p>
 
@@ -14,11 +18,13 @@ and wanted to get a Farsi translation in. I’m super thankful for that, so I ca
 <p>The big thing I did is start listening to TV in the car regularly: it’s a good
 way to reinforce my listening abilities.</p>
 
-<p>I still take Farsi lessons weekly.</p>
+<p>I still take Farsi lessons weekly. For 2025, I think I’ll continue at this pace,
+and loosely target being able to listen and understand Farsi TV.</p>
 
 <h2 id="fitness-and-health">Fitness and Health</h2>
 
-<p>I’ve continued working on fitness this year. Primarily lowering body fat, building muscle, and lowering my apob.</p>
+<p>I’ve continued working on fitness this year. Primarily lowering body fat,
+building muscle, and lowering my apob.</p>
 
 <p>I haven’t taken a Dexa scan since July, but my body fat actually went up at the
 time compared to January: I think it was due to a two-week long trip I took to
@@ -57,14 +63,31 @@ missing out on there.</p>
 
 <h2 id="japanese">Japanese</h2>
 
-<p>For this year, my Japanese took a back burner.</p>
+<p>For this year, my Japanese took a back burner. I stopped taking regular Japanese
+lessons. Honestly I think to maximize those lessons, I would have to start doing
+some pretty complex assignments like writing of papers and whatnot. It’s not
+something I’m that interested in investing time into.</p>
 
-<ul>
-  <li>Ended my lessons. Now just playing video games. Persona 4, Witcher 3, Tactics</li>
-  <li>Ogre: Let us Cling Together.</li>
-</ul>
+<p>For now, I’ll just play video games in Japanese when I can. I have Witcher 3 and
+the Tactics Ogre remake, which will be dozens of hours and are already
+challenging me with new vocabulary.</p>
 
 <h2 id="oss-aepdev">OSS: aep.dev</h2>
+
+<p>aep.dev made a ton of progress! Don’t just take my word for it -  check out our
+<a href="https://aep.dev/blog/2024-in-review/">public blog post</a> on the topic.</p>
+
+<p>I’m very proud of the fact that we finally moved from just theoretical benefits
+to the client tooling, to real UIs and clients. If you author an AEP-compliant
+specification, you can get a <a href="https://github.com/aep-dev/aepcli">command line for
+free</a>. We’re working on a web
+<a href="https://github.com/aep-dev/aep-explorer">UI</a>, and have some prototyping of a
+Terraform/OpenTofu provider as well.</p>
+
+<p>With the progress we’ve made this year, I’m very excited about using that as a
+foundation for continued progress in aep.dev in 2025. This could be the year we
+really build out a full offering, and provide something compelling to adopters
+of our API specification!</p>
 
 <h2 id="goals-for-2025">Goals for 2025</h2>
 
@@ -72,9 +95,13 @@ missing out on there.</p>
 with my family. But I do have a few goals:</p>
 
 <ul>
+  <li>Get a roadmap for aep.dev</li>
   <li>Play piano 10 minutes a day. Last year, I did not learn new 5 piano pieces.
-Darn! But I’ll make this my new goal for the year.</li>
-</ul>]]></content><author><name></name></author><category term="2024" /><category term="reflection" /><summary type="html"><![CDATA[Farsi]]></summary></entry><entry><title type="html">Winning Deduckto</title><link href="https://y.tsutsumi.io/deduckto/" rel="alternate" type="text/html" title="Winning Deduckto" /><published>2024-12-31T07:00:00+00:00</published><updated>2024-12-31T07:00:00+00:00</updated><id>https://y.tsutsumi.io/deduckto</id><content type="html" xml:base="https://y.tsutsumi.io/deduckto/"><![CDATA[<h1 id="winning-deduckto">Winning Deduckto</h1>
+Darn! But I’ll make this my new goal for the year. My goal this year is to be
+able to play piano pieces from just reading sheet music.</li>
+  <li>Be able to understand persian news.</li>
+  <li>Achieve 11% body fat, without losing muscle mass.</li>
+</ul>]]></content><author><name></name></author><category term="2024" /><category term="reflection" /><summary type="html"><![CDATA[I’m reflecting on my personal time during 2024. A lot of my time was spent working on things with my family that I won’t share here, but nontheless I did make some progress with my personal goals.]]></summary></entry><entry><title type="html">Winning Deduckto</title><link href="https://y.tsutsumi.io/deduckto/" rel="alternate" type="text/html" title="Winning Deduckto" /><published>2024-12-31T07:00:00+00:00</published><updated>2024-12-31T07:00:00+00:00</updated><id>https://y.tsutsumi.io/deduckto</id><content type="html" xml:base="https://y.tsutsumi.io/deduckto/"><![CDATA[<h1 id="winning-deduckto">Winning Deduckto</h1>
 
 <p>For the holidays, my kids got a game called
 <a href="https://gamewright.com/product/deduckto">Deduckto</a>. It’s a cute game for 8
