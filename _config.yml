@@ -48,12 +48,15 @@ google_analytics: G-325KP61WS9
 header_pages:
   - pages/resources.md
   - pages/about.md
-
+mermaid: true
 minima:
   social_links:
-    twitter: tsutsumiyusuke
-    github: toumorokoshi
-    linkedin: yusuke-tsutsumi
+    - platform: bluesky
+      user_url: https://bsky.app/profile/y.tsutsumi.io
+    - platform: github
+      user_url: https://github.com/toumorokoshi
+    - platform: linkedin
+      user_url: https://www.linkedin.com/in/yusuke-tsutsumi
 
 tag_page_layout: tag_page
 tag_page_dir: tag
