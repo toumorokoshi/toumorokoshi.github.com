@@ -1,4 +1,35 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2025-02-08T00:11:06+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Many and granular: ideal code organization in Bazel repos</title><link href="https://y.tsutsumi.io/bazel-many-and-granular" rel="alternate" type="text/html" title="Many and granular: ideal code organization in Bazel repos" /><published>2025-01-29T07:00:00+00:00</published><updated>2025-01-29T07:00:00+00:00</updated><id>https://y.tsutsumi.io/bazel-many-and-granular</id><content type="html" xml:base="https://y.tsutsumi.io/bazel-many-and-granular"><![CDATA[<h1 id="better-code-organization-in-bazel">Better code organization in bazel</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2025-02-09T00:11:20+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Result, Situation, Action: a new take on the STAR format</title><link href="https://y.tsutsumi.io/rsa" rel="alternate" type="text/html" title="Result, Situation, Action: a new take on the STAR format" /><published>2025-02-08T07:00:00+00:00</published><updated>2025-02-08T07:00:00+00:00</updated><id>https://y.tsutsumi.io/result-situation-action</id><content type="html" xml:base="https://y.tsutsumi.io/rsa"><![CDATA[<h1 id="result-situation-action">Result, Situation, Action</h1>
+
+<p>The <a href="https://en.wikipedia.org/wiki/Situation,_task,_action,_result">STAR</a> format
+of answering an interview question is very popular. But in my experience a twist
+on that ends up being more effective: result, situation, then action.</p>
+
+<p>The STAR format kind of buries the lead - it forces the interviewer into a
+long-winded story and they’re not engaged because they don’t understand the
+value of it. By giving them some idea of the impact that your story had (e.g. I
+saved the company $XXX dollars, we reduced developer wait times by 20 minutes on
+a 1-hour task), that gives the interviewer a reason to listen.</p>
+
+<p>In addition, I find the “task” part of the story tends to be extraneous - when
+you only have 30 minutes to an hour with the interviewer <em>total</em>, you need to
+shave the minutes where it matters.</p>
+
+<p>Although the whole “my task was X” may take 1 minute to explain, it’s better to just explain what you <em>did</em>.</p>
+
+<h2 id="example">Example</h2>
+
+<p>Result: I increased revenue for the company by XX percent.</p>
+
+<p>Situation: In multiple customer meetings, I noticed that in the follow-up of
+customers meetings, they would always mention having trouble onboarding onto
+feature X.</p>
+
+<p>Action: I wrote up a user guide, and we added a link the first time a customer
+accessed the feature, as well as included it in the onboarding guide.</p>
+
+<h2 id="summary">Summary</h2>
+
+<p>I call this “RSA” pronounced “rizza”. Try it out!</p>]]></content><author><name></name></author><category term="coding" /><summary type="html"><![CDATA[Result, Situation, Action]]></summary></entry><entry><title type="html">Many and granular: ideal code organization in Bazel repos</title><link href="https://y.tsutsumi.io/bazel-many-and-granular" rel="alternate" type="text/html" title="Many and granular: ideal code organization in Bazel repos" /><published>2025-01-29T07:00:00+00:00</published><updated>2025-01-29T07:00:00+00:00</updated><id>https://y.tsutsumi.io/bazel-many-and-granular</id><content type="html" xml:base="https://y.tsutsumi.io/bazel-many-and-granular"><![CDATA[<h1 id="better-code-organization-in-bazel">Better code organization in bazel</h1>
 
 <p>As part of my work on <a href="https://y.tsutsumi.io/depsaw/">depsaw</a>, I did a lot of
 investigation into scenarios where we were overbuilding, and the solution for
@@ -1093,35 +1124,4 @@ since I find myself needing to lswitching across multiple branches frequently.</
     <span class="n">lines</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
 
 <span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">))</span>
-</code></pre></div></div>]]></content><author><name></name></author><category term="coding" /><summary type="html"><![CDATA[Here’s a quick script that prints the most recent branches you were working on, since I find myself needing to lswitching across multiple branches frequently.]]></summary></entry><entry><title type="html">Configure Elecom Trackballs on Linux</title><link href="https://y.tsutsumi.io/elecom-on-linux/" rel="alternate" type="text/html" title="Configure Elecom Trackballs on Linux" /><published>2023-12-12T07:00:00+00:00</published><updated>2023-12-12T07:00:00+00:00</updated><id>https://y.tsutsumi.io/xorg-elecom-trackball</id><content type="html" xml:base="https://y.tsutsumi.io/elecom-on-linux/"><![CDATA[<p>My finger joints are starting to hurt from all the scrolling I’m doing through
-Google docs and code, so I’ve looked at solutions that don’t stress my index
-finger.</p>
-
-<p>It looks like configuring alternate buttons to scroll on a regular mouse is
-really hard to do on Linux, but I’ve found that trackballs support the ability
-to click to make the trackball a scroll wheel, like the <a href="https://elecomusa.com/products/b07dmf2dnw">EX-G PRO
-Trackball</a> from Elecom.</p>
-
-<p>Click to scroll isn’t turned on by default, but it’s easy enough to turn it on
-in Linux:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>xinput set-prop <span class="s2">"pointer:ELECOM TrackBall Mouse EX-G Pro TrackBall"</span> <span class="s1">'libinput Scroll Method Enabled'</span> 0 0 1
-xinput set-prop <span class="s2">"pointer:ELECOM TrackBall Mouse EX-G Pro TrackBall"</span> <span class="s1">'libinput Button Scrolling Button'</span> 11
-</code></pre></div></div>
-
-<p>But this doesn’t persist when you unplug and plug the device in!</p>
-
-<p>I tried to automate this via udev rules, but unfortunately I never got it to
-work (dmesg gives me no output at all).</p>
-
-<p>Instead, an xorg config rule and restarting x did the trick:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Section "InputClass"
-    Identifier    "Elecom TrackBall"
-    MatchVendor    "ELECOM"
-    MatchProduct    "EX-G Pro"
-    Driver        "libinput"
-    Option        "ScrollMethod"        "button"
-    Option        "ScrollButton"        "11"
-EndSection
-</code></pre></div></div>]]></content><author><name></name></author><category term="gear" /><category term="coding" /><summary type="html"><![CDATA[My finger joints are starting to hurt from all the scrolling I’m doing through Google docs and code, so I’ve looked at solutions that don’t stress my index finger.]]></summary></entry></feed>
+</code></pre></div></div>]]></content><author><name></name></author><category term="coding" /><summary type="html"><![CDATA[Here’s a quick script that prints the most recent branches you were working on, since I find myself needing to lswitching across multiple branches frequently.]]></summary></entry></feed>
