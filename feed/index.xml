@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2025-06-07T00:11:34+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Result, Situation, Action: a new take on the STAR format</title><link href="https://y.tsutsumi.io/rsa" rel="alternate" type="text/html" title="Result, Situation, Action: a new take on the STAR format" /><published>2025-02-08T07:00:00+00:00</published><updated>2025-02-08T07:00:00+00:00</updated><id>https://y.tsutsumi.io/result-situation-action</id><content type="html" xml:base="https://y.tsutsumi.io/rsa"><![CDATA[<h1 id="result-situation-action">Result, Situation, Action</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2025-06-08T00:11:23+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">My tips on debugging</title><link href="https://y.tsutsumi.io/debugging" rel="alternate" type="text/html" title="My tips on debugging" /><published>2025-06-07T07:00:00+00:00</published><updated>2025-06-07T07:00:00+00:00</updated><id>https://y.tsutsumi.io/debugging</id><content type="html" xml:base="https://y.tsutsumi.io/debugging"><![CDATA[<h1 id="my-tips-on-debugging">My tips on debugging</h1>
+
+<p>Updated: 2025-06-07</p>
+
+<p>This is a running collection of my thoughts on debugging. I’ll update these over time.</p>
+
+<h2 id="improve-errors-minimize-print-statements">Improve errors, minimize print statements</h2>
+
+<p>One common type of debugging is “print” style - just print the data you need at the time. Often this occurs because you don’t have enough information in the error itself:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">raise</span> <span class="nb">ValueError</span><span class="p">(</span><span class="s">"conflicting args"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Rather than add a print statement temporarily, just make the error better - it helps the next person when they come along:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">raise</span> <span class="nb">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s">"conflict args. Args found: </span><span class="si">{</span><span class="n">args</span><span class="si">}</span><span class="s">)
+</span></code></pre></div></div>]]></content><author><name></name></author><category term="coding" /><summary type="html"><![CDATA[My tips on debugging]]></summary></entry><entry><title type="html">Result, Situation, Action: a new take on the STAR format</title><link href="https://y.tsutsumi.io/rsa" rel="alternate" type="text/html" title="Result, Situation, Action: a new take on the STAR format" /><published>2025-02-08T07:00:00+00:00</published><updated>2025-02-08T07:00:00+00:00</updated><id>https://y.tsutsumi.io/result-situation-action</id><content type="html" xml:base="https://y.tsutsumi.io/rsa"><![CDATA[<h1 id="result-situation-action">Result, Situation, Action</h1>
 
 <p>The <a href="https://en.wikipedia.org/wiki/Situation,_task,_action,_result">STAR</a> format
 of answering an interview question is very popular. But in my experience a twist
@@ -1103,25 +1119,4 @@ on things relative to them.</p>
 too hard for me).</li>
   <li>Learn to play 5 new pieces on the piano.</li>
   <li>Built a foundational knowledge of machine learning and abstract math.</li>
-</ul>]]></content><author><name></name></author><category term="2023" /><category term="reflection" /><summary type="html"><![CDATA[Another year, another reflection to summarize 1%+ of my life.]]></summary></entry><entry><title type="html">Find the last Git branches that you were working on.</title><link href="https://y.tsutsumi.io/git-r/" rel="alternate" type="text/html" title="Find the last Git branches that you were working on." /><published>2023-12-15T07:00:00+00:00</published><updated>2023-12-15T07:00:00+00:00</updated><id>https://y.tsutsumi.io/git-r</id><content type="html" xml:base="https://y.tsutsumi.io/git-r/"><![CDATA[<p>Here’s a quick script that prints the most recent branches you were working on,
-since I find myself needing to lswitching across multiple branches frequently.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/env python
-# git-r prints the last local branches that were checked out in git.
-# This is useful if you want to find the last branch that you were working on.
-</span><span class="kn">import</span> <span class="nn">subprocess</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-
-<span class="n">seen</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-<span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="n">output</span> <span class="o">=</span> <span class="n">subprocess</span><span class="p">.</span><span class="n">check_output</span><span class="p">(</span><span class="s">"git log -g --oneline --decorate-refs='refs/heads' --pretty=format:'%d: %s' -100"</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">output</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">):</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">l</span><span class="p">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">" ("</span><span class="p">):</span>
-        <span class="k">continue</span>
-    <span class="k">if</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span>
-        <span class="k">continue</span>
-    <span class="n">seen</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
-    <span class="n">lines</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
-
-<span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">))</span>
-</code></pre></div></div>]]></content><author><name></name></author><category term="coding" /><summary type="html"><![CDATA[Here’s a quick script that prints the most recent branches you were working on, since I find myself needing to lswitching across multiple branches frequently.]]></summary></entry></feed>
+</ul>]]></content><author><name></name></author><category term="2023" /><category term="reflection" /><summary type="html"><![CDATA[Another year, another reflection to summarize 1%+ of my life.]]></summary></entry></feed>
