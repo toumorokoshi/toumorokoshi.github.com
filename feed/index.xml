@@ -1,4 +1,66 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2025-06-27T00:09:07+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">My tips on debugging</title><link href="https://y.tsutsumi.io/debugging" rel="alternate" type="text/html" title="My tips on debugging" /><published>2025-06-07T07:00:00+00:00</published><updated>2025-06-07T07:00:00+00:00</updated><id>https://y.tsutsumi.io/debugging</id><content type="html" xml:base="https://y.tsutsumi.io/debugging"><![CDATA[<h1 id="my-tips-on-debugging">My tips on debugging</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2025-06-28T00:07:37+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Finding a low latency game controller</title><link href="https://y.tsutsumi.io/low-latency-gaming-controller/" rel="alternate" type="text/html" title="Finding a low latency game controller" /><published>2025-06-27T07:00:00+00:00</published><updated>2025-06-27T07:00:00+00:00</updated><id>https://y.tsutsumi.io/low-latency-controllers</id><content type="html" xml:base="https://y.tsutsumi.io/low-latency-gaming-controller/"><![CDATA[<h1 id="finding-a-low-latency-game-controller">Finding a low latency game controller</h1>
+
+<p>I’ve been playing some <a href="https://www.expedition33.com/">Clair Obscur: Expedition
+33</a>, and it’s an amazing game.</p>
+
+<p>However, one of the major issues I run into is with timing the dodges: during
+battles on the hardest difficulty, if you don’t dodge, your party dies very quickly:</p>
+
+<p><img src="2025-06-27-low-latency-controller-exp33.png" alt="image" /></p>
+
+<p>Dodging comes down to timing pressing a button right when the enemy attacks.
+It isn’t easy, but I noticed that I was having a really hard
+time with it. That’s when I realized that it was due to my controller (the <a href="https://www.8bitdo.com/lite2/">8bitdo Lite 2</a>).</p>
+
+<h2 id="what-affects-controller-latency">What affects controller latency?</h2>
+
+<p>There are two main factors to consider:</p>
+
+<ul>
+  <li>The <em>polling rate</em> of the controller: how frequently it checks to see if a
+button or stick is pressed. This can introduce a maximum delay of <code class="language-plaintext highlighter-rouge">1000ms /
+freq_hz</code>.</li>
+  <li>The <em>connection latency</em> of the controller: the amount of time it takes for a
+signal to reach the device. For bluetooth this can be highly variable, while
+wired and 2.4Ghz connections can be much more stable.</li>
+</ul>
+
+<p>In my case, there is a third factor, since I’m streaming my setup via
+<a href="https://moonlight-stream.org/">moonlight</a>: the latency between my device and
+the device running the game. On a 5Ghz wireless connection in my house, that’s
+3-4 milliseconds.</p>
+
+<h2 id="8bitdo2-lite-2-latency">8bitdo2 Lite 2 latency</h2>
+
+<p>So what was the worst-case latency of the 8bitdo Lite 2? We can reference <a href="https://www.youtube.com/watch?v=O6cZIfD6uLw">this
+youtube review</a>, which has an
+excellent test.</p>
+
+<p>The bottom line looks like:</p>
+
+<ul>
+  <li>Average polling rate 44hz, so 22 milliseconds!</li>
+</ul>
+
+<p>The review didn’t mention bluetooth, so I’m looking for a way to test that. But
+assuming at least an additional 4-5 milliseconds of latency, that’s 25
+milliseconds it’s adding to those button presses!</p>
+
+<h2 id="what-is-the-best-low-latency-controller">What is the best low latency controller?</h2>
+
+<p>In short, look at <a href="https://gamepadla.com/">gamepedla</a>, which has timings for
+many controllers.</p>
+
+<p>But I chose the <a href="https://www.8bitdo.com/ultimate-2-wireless-controller/">8bitdo Ultimate
+2</a>. At a 1000hz polling
+rate and measured sub 5ms latency for both wired and via 2.4Ghz, It’ll ensure a
+lag-free experience if needed. In addition, the 10ms bluetooth latency isn’t too
+bad!</p>
+
+<p>While I’m waiting for that, I had an Xbox Core Controller lying around, and the
+latency there <a href="https://gamepadla.com/xbox-core-controller.html">isn’t bad at
+all</a>. Even on bluetooth it’s
+11-12ms, comparable to bluetooth on the 8bitdo Ultimate 2.</p>]]></content><author><name></name></author><category term="gaming" /><summary type="html"><![CDATA[Finding a low latency game controller]]></summary></entry><entry><title type="html">My tips on debugging</title><link href="https://y.tsutsumi.io/debugging" rel="alternate" type="text/html" title="My tips on debugging" /><published>2025-06-07T07:00:00+00:00</published><updated>2025-06-07T07:00:00+00:00</updated><id>https://y.tsutsumi.io/debugging</id><content type="html" xml:base="https://y.tsutsumi.io/debugging"><![CDATA[<h1 id="my-tips-on-debugging">My tips on debugging</h1>
 
 <p>Updated: 2025-06-07</p>
 
@@ -1026,97 +1088,4 @@ smaller ones that I’m sure I’ll hash over at some point. If you have ideas o
 
 <p>Luckily, .mpd is a native format supported by <code class="language-plaintext highlighter-rouge">ffmpeg </code> for input, so all you need to do is run ffmpeg!</p>
 
-<p>That’s it! Happy clipping.</p>]]></content><author><name></name></author><category term="steam" /><category term="coding" /><summary type="html"><![CDATA[The Punchline]]></summary></entry><entry><title type="html">Reflecting on 2023</title><link href="https://y.tsutsumi.io/my-year/2023" rel="alternate" type="text/html" title="Reflecting on 2023" /><published>2023-12-31T07:00:00+00:00</published><updated>2023-12-31T07:00:00+00:00</updated><id>https://y.tsutsumi.io/my-year/reflecting-on-2023</id><content type="html" xml:base="https://y.tsutsumi.io/my-year/2023"><![CDATA[<p>Another year, another reflection to summarize 1%+ of my life.</p>
-
-<h2 id="japanese">Japanese</h2>
-
-<p>I think my Japanese has reached a plateau, but it’s something I’m comfortable
-with for now. The biggest gap is in my vocabulary - I’m still looking up words
-in a dictionary every page I read a book or a more mature manga.</p>
-
-<p>But whenever I play video games, I do it in Japanese! That’s a pretty good
-benchmark for me, and helps me keep practicing my Japanese aside from my weekly
-30 minutes lessons.</p>
-
-<h2 id="farsi">Farsi</h2>
-
-<p>My Farsi has not developed significantly since last year. I’m just on a slow,
-steady trajectory of reading one page at a time.</p>
-
-<p>I did pick up one of the stories I read last year and tried it again, and I was
-able to get through most of it by myself! In addition, I am able to have <em>some</em>
-conversation with my in-laws. So despite the relatively slow progress I’m making
-<em>sufficient</em> progress to be satisfied.</p>
-
-<p>Next year though, I’d like to invest more in my Farsi - get to the point where I
-can read a good chunk of literature without help from my teacher.</p>
-
-<h2 id="fitness-and-health">Fitness and Health</h2>
-
-<p>I focused heavily on fitness this year, similar to the tail end of last year.</p>
-
-<p>I have yet to do my Dexa scan for end of 2023, but I sit at roughly 180lbs. My
-Dexa scan in April showed I had lost 12 pounds of body fat and gained 6 pounds
-of muscle since October 2022 - not bad at all for six months!</p>
-
-<p>My second half of the year wasn’t as aggressive - I lost 2 pounds, hopefully fat
-but January we will see.</p>
-
-<p>It’s been grueling to get there - my diet now consists of one proper meal a day
-(dinner), with protein and huel shakes in between to provide 80 grams of
-protein. Between that and soy lattes, I get at minimum 90 grams of protein
-before dinner or snacks. That’s putting me at roughly 1.2+ g protein / kg of
-body weight, which is less than what most recommend for building muscle mass,
-but I haven’t seen much of an issue.</p>
-
-<p>Next year my goal is to stick my diet a bit more, and achieve 12% body fat or
-less. Once that happens I think I’ll try to maintain my weight and start
-focusing on other things.</p>
-
-<h2 id="zone-2-on-the-treadmill">Zone 2 on the treadmill</h2>
-
-<p>I’ve been struggling to get more Zone 2 exercise into my routine - basically 30+
-minutes of my heart rate at 70%-80% of my max heart rate.</p>
-
-<p>This year I found something that works for me - playing videogames on the
-treadmill!</p>
-
-<p>I’ve been playing an RPG that keeps me engaged - Persona 4 has worked really
-well for me. It also helps that it’s a long RPG, with 100+ hours to beat it.</p>
-
-<p>With that I’ve been able to clear 30 minutes at a 12% incline and 4 miles per
-hour without issue, although I don’t get past 45 very often (too late at night
-or just get tired of it).</p>
-
-<h2 id="oss-contributions">OSS Contributions</h2>
-
-<p>Since I’ve left Google as TL of API design, I’ve been working on a fork called
-https://aep.dev/. It’s been an interesting ride, discussing API design with API
-leads at Roblox, IBM, Netflix, and Microsoft.</p>
-
-<p>I built a prototype protobuf generator as part of my work, which was a fun
-coding side project. Hopefully in 2024 we’ll see more established and some parts
-of the spec entering production use.</p>
-
-<h2 id="random-other-things">Random other things</h2>
-
-<ul>
-  <li>My vscode PR was completed by someone else! <a href="https://github.com/microsoft/vscode/issues/6966">awesome, this means I can finally
-translate my emacs keybindings
-over</a>.</li>
-</ul>
-
-<h2 id="goals-for-2024">Goals for 2024</h2>
-
-<p>Similar to 2023, my 2024 goals are conservative - I’d like to focus on my family
-and that means all of my afternoons and a good chunk of my evenings are working
-on things relative to them.</p>
-
-<p>But among my goals, they are:</p>
-
-<ul>
-  <li>Be able to read a Farsi book and understand most of the story (a movie may be
-too hard for me).</li>
-  <li>Learn to play 5 new pieces on the piano.</li>
-  <li>Built a foundational knowledge of machine learning and abstract math.</li>
-</ul>]]></content><author><name></name></author><category term="2023" /><category term="reflection" /><summary type="html"><![CDATA[Another year, another reflection to summarize 1%+ of my life.]]></summary></entry></feed>
+<p>That’s it! Happy clipping.</p>]]></content><author><name></name></author><category term="steam" /><category term="coding" /><summary type="html"><![CDATA[The Punchline]]></summary></entry></feed>
