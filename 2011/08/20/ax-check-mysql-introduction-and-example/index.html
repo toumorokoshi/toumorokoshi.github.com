@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>ax_check_mysql introduction and example | Yusuke Tsutsumi</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="ax_check_mysql introduction and example" />
+<meta name="author" content="toumorokoshi" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="I previously mentioned ax_check_mysql.m4 in one of my posts, an m4 macro written for autoconf. So here’s a bit more information about it, and some examples on how to use it." />
+<meta property="og:description" content="I previously mentioned ax_check_mysql.m4 in one of my posts, an m4 macro written for autoconf. So here’s a bit more information about it, and some examples on how to use it." />
+<link rel="canonical" href="https://y.tsutsumi.io/2011/08/20/ax-check-mysql-introduction-and-example/" />
+<meta property="og:url" content="https://y.tsutsumi.io/2011/08/20/ax-check-mysql-introduction-and-example/" />
+<meta property="og:site_name" content="Yusuke Tsutsumi" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2011-08-20T18:30:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="ax_check_mysql introduction and example" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"toumorokoshi"},"dateModified":"2011-08-20T18:30:00+00:00","datePublished":"2011-08-20T18:30:00+00:00","description":"I previously mentioned ax_check_mysql.m4 in one of my posts, an m4 macro written for autoconf. So here’s a bit more information about it, and some examples on how to use it.","headline":"ax_check_mysql introduction and example","mainEntityOfPage":{"@type":"WebPage","@id":"https://y.tsutsumi.io/2011/08/20/ax-check-mysql-introduction-and-example/"},"url":"https://y.tsutsumi.io/2011/08/20/ax-check-mysql-introduction-and-example/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" /><script async src="https://www.googletagmanager.com/gtag/js?id=G-325KP61WS9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { window.dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-325KP61WS9');
+</script>
+</head><body><header class="site-header">
+
+    <div class="wrapper"><a class="site-title" rel="author" href="/">Yusuke Tsutsumi</a><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path
+                            d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger">
+                <a class="page-link" href="/tag/coding/">Coding Posts</a>
+                <a class="page-link"
+                    href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a><a class="page-link" href="/resources/">Resources</a><a class="page-link" href="/about/">About Yusuke Tsutsumi</a></div>
+        </nav></div>
+    <style>
+        .gse-control-cse td {
+            border: 0;
+        }
+
+        td.gsc-input {
+            border: 0;
+        }
+
+        td.gsc-search-button {
+            border: 0;
+        }
+
+        table.gsc-input {
+            margin-bottom: 0;
+        }
+    </style>
+</header><main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <header class="post-header">
+        <h1 class="post-title p-name" itemprop="name headline">ax_check_mysql introduction and example</h1>
+        <p class="post-meta"><time class="dt-published" datetime="2011-08-20T18:30:00+00:00" itemprop="datePublished">
+                Aug 20, 2011
+            </time>• 
+            <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+                <span class="p-author h-card" itemprop="name">toumorokoshi</span></span></p>
+    </header>
+
+    <div class="post-content e-content" itemprop="articleBody">
+        <p>I previously mentioned <a href="http://www.gnu.org/software/autoconf-archive/ax_check_mysql.html">ax_check_mysql.m4</a> in one of my posts, an
+m4 macro written for autoconf. So here’s a bit more information about
+it, and some examples on how to use it.</p>
+                <h2 id="introduction">   Introduction <a href="#introduction">#</a>   </h2>
+                    
+
+<p>So ax_check_mysql is essentially an m4 macro for autoconf that was
+written with MySQL plugin developers in mind. When one runs the macro, a
+detected MySQL installation will give you the following information:</p>
+
+<ul>
+  <li>The path to the directory containing the MySQL executables</li>
+  <li>The path to the directory containing MySQL includes (if they exist)</li>
+  <li>The path to the directory where MySQL plugins go</li>
+  <li>The version of MySQL</li>
+  <li>Whether MySQL is 32 or 64 bit</li>
+</ul>
+
+<p>Basically providing most of the information, MySQL-wise, needed to
+install the plugin.</p>
+
+<p>In the situation where an installation can not be detected or an
+incomplete one is found, arguments can also be entered manually with:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">--with-mysql</span>
+</code></pre></div></div>
+
+<p>(where the root directory of the MySQL installation is passed (such as
+/usr/local/mysql or some other custom directory)  and</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">--with-mysql-command</span>, <span class="nt">--with-mysql-plugin</span>, <span class="nt">--with-mysql-include</span>
+</code></pre></div></div>
+
+<p>Which would just passing all the directories directly.</p>
+                <h2 id="examples">   Examples <a href="#examples">#</a>   </h2>
+                    
+
+<p>One can include the macro in the same fashion as any other macro in the
+configure.ac file:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>AC_INIT(ax_check_mysql_example,version-1.0)
+m4_include([m4_ax_check_mysql.m4])
+AX_CHECK_MYSQL([no],[yes],[5.0],[no])
+AC_MSG_NOTICE($MYSQL)AC_MSG_NOTICE($MYSQL_COMMANDS)
+</code></pre></div></div>
+
+<p>Now if I run this script on a computer with MySQL installed, you should
+something along the lines of:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>autoconf &amp;&amp; ./configure
+checking for gcc... gcc
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables...
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether we are using the GNU C compiler... yes
+checking whether gcc accepts -g... yes
+checking for gcc option to accept ISO C89... none needed
+checking how to run the C preprocessor... gcc -E
+checking for grep that handles long lines and -e... /bin/grep
+checking for egrep... /bin/grep -E
+checking for ANSI C header files... yes
+checking for sys/types.h... yes
+checking for sys/stat.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for memory.h... yes
+checking for strings.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for unistd.h... yes
+Testing if MySQL was installed to common source/binary directory
+checking for mysql... no
+Testing if MySQL was installed to common package manager directory
+checking for mysql... yes
+checking /usr/include/mysql/mysql_version.h/mysql_version.h usability... no
+checking /usr/include/mysql/mysql_version.h/mysql_version.h presence...no
+checking for /usr/include/mysql/mysql_version.h/mysql_version.h... no
+checking /usr/include/mysql_version.h/mysql_version.h usability... no
+checking /usr/include/mysql_version.h/mysql_version.h presence... no
+checking for /usr/include/mysql_version.h/mysql_version.h... no
+checking if /usr/lib/mysql/plugin/ exists...... yes
+checking for mysql... /usr/bin/configure: WARNING: A package install was detected, but the include directory could not be found! MySQL development library may not be installed. If development library is installed please use --with-mysql-include --with-mysql-plugin --with-mysql-command to manually assign directory locations
+checking MySQL Architecture... 32
+checking MySQL Version... 5.1.41
+checking if MySQL install supports Plugins... yes
+checking if MySQL version is equal or greater than 5.0... yes
+configure: yes
+configure: /usr/bin/
+</code></pre></div></div>
+
+<p>Note that the last two lines of output were echoing the MYSQL and
+MYSQL_COMMAND variables respectively, and that I do not have the
+development library installed. A full list of variables available are
+listed in the documentation.</p>
+
+<p>One can pass four arguments when running the macro:</p>
+
+<p>MYSQL-PLUGIN-NEEDED: if the MySQL version doesn’t support plugins (&lt;
+5.1), this will cause failure.</p>
+
+<p>MYSQL-REQUIRED: say if MySQL is required or not.</p>
+
+<p>MINIMUM-VERSION: minimum version required for MySQL (i.e. 5.0 or 5.5)</p>
+
+<p>INCLUDES-REQUIRED: whether the MySQL includes are required (will fail if
+includes are not found)</p>
+
+<p>For example, If I wanted MySQL 5.5 or higher, I could enter:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>AC_INIT(ax_check_mysql_example,version-1.0)
+m4_include([m4_ax_check_mysql.m4])
+AX_CHECK_MYSQL([no],[yes],[5.5],[no])
+</code></pre></div></div>
+
+<p>And as my MySQL installation is 5.1.41, ./configure will fail:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>checking MySQL Architecture... 32
+checking MySQL Version... 5.1.41
+checking if MySQL install supports Plugins... yes
+checking if MySQL version is equal or greater than 5.5... no
+configure: error: installed MySQL version is not above 5.5. Please upgrade your version of MySQL
+</code></pre></div></div>
+
+<p>Entering nothing in the version field will allow any version.</p>
+
+<p>Warnings will be outputted instead of errors if components aren’t
+required (such as includes or MySQL itself).</p>
+
+<p>The script is maintained by myself on github:</p>
+
+<p><a href="https://github.com/Toumorokoshi/ax_check_mysql">https://github.com/Toumorokoshi/ax_check_mysql</a></p>
+    </div>
+
+    
+
+    <a class="u-url" href="/2011/08/20/ax-check-mysql-introduction-and-example/" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/%20/"></data>
+
+    <div class="wrapper">
+
+        <div class="footer-col-wrapper">
+            <script async src="https://cse.google.com/cse.js?cx=014358564571565173111:hnnbq4j54cy"></script>
+            <div class="gcse-search"></div>
+        </div>
+        <div class="footer-col-wrapper">
+            <div class="footer-col">
+                <p class="feed-subscribe">
+                    <a href="/feed/index.xml">
+                        <svg class="svg-icon orange">
+                            <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+                        </svg><span>Subscribe</span>
+                    </a>
+                </p>
+            </div>
+            <div class="footer-col">
+                <p>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</p>
+            </div>
+        </div>
+
+        <div class="social-links"><ul class="social-media-list"><li>
+  <a rel="me" href="https://bsky.app/profile/y.tsutsumi.io" target="_blank"
+    title="bluesky">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#bluesky"></use>
+    </svg>
+  </a>
+</li><li>
+  <a rel="me" href="https://github.com/toumorokoshi" target="_blank"
+    title="github">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#github"></use>
+    </svg>
+  </a>
+</li><li>
+  <a rel="me" href="https://www.linkedin.com/in/yusuke-tsutsumi" target="_blank"
+    title="linkedin">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#linkedin"></use>
+    </svg>
+  </a>
+</li></ul></div>
+
+    </div>
+    <script src="https://unpkg.com/mermaid@8.9.3/dist/mermaid.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: "default",
+    });
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+  });
+</script>
+
+</footer></body>
+
+</html>
