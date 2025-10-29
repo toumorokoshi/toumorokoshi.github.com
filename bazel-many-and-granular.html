@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Many and granular: ideal code organization in Bazel repos | Yusuke Tsutsumi</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Many and granular: ideal code organization in Bazel repos" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Better code organization in bazel" />
+<meta property="og:description" content="Better code organization in bazel" />
+<link rel="canonical" href="https://y.tsutsumi.io/bazel-many-and-granular" />
+<meta property="og:url" content="https://y.tsutsumi.io/bazel-many-and-granular" />
+<meta property="og:site_name" content="Yusuke Tsutsumi" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-01-29T07:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Many and granular: ideal code organization in Bazel repos" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2025-01-29T07:00:00+00:00","datePublished":"2025-01-29T07:00:00+00:00","description":"Better code organization in bazel","headline":"Many and granular: ideal code organization in Bazel repos","mainEntityOfPage":{"@type":"WebPage","@id":"https://y.tsutsumi.io/bazel-many-and-granular"},"url":"https://y.tsutsumi.io/bazel-many-and-granular"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" /><script async src="https://www.googletagmanager.com/gtag/js?id=G-325KP61WS9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { window.dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-325KP61WS9');
+</script>
+</head><body><header class="site-header">
+
+    <div class="wrapper"><a class="site-title" rel="author" href="/">Yusuke Tsutsumi</a><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path
+                            d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger">
+                <a class="page-link" href="/tag/coding/">Coding Posts</a>
+                <a class="page-link"
+                    href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a><a class="page-link" href="/resources/">Resources</a><a class="page-link" href="/about/">About Yusuke Tsutsumi</a></div>
+        </nav></div>
+    <style>
+        .gse-control-cse td {
+            border: 0;
+        }
+
+        td.gsc-input {
+            border: 0;
+        }
+
+        td.gsc-search-button {
+            border: 0;
+        }
+
+        table.gsc-input {
+            margin-bottom: 0;
+        }
+    </style>
+</header><main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <header class="post-header">
+        <h1 class="post-title p-name" itemprop="name headline">Many and granular: ideal code organization in Bazel repos</h1>
+        <p class="post-meta"><time class="dt-published" datetime="2025-01-29T07:00:00+00:00" itemprop="datePublished">
+                Jan 29, 2025
+            </time></p>
+    </header>
+
+    <div class="post-content e-content" itemprop="articleBody">
+        <h1 id="better-code-organization-in-bazel">   Better code organization in bazel <a href="#better-code-organization-in-bazel">#</a>   </h1>
+                    
+
+<p>As part of my work on <a href="https://y.tsutsumi.io/depsaw/">depsaw</a>, I did a lot of
+investigation into scenarios where we were overbuilding, and the solution for
+those. Here’s some thoughts on code organization based on that exploration.</p>
+                <h2 id="more-granular-packages-are-better-than-fewer-packages">   More granular packages are better than fewer packages <a href="#more-granular-packages-are-better-than-fewer-packages">#</a>   </h2>
+                    
+
+<p>The original post has <a href="https://y.tsutsumi.io/depsaw/#2-causes-and-solutions">a few scenarios
+enumerated</a> of why
+something is overbuilding, but I’ll repeat them here:</p>
+
+<ol>
+  <li>Too many files in a single package: this causes the package to change more
+  frequently, but the dependant only needs a couple of the files.</li>
+  <li>Too much functionality in a single file: there might be a file with thousands
+  of lines of code, but only one function is relevant to a dependent.</li>
+  <li>Unnecessary dependencies. Where a target has a dependency it doesn’t use at
+all.</li>
+</ol>
+
+<p>Zooming in one (1) and (2) for a second: I think this points to a more
+fundamental law about code organization in bazel: that packages should be “many
+and granular”. Aside from just an incorrect declaration, the other solution to
+overbuilding is basically “split the package”. Implying that if the dependencies
+were granular to begin with, we would have preemptively solved overbuilding.</p>
+
+<p>This is also outlined in the bazel <a href="https://bazel.build/configure/best-practices">best
+practices</a>:</p>
+
+<blockquote>
+  <p>To use fine-grained dependencies to allow parallelism and incrementality.</p>
+</blockquote>
+                <h2 id="a-shallow-hierarchy-is-better-than-a-deeper-one">   A shallow hierarchy is better than a deeper one <a href="#a-shallow-hierarchy-is-better-than-a-deeper-one">#</a>   </h2>
+                    
+
+<p>Although tied to the above, but still worth explicitly stating: a shallow
+hierarchy is better than a deep one. For example,</p>
+
+<pre><code class="language-mermaid">graph LR
+    C --&gt; A
+    C --&gt; B
+    D --&gt; A
+    D --&gt; B
+    E --&gt; A
+    F --&gt; B
+</code></pre>
+
+<p>Is better than:</p>
+
+<pre><code class="language-mermaid">graph LR
+    B --&gt; A
+    C --&gt; A
+    D --&gt; B
+    E --&gt; B
+    F --&gt; B
+</code></pre>
+
+<p>A shallow hierarchy:</p>
+
+<ul>
+  <li>Helps prevent pulling in functionality from upstream dependencies (better
+depend-on-what-you-use).</li>
+  <li>Makes it easier to sever and refactor dependencies (fewer layers to have to
+navigate through).</li>
+</ul>
+                <h2 id="summary">   Summary <a href="#summary">#</a>   </h2>
+                    
+
+<ul>
+  <li>more packages are better than fewer packages.</li>
+  <li>granular, composable functionality is better than giant functionality.</li>
+  <li>a shallow hierarchy of dependencies is better than a deeper one.</li>
+</ul>
+    </div>
+
+    
+    <script type="module" src="https://esm.sh/gh/loueed/bsky@v1.0.0/comments"></script>
+    <bsky-comments post="at://did:plc:saivj3b35jasc6dffe7h6bfa/app.bsky.feed.post/3lhjko24spk2w"></bsky-comments>
+    
+
+    <a class="u-url" href="/bazel-many-and-granular" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/%20/"></data>
+
+    <div class="wrapper">
+
+        <div class="footer-col-wrapper">
+            <script async src="https://cse.google.com/cse.js?cx=014358564571565173111:hnnbq4j54cy"></script>
+            <div class="gcse-search"></div>
+        </div>
+        <div class="footer-col-wrapper">
+            <div class="footer-col">
+                <p class="feed-subscribe">
+                    <a href="/feed/index.xml">
+                        <svg class="svg-icon orange">
+                            <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+                        </svg><span>Subscribe</span>
+                    </a>
+                </p>
+            </div>
+            <div class="footer-col">
+                <p>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</p>
+            </div>
+        </div>
+
+        <div class="social-links"><ul class="social-media-list"><li>
+  <a rel="me" href="https://bsky.app/profile/y.tsutsumi.io" target="_blank"
+    title="bluesky">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#bluesky"></use>
+    </svg>
+  </a>
+</li><li>
+  <a rel="me" href="https://github.com/toumorokoshi" target="_blank"
+    title="github">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#github"></use>
+    </svg>
+  </a>
+</li><li>
+  <a rel="me" href="https://www.linkedin.com/in/yusuke-tsutsumi" target="_blank"
+    title="linkedin">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#linkedin"></use>
+    </svg>
+  </a>
+</li></ul></div>
+
+    </div>
+    <script src="https://unpkg.com/mermaid@8.9.3/dist/mermaid.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: "default",
+    });
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+  });
+</script>
+
+</footer></body>
+
+</html>
