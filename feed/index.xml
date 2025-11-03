@@ -1,4 +1,25 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2025-11-02T00:06:47+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Setting up a streaming gaming Ubuntu PC for sunshine/moonlight</title><link href="https://y.tsutsumi.io/ubuntu-sunshine/" rel="alternate" type="text/html" title="Setting up a streaming gaming Ubuntu PC for sunshine/moonlight" /><published>2025-07-18T07:00:00+00:00</published><updated>2025-07-18T07:00:00+00:00</updated><id>https://y.tsutsumi.io/setting-up-moonlight-ubuntu</id><content type="html" xml:base="https://y.tsutsumi.io/ubuntu-sunshine/"><![CDATA[<h1 id="setting-up-a-streaming-gaming-ubuntu-pc-for-moonlight">Setting up a streaming gaming Ubuntu PC for moonlight</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2025-11-03T00:06:29+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">The Anxious Generation by Jonathan Haidt</title><link href="https://y.tsutsumi.io/books/anxious-generation" rel="alternate" type="text/html" title="The Anxious Generation by Jonathan Haidt" /><published>2025-11-02T07:00:00+00:00</published><updated>2025-11-02T07:00:00+00:00</updated><id>https://y.tsutsumi.io/books/the-anxious-generation</id><content type="html" xml:base="https://y.tsutsumi.io/books/anxious-generation"><![CDATA[<h1 id="the-anxious-generation">The Anxious Generation</h1>
+
+<p>I really liked reading the book “The Anxious generation” by Jonathan Haidt.</p>
+
+<p>The book argues for less screen time for children, especially social media at
+younger ages, which can be harmful.</p>
+
+<p>The jist of the book is:</p>
+
+<p>1: The time your child spends outside or interacting with kids is more valuable that almost all
+forms of screen time. I like this argument because it’s a relative comparison, rather than saying
+that screen time is inherently bad (which, as someone who spend his whole childhood in front a
+screen and turned out… not terrible, tend to disagree).</p>
+
+<p>2: Social media for young children can be a terrible infleunce. There’s cyberbullying, which can be
+much worse than regular bullying as people in general are willing to be a lot more horrible online.
+In addition, there’s the implicit pressure to live and look as glamorous as these famous influencers
+online, resulting in body dysmoprhia.</p>
+
+<p>Although the book references some studies, I agree on an anecdotal level that social media is not a
+necessary part of life for adolescents, and that screentime is something with, depending on the
+activity, rapidly diminishing returns, and a balance with other activities in life is critical.</p>]]></content><author><name></name></author><category term="book-reports" /><summary type="html"><![CDATA[The Anxious Generation]]></summary></entry><entry><title type="html">Setting up a streaming gaming Ubuntu PC for sunshine/moonlight</title><link href="https://y.tsutsumi.io/ubuntu-sunshine/" rel="alternate" type="text/html" title="Setting up a streaming gaming Ubuntu PC for sunshine/moonlight" /><published>2025-07-18T07:00:00+00:00</published><updated>2025-07-18T07:00:00+00:00</updated><id>https://y.tsutsumi.io/setting-up-moonlight-ubuntu</id><content type="html" xml:base="https://y.tsutsumi.io/ubuntu-sunshine/"><![CDATA[<h1 id="setting-up-a-streaming-gaming-ubuntu-pc-for-moonlight">Setting up a streaming gaming Ubuntu PC for moonlight</h1>
 
 <p>I’ve been working on building a new streaming gaming PC (that ordeal I will save
 for a future blog post), but in the process I had some difficulties with getting
@@ -1032,223 +1053,4 @@ can use it to answer the following questions, and more:</p>
   <li>overbuilding: rebuilding targets that are not needed.</li>
   <li>overtesting: testing downstreams that are not actually affected by your change.</li>
   <li>identifying how an extraneous target is pulled into your dependencies.</li>
-</ul>]]></content><author><name></name></author><category term="coding" /><category term="bazel" /><summary type="html"><![CDATA[Summary]]></summary></entry><entry><title type="html">Design patterns for multi-organization project management</title><link href="https://y.tsutsumi.io/multi-org-project-planning/" rel="alternate" type="text/html" title="Design patterns for multi-organization project management" /><published>2024-12-12T07:00:00+00:00</published><updated>2024-12-12T07:00:00+00:00</updated><id>https://y.tsutsumi.io/multi-org-project-planning</id><content type="html" xml:base="https://y.tsutsumi.io/multi-org-project-planning/"><![CDATA[<h1 id="design-patterns-for-organizing-multi-organization-projects">Design patterns for organizing multi-organization Projects</h1>
-
-<p>Recently, I needed to help plan a project that spanned across dozens of teams,
-as wel as product areas and VPs. My task was planning my team’s deliverables,
-but to do so, there were multiple pieces of information that one had to consider,
-including:</p>
-
-<ul>
-  <li>Estimates on the work my team would perform.</li>
-  <li>Timelines of our dependencies, and the dependencies of my team’s dependencies.</li>
-  <li>Relationships between these dependencies.</li>
-  <li>Stack ranking based on business impact.</li>
-</ul>
-
-<p>The process was quite taxing, resulting in quarterly planning where we had to
-dig up all the context from previous quarters, find outdated docs, and go
-through a multi-day effort to get this information presentable to the senior
-leadership team.</p>
-
-<p>From that, I’ve been working on some patterns and processes, built on our
-existing project management tooling, make it easier to produce these roadmaps
-and extract information.</p>
-
-<h2 id="these-patterns-work-in-most-issue-trackers">These patterns work in most issue trackers</h2>
-
-<p>I left this blog post conceptual intentionally: it’s because these are <em>design
-patterns</em>: ideas that can, for the most part, be applied to any issue tracking
-tool (Jira, Smartsheet, an in-house tracker).</p>
-
-<p>Although a custom tracker may be written for this purpose, I think that these
-ideas are actually more useful as design patterns. Organizations almost always
-have decided on their project tracker of choice, and it’s impractical, if not
-infeasible, to replace that with a bespoke solution.</p>
-
-<p>It’s much simpler to layer these patterns on top of existing trackers, allowing
-this project structure to leverage the knowledge in the issue tracker, rather
-than duplicating it.</p>
-
-<h2 id="the-patterns">The Patterns</h2>
-
-<h3 id="a-structured-graph-of-tasks">A structured graph of tasks</h3>
-
-<p>I’ve seen attempts to manage large project planning in long-form documents, but
-once execution has begun, the individual projects and dependencies themselves
-are best off in a data structure: in particular, it should be possible to
-represent the tasks themselves as nodes in an acyclic graph.</p>
-
-<p>This type of structure allows for multiple use cases, including:</p>
-
-<ul>
-  <li>Attaching common metadata to each node (like acceptance criteria, business impact).</li>
-  <li>Extracting the delivery date of a node based on the delivery dates of parent
-nodes, and including the effort estimate of the current one.</li>
-  <li>Visualization (e.g. gantt or graph style), helping one see what the real
-dependencies are.</li>
-  <li>Traversing the graph to find issues that apply to a particular category (team,
-org, product area)</li>
-</ul>
-
-<h3 id="tagging-over-hierarchical-structure">Tagging over hierarchical structure</h3>
-
-<p>Although it’s common to enforce a hierarchical structure on data (e.g. issues by
-team), I think tagging (e.g. Jira labels) ends up being a more useful approach.</p>
-
-<p>Especially with tasks, there are so many different consumers that choosing a
-single structure certainly will not work for all of them. Consider:</p>
-
-<ul>
-  <li>The individual contributor who just wants to look at their issues, and maybe
-their teams.</li>
-  <li>The manager who wants to look at all projects for their team.</li>
-  <li>The director, who wants to look at projects for their team, and possibly
-others that they depend on.</li>
-  <li>The project manager, who wants to see all tasks that pertain to their project,
-regardless of the individual or team executing that task.</li>
-</ul>
-
-<p>This, combined with products moving teams and teams moving organizations,
-creates change that makes organizational hierarchy at minimum a brittle choice.</p>
-
-<p>With tagging, along with a convention around those, it should be very easy to
-create new roadmaps (just add a new tag to all relevant issues), add one-off
-issues to a view for the team or organization.</p>
-
-<h3 id="spreadsheets-for-easy-editing">Spreadsheets for easy editing</h3>
-
-<p>At Google, we had a giant table for bugs (likely implemented as multiple tables with foreign keys for custom fields) called buganizer. You can see a glimpse of what it looks like at https://issuetracker.google.com/issues.</p>
-
-<p>A developer wrote a tool that would do a bidirectional sync to a Google sheet,
-thereby allowing us to:</p>
-
-<ol>
-  <li>Easily review the data and fields in a data dense format.</li>
-  <li>Visualize roadmaps</li>
-  <li>Copy-paste the spreadsheet content into documents or presentations with
-leadership.</li>
-  <li>Modify the fields quickly for project planning.</li>
-  <li>Add new issues as we found dependencies or tasks missing.</li>
-</ol>
-
-<p>This tool was absolutely amazing - it overcame the friction of mass
-modification and at-a-glance visualization.</p>
-
-<h3 id="metadata-to-attach-a-node">Metadata to attach a node</h3>
-
-<p>This is not a design pattern per se, but there are often specific fields in
-projects that I’ve found to be very useful in roadmapping discussions. Those
-are:</p>
-
-<ul>
-  <li>The business impact of the milestone: senior leadership will often ask about
-the cost-benefit of lowering the priority of specific tasks, and it’s helpful
-to understand why this is valuable.</li>
-  <li>Acceptance criteria: a good practice regardless of this post, but it’s
-valuable to be crystal clear on <em>what</em> you’re planning on delivering, and how
-to validate it has been delivered. It often discovers gaps in understanding or
-expectations.</li>
-  <li>A target delivery date: if there is a hard due date, it’s valuable to specify
-that.</li>
-  <li>An effort or wall time estimate, in a unit of time: this helps you calculate
-the actual time it would take to deliver something, based on the target date
-of a tasks’s dependencies.</li>
-</ul>
-
-<h3 id="specify-a-target-date-or-calculate-based-on-dependencies">Specify a target date, or calculate based on dependencies.</h3>
-
-<p>A big issue with cross-organizational planning is figuring out how long it will
-actually take to deliver something. In an ideal model, the actual delivery
-date of something is the sum of the duration of current task, and the sum or the
-delivery dates of all of the upstream dependencies that will take the longest.</p>
-
-<p>Therefore, two pieces of information are necessary to calculate such a date:</p>
-
-<ul>
-  <li>The duration of the actual task (also known as effort, cost, or other names).</li>
-  <li>The estimated delivery date. for example, an external dependency on a vendor,
-or hardware with target date at which it will finish being constructed. These
-commitments are generally dates, not based on some effort estimate.</li>
-</ul>
-
-<h3 id="make-project-trackers-fast">Make project trackers fast</h3>
-
-<p>The biggest killer to project management trackers is the speed or friction it
-takes to update them. If changing a single field requires five steps, or a page
-load takes a long time, those will both completely disincentivize people to fill
-things in as they go. Speed is a common reason I’ve heard, discussing the ideas
-in this blog post with colleagues.</p>
-
-<p>Due to similar friction I’ve faced with documents anod knowledge bases, I just
-keep a bunch of markdown document in a folder for my notes. I opened it with
-VSCode so I can easily jot down notes - this is vastly faster than any web-based
-solution I’ve found, and I’m more likely to take good notes as a result.</p>
-
-<h2 id="existing-challenges">Existing Challenges</h2>
-
-<p>These patterns above provide a great structure for organizing this knowledge.
-However, this alone is not a complete solution for a well organized project.</p>
-
-<p>I’ve enumerated some of the challenges below.</p>
-
-<h3 id="keeping-task-metadata-up-to-date">Keeping task metadata up to date</h3>
-
-<p>Like any semi-automated system, the above is only valuable if the data is up to
-date. In my experience, individual contributors like doing the work, but do not
-like rotely filling in updates in project trackers.</p>
-
-<p>Some patterns I’ve seen work, albeit sub-optimal:</p>
-
-<ul>
-  <li>Have a single project manager be responsible for ensuring tickets are up to
-date. Have a regular sync meeting where individuals give updates and update
-the project tracker live.</li>
-  <li>Communal updates: whoever happens to ask the question also helps update the
-tickets. This is not 100% effective, but does ensure that some updates occur.</li>
-  <li>Have a dedicated time, with a program / project manager as a driver, to ask
-everyone to update their issues.</li>
-  <li>Make it so that the issues are the <em>only</em> way to update management on the
-progress of a task: the forcing function will build the habit.</li>
-</ul>
-
-<p>Again, none of these are completely effective, but do help.</p>
-
-<h3 id="enabling-deeper-roadmap-discussions">Enabling deeper roadmap discussions</h3>
-
-<p>One reason I believe people gravitate toward ad-hoc planning documents is
-because of how the document format (with some commenting infrastructure) allows
-for great long-form discussion.</p>
-
-<p>Task tracking is traditionally quite bad at this - you can’t go comment on a
-specific aspect of an issue (e.g. one or two lines in it’s description), it’s
-hard to see the project overall without going to some other format like a
-spreadsheet, which may not sync data back upstream.</p>
-
-<p>At some point, project trackers should start to support this use case.</p>
-
-<h2 id="other-thoughts">Other thoughts</h2>
-
-<h3 id="issue-tracker-should-use-a-global-id-not-namespace-by-project">Issue tracker should use a global id, not namespace by project</h3>
-
-<p>Issue trackers like Jira namespace their issues with a project space (e.g.
-PRJ-001). I think a single global id is better, perhaps a sequential,
-monotonically increasing integer (e.g. Google buganizer). The metadata for which
-project an issue belongs to can live in some other field.</p>
-
-<p>The reasoning is:</p>
-
-<ul>
-  <li>It’s easy to move issues from one team to another: links don’t break as
-renames happen, you don’t need to keep a table of old ids on the server side.</li>
-  <li>It’s straightforward to link issues to another: you don’t need to know which
-project it was in.</li>
-  <li>It simplifies any linking metadata, to have all issues in the same format
-(e.g. pattern matching for APIs and what not).</li>
-</ul>
-
-<h2 id="final-thoughts">Final Thoughts</h2>
-
-<p>I’ll be updating this periodically with some more thoughts, but I’d love to hear
-feedback on these patterns if you try them, or let me know about one what works
-for you!</p>]]></content><author><name></name></author><category term="coding" /><category term="project-management" /><summary type="html"><![CDATA[Design patterns for organizing multi-organization Projects]]></summary></entry></feed>
+</ul>]]></content><author><name></name></author><category term="coding" /><category term="bazel" /><summary type="html"><![CDATA[Summary]]></summary></entry></feed>
