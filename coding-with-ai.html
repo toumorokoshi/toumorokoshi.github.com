@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>How I code with AI | Yusuke Tsutsumi</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="How I code with AI" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="How I code with AI" />
+<meta property="og:description" content="How I code with AI" />
+<link rel="canonical" href="https://y.tsutsumi.io/coding-with-ai" />
+<meta property="og:url" content="https://y.tsutsumi.io/coding-with-ai" />
+<meta property="og:site_name" content="Yusuke Tsutsumi" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-11-08T07:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="How I code with AI" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2025-11-08T07:00:00+00:00","datePublished":"2025-11-08T07:00:00+00:00","description":"How I code with AI","headline":"How I code with AI","mainEntityOfPage":{"@type":"WebPage","@id":"https://y.tsutsumi.io/coding-with-ai"},"url":"https://y.tsutsumi.io/coding-with-ai"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" /><script async src="https://www.googletagmanager.com/gtag/js?id=G-325KP61WS9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { window.dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-325KP61WS9');
+</script>
+</head><body><header class="site-header">
+
+    <div class="wrapper"><a class="site-title" rel="author" href="/">Yusuke Tsutsumi</a><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path
+                            d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger">
+                <a class="page-link" href="/tag/coding/">Coding Posts</a>
+                <a class="page-link"
+                    href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a><a class="page-link" href="/resources/">Resources</a><a class="page-link" href="/about/">About Yusuke Tsutsumi</a></div>
+        </nav></div>
+    <style>
+        .gse-control-cse td {
+            border: 0;
+        }
+
+        td.gsc-input {
+            border: 0;
+        }
+
+        td.gsc-search-button {
+            border: 0;
+        }
+
+        table.gsc-input {
+            margin-bottom: 0;
+        }
+    </style>
+</header><main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <header class="post-header">
+        <h1 class="post-title p-name" itemprop="name headline">How I code with AI</h1>
+        <p class="post-meta"><time class="dt-published" datetime="2025-11-08T07:00:00+00:00" itemprop="datePublished">
+                Nov 8, 2025
+            </time></p>
+    </header>
+
+    <div class="post-content e-content" itemprop="articleBody">
+        <h1 id="how-i-code-with-ai">   How I code with AI <a href="#how-i-code-with-ai">#</a>   </h1>
+                    
+
+<p>Recently, like many developers, I’ve been experimenting a lot with coding with AI.</p>
+
+<p>Overall I’ve found that I am more productive with AI: some PRs are vastly easier, although I do write a decent bit myself (especially with https://aep.dev/, which is basically an english specification).</p>
+
+<p>I’ll update this page over time as I learn some new tricks as well.</p>
+                <h2 id="adding-a-personal-coding-styleguide">   Adding a personal coding styleguide <a href="#adding-a-personal-coding-styleguide">#</a>   </h2>
+                    
+
+<p>Most editors provide a way to add a custom styleguide. vscode calls these “instructions”.</p>
+
+<p>My personal instructions are here:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>---
+applyTo: '**'
+---
+# yft's personal coding guidelines
+- prefer fewer comments. Only add them when the code is not self-explanatory.
+- prefer functional programming.
+- IO with network and filesystem should be in wrapper functions that call inner functions that work on data structures.
+- unit tests should be written to run on the data structures directly rather than through IO, with only a single test on IO to serve as an integration test.
+- prefer composition over inheritance.
+- prefer to use constants, especially for hard-coded directories or values.
+- helper functions should have minimal logic.
+</code></pre></div></div>
+                <h2 id="one-off-experiences">   One-off experiences <a href="#one-off-experiences">#</a>   </h2>
+                    
+                <h3 id="2025-11-10-using-jules-and-github-copilot">   2025-11-10: using Jules and GitHub copilot <a href="#2025-11-10-using-jules-and-github-copilot">#</a>   </h3>
+                    
+
+<p>I had trying Jules (https://jules.google/docs/) this weekend on a personal project. It’s kind of similar to this so thought it was worth bringing up.</p>
+
+<p>Basically I had it write a PR to create a new proto schema for me: https://github.com/aep-dev/aep-components/pull/41. The workflow is you add a label “jules” to a GitHub issue, and it goes and generates a PR.</p>
+
+<p>The first pass (like many AI tools) was ok, but had a lot of changes that needed. Many were me not being clear about the initial expectations. But one major hangup was that jules didn’t understand that there was a github CI workflow that it should have run to find more errors. I tried to explain it here, but gave up because it was still failing and I was moving toward comments that just hand-fixed it: https://github.com/aep-dev/aep-components/pull/41#issuecomment-3506923393</p>
+
+<p>I actually tried the exact same change with the built-in copilot generator, which was much closer: https://github.com/aep-dev/aep-components/pull/44. It seemed to better understand the linting and ci workflows, and didn’t have the same breakages with buf.</p>
+
+<p>My workflow was still leaving a bunch of comments, many of which are direct code fixes. But I was able to massage and merge it in.</p>
+
+<p>Ultimately I think this would have been faster for me to have just done locally with cursor / copilot, then hand-fix and submit the PR myself, then have a PR generator do it. But it felt like needing a fundamental understanding of the tooling in the repo was critical.</p>
+    </div>
+
+    
+
+    <a class="u-url" href="/coding-with-ai" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/%20/"></data>
+
+    <div class="wrapper">
+
+        <div class="footer-col-wrapper">
+            <script async src="https://cse.google.com/cse.js?cx=014358564571565173111:hnnbq4j54cy"></script>
+            <div class="gcse-search"></div>
+        </div>
+        <div class="footer-col-wrapper">
+            <div class="footer-col">
+                <p class="feed-subscribe">
+                    <a href="/feed/index.xml">
+                        <svg class="svg-icon orange">
+                            <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+                        </svg><span>Subscribe</span>
+                    </a>
+                </p>
+            </div>
+            <div class="footer-col">
+                <p>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</p>
+            </div>
+        </div>
+
+        <div class="social-links"><ul class="social-media-list"><li>
+  <a rel="me" href="https://bsky.app/profile/y.tsutsumi.io" target="_blank"
+    title="bluesky">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#bluesky"></use>
+    </svg>
+  </a>
+</li><li>
+  <a rel="me" href="https://github.com/toumorokoshi" target="_blank"
+    title="github">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#github"></use>
+    </svg>
+  </a>
+</li><li>
+  <a rel="me" href="https://www.linkedin.com/in/yusuke-tsutsumi" target="_blank"
+    title="linkedin">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#linkedin"></use>
+    </svg>
+  </a>
+</li></ul></div>
+
+    </div>
+    <script src="https://unpkg.com/mermaid@8.9.3/dist/mermaid.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: "default",
+    });
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+  });
+</script>
+
+</footer></body>
+
+</html>
