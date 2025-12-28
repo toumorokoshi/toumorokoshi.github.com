@@ -1,4 +1,152 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2025-12-27T00:05:19+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">How I code with AI</title><link href="https://y.tsutsumi.io/coding-with-ai" rel="alternate" type="text/html" title="How I code with AI" /><published>2025-11-08T07:00:00+00:00</published><updated>2025-11-08T07:00:00+00:00</updated><id>https://y.tsutsumi.io/my-ai-best-practices</id><content type="html" xml:base="https://y.tsutsumi.io/coding-with-ai"><![CDATA[<h1 id="how-i-code-with-ai">How I code with AI</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2025-12-28T00:05:44+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Rebuilding AlexNet</title><link href="https://y.tsutsumi.io/alexnet" rel="alternate" type="text/html" title="Rebuilding AlexNet" /><published>2025-12-26T07:00:00+00:00</published><updated>2025-12-26T07:00:00+00:00</updated><id>https://y.tsutsumi.io/rebuilding-alexnet</id><content type="html" xml:base="https://y.tsutsumi.io/alexnet"><![CDATA[<h1 id="rebuilding-alexnet">Rebuilding AlexNet</h1>
+
+<p>My role at GM (aka ex-Cruise) has started pulling me and more and more into the machine learning space, in particular models that are critical to Autonomous vehicles such as perception, planning, world models, etc. For context, I have traditionally worked more on the system performance / vehicle software side, not the models directly.</p>
+
+<p>As such, I’ve started to try to get a better grasp of ML fundamentals. One of my first forays into getting hand-on experience is rebuilding <a href="https://en.wikipedia.org/wiki/AlexNet">AlexNet</a>, one of the most influential models to modern machine learning. It was the first model to get a top-5 error rate of 15.3% in the ImageNet Large Scale Recognition Challenge and using convolutional neural networks in the process.</p>
+
+<p>This post serves to document some of my learnings as I attempted to recreate it.</p>
+
+<h1 id="my-general-approach">My General Approach</h1>
+
+<p>I didn’t start by recreating AlexNet immediately: I instead started with
+a simple neuralnet + RELU based model, to try to understand the individual impact of various model architectures.</p>
+
+<p>I also tried to use vanilla PyTorch, although I did build a <a href="https://github.com/toumorokoshi/yft-ml-sandbox/tree/main/alexnet">bazel-based build workflow</a> since I prefer the hermicity and relatively simple dependency management of multiple languages.</p>
+
+<p>To keep the training fast (since I was focused more experimentation rather than production use cases), I used the much smaller <a href="https://github.com/fastai/imagenette">imagenette</a> dataset rather than ImageNet which AlexNet was trained and tested against. This has only 10 classifications, as well as less data.</p>
+
+<h1 id="the-learnings">The Learnings</h1>
+
+<h2 id="terminology">Terminology</h2>
+
+<p>If I had one big takeaway, it was understanding the terminology a lot more deeply! Knowing the terms logit, epoch, stochastic gradient descent, maxpool, generalization, and overfitting in a more intuitive and visceral helps me understand ideas discussed within our AV organization much more quickly.</p>
+
+<h2 id="always-randomize-datasets">Always randomize datasets</h2>
+
+<p>result: 9.99% -&gt; 40%</p>
+
+<p>My initial iteration had a 9.99% pass rate, after adding the debugger and looking at the predicted output of the model by printing the final logit layer, I noticed that the output was always a specific classification, no matter what the input was.</p>
+
+<p>This was caused by me not randomizing the dataset - effectively every epoch, the model would get exclusively trained against one classification for the last 10% of the time, biasing it toward that one classification.</p>
+
+<p>After I fixed that, my simple 2-layer neural network got up to 40% accuracy!</p>
+
+<h2 id="misc-things-that-helped-the-neural-net">Misc things that helped the neural net</h2>
+
+<p>The highest I could get the neural network was 44%. Here’s a table of things I tried:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Accuracy</th>
+      <th>Epochs</th>
+      <th>Batch Size</th>
+      <th>Learning Rate</th>
+      <th>Shuffled</th>
+      <th>Momentum</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>44.6%</td>
+      <td>10</td>
+      <td>32</td>
+      <td>0.01</td>
+      <td>yes</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>42.9%</td>
+      <td>20</td>
+      <td>16</td>
+      <td>0.01</td>
+      <td>yes</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>41.9%</td>
+      <td>10</td>
+      <td>16</td>
+      <td>0.001</td>
+      <td>yes</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>40.9%</td>
+      <td>10</td>
+      <td>32</td>
+      <td>0.001</td>
+      <td>yes</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>38.0%</td>
+      <td>5</td>
+      <td>16</td>
+      <td>0.001</td>
+      <td>yes</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>11%</td>
+      <td>10</td>
+      <td>16</td>
+      <td>0.01</td>
+      <td>no</td>
+      <td>0.9</td>
+    </tr>
+    <tr>
+      <td>9.9%</td>
+      <td>10</td>
+      <td>16</td>
+      <td>0.001</td>
+      <td>no</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>I could tweak batch size and learning rate to help it converge more quickly.</p>
+
+<h2 id="single-layer-convolution">Single-layer convolution</h2>
+
+<p>Switching to even a single-layer of convolution immediately caused the model to jump to 55%: as explained in the AlexNet paper, I think this can primarily be attributed to better generalization of the learnings in one particular segment of the image: without convolution and some form of feature consolidation, it’s really impossible to divine general relationships that shift across the matrix like the position of a dog in the image.</p>
+
+<h2 id="60-epochs-is-the-good-range">60+ epochs is the good range.</h2>
+
+<p>For most of the convolution models, many had some continued gain up to about 45 to 60 epochs. I believe this will be highly dependent on how much training data is available, but it’s interesting to thing that running the model against the same data 40+ times is required to hit some sort of ceiling.</p>
+
+<h2 id="dropout-added-10">dropout added 10%</h2>
+
+<p>The original AlexNet paper suggests that introducing dropout in the final connected layer (2 layers of linear + ReLU combinations) results in a significant raining improvement. They theorize this is due to the individual “neurons” in the matrices start to embed more generalization into themselves, not requiring the constant presence of the upstream neurons.</p>
+
+<p>In my experience, this increased the accuracy by roughly 10% from the non-dropout version. So clearly, the neurons embedding more information is a critical part to better models.</p>
+
+<h2 id="flipping-image-data-added-10-accuracy">flipping image data added 10% accuracy</h2>
+
+<p>There isn’t much more I could do with model architecture to increase the accuracy, but I got some pointers to go look at data.</p>
+
+<p>The biggest contributor was just flipping the image data half the time: I think this effectively doubles the dataset to some extent. Which implies that training data might be a bottleneck now rather than just learning capacity.</p>
+
+<p>Some other things I tried, which has less of an effect:</p>
+
+<ul>
+  <li>Scaling the data up and cropping didn’t seem to improve much. Maybe 1-2% at most.</li>
+  <li>Changing exposure, brightness also had maybe a 1-2% difference, although training still ended up in the same range.</li>
+</ul>
+
+<h2 id="my-current-score-78">my current score: 78%</h2>
+
+<p>For the imagenette, I was able to get a 78% score after 60 epochs. This is pretty good, as the original AlexNet paper, with a much larger dataset and longer training time, reached 85%.</p>
+
+<p>I did not see any overfitting directly (which I’d expect to see via loss curve that has an upward trend after multiple epochs). But I did see the loss plateau after about 45 epochs or so.</p>
+
+<p>Some quick notes:</p>
+
+<ul>
+  <li>Adding RMSNorm in the first 2 layers added roughly 1-2%.</li>
+  <li>Originally I had only convolutional layers with stride=2 rather than maxpool. With the maxpool layers instead I had a 4-5% bump.</li>
+</ul>]]></content><author><name></name></author><category term="coding" /><summary type="html"><![CDATA[Rebuilding AlexNet]]></summary></entry><entry><title type="html">How I code with AI</title><link href="https://y.tsutsumi.io/coding-with-ai" rel="alternate" type="text/html" title="How I code with AI" /><published>2025-11-08T07:00:00+00:00</published><updated>2025-11-08T07:00:00+00:00</updated><id>https://y.tsutsumi.io/my-ai-best-practices</id><content type="html" xml:base="https://y.tsutsumi.io/coding-with-ai"><![CDATA[<h1 id="how-i-code-with-ai">How I code with AI</h1>
 
 <p>Recently, like many developers, I’ve been experimenting a lot with coding with AI.</p>
 
@@ -664,94 +812,4 @@ Darn! But I’ll make this my new goal for the year. My goal this year is to be
 able to play piano pieces from just reading sheet music.</li>
   <li>Be able to understand persian news.</li>
   <li>Achieve 11% body fat, without losing muscle mass.</li>
-</ul>]]></content><author><name></name></author><category term="2024" /><category term="reflection" /><summary type="html"><![CDATA[I’m reflecting on my personal time during 2024. A lot of my time was spent working on things with my family that I won’t share here, but nontheless I did make some progress with my personal goals.]]></summary></entry><entry><title type="html">Winning Deduckto</title><link href="https://y.tsutsumi.io/deduckto/" rel="alternate" type="text/html" title="Winning Deduckto" /><published>2024-12-31T07:00:00+00:00</published><updated>2024-12-31T07:00:00+00:00</updated><id>https://y.tsutsumi.io/deduckto</id><content type="html" xml:base="https://y.tsutsumi.io/deduckto/"><![CDATA[<h1 id="winning-deduckto">Winning Deduckto</h1>
-
-<p>For the holidays, my kids got a game called
-<a href="https://gamewright.com/product/deduckto">Deduckto</a>. It’s a cute game for 8
-years and older, where each player has their own mystery suspect which consists
-of a suspect (like a pig), a disguise (a mustache), and a location (the
-library). The goal of the game is to be able to identify all three attributes.</p>
-
-<p>The game works by playing cards that are also a suspect, disguise, and location,
-and putting each one into piles of “yes”, where there is one or more attributes
-shared by a card, or “no” where none of the attributes are shared.</p>
-
-<p>The game is meant for children and building their reasoning ability. And for my
-kids, it’s been a great way for them to exercise that skill. I usually play more
-cooperatively, where I talk with my kids about what the possibilities are, and
-help them find relationships they didn’t before, like the fact that a card in
-the “no” pile eliminates all of the attributes as possibilities.</p>
-
-<p>So optimal play, I’m sure, won’t be the goal for most. That said: what is the
-most optimal way to play? Here’s my thoughts.</p>
-
-<h2 id="tldr">TLDR</h2>
-
-<p>Try to get as many pairs of cards that have a single common attribute in the
-“yes” pile as possible. The strategy is:</p>
-
-<ol>
-  <li>If possible, play a card with only one common attribute with a single “yes”
-card you already have.</li>
-  <li>If you have no such card, play a card that shares nothing in common with any
-of your yes or no cards, to find a new “yes” card. Between the two, prefer
-yes (since something that matches cards you already have), then no.</li>
-</ol>
-
-<h2 id="why">Why</h2>
-
-<p>The optimal play is the one that eliminates the most possibilities.</p>
-
-<p>Getting a “no” will at most eliminate three possiblities: a suspect, a disguise,
-and a location.</p>
-
-<p>Getting a “yes” can, at best, validate three attributes. But in most cases, it
-will validate one. One way that is done by finding a pair of cards that are
-disjoint in all but one attribute, but both are yes.</p>
-
-<p>If you find a common attribute, you immediately eliminate all the other choices
-for that feature. That means you can eliminate up to 6 other possibilities in a
-single turn! Much more effective than eliminate 6 possibilities with 6 cards.</p>
-
-<p>Getting a pair of yes cards would leave one of two possibilities:</p>
-
-<ol>
-  <li>The common attribute matches the secret suspect (e.g. they both are at the
-“library”).</li>
-  <li>The two cards match for a different reason, and each on a separate attribute
-(e.g. for a (fox,bandana,library) and a (bear,mustache,library), fox and
-mustache are matching or  bear and bandana are matching).</li>
-</ol>
-
-<p>Either could be validated by having a <em>third</em> matching card that shares
-attributes with one or the other. And so on.</p>
-
-<p>Among the cards, you will have the following, in order of preference to play.</p>
-
-<ol>
-  <li>card(s) that share 2 attributes, each with one or more yes cards, if the
-attributes are not yet validated.</li>
-  <li>card(s) that share 1 attribute with only one yes card, that does not already
-share an attribute with another yes card.</li>
-  <li>card(s) that share 1 attribute with two other yes cards.</li>
-  <li>card(s) that share 0 attributes with any yes cards.</li>
-  <li>all other cards.</li>
-</ol>
-
-<p>The reason is:</p>
-
-<p>1: This will validate multiple attributes simultaneously. Although rare, it is
-an ideal play.</p>
-
-<p>2: A single attribute, common with a single yes card, will help identify a
-unique attribute of your suspect.</p>
-
-<p>3: This will help confirm that the attribute shared by the other 2 cards is
-indeed the card that is unique to the suspect.</p>
-
-<p>3: The above work to validate attributes your suspect may have. But if you can’t
-do that, then it’s best to find new “yes” cards. The best way to do that is to
-play unique cards as much as possible, disjoint to “yes”es, but ideally also
-“no”s as well.</p>
-
-<p>Anything else is effectively useless, giving no information.</p>]]></content><author><name></name></author><category term="board-games" /><summary type="html"><![CDATA[Winning Deduckto]]></summary></entry></feed>
+</ul>]]></content><author><name></name></author><category term="2024" /><category term="reflection" /><summary type="html"><![CDATA[I’m reflecting on my personal time during 2024. A lot of my time was spent working on things with my family that I won’t share here, but nontheless I did make some progress with my personal goals.]]></summary></entry></feed>
