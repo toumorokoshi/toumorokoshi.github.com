@@ -1,4 +1,60 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2026-01-05T00:06:26+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Rebuilding AlexNet</title><link href="https://y.tsutsumi.io/alexnet" rel="alternate" type="text/html" title="Rebuilding AlexNet" /><published>2025-12-26T07:00:00+00:00</published><updated>2025-12-26T07:00:00+00:00</updated><id>https://y.tsutsumi.io/rebuilding-alexnet</id><content type="html" xml:base="https://y.tsutsumi.io/alexnet"><![CDATA[<h1 id="rebuilding-alexnet">Rebuilding AlexNet</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2026-01-06T00:05:11+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Reflecting on 2025</title><link href="https://y.tsutsumi.io/my-year/2025" rel="alternate" type="text/html" title="Reflecting on 2025" /><published>2026-01-05T07:00:00+00:00</published><updated>2026-01-05T07:00:00+00:00</updated><id>https://y.tsutsumi.io/my-year/reflecting-on-2025</id><content type="html" xml:base="https://y.tsutsumi.io/my-year/2025"><![CDATA[<p>With the end of the year, it’s time for another reflection.</p>
+
+<h2 id="staying-focused">Staying focused</h2>
+
+<p>Overall, I’ve been much better about staying focused on various projects this year. One major contributor is not splitting my focus, and accepting that things take a lot longer than I expect. Whether it’s personal projects like thre AEPs, a new task at work, or a video game I want to play, trying to rush through leads to less satisfaction personally, and my accomplishments not being as deep on things as I’d like.</p>
+
+<h2 id="farsi">Farsi</h2>
+
+<p>If I had to be honest, my Farsi may have actually gotten worse this year. I’m still trying to learn the language, but I’m not doing classes weekly as much anymore, and I dropped Children of Morta due to a bunch of work projects that made me work a few late nights.</p>
+
+<p>I also haven’t really been watching Persian TV, which may be another contributing factor.</p>
+
+<h2 id="oss-aepdev">OSS: aep.dev</h2>
+
+<p>aep.dev this year has been great! We <a href="https://aep.dev/blog/aep-2026-release/">finally published our 2026 specification</a>, a culmination of several years of blood, sweat, and tears discussing API design.</p>
+
+<p>This was joint effort from multiple people who were involved in the ecosystem, including Alex Stephen, Marsh Gardiner, Mike Kistler, David Gagne, and more. It’s a privilege to be a part of that ecosystem.</p>
+
+<p>With the specification underway, I’m excited to move more into actionable territory, taking the spec to organizations to hear what they think.</p>
+
+<h2 id="fitness">Fitness</h2>
+
+<p>Between 2024 and 2025, I’ve lost a couple pounds of fat, arriving at roughly 12% body fat (via dexa), which I’ve largely tracked for most of the year.</p>
+
+<p>Keeping that percentage, I was able to even gain a couple of pounds from where I was at in the beginning of 2025.</p>
+
+<p>At roughly 170lbs (via morning weigh-in), or 175lbs according to Dexa, I think I’m at the point where any more weight loss may result in loss of muscle that is undesirable.</p>
+
+<p>Theoretically, advanced lifters can gain 3-4 pounds of mass a year, maximum. If I am able to gain even half of that while maintaining the current weight, I would be at 10.8% body fat, and would have achieved my goal.</p>
+
+<p>So, my focus this year is to maintain, but try to gain as much muscle as I can.</p>
+
+<p>I upped my protein intake temporarily to 1.8g / kg, but after I saw my Kidney’s health marker (EGFR) lower, I decided to lower intake back down to 1.8, and also go exclusively plant based (which research has shown has resulted in better kidney health overall).</p>
+
+<p>The EGFR marker with creatinine is known to not be the most reliable alone as it generally increases linearly with protein intake, but nonetheless I wanted to be careful about overall health and not increase my protein intake unless it seems like my creatinine numbers can be maintained.</p>
+
+<p>My bone density also significantly went down this year - I think it’s because I removed olympic lifts and heavy compounds such as deadlifts and squats. I plan to re-add these and check bone density afterward.</p>
+
+<h2 id="piano">Piano</h2>
+
+<p>A surprising win this year was Piano. Near the end of the year, I started practicing some holiday pieces after that Thanksgiving holiday. I’ve found that I can read pieces okay now, and generally play through a piece without much trouble, even if that is nowhere close to real speed.</p>
+
+<p>I think It’s a matter of impetus at this point: just keep practing, and I should be a pretty good player and can sight read without issue by the end of the year.</p>
+
+<h2 id="goals-for-2026">Goals for 2026</h2>
+
+<ul>
+  <li>Do 5 talks to evagnelize aep.dev (that would be a lot!)</li>
+  <li>Continue to play piano 10 minutes a day. I think I’m getting pretty good, so I’d like to keep that up.</li>
+  <li>Achieve 11% body fat (same as last year)</li>
+  <li>Gain a working knowledge of machine learning, and figure out how to meaningfully contribute to the ecosystem.</li>
+  <li>Become actually conversationally fluent at Farsi
+    <ul>
+      <li>Finish children of Morta.</li>
+    </ul>
+  </li>
+</ul>]]></content><author><name></name></author><category term="reflection" /><summary type="html"><![CDATA[With the end of the year, it’s time for another reflection.]]></summary></entry><entry><title type="html">Rebuilding AlexNet</title><link href="https://y.tsutsumi.io/alexnet" rel="alternate" type="text/html" title="Rebuilding AlexNet" /><published>2025-12-26T07:00:00+00:00</published><updated>2025-12-26T07:00:00+00:00</updated><id>https://y.tsutsumi.io/rebuilding-alexnet</id><content type="html" xml:base="https://y.tsutsumi.io/alexnet"><![CDATA[<h1 id="rebuilding-alexnet">Rebuilding AlexNet</h1>
 
 <p>My role at GM (aka ex-Cruise) has started pulling me and more and more into the machine learning space, in particular models that are critical to Autonomous vehicles such as perception, planning, world models, etc. For context, I have traditionally worked more on the system performance / vehicle software side, not the models directly.</p>
 
@@ -709,107 +765,4 @@ navigate through).</li>
   <li>more packages are better than fewer packages.</li>
   <li>granular, composable functionality is better than giant functionality.</li>
   <li>a shallow hierarchy of dependencies is better than a deeper one.</li>
-</ul>]]></content><author><name></name></author><category term="coding" /><summary type="html"><![CDATA[Better code organization in bazel]]></summary></entry><entry><title type="html">Reflecting on 2024</title><link href="https://y.tsutsumi.io/my-year/2024" rel="alternate" type="text/html" title="Reflecting on 2024" /><published>2025-01-03T07:00:00+00:00</published><updated>2025-01-03T07:00:00+00:00</updated><id>https://y.tsutsumi.io/my-year/reflecting-on-2024</id><content type="html" xml:base="https://y.tsutsumi.io/my-year/2024"><![CDATA[<p>I’m reflecting on my personal time during 2024. A lot of my time was spent
-working on things with my family that I won’t share here, but nontheless I did
-make some progress with my personal goals.</p>
-
-<h2 id="farsi">Farsi</h2>
-
-<p>This year, I think my Farsi has gotten quite a bit better:</p>
-
-<ul>
-  <li>Conversationally I can express most things.</li>
-  <li>I can watch some Farsi TV and news and get the general idea.</li>
-</ul>
-
-<p>The only video game with a Farsi translation I found is <a href="https://childrenofmorta.com/">Children of
-Morta</a>: I guess one of the developers is Iranian
-and wanted to get a Farsi translation in. I’m super thankful for that, so I can watch those cutscenes a few times and learn the Farsi from there.</p>
-
-<p>The big thing I did is start listening to TV in the car regularly: it’s a good
-way to reinforce my listening abilities.</p>
-
-<p>I still take Farsi lessons weekly. For 2025, I think I’ll continue at this pace,
-and loosely target being able to listen and understand Farsi TV.</p>
-
-<h2 id="fitness-and-health">Fitness and Health</h2>
-
-<p>I’ve continued working on fitness this year. Primarily lowering body fat,
-building muscle, and lowering my apob.</p>
-
-<p>I haven’t taken a Dexa scan since July, but my body fat actually went up at the
-time compared to January: I think it was due to a two-week long trip I took to
-Japan in June. I was not able to work out at all, and also walked a significant
-amount of time so I was still, somewhat, in a caloric deficit.</p>
-
-<p>That said, my weight at the end of the year is about 174 pounds. Losing roughly
-4 pounds in the first half of the year to 176, and 2 pounds in the last half.
-I’m not sure where my body fat is at, but likely 13% where it stood in July.</p>
-
-<p>Interestingly I lost muscle mass across the board except for my stomach in July.
-I still need to check to see if I was able to regain it or not.</p>
-
-<p>I’ve found a good routine for a caloric deficit and overall weight loss, which
-is:</p>
-
-<ul>
-  <li>400 calories daily burned at the treadmill (walking 30 minutes at 3.5mph, at a
-12 degree incline).</li>
-  <li>A 30 minute weightlifting workout, mixing in some crossfit-style workouts from
-time to time to do some interval training.</li>
-  <li>Maintaining ~1400 calories a day.</li>
-</ul>
-
-<p>I cheat on the calories regularly, so my weight is yo-yoing for now, but I’m
-able to keep it between 171 and 175, and able to lose a pound a week with the
-above. Given the holidays, I think this is invitable, but hoping to get back on
-the wagon next year.</p>
-
-<p>I upped my protein to 1.6g protein / kg, which I’ve read is about where the
-benefits to hypertrophy level off.</p>
-
-<p>For 2025, with a consistent technique to lose weight, I’m shifting my focus to
-figure out how to build more muscle. I think there’s a lot of optimization I’m
-missing out on there.</p>
-
-<h2 id="japanese">Japanese</h2>
-
-<p>For this year, my Japanese took a back burner. I stopped taking regular Japanese
-lessons. Honestly I think to maximize those lessons, I would have to start doing
-some pretty complex assignments like writing of papers and whatnot. It’s not
-something I’m that interested in investing time into.</p>
-
-<p>For now, I’ll just play video games in Japanese when I can. I have Witcher 3 and
-the Tactics Ogre remake, which will be dozens of hours and are already
-challenging me with new vocabulary.</p>
-
-<h2 id="oss-aepdev">OSS: aep.dev</h2>
-
-<p>aep.dev made a ton of progress! Don’t just take my word for it -  check out our
-<a href="https://aep.dev/blog/2024-in-review/">public blog post</a> on the topic.</p>
-
-<p>I’m very proud of the fact that we finally moved from just theoretical benefits
-to the client tooling, to real UIs and clients. If you author an AEP-compliant
-specification, you can get a <a href="https://github.com/aep-dev/aepcli">command line for
-free</a>. We’re working on a web
-<a href="https://github.com/aep-dev/aep-explorer">UI</a>, and have some prototyping of a
-Terraform/OpenTofu provider as well.</p>
-
-<p>With the progress we’ve made this year, I’m very excited about using that as a
-foundation for continued progress in aep.dev in 2025. This could be the year we
-really build out a full offering, and provide something compelling to adopters
-of our API specification!</p>
-
-<h2 id="goals-for-2025">Goals for 2025</h2>
-
-<p>For 2025, my goals are still to primarily have ample time to do impromptu things
-with my family. But I do have a few goals:</p>
-
-<ul>
-  <li>Get a roadmap for aep.dev</li>
-  <li>Play piano 10 minutes a day. Last year, I did not learn new 5 piano pieces.
-Darn! But I’ll make this my new goal for the year. My goal this year is to be
-able to play piano pieces from just reading sheet music.</li>
-  <li>Be able to understand persian news.</li>
-  <li>Achieve 11% body fat, without losing muscle mass.</li>
-</ul>]]></content><author><name></name></author><category term="2024" /><category term="reflection" /><summary type="html"><![CDATA[I’m reflecting on my personal time during 2024. A lot of my time was spent working on things with my family that I won’t share here, but nontheless I did make some progress with my personal goals.]]></summary></entry></feed>
+</ul>]]></content><author><name></name></author><category term="coding" /><summary type="html"><![CDATA[Better code organization in bazel]]></summary></entry></feed>
