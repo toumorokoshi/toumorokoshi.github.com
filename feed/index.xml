@@ -1,4 +1,84 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2026-01-19T00:06:49+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Review on the 2025 Framework 13</title><link href="https://y.tsutsumi.io/framework-13-2025" rel="alternate" type="text/html" title="Review on the 2025 Framework 13" /><published>2026-01-10T07:00:00+00:00</published><updated>2026-01-10T07:00:00+00:00</updated><id>https://y.tsutsumi.io/framework-laptop</id><content type="html" xml:base="https://y.tsutsumi.io/framework-13-2025"><![CDATA[<p><img src="./2026-01-10-framework-laptop.png" alt="The framework laptop 13" /></p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2026-01-20T00:06:10+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">realfood.gov</title><link href="https://y.tsutsumi.io/realfood-gov" rel="alternate" type="text/html" title="realfood.gov" /><published>2026-01-19T07:00:00+00:00</published><updated>2026-01-19T07:00:00+00:00</updated><id>https://y.tsutsumi.io/realfood-gov</id><content type="html" xml:base="https://y.tsutsumi.io/realfood-gov"><![CDATA[<p><a href="https://realfood.gov/">realfood.gov</a> looks to overhaul decades-long dietary guidelines for Americans.</p>
+
+<p>Although, like many food pyramids before it, there is a very strong lobbyist influence on this guidance (The <a href="https://www.nytimes.com/2026/01/07/well/rfk-jr-food-pyramid-nutrition-guidelines-protein.html">New York Times covers it well</a>), my thoughts are primarily on the guidance itself, as a health-conscious person who has done some reading on nutrition from folks like Dr. Peter Attia.</p>
+
+<h2 id="summary">Summary</h2>
+
+<p>My thoughts on the guidance is overall positive. But the changes I would make are:</p>
+
+<ul>
+  <li>Limit saturated fat as much as possible, similar to added sugars. Eating more saturated fat directly correlated to a higher increase in apob and cardiovascular disease.</li>
+  <li>Eliminate the conversation around whole foods vs processed foods. Acknowledge that most processed foods are nutritionally unhealthy, but focus on the nutritional content and not the processed nature.</li>
+  <li>Continue to focus on a plant-based diet. This is primarily because the amount of water and resources required to produce plant-based foods is significantly lower than the resources required for meat or most dairy. But meat is generally high in saturated fat so it’s best to avoid that anyway.</li>
+  <li>Positive changes: increased protein and fiber recommendations, reduction of high-carb foods in the pyramid.</li>
+</ul>
+
+<h2 id="the-details">The details</h2>
+
+<h3 id="pros">Pros</h3>
+
+<h4 id="increased-protein-intake">Increased protein intake</h4>
+
+<p>Generally, higher protein intake enables the body to build more muscle, although resistance training is much more important. This is especially critical in the later years where it’s incredibly hard to build muscles and strength.</p>
+
+<h4 id="reduced-bread--simple-carb-intake">Reduced bread / simple carb intake</h4>
+
+<p>It’s surprising that the original recommendations in the food pyramid were so heavy on carbs. Although ensuring you have enough energy throughout the day is a good thing, a carb-heavy diet can result in a lot of insulin to digest the glucose that is produced as a result, and can contribute to diabetes.</p>
+
+<p>There’s definitely healthier carbs in whole grains, but it is better to balance more protein or fats as well.</p>
+
+<h4 id="eliminating-bias-around-fats">Eliminating bias around fats</h4>
+
+<p>Unsaturated fats help improve satiety, and also reduce the number of carbs required to reach the daily caloric recommendation. I still think low-fat foods have their place, but as long as the fat is unsaturated, it is generally less causal to high ldl / apob, and is a good macronutrient to include in the mix.</p>
+
+<h3 id="mixed">Mixed</h3>
+
+<h4 id="well-intentioned-but-incorrect-focus-against-processed-foods">Well-intentioned, but incorrect, focus against processed foods.</h4>
+
+<p>The document focuses heavily on the concept of “real” foods, advocating against highly processed food.</p>
+
+<p>If you’re not willing to think about the nutritional content of food a bit more deeply, then I think it’s general it’s good guidance: most highly processed foods have extremely pool nutritional content, with high saturated fat, carbs, and low protein.</p>
+
+<p>However, this pairing ends up being a confounder: there just are not very many healthy but higly processed foods, and so most studies on highly processed food end up showing results very similar to studies on foods high in saturated fat, carbs, and low protein.</p>
+
+<p>Although it’s not a study, an anecdotal counterexample is <a href="https://huel.com/">huel</a>: definitely highly processed if you look at the ingredient list (dozens on ingredients, micronutrient blends), but many who run labs on the huel subreddit after multiple months exclusively on huel report lost fat, maintain muscles, and generally better labs such as blood pressure (<a href="https://www.reddit.com/r/Huel/comments/168xtf5/laboratory_results_4_months_on_100_huel_powder/">1</a>, <a href="https://discuss.huel.com/t/12-months-huel-only-diet-results/15750">2</a>).</p>
+
+<p>Another anecdotal example, is myself: my diet is primarily processed foods: I eat keto bread, protein powders, artificial sweeteners, huel, and sometimes slimfast (although when I eat “real food” it’s generally roasted whole vegetables).</p>
+
+<p>However, my labs for the past 2-3 years on this diet have only improved over time:</p>
+
+<ul>
+  <li>triclycerides are 50.</li>
+  <li>ldlc is 80 or lower.</li>
+  <li>body fat is the lowest it’s ever been.</li>
+  <li>blood pressure is consistently below 120/80: ten years ago I was generally right on the borderline.</li>
+</ul>
+
+<p>Which indicates to me the concerns are largely about the <em>overall nutritional content</em>, not about the processed nature of the food.</p>
+
+<p>Against, it’s generally good guidance, but is pointing at the wrong cause.</p>
+
+<h3 id="cons">Cons</h3>
+
+<h4 id="disregarding-saturated-fat">Disregarding saturated fat</h4>
+
+<p>The guidance effectively eliminates any guidance around saturated fat. Multiple studies at this point have proven the correlation between high saturated fat intake and apob (the lipoprotein that primarily gets caught in the subendothelial space of the arterial wall, contributing to ASCVD), so to ignore it’s guidance in my opinion, is mistaken.</p>
+
+<p>This is probably the guidance that I would be the most concerned about. It’s probably also not a coincidence that, since many meats and dairy tend to be much higher in saturated fat content than plant-based options, ignoring saturated fat tends to benefit the meat industry the most.</p>
+
+<p>The only guidance is the existing one which suggests limiting saturated fat intake to 10% of calories or less a day: in a 2000 kcal diet, that’s 200 calories, or roughly 22 grams. It’s less reinforced in the new narrative.</p>
+
+<p>I’d replace this guidance with limiting saturated fat to near-zero as much as possible, similar to added sugars.</p>
+
+<h4 id="eating-more-meat-over-a-plant-based-diet">Eating more meat over a plant-based diet</h4>
+
+<p>This particular con is less about the nutritional content: farming meat requires significantly more water and land than growing plants. I don’t think it’s really tenable to continue to increase the usage per capita for food, especially as the population keeps growing.</p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>I left my summary at the beginning, but my parting thoughts: It’s unfortunate that science, like anything human, has to be so strongly biased. And I see parts of this new guidance that has significant cons.</p>
+
+<p>But that said, the old guidance was not perfect either. I hope the next version (no doubt swiftly replaced by the next administration run by a Democrat) corrects some of the issues I’ve raised above, without regressing on some of the improvements.</p>]]></content><author><name></name></author><category term="reflection" /><summary type="html"><![CDATA[realfood.gov looks to overhaul decades-long dietary guidelines for Americans.]]></summary></entry><entry><title type="html">Review on the 2025 Framework 13</title><link href="https://y.tsutsumi.io/framework-13-2025" rel="alternate" type="text/html" title="Review on the 2025 Framework 13" /><published>2026-01-10T07:00:00+00:00</published><updated>2026-01-10T07:00:00+00:00</updated><id>https://y.tsutsumi.io/framework-laptop</id><content type="html" xml:base="https://y.tsutsumi.io/framework-13-2025"><![CDATA[<p><img src="./2026-01-10-framework-laptop.png" alt="The framework laptop 13" /></p>
 
 <p>I finally got a <a href="https://frame.work/">Framework</a> 13 laptop! This is something I’ve wanted for several years, ever since they started shipping their laptops in 2021.</p>
 
@@ -735,35 +815,4 @@ all</a>. Even on bluetooth it’s
 <p>Rather than add a print statement temporarily, just make the error better - it helps the next person when they come along:</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">raise</span> <span class="nb">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s">"conflict args. Args found: </span><span class="si">{</span><span class="n">args</span><span class="si">}</span><span class="s">)
-</span></code></pre></div></div>]]></content><author><name></name></author><category term="coding" /><summary type="html"><![CDATA[My tips on debugging]]></summary></entry><entry><title type="html">Result, Situation, Action: a new take on the STAR format</title><link href="https://y.tsutsumi.io/rsa" rel="alternate" type="text/html" title="Result, Situation, Action: a new take on the STAR format" /><published>2025-02-08T07:00:00+00:00</published><updated>2025-02-08T07:00:00+00:00</updated><id>https://y.tsutsumi.io/result-situation-action</id><content type="html" xml:base="https://y.tsutsumi.io/rsa"><![CDATA[<h1 id="result-situation-action">Result, Situation, Action</h1>
-
-<p>The <a href="https://en.wikipedia.org/wiki/Situation,_task,_action,_result">STAR</a> format
-of answering an interview question is very popular. But in my experience a twist
-on that ends up being more effective: result, situation, then action.</p>
-
-<p>The STAR format kind of buries the lead - it forces the interviewer into a
-long-winded story and they’re not engaged because they don’t understand the
-value of it. By giving them some idea of the impact that your story had (e.g. I
-saved the company $XXX dollars, we reduced developer wait times by 20 minutes on
-a 1-hour task), that gives the interviewer a reason to listen.</p>
-
-<p>In addition, I find the “task” part of the story tends to be extraneous - when
-you only have 30 minutes to an hour with the interviewer <em>total</em>, you need to
-shave the minutes where it matters.</p>
-
-<p>Although the whole “my task was X” may take 1 minute to explain, it’s better to just explain what you <em>did</em>.</p>
-
-<h2 id="example">Example</h2>
-
-<p>Result: I increased revenue for the company by XX percent.</p>
-
-<p>Situation: In multiple customer meetings, I noticed that in the follow-up of
-customers meetings, they would always mention having trouble onboarding onto
-feature X.</p>
-
-<p>Action: I wrote up a user guide, and we added a link the first time a customer
-accessed the feature, as well as included it in the onboarding guide.</p>
-
-<h2 id="summary">Summary</h2>
-
-<p>I call this “RSA” pronounced “rizza”. Try it out!</p>]]></content><author><name></name></author><category term="coding" /><summary type="html"><![CDATA[Result, Situation, Action]]></summary></entry></feed>
+</span></code></pre></div></div>]]></content><author><name></name></author><category term="coding" /><summary type="html"><![CDATA[My tips on debugging]]></summary></entry></feed>
