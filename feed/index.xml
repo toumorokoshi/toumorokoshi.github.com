@@ -1,4 +1,248 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2026-02-02T00:08:01+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">realfood.gov</title><link href="https://y.tsutsumi.io/realfood-gov" rel="alternate" type="text/html" title="realfood.gov" /><published>2026-01-19T07:00:00+00:00</published><updated>2026-01-19T07:00:00+00:00</updated><id>https://y.tsutsumi.io/realfood-gov</id><content type="html" xml:base="https://y.tsutsumi.io/realfood-gov"><![CDATA[<p><a href="https://realfood.gov/">realfood.gov</a> looks to overhaul decades-long dietary guidelines for Americans.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2026-02-03T00:09:00+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Distributed System Design Interview</title><link href="https://y.tsutsumi.io/interviews/system-design" rel="alternate" type="text/html" title="Distributed System Design Interview" /><published>2026-02-02T07:00:00+00:00</published><updated>2026-02-02T07:00:00+00:00</updated><id>https://y.tsutsumi.io/interviews/blog-system-design-interview</id><content type="html" xml:base="https://y.tsutsumi.io/interviews/system-design"><![CDATA[<h1 id="distributed-system-design-interview">Distributed System Design Interview</h1>
+
+<p>I’ve been thinking a lot about how to do well in system design interviews
+recently. Aside from the obvious utility in getting an offer as a software
+engineer, I think there is some happy union where being good at a system design
+<em>interview</em> also can provide a good rubric at doing off-the-cuff system design.</p>
+
+<p>Here’s my notes on my ideal workflow, that I plan on iterating on as time allows.</p>
+
+<ol>
+  <li>gather requirements</li>
+  <li>API design (maybe you could do this during “gather requirements”  as you
+figure out usage).</li>
+  <li>block diagram</li>
+  <li>data storage</li>
+</ol>
+
+<h2 id="1-gather-requirements">1: gather requirements</h2>
+
+<p>I think requirements have a minimum checklist: have you thought about
+every intrinsic attribute that could affect your system?</p>
+
+<p>The common ones, in my opinion, are:</p>
+
+<ul>
+  <li>usage requirements (start with this first)</li>
+  <li>seasonality in usage patterns (e.g. are certain days / months heavier than others)</li>
+  <li>read / write load (or read-heavy / write-heavy)</li>
+  <li>latency requirements</li>
+  <li>geolocation</li>
+  <li>uptime requirements</li>
+  <li>scale</li>
+</ul>
+
+<p>Then anything more domain-specific to the problem at hand.</p>
+
+<h3 id="napkin-math-around-requirements">napkin math around requirements</h3>
+
+<p>“napkin math”, where you try to do ballpark estimates of the numerical
+requirements or properties of your system, are a must for system design, and in
+interviews I found myself getting into doing really complex numerical
+conversions that I honestly couldn’t do in my head. A lot of it had to do with
+the base 2 calculations vs the base 10 calculations and interchanging them.</p>
+
+<p>To help with this, I have the following framework:</p>
+
+<ol>
+  <li>Calculate the data storage in bytes (base 2 calculation)</li>
+  <li>Do estimates in multiples of ten if possible (e.g. 500k users). Write that out as powers of 10 (e.g. 5*10^6)</li>
+  <li>Estimate requests per second by estimating the total activity per <em>day</em>, divide by 10^5, then multiple by 1.1.</li>
+</ol>
+
+<p>The third one requires a bit more explanation. Basically:</p>
+
+<ul>
+  <li>There are 86,400 seconds in a day.</li>
+  <li>100,000 / 86,400 ~ 1.15. Which we can further ballbark to 1.1 or 1.2.</li>
+</ul>
+
+<p>This, combined with using multiples of ten for users, makes the math really
+really easy. 1.1 is very easy to mentally perform as well.</p>
+
+<h3 id="figure-out-data-storage">Figure out data storage</h3>
+
+<p>Question: which two of the CAP theorem are most critical for the storage of the
+data?</p>
+
+<p>Every systems design problem has some sort of data that you need to store. On
+that note, I’ve seen a couple different flavors of “data storage” discussions:</p>
+
+<ol>
+  <li>Thinking about the design patterns to use based on the properties of your
+business problem.</li>
+  <li>Discussing real-life databases or categories that you might use (e.g. SQL vs
+document database).</li>
+</ol>
+
+<p>To hedge your bets, I think you should start with 1 where you think about the
+data structures, and know how to map them to the database that implement.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>design pattern or data structure</th>
+      <th>database</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>hashmap</td>
+      <td>key-value store</td>
+    </tr>
+    <tr>
+      <td>b-tree index</td>
+      <td>indexed database</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>A common data structure is to:</p>
+
+<ol>
+  <li>have a dataset split into multiple “shards”</li>
+  <li>replicate each shard into replica sets (each replica set could have a single master via paxos quorum)</li>
+  <li>have the metadata of each replica server started in a config server.</li>
+  <li>have the config server heartbeat into replicas to do coordination (e.g. disenroll)</li>
+  <li>the master has a write-ahead-log to store the transactions, ensure ordering.
+Add a checksum to ensure the operation completes. Otherwise query master for
+correct row data and re-verify.</li>
+  <li>replicas replicate the WAL and perform subsqeuent writes.</li>
+</ol>
+
+<pre><code class="language-mermaid">graph TD
+CS[Config Server] --&gt; RS1[Replica Set 1]
+CS --&gt; RS2[Replica Set 2]
+CS --&gt; RS3[Replica Set 3]
+subgraph "Shard 1"
+RS1 --&gt; M1[Master]
+RS1 --&gt; S1A[Replica]
+RS1 --&gt; S1B[Replica]
+end
+subgraph "Shard 2"
+RS2 --&gt; M2[Master]
+RS2 --&gt; S2A[Replica]
+RS2 --&gt; S2B[Replica]
+end
+subgraph "Shard 3"
+RS3 --&gt; M3[Master]
+RS3 --&gt; S3A[Replica]
+RS3 --&gt; S3B[Replica]
+end
+%% Heartbeat connections
+CS -.-&gt;|Heartbeat| M1
+CS -.-&gt;|Heartbeat| M2
+CS -.-&gt;|Heartbeat| M3
+CS -.-&gt;|Heartbeat| S1A
+CS -.-&gt;|Heartbeat| S1B
+CS -.-&gt;|Heartbeat| S2A
+CS -.-&gt;|Heartbeat| S2B
+CS -.-&gt;|Heartbeat| S3A
+CS -.-&gt;|Heartbeat| S3B
+</code></pre>
+
+<h1 id="organizing-and-communicating-in-a-design-interview">Organizing and communicating in a design interview</h1>
+
+<ul>
+  <li>have three different text sections: this will help communicate to the
+interviewer what assumptions you have made.</li>
+  <li>requirements/</li>
+  <li>API?</li>
+  <li>user journey?</li>
+</ul>
+
+<h1 id="deeper-notes">Deeper notes</h1>
+
+<h2 id="design-patterns-per-use-case">Design patterns per use case</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>problem</th>
+      <th>solution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>thundering herd / high number of requests</td>
+      <td>exponential backoff</td>
+    </tr>
+    <tr>
+      <td>generating garbage / corruption over time</td>
+      <td>garbage collection process</td>
+    </tr>
+    <tr>
+      <td>ensuring nodes are available</td>
+      <td>heartbeating</td>
+    </tr>
+    <tr>
+      <td>high availability with state</td>
+      <td>master with a quorum (e.g. via paxos)</td>
+    </tr>
+    <tr>
+      <td>distributed consensus</td>
+      <td>paxos</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="design-patterns-when-considering-data-storage">Design Patterns when considering data storage</h2>
+
+<h3 id="choosing-the-partitioning-key-for-data-locality">Choosing the partitioning key for data locality.</h3>
+
+<p>Similar to Google bigtable, one could choose the partition key for rows by some
+structure that ensures that for most queries, the query only has to send a request
+subset of nodes, rather than all of them. This:</p>
+
+<ul>
+  <li>reduces the query load on all nodes.</li>
+  <li>also reduces the latency of the request, since fewer nodes have to respond.</li>
+</ul>
+
+<h3 id="paxos">Paxos</h3>
+
+<p>The Paxos algorithm can be used to achieve consensus across multiple separate
+hosts.</p>
+
+<p>The Google Chubby lock server can handle ~20 req / s of content updates, with
+a significant number of reads and KeepAlives.</p>
+
+<h3 id="write-ahead-log">write-ahead log</h3>
+
+<p>A write-ahead log can be used to ensure durability in the operations that are
+performed. A transaction can be acknowledged after it’s committed into a
+write-ahead log.</p>
+
+<h3 id="expontial-backoff">Expontial backoff</h3>
+
+<h3 id="read-locks-and-write-locks">Read locks and write locks</h3>
+
+<p>Read locks (aka shared locks) are a common database pattern which allows
+multiple readers on a row of data, preventing mutation. It prevents subsequent
+writes until all readers have released a lock.</p>
+
+<p>Write locks are an exclusive lock on the row, blocking both reads and writes.</p>]]></content><author><name></name></author><category term="coding" /><summary type="html"><![CDATA[Distributed System Design Interview]]></summary></entry><entry><title type="html">VS Code Debug Json Cheatsheet</title><link href="https://y.tsutsumi.io/vscode-debug-cheatsheet" rel="alternate" type="text/html" title="VS Code Debug Json Cheatsheet" /><published>2026-02-02T07:00:00+00:00</published><updated>2026-02-02T07:00:00+00:00</updated><id>https://y.tsutsumi.io/vscode-launch-debug</id><content type="html" xml:base="https://y.tsutsumi.io/vscode-debug-cheatsheet"><![CDATA[<p>With all of the new vscode-based editors out there (Cursor, Antigravity, and of course VS Code itself), I find myself having to reconfigure editors all the time.</p>
+
+<p>Here are some snippets of vs code debug configuration to easily copy-paste as needed.</p>
+
+<h2 id="go">Go</h2>
+
+<h3 id="running-a-command-line-tool">Running a command line tool</h3>
+
+<p>I’ve used this for when I’m trying to debug <a href="https://github.com/aep-dev/aepcli">aepcli</a></p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">       </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Debug Command Line App"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"go"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"request"</span><span class="p">:</span><span class="w"> </span><span class="s2">"launch"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"auto"</span><span class="p">,</span><span class="w">
+            </span><span class="err">//</span><span class="w"> </span><span class="err">or</span><span class="w"> </span><span class="err">path</span><span class="w"> </span><span class="err">to</span><span class="w"> </span><span class="err">command</span><span class="w"> </span><span class="err">line</span><span class="w">
+            </span><span class="nl">"program"</span><span class="p">:</span><span class="w"> </span><span class="s2">"${workspaceFolder}/cmd/aepcli"</span><span class="p">,</span><span class="w">
+           </span><span class="nl">"args"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+               </span><span class="s2">"http://localhost:8000/openapi.json"</span><span class="w">
+            </span><span class="p">]</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>]]></content><author><name></name></author><summary type="html"><![CDATA[With all of the new vscode-based editors out there (Cursor, Antigravity, and of course VS Code itself), I find myself having to reconfigure editors all the time.]]></summary></entry><entry><title type="html">realfood.gov</title><link href="https://y.tsutsumi.io/realfood-gov" rel="alternate" type="text/html" title="realfood.gov" /><published>2026-01-19T07:00:00+00:00</published><updated>2026-01-19T07:00:00+00:00</updated><id>https://y.tsutsumi.io/realfood-gov</id><content type="html" xml:base="https://y.tsutsumi.io/realfood-gov"><![CDATA[<p><a href="https://realfood.gov/">realfood.gov</a> looks to overhaul decades-long dietary guidelines for Americans.</p>
 
 <p>Although, like many food pyramids before it, there is a very strong lobbyist influence on this guidance (The <a href="https://www.nytimes.com/2026/01/07/well/rfk-jr-food-pyramid-nutrition-guidelines-protein.html">New York Times covers it well</a>), my thoughts are primarily on the guidance itself, as a health-conscious person who has done some reading on nutrition from folks like Dr. Peter Attia.</p>
 
@@ -737,82 +981,4 @@ long as the outcome is achieved, it can be considered complete.</p>
       <li>good: “p99 for CI test execution is within 2 minutes”</li>
     </ul>
   </li>
-</ul>]]></content><author><name></name></author><category term="okrs" /><summary type="html"><![CDATA[OKRs and goal setting]]></summary></entry><entry><title type="html">Finding a low latency game controller</title><link href="https://y.tsutsumi.io/low-latency-gaming-controller/" rel="alternate" type="text/html" title="Finding a low latency game controller" /><published>2025-06-27T07:00:00+00:00</published><updated>2025-06-27T07:00:00+00:00</updated><id>https://y.tsutsumi.io/low-latency-controllers</id><content type="html" xml:base="https://y.tsutsumi.io/low-latency-gaming-controller/"><![CDATA[<h1 id="finding-a-low-latency-game-controller">Finding a low latency game controller</h1>
-
-<p>I’ve been playing some <a href="https://www.expedition33.com/">Clair Obscur: Expedition
-33</a>, and it’s an amazing game.</p>
-
-<p>However, one of the major issues I run into is with timing the dodges: during
-battles on the hardest difficulty, if you don’t dodge, your party dies very quickly:</p>
-
-<p><img src="./2025-06-27-low-latency-controller-exp33.png" alt="image" /></p>
-
-<p>Dodging comes down to timing pressing a button right when the enemy attacks.
-It isn’t easy, but I noticed that I was having a really hard
-time with it. That’s when I realized that it was due to my controller (the <a href="https://www.8bitdo.com/lite2/">8bitdo Lite 2</a>).</p>
-
-<h2 id="what-affects-controller-latency">What affects controller latency?</h2>
-
-<p>There are two main factors to consider:</p>
-
-<ul>
-  <li>The <em>polling rate</em> of the controller: how frequently it checks to see if a
-button or stick is pressed. This can introduce a maximum delay of <code class="language-plaintext highlighter-rouge">1000ms /
-freq_hz</code>.</li>
-  <li>The <em>connection latency</em> of the controller: the amount of time it takes for a
-signal to reach the device. For bluetooth this can be highly variable, while
-wired and 2.4Ghz connections can be much more stable.</li>
-</ul>
-
-<p>In my case, there is a third factor, since I’m streaming my setup via
-<a href="https://moonlight-stream.org/">moonlight</a>: the latency between my device and
-the device running the game. On a 5Ghz wireless connection in my house, that’s
-3-4 milliseconds.</p>
-
-<h2 id="8bitdo2-lite-2-latency">8bitdo2 Lite 2 latency</h2>
-
-<p>So what was the worst-case latency of the 8bitdo Lite 2? We can reference <a href="https://www.youtube.com/watch?v=O6cZIfD6uLw">this
-youtube review</a>, which has an
-excellent test.</p>
-
-<p>The bottom line looks like:</p>
-
-<ul>
-  <li>Average polling rate 44hz, so 22 milliseconds!</li>
-</ul>
-
-<p>The review didn’t mention bluetooth, so I’m looking for a way to test that. But
-assuming at least an additional 4-5 milliseconds of latency, that’s 25
-milliseconds it’s adding to those button presses!</p>
-
-<h2 id="what-is-the-best-low-latency-controller">What is the best low latency controller?</h2>
-
-<p>In short, look at <a href="https://gamepadla.com/">gamepedla</a>, which has timings for
-many controllers.</p>
-
-<p>But I chose the <a href="https://www.8bitdo.com/ultimate-2-wireless-controller/">8bitdo Ultimate
-2</a>. At a 1000hz polling
-rate and measured sub 5ms latency for both wired and via 2.4Ghz, It’ll ensure a
-lag-free experience if needed. In addition, the 10ms bluetooth latency isn’t too
-bad!</p>
-
-<p>While I’m waiting for that, I had an Xbox Core Controller lying around, and the
-latency there <a href="https://gamepadla.com/xbox-core-controller.html">isn’t bad at
-all</a>. Even on bluetooth it’s
-11-12ms, comparable to bluetooth on the 8bitdo Ultimate 2.</p>]]></content><author><name></name></author><category term="gaming" /><summary type="html"><![CDATA[Finding a low latency game controller]]></summary></entry><entry><title type="html">My tips on debugging</title><link href="https://y.tsutsumi.io/debugging" rel="alternate" type="text/html" title="My tips on debugging" /><published>2025-06-07T07:00:00+00:00</published><updated>2025-06-07T07:00:00+00:00</updated><id>https://y.tsutsumi.io/debugging</id><content type="html" xml:base="https://y.tsutsumi.io/debugging"><![CDATA[<h1 id="my-tips-on-debugging">My tips on debugging</h1>
-
-<p>Updated: 2025-06-07</p>
-
-<p>This is a running collection of my thoughts on debugging. I’ll update these over time.</p>
-
-<h2 id="improve-errors-minimize-print-statements">Improve errors, minimize print statements</h2>
-
-<p>One common type of debugging is “print” style - just print the data you need at the time. Often this occurs because you don’t have enough information in the error itself:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">raise</span> <span class="nb">ValueError</span><span class="p">(</span><span class="s">"conflicting args"</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>Rather than add a print statement temporarily, just make the error better - it helps the next person when they come along:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">raise</span> <span class="nb">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s">"conflict args. Args found: </span><span class="si">{</span><span class="n">args</span><span class="si">}</span><span class="s">)
-</span></code></pre></div></div>]]></content><author><name></name></author><category term="coding" /><summary type="html"><![CDATA[My tips on debugging]]></summary></entry></feed>
+</ul>]]></content><author><name></name></author><category term="okrs" /><summary type="html"><![CDATA[OKRs and goal setting]]></summary></entry></feed>
