@@ -1,4 +1,29 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2026-02-09T00:08:42+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Distributed System Design Interview</title><link href="https://y.tsutsumi.io/interviews/system-design" rel="alternate" type="text/html" title="Distributed System Design Interview" /><published>2026-02-02T07:00:00+00:00</published><updated>2026-02-02T07:00:00+00:00</updated><id>https://y.tsutsumi.io/interviews/blog-system-design-interview</id><content type="html" xml:base="https://y.tsutsumi.io/interviews/system-design"><![CDATA[<h1 id="distributed-system-design-interview">Distributed System Design Interview</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2026-02-10T00:12:51+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">farsi</title><link href="https://y.tsutsumi.io/languages/farsi" rel="alternate" type="text/html" title="farsi" /><published>2026-02-09T07:00:00+00:00</published><updated>2026-02-09T07:00:00+00:00</updated><id>https://y.tsutsumi.io/languages/farsi-grammar</id><content type="html" xml:base="https://y.tsutsumi.io/languages/farsi"><![CDATA[<h1 id="farsi-grammar">Farsi Grammar</h1>
+
+<p>In my spare time, I’m learning Farsi. I’ll use this as a kitchen sink for my notes on the language.</p>
+
+<h2 id="peyda-konam">Peyda Konam</h2>
+
+<p>In farsi, there are phrases such as</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ادامه پیدل کنم
+</code></pre></div></div>
+
+<p>The peyda konam (found X) is used in a situation where a direct action is not taken to make the object achieve that state.</p>
+
+<p>For example, you could say “if the revolution continues…” - but this does not refer to any specific object ensuring the revolution does continue.</p>
+
+<p>This is where “peyda konam” comes in. Since it’s nebulous whether it will actually happen, it’s about it finding itself in a situation when it does occur vs actively being done.</p>
+
+<h2 id="mitoonestan">Mitoonestan</h2>
+
+<p>The word mitoonestan (می‌توانستم) is the past continuous/imperfect form of the verb tavānestan (توانستن), which means “to be able to.”</p>
+
+<p>Mitoonestan is interesting, because it is a model / auxiliary verb. Model / auxiliary verbs require a <em>main verb</em> to clarify what is possible / what is desired / etc.</p>
+
+<p>So applying the past tense to these case is complicated, and the way that it’s done in farsi is to conjugate the modal verb, not the main verb.</p>
+
+<p>e.g. I couldn’t do it is نمتستن کنم.</p>]]></content><author><name></name></author><category term="language-learning" /><summary type="html"><![CDATA[Farsi Grammar]]></summary></entry><entry><title type="html">Distributed System Design Interview</title><link href="https://y.tsutsumi.io/interviews/system-design" rel="alternate" type="text/html" title="Distributed System Design Interview" /><published>2026-02-02T07:00:00+00:00</published><updated>2026-02-02T07:00:00+00:00</updated><id>https://y.tsutsumi.io/interviews/blog-system-design-interview</id><content type="html" xml:base="https://y.tsutsumi.io/interviews/system-design"><![CDATA[<h1 id="distributed-system-design-interview">Distributed System Design Interview</h1>
 
 <p>I’ve been thinking a lot about how to do well in system design interviews
 recently. Aside from the obvious utility in getting an offer as a software
@@ -815,170 +840,4 @@ extremely smooth on Linux now.</li>
 <p>For Ubuntu, I would go with <a href="https://bazzite.gg/">bazzite</a> for a pure gaming PC,
 but as this computer will be the most powerful one I have, I wanted it to have
 the option to be more general purpose in case I get the itch to do some real
-software development on it (maybe ML or some CPU emulation project).</p>]]></content><author><name></name></author><category term="computers" /><summary type="html"><![CDATA[Setting up a streaming gaming Ubuntu PC for moonlight]]></summary></entry><entry><title type="html">OKRs and goal setting</title><link href="https://y.tsutsumi.io/okrs/" rel="alternate" type="text/html" title="OKRs and goal setting" /><published>2025-07-11T07:00:00+00:00</published><updated>2025-07-11T07:00:00+00:00</updated><id>https://y.tsutsumi.io/okrs-and-goal-setting</id><content type="html" xml:base="https://y.tsutsumi.io/okrs/"><![CDATA[<h1 id="okrs-and-goal-setting">OKRs and goal setting</h1>
-
-<p>I’ve had a lot of conversations around OKRs, so I wanted to write down my
-thoughts around them.</p>
-
-<h2 id="what-are-okrs-and-how-are-they-defined">What are OKRs, and how are they defined</h2>
-
-<p>OKRs stand for “objectives” and “key results”.</p>
-
-<p>OKRs were developed by Andy Grove at Intel in the 1970s and later popularized by
-John Doerr, who learned about them while working at Intel, and then introduced
-them to Google in 1999. The framework has since been adopted by many technology
-companies and organizations worldwide.</p>
-
-<p><strong>Objectives</strong> are qualitative, inspirational goals that answer the question “What do we want to achieve?” They should be:</p>
-<ul>
-  <li>Clear and specific</li>
-  <li>Time-bound (typically quarterly)</li>
-  <li>Ambitious but achievable</li>
-  <li>
-    <h2 id="aligned-with-company-strategy">Aligned with company strategy</h2>
-    <p>Objectives create alignment across teams and drive focus on the most important
-priorities for the organization.</p>
-  </li>
-</ul>
-
-<p><strong>Key Results</strong> are quantitative, measurable outcomes that answer the question “How will we know if we achieved our objective?” They should be:</p>
-<ul>
-  <li>Specific and measurable</li>
-  <li>Time-bound</li>
-  <li>Aggressive but realistic</li>
-  <li>Leading indicators of success</li>
-</ul>
-
-<p>Key results provide a quantitative measure of an objective: if all of the KRs
-are reached, the objective is considered accomplished.</p>
-
-<h2 id="hierarchy-of-okrs">Hierarchy of OKRs</h2>
-
-<pre><code class="language-mermaid">graph TD
-    O[Objective: Improve Customer Satisfaction]
-    KR[Key Result: Achieve 90% Customer Satisfaction Score]
-    P[Project: Implement Customer Feedback System]
-
-    P --&gt; KR --&gt; O
-</code></pre>
-
-<p>This hierarchy shows how:</p>
-<ul>
-  <li><strong>Objectives</strong> (top level) define what you want to achieve</li>
-  <li><strong>Key Results</strong> (middle level) measure progress toward objectives</li>
-  <li><strong>Projects</strong> (bottom level) are the actual work initiatives that drive key results</li>
-</ul>
-
-<h2 id="addressing-okr-concerns">Addressing OKR Concerns</h2>
-
-<p>I’ve often heard from many ICs and technical managers that OKRs feel like a
-pedantic exercise that only serves as busywork, and doesn’t provide real value
-to the organization, or might constrain the scope of the work unnecessarily. I
-hope to argue that, with the right process, OKRs can be neither.</p>
-
-<h3 id="okrs-create-a-common-language-of-communication">OKRs create a common language of communication</h3>
-
-<p>In my experience working with senior leadership teams, the biggest challenge in
-communication comes from <em>not articulating engineering projects in terms of a
-measure that leadership can truly appreciate</em>. This requires a mindset shift,
-especially for engineers who are used to dealing with problems that require deep
-context to solve and fully appreciate.</p>
-
-<p>Senior leaders often have dozens, if not hundreds of members in their
-organization. They will likely not have the bandwidth to intimately understand
-the work you’re doing, although they probably want to. This puts an individual
-engineer or a team at a risk: if there is a disconnect in context and a common
-language across the two levels, the engineer may be working on amazing things
-that go unrecognized, and the leader may miss the opportunity to give critical
-feedback on the alignment of goals. OKRs serve as that missing common language,
-helping frame the technical work being done in terms of the impact to the
-organization and a quantitative way to measure it.</p>
-
-<h3 id="concern-okrs-are-too-heavyweight">Concern: OKRs are too heavyweight</h3>
-
-<p>When there is feedback that the OKR process is busywork, I think a lot of that
-comes from a heavyweight OKRs process. Including:</p>
-
-<ul>
-  <li>A process that forces very stringent requirements and arguing pedantries, like
-requiring specific phrasing or formatting.</li>
-  <li>A process that stretches weeks at a time, where the next OKR planning begins
-only a short while after the previous planning was complete.</li>
-  <li>Planning that is too frequent, where a team doesn’t even have a chance to
-deliver the previous OKRs.</li>
-</ul>
-
-<p>To mitigate those, I suggest:</p>
-
-<ul>
-  <li>OKR planning no more than once a quarter. Every six months would be a better
-cadence, if it’s possibly to plan that far ahead.</li>
-  <li>OKR planning process only last 2 weeks: this forces a lot of thinking and
-collaboration, but leaves 10 weeks or more to focus on execution.</li>
-</ul>
-
-<h3 id="concern-things-change-too-quickly-to-write-good-okrs">Concern: things change too quickly to write good OKRs</h3>
-
-<p>This is a valid criticism. OKRs are built around long-term planning, and
-sometimes that isn’t always possible. If a KR is shifting constantly, it may be
-a sign of, frankly, some organizational dysfunction that any goal setting
-exercise cannot address.</p>
-
-<p>However, this is also often a symptom of the OKRs themselves: perhaps the OKRs
-have over-specified and implementation detail, rather than serve as a measure of
-the achievement of a goal.</p>
-
-<p>Taking improving the performance of a C++ codebase as an example. An
-overspecified KR may look like:</p>
-
-<ul>
-  <li>update clangd and achieve a 20% latency reduction in web service latency.</li>
-</ul>
-
-<p>The “update clangd” detail is superfluous and overspecified: the goal is to make
-things faster, and if you find some better way to do that after a couple weeks
-of investigation, you should be able to switch the approach whenever to achieve
-that.</p>
-
-<h3 id="concerns-the-scope-of-the-krs-is-too-constrained">Concerns: the scope of the KRs is too constrained</h3>
-
-<p>Sometimes a KR can feel like it’s constraining you to a specific solution. I
-have found that this, similar to a KR that goes stale quickly, is often
-caused by being too tightly coupled to a specific solution.</p>
-
-<p>A solution may change mid-quarter, and the KRs should be authored so that as
-long as the outcome is achieved, it can be considered complete.</p>
-
-<h2 id="examples-of-bad-objectives">Examples of bad objectives</h2>
-
-<ul>
-  <li>not framed in terms of a business goal:
-    <ul>
-      <li>bad: “oncall rotation”</li>
-      <li>good: “achieve high availability of P0 services”</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="examples-of-bad-krs">Examples of bad KRs</h2>
-
-<ul>
-  <li>overspecified: A KR that includes precise implementation details.
-    <ul>
-      <li>bad: “achieve a 20% latency improvement by adding flash attention support”</li>
-      <li>good” “achieve a 20% latency improvement in model training”</li>
-    </ul>
-  </li>
-  <li>underspecified: A KR that doesn’t include a specific target.
-    <ul>
-      <li>bad: “ship fewer bugs”</li>
-      <li>good: “20% fewer P0 issues discovered in production” or “3 or less P0 incidents in production”</li>
-    </ul>
-  </li>
-  <li>unmeasurable: A KR that is not quantifiable.
-    <ul>
-      <li>bad: “users are happy with their CI execution”</li>
-      <li>good: “p99 for CI test execution is within 2 minutes”</li>
-    </ul>
-  </li>
-</ul>]]></content><author><name></name></author><category term="okrs" /><summary type="html"><![CDATA[OKRs and goal setting]]></summary></entry></feed>
+software development on it (maybe ML or some CPU emulation project).</p>]]></content><author><name></name></author><category term="computers" /><summary type="html"><![CDATA[Setting up a streaming gaming Ubuntu PC for moonlight]]></summary></entry></feed>
