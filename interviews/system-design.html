@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Distributed System Design Interview | Yusuke Tsutsumi</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Distributed System Design Interview" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Distributed System Design Interview" />
+<meta property="og:description" content="Distributed System Design Interview" />
+<link rel="canonical" href="https://y.tsutsumi.io/interviews/system-design" />
+<meta property="og:url" content="https://y.tsutsumi.io/interviews/system-design" />
+<meta property="og:site_name" content="Yusuke Tsutsumi" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-02-02T07:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Distributed System Design Interview" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2026-02-02T07:00:00+00:00","datePublished":"2026-02-02T07:00:00+00:00","description":"Distributed System Design Interview","headline":"Distributed System Design Interview","mainEntityOfPage":{"@type":"WebPage","@id":"https://y.tsutsumi.io/interviews/system-design"},"url":"https://y.tsutsumi.io/interviews/system-design"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" /><script async src="https://www.googletagmanager.com/gtag/js?id=G-325KP61WS9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { window.dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-325KP61WS9');
+</script>
+</head><body><header class="site-header">
+
+    <div class="wrapper"><a class="site-title" rel="author" href="/">Yusuke Tsutsumi</a><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path
+                            d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger">
+                <a class="page-link" href="/tag/coding/">Coding Posts</a>
+                <a class="page-link"
+                    href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a><a class="page-link" href="/resources/">Resources</a><a class="page-link" href="/about/">About Yusuke Tsutsumi</a></div>
+        </nav></div>
+    <style>
+        .gse-control-cse td {
+            border: 0;
+        }
+
+        td.gsc-input {
+            border: 0;
+        }
+
+        td.gsc-search-button {
+            border: 0;
+        }
+
+        table.gsc-input {
+            margin-bottom: 0;
+        }
+    </style>
+</header><main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <header class="post-header">
+        <h1 class="post-title p-name" itemprop="name headline">Distributed System Design Interview</h1>
+        <p class="post-meta"><time class="dt-published" datetime="2026-02-02T07:00:00+00:00" itemprop="datePublished">
+                Feb 2, 2026
+            </time></p>
+    </header>
+
+    <div class="post-content e-content" itemprop="articleBody">
+        <h1 id="distributed-system-design-interview">   Distributed System Design Interview <a href="#distributed-system-design-interview">#</a>   </h1>
+                    
+
+<p>I’ve been thinking a lot about how to do well in system design interviews
+recently. Aside from the obvious utility in getting an offer as a software
+engineer, I think there is some happy union where being good at a system design
+<em>interview</em> also can provide a good rubric at doing off-the-cuff system design.</p>
+
+<p>Here’s my notes on my ideal workflow, that I plan on iterating on as time allows.</p>
+
+<ol>
+  <li>gather requirements</li>
+  <li>API design (maybe you could do this during “gather requirements”  as you
+figure out usage).</li>
+  <li>block diagram</li>
+  <li>data storage</li>
+</ol>
+                <h2 id="1-gather-requirements">   1: gather requirements <a href="#1-gather-requirements">#</a>   </h2>
+                    
+
+<p>I think requirements have a minimum checklist: have you thought about
+every intrinsic attribute that could affect your system?</p>
+
+<p>The common ones, in my opinion, are:</p>
+
+<ul>
+  <li>usage requirements (start with this first)</li>
+  <li>seasonality in usage patterns (e.g. are certain days / months heavier than others)</li>
+  <li>read / write load (or read-heavy / write-heavy)</li>
+  <li>latency requirements</li>
+  <li>geolocation</li>
+  <li>uptime requirements</li>
+  <li>scale</li>
+</ul>
+
+<p>Then anything more domain-specific to the problem at hand.</p>
+                <h3 id="napkin-math-around-requirements">   napkin math around requirements <a href="#napkin-math-around-requirements">#</a>   </h3>
+                    
+
+<p>“napkin math”, where you try to do ballpark estimates of the numerical
+requirements or properties of your system, are a must for system design, and in
+interviews I found myself getting into doing really complex numerical
+conversions that I honestly couldn’t do in my head. A lot of it had to do with
+the base 2 calculations vs the base 10 calculations and interchanging them.</p>
+
+<p>To help with this, I have the following framework:</p>
+
+<ol>
+  <li>Calculate the data storage in bytes (base 2 calculation)</li>
+  <li>Do estimates in multiples of ten if possible (e.g. 500k users). Write that out as powers of 10 (e.g. 5*10^6)</li>
+  <li>Estimate requests per second by estimating the total activity per <em>day</em>, divide by 10^5, then multiple by 1.1.</li>
+</ol>
+
+<p>The third one requires a bit more explanation. Basically:</p>
+
+<ul>
+  <li>There are 86,400 seconds in a day.</li>
+  <li>100,000 / 86,400 ~ 1.15. Which we can further ballbark to 1.1 or 1.2.</li>
+</ul>
+
+<p>This, combined with using multiples of ten for users, makes the math really
+really easy. 1.1 is very easy to mentally perform as well.</p>
+                <h3 id="figure-out-data-storage">   Figure out data storage <a href="#figure-out-data-storage">#</a>   </h3>
+                    
+
+<p>Question: which two of the CAP theorem are most critical for the storage of the
+data?</p>
+
+<p>Every systems design problem has some sort of data that you need to store. On
+that note, I’ve seen a couple different flavors of “data storage” discussions:</p>
+
+<ol>
+  <li>Thinking about the design patterns to use based on the properties of your
+business problem.</li>
+  <li>Discussing real-life databases or categories that you might use (e.g. SQL vs
+document database).</li>
+</ol>
+
+<p>To hedge your bets, I think you should start with 1 where you think about the
+data structures, and know how to map them to the database that implement.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>design pattern or data structure</th>
+      <th>database</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>hashmap</td>
+      <td>key-value store</td>
+    </tr>
+    <tr>
+      <td>b-tree index</td>
+      <td>indexed database</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>A common data structure is to:</p>
+
+<ol>
+  <li>have a dataset split into multiple “shards”</li>
+  <li>replicate each shard into replica sets (each replica set could have a single master via paxos quorum)</li>
+  <li>have the metadata of each replica server started in a config server.</li>
+  <li>have the config server heartbeat into replicas to do coordination (e.g. disenroll)</li>
+  <li>the master has a write-ahead-log to store the transactions, ensure ordering.
+Add a checksum to ensure the operation completes. Otherwise query master for
+correct row data and re-verify.</li>
+  <li>replicas replicate the WAL and perform subsqeuent writes.</li>
+</ol>
+
+<pre><code class="language-mermaid">graph TD
+CS[Config Server] --&gt; RS1[Replica Set 1]
+CS --&gt; RS2[Replica Set 2]
+CS --&gt; RS3[Replica Set 3]
+subgraph "Shard 1"
+RS1 --&gt; M1[Master]
+RS1 --&gt; S1A[Replica]
+RS1 --&gt; S1B[Replica]
+end
+subgraph "Shard 2"
+RS2 --&gt; M2[Master]
+RS2 --&gt; S2A[Replica]
+RS2 --&gt; S2B[Replica]
+end
+subgraph "Shard 3"
+RS3 --&gt; M3[Master]
+RS3 --&gt; S3A[Replica]
+RS3 --&gt; S3B[Replica]
+end
+%% Heartbeat connections
+CS -.-&gt;|Heartbeat| M1
+CS -.-&gt;|Heartbeat| M2
+CS -.-&gt;|Heartbeat| M3
+CS -.-&gt;|Heartbeat| S1A
+CS -.-&gt;|Heartbeat| S1B
+CS -.-&gt;|Heartbeat| S2A
+CS -.-&gt;|Heartbeat| S2B
+CS -.-&gt;|Heartbeat| S3A
+CS -.-&gt;|Heartbeat| S3B
+</code></pre>
+                <h1 id="organizing-and-communicating-in-a-design-interview">   Organizing and communicating in a design interview <a href="#organizing-and-communicating-in-a-design-interview">#</a>   </h1>
+                    
+
+<ul>
+  <li>have three different text sections: this will help communicate to the
+interviewer what assumptions you have made.</li>
+  <li>requirements/</li>
+  <li>API?</li>
+  <li>user journey?</li>
+</ul>
+                <h1 id="deeper-notes">   Deeper notes <a href="#deeper-notes">#</a>   </h1>
+                    
+                <h2 id="design-patterns-per-use-case">   Design patterns per use case <a href="#design-patterns-per-use-case">#</a>   </h2>
+                    
+
+<table>
+  <thead>
+    <tr>
+      <th>problem</th>
+      <th>solution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>thundering herd / high number of requests</td>
+      <td>exponential backoff</td>
+    </tr>
+    <tr>
+      <td>generating garbage / corruption over time</td>
+      <td>garbage collection process</td>
+    </tr>
+    <tr>
+      <td>ensuring nodes are available</td>
+      <td>heartbeating</td>
+    </tr>
+    <tr>
+      <td>high availability with state</td>
+      <td>master with a quorum (e.g. via paxos)</td>
+    </tr>
+    <tr>
+      <td>distributed consensus</td>
+      <td>paxos</td>
+    </tr>
+  </tbody>
+</table>
+                <h2 id="design-patterns-when-considering-data-storage">   Design Patterns when considering data storage <a href="#design-patterns-when-considering-data-storage">#</a>   </h2>
+                    
+                <h3 id="choosing-the-partitioning-key-for-data-locality">   Choosing the partitioning key for data locality. <a href="#choosing-the-partitioning-key-for-data-locality">#</a>   </h3>
+                    
+
+<p>Similar to Google bigtable, one could choose the partition key for rows by some
+structure that ensures that for most queries, the query only has to send a request
+subset of nodes, rather than all of them. This:</p>
+
+<ul>
+  <li>reduces the query load on all nodes.</li>
+  <li>also reduces the latency of the request, since fewer nodes have to respond.</li>
+</ul>
+                <h3 id="paxos">   Paxos <a href="#paxos">#</a>   </h3>
+                    
+
+<p>The Paxos algorithm can be used to achieve consensus across multiple separate
+hosts.</p>
+
+<p>The Google Chubby lock server can handle ~20 req / s of content updates, with
+a significant number of reads and KeepAlives.</p>
+                <h3 id="write-ahead-log">   write-ahead log <a href="#write-ahead-log">#</a>   </h3>
+                    
+
+<p>A write-ahead log can be used to ensure durability in the operations that are
+performed. A transaction can be acknowledged after it’s committed into a
+write-ahead log.</p>
+                <h3 id="expontial-backoff">   Expontial backoff <a href="#expontial-backoff">#</a>   </h3>
+                    
+                <h3 id="read-locks-and-write-locks">   Read locks and write locks <a href="#read-locks-and-write-locks">#</a>   </h3>
+                    
+
+<p>Read locks (aka shared locks) are a common database pattern which allows
+multiple readers on a row of data, preventing mutation. It prevents subsequent
+writes until all readers have released a lock.</p>
+
+<p>Write locks are an exclusive lock on the row, blocking both reads and writes.</p>
+    </div>
+
+    
+
+    <a class="u-url" href="/interviews/system-design" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/%20/"></data>
+
+    <div class="wrapper">
+
+        <div class="footer-col-wrapper">
+            <script async src="https://cse.google.com/cse.js?cx=014358564571565173111:hnnbq4j54cy"></script>
+            <div class="gcse-search"></div>
+        </div>
+        <div class="footer-col-wrapper">
+            <div class="footer-col">
+                <p class="feed-subscribe">
+                    <a href="/feed/index.xml">
+                        <svg class="svg-icon orange">
+                            <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+                        </svg><span>Subscribe</span>
+                    </a>
+                </p>
+            </div>
+            <div class="footer-col">
+                <p>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</p>
+            </div>
+        </div>
+
+        <div class="social-links"><ul class="social-media-list"><li>
+  <a rel="me" href="https://bsky.app/profile/y.tsutsumi.io" target="_blank"
+    title="bluesky">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#bluesky"></use>
+    </svg>
+  </a>
+</li><li>
+  <a rel="me" href="https://github.com/toumorokoshi" target="_blank"
+    title="github">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#github"></use>
+    </svg>
+  </a>
+</li><li>
+  <a rel="me" href="https://www.linkedin.com/in/yusuke-tsutsumi" target="_blank"
+    title="linkedin">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#linkedin"></use>
+    </svg>
+  </a>
+</li></ul></div>
+
+    </div>
+    <script src="https://unpkg.com/mermaid@8.9.3/dist/mermaid.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: "default",
+    });
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+  });
+</script>
+
+</footer></body>
+
+</html>

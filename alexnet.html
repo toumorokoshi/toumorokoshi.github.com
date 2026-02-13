@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Rebuilding AlexNet | Yusuke Tsutsumi</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Rebuilding AlexNet" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Rebuilding AlexNet" />
+<meta property="og:description" content="Rebuilding AlexNet" />
+<link rel="canonical" href="https://y.tsutsumi.io/alexnet" />
+<meta property="og:url" content="https://y.tsutsumi.io/alexnet" />
+<meta property="og:site_name" content="Yusuke Tsutsumi" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-12-26T07:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Rebuilding AlexNet" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2025-12-26T07:00:00+00:00","datePublished":"2025-12-26T07:00:00+00:00","description":"Rebuilding AlexNet","headline":"Rebuilding AlexNet","mainEntityOfPage":{"@type":"WebPage","@id":"https://y.tsutsumi.io/alexnet"},"url":"https://y.tsutsumi.io/alexnet"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" /><script async src="https://www.googletagmanager.com/gtag/js?id=G-325KP61WS9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { window.dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-325KP61WS9');
+</script>
+</head><body><header class="site-header">
+
+    <div class="wrapper"><a class="site-title" rel="author" href="/">Yusuke Tsutsumi</a><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path
+                            d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger">
+                <a class="page-link" href="/tag/coding/">Coding Posts</a>
+                <a class="page-link"
+                    href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a><a class="page-link" href="/resources/">Resources</a><a class="page-link" href="/about/">About Yusuke Tsutsumi</a></div>
+        </nav></div>
+    <style>
+        .gse-control-cse td {
+            border: 0;
+        }
+
+        td.gsc-input {
+            border: 0;
+        }
+
+        td.gsc-search-button {
+            border: 0;
+        }
+
+        table.gsc-input {
+            margin-bottom: 0;
+        }
+    </style>
+</header><main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <header class="post-header">
+        <h1 class="post-title p-name" itemprop="name headline">Rebuilding AlexNet</h1>
+        <p class="post-meta"><time class="dt-published" datetime="2025-12-26T07:00:00+00:00" itemprop="datePublished">
+                Dec 26, 2025
+            </time></p>
+    </header>
+
+    <div class="post-content e-content" itemprop="articleBody">
+        <h1 id="rebuilding-alexnet">   Rebuilding AlexNet <a href="#rebuilding-alexnet">#</a>   </h1>
+                    
+
+<p>My role at GM (aka ex-Cruise) has started pulling me and more and more into the machine learning space, in particular models that are critical to Autonomous vehicles such as perception, planning, world models, etc. For context, I have traditionally worked more on the system performance / vehicle software side, not the models directly.</p>
+
+<p>As such, I’ve started to try to get a better grasp of ML fundamentals. One of my first forays into getting hand-on experience is rebuilding <a href="https://en.wikipedia.org/wiki/AlexNet">AlexNet</a>, one of the most influential models to modern machine learning. It was the first model to get a top-5 error rate of 15.3% in the ImageNet Large Scale Recognition Challenge and using convolutional neural networks in the process.</p>
+
+<p>This post serves to document some of my learnings as I attempted to recreate it.</p>
+                <h1 id="my-general-approach">   My General Approach <a href="#my-general-approach">#</a>   </h1>
+                    
+
+<p>I didn’t start by recreating AlexNet immediately: I instead started with
+a simple neuralnet + RELU based model, to try to understand the individual impact of various model architectures.</p>
+
+<p>I also tried to use vanilla PyTorch, although I did build a <a href="https://github.com/toumorokoshi/yft-ml-sandbox/tree/main/alexnet">bazel-based build workflow</a> since I prefer the hermicity and relatively simple dependency management of multiple languages.</p>
+
+<p>To keep the training fast (since I was focused more experimentation rather than production use cases), I used the much smaller <a href="https://github.com/fastai/imagenette">imagenette</a> dataset rather than ImageNet which AlexNet was trained and tested against. This has only 10 classifications, as well as less data.</p>
+                <h1 id="the-learnings">   The Learnings <a href="#the-learnings">#</a>   </h1>
+                    
+                <h2 id="terminology">   Terminology <a href="#terminology">#</a>   </h2>
+                    
+
+<p>If I had one big takeaway, it was understanding the terminology a lot more deeply! Knowing the terms logit, epoch, stochastic gradient descent, maxpool, generalization, and overfitting in a more intuitive and visceral helps me understand ideas discussed within our AV organization much more quickly.</p>
+                <h2 id="always-randomize-datasets">   Always randomize datasets <a href="#always-randomize-datasets">#</a>   </h2>
+                    
+
+<p>result: 9.99% -&gt; 40%</p>
+
+<p>My initial iteration had a 9.99% pass rate, after adding the debugger and looking at the predicted output of the model by printing the final logit layer, I noticed that the output was always a specific classification, no matter what the input was.</p>
+
+<p>This was caused by me not randomizing the dataset - effectively every epoch, the model would get exclusively trained against one classification for the last 10% of the time, biasing it toward that one classification.</p>
+
+<p>After I fixed that, my simple 2-layer neural network got up to 40% accuracy!</p>
+                <h2 id="misc-things-that-helped-the-neural-net">   Misc things that helped the neural net <a href="#misc-things-that-helped-the-neural-net">#</a>   </h2>
+                    
+
+<p>The highest I could get the neural network was 44%. Here’s a table of things I tried:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Accuracy</th>
+      <th>Epochs</th>
+      <th>Batch Size</th>
+      <th>Learning Rate</th>
+      <th>Shuffled</th>
+      <th>Momentum</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>44.6%</td>
+      <td>10</td>
+      <td>32</td>
+      <td>0.01</td>
+      <td>yes</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>42.9%</td>
+      <td>20</td>
+      <td>16</td>
+      <td>0.01</td>
+      <td>yes</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>41.9%</td>
+      <td>10</td>
+      <td>16</td>
+      <td>0.001</td>
+      <td>yes</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>40.9%</td>
+      <td>10</td>
+      <td>32</td>
+      <td>0.001</td>
+      <td>yes</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>38.0%</td>
+      <td>5</td>
+      <td>16</td>
+      <td>0.001</td>
+      <td>yes</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>11%</td>
+      <td>10</td>
+      <td>16</td>
+      <td>0.01</td>
+      <td>no</td>
+      <td>0.9</td>
+    </tr>
+    <tr>
+      <td>9.9%</td>
+      <td>10</td>
+      <td>16</td>
+      <td>0.001</td>
+      <td>no</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>I could tweak batch size and learning rate to help it converge more quickly.</p>
+                <h2 id="single-layer-convolution">   Single-layer convolution <a href="#single-layer-convolution">#</a>   </h2>
+                    
+
+<p>Switching to even a single-layer of convolution immediately caused the model to jump to 55%: as explained in the AlexNet paper, I think this can primarily be attributed to better generalization of the learnings in one particular segment of the image: without convolution and some form of feature consolidation, it’s really impossible to divine general relationships that shift across the matrix like the position of a dog in the image.</p>
+                <h2 id="60-epochs-is-the-good-range">   60+ epochs is the good range. <a href="#60-epochs-is-the-good-range">#</a>   </h2>
+                    
+
+<p>For most of the convolution models, many had some continued gain up to about 45 to 60 epochs. I believe this will be highly dependent on how much training data is available, but it’s interesting to thing that running the model against the same data 40+ times is required to hit some sort of ceiling.</p>
+                <h2 id="dropout-added-10">   dropout added 10% <a href="#dropout-added-10">#</a>   </h2>
+                    
+
+<p>The original AlexNet paper suggests that introducing dropout in the final connected layer (2 layers of linear + ReLU combinations) results in a significant raining improvement. They theorize this is due to the individual “neurons” in the matrices start to embed more generalization into themselves, not requiring the constant presence of the upstream neurons.</p>
+
+<p>In my experience, this increased the accuracy by roughly 10% from the non-dropout version. So clearly, the neurons embedding more information is a critical part to better models.</p>
+                <h2 id="flipping-image-data-added-10-accuracy">   flipping image data added 10% accuracy <a href="#flipping-image-data-added-10-accuracy">#</a>   </h2>
+                    
+
+<p>There isn’t much more I could do with model architecture to increase the accuracy, but I got some pointers to go look at data.</p>
+
+<p>The biggest contributor was just flipping the image data half the time: I think this effectively doubles the dataset to some extent. Which implies that training data might be a bottleneck now rather than just learning capacity.</p>
+
+<p>Some other things I tried, which has less of an effect:</p>
+
+<ul>
+  <li>Scaling the data up and cropping didn’t seem to improve much. Maybe 1-2% at most.</li>
+  <li>Changing exposure, brightness also had maybe a 1-2% difference, although training still ended up in the same range.</li>
+</ul>
+                <h2 id="my-current-score-78">   my current score: 78% <a href="#my-current-score-78">#</a>   </h2>
+                    
+
+<p>For the imagenette, I was able to get a 78% score after 60 epochs. This is pretty good, as the original AlexNet paper, with a much larger dataset and longer training time, reached 85%.</p>
+
+<p>I did not see any overfitting directly (which I’d expect to see via loss curve that has an upward trend after multiple epochs). But I did see the loss plateau after about 45 epochs or so.</p>
+
+<p>Some quick notes:</p>
+
+<ul>
+  <li>Adding RMSNorm in the first 2 layers added roughly 1-2%.</li>
+  <li>Originally I had only convolutional layers with stride=2 rather than maxpool. With the maxpool layers instead I had a 4-5% bump.</li>
+</ul>
+    </div>
+
+    
+
+    <a class="u-url" href="/alexnet" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/%20/"></data>
+
+    <div class="wrapper">
+
+        <div class="footer-col-wrapper">
+            <script async src="https://cse.google.com/cse.js?cx=014358564571565173111:hnnbq4j54cy"></script>
+            <div class="gcse-search"></div>
+        </div>
+        <div class="footer-col-wrapper">
+            <div class="footer-col">
+                <p class="feed-subscribe">
+                    <a href="/feed/index.xml">
+                        <svg class="svg-icon orange">
+                            <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+                        </svg><span>Subscribe</span>
+                    </a>
+                </p>
+            </div>
+            <div class="footer-col">
+                <p>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</p>
+            </div>
+        </div>
+
+        <div class="social-links"><ul class="social-media-list"><li>
+  <a rel="me" href="https://bsky.app/profile/y.tsutsumi.io" target="_blank"
+    title="bluesky">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#bluesky"></use>
+    </svg>
+  </a>
+</li><li>
+  <a rel="me" href="https://github.com/toumorokoshi" target="_blank"
+    title="github">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#github"></use>
+    </svg>
+  </a>
+</li><li>
+  <a rel="me" href="https://www.linkedin.com/in/yusuke-tsutsumi" target="_blank"
+    title="linkedin">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#linkedin"></use>
+    </svg>
+  </a>
+</li></ul></div>
+
+    </div>
+    <script src="https://unpkg.com/mermaid@8.9.3/dist/mermaid.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: "default",
+    });
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+  });
+</script>
+
+</footer></body>
+
+</html>

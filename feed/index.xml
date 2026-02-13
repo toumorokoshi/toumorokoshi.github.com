@@ -1,1 +1,843 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2026-02-12T00:04:38+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle></feed>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2026-02-13T00:09:17+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">farsi</title><link href="https://y.tsutsumi.io/languages/farsi" rel="alternate" type="text/html" title="farsi" /><published>2026-02-09T07:00:00+00:00</published><updated>2026-02-09T07:00:00+00:00</updated><id>https://y.tsutsumi.io/languages/farsi-grammar</id><content type="html" xml:base="https://y.tsutsumi.io/languages/farsi"><![CDATA[<h1 id="farsi-grammar">Farsi Grammar</h1>
+
+<p>In my spare time, I’m learning Farsi. I’ll use this as a kitchen sink for my notes on the language.</p>
+
+<h2 id="peyda-konam">Peyda Konam</h2>
+
+<p>In farsi, there are phrases such as</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ادامه پیدل کنم
+</code></pre></div></div>
+
+<p>The peyda konam (found X) is used in a situation where a direct action is not taken to make the object achieve that state.</p>
+
+<p>For example, you could say “if the revolution continues…” - but this does not refer to any specific object ensuring the revolution does continue.</p>
+
+<p>This is where “peyda konam” comes in. Since it’s nebulous whether it will actually happen, it’s about it finding itself in a situation when it does occur vs actively being done.</p>
+
+<h2 id="mitoonestan">Mitoonestan</h2>
+
+<p>The word mitoonestan (می‌توانستم) is the past continuous/imperfect form of the verb tavānestan (توانستن), which means “to be able to.”</p>
+
+<p>Mitoonestan is interesting, because it is a model / auxiliary verb. Model / auxiliary verbs require a <em>main verb</em> to clarify what is possible / what is desired / etc.</p>
+
+<p>So applying the past tense to these case is complicated, and the way that it’s done in farsi is to conjugate the modal verb, not the main verb.</p>
+
+<p>e.g. I couldn’t do it is نمتستن کنم.</p>]]></content><author><name></name></author><category term="language-learning" /><summary type="html"><![CDATA[Farsi Grammar]]></summary></entry><entry><title type="html">Distributed System Design Interview</title><link href="https://y.tsutsumi.io/interviews/system-design" rel="alternate" type="text/html" title="Distributed System Design Interview" /><published>2026-02-02T07:00:00+00:00</published><updated>2026-02-02T07:00:00+00:00</updated><id>https://y.tsutsumi.io/interviews/blog-system-design-interview</id><content type="html" xml:base="https://y.tsutsumi.io/interviews/system-design"><![CDATA[<h1 id="distributed-system-design-interview">Distributed System Design Interview</h1>
+
+<p>I’ve been thinking a lot about how to do well in system design interviews
+recently. Aside from the obvious utility in getting an offer as a software
+engineer, I think there is some happy union where being good at a system design
+<em>interview</em> also can provide a good rubric at doing off-the-cuff system design.</p>
+
+<p>Here’s my notes on my ideal workflow, that I plan on iterating on as time allows.</p>
+
+<ol>
+  <li>gather requirements</li>
+  <li>API design (maybe you could do this during “gather requirements”  as you
+figure out usage).</li>
+  <li>block diagram</li>
+  <li>data storage</li>
+</ol>
+
+<h2 id="1-gather-requirements">1: gather requirements</h2>
+
+<p>I think requirements have a minimum checklist: have you thought about
+every intrinsic attribute that could affect your system?</p>
+
+<p>The common ones, in my opinion, are:</p>
+
+<ul>
+  <li>usage requirements (start with this first)</li>
+  <li>seasonality in usage patterns (e.g. are certain days / months heavier than others)</li>
+  <li>read / write load (or read-heavy / write-heavy)</li>
+  <li>latency requirements</li>
+  <li>geolocation</li>
+  <li>uptime requirements</li>
+  <li>scale</li>
+</ul>
+
+<p>Then anything more domain-specific to the problem at hand.</p>
+
+<h3 id="napkin-math-around-requirements">napkin math around requirements</h3>
+
+<p>“napkin math”, where you try to do ballpark estimates of the numerical
+requirements or properties of your system, are a must for system design, and in
+interviews I found myself getting into doing really complex numerical
+conversions that I honestly couldn’t do in my head. A lot of it had to do with
+the base 2 calculations vs the base 10 calculations and interchanging them.</p>
+
+<p>To help with this, I have the following framework:</p>
+
+<ol>
+  <li>Calculate the data storage in bytes (base 2 calculation)</li>
+  <li>Do estimates in multiples of ten if possible (e.g. 500k users). Write that out as powers of 10 (e.g. 5*10^6)</li>
+  <li>Estimate requests per second by estimating the total activity per <em>day</em>, divide by 10^5, then multiple by 1.1.</li>
+</ol>
+
+<p>The third one requires a bit more explanation. Basically:</p>
+
+<ul>
+  <li>There are 86,400 seconds in a day.</li>
+  <li>100,000 / 86,400 ~ 1.15. Which we can further ballbark to 1.1 or 1.2.</li>
+</ul>
+
+<p>This, combined with using multiples of ten for users, makes the math really
+really easy. 1.1 is very easy to mentally perform as well.</p>
+
+<h3 id="figure-out-data-storage">Figure out data storage</h3>
+
+<p>Question: which two of the CAP theorem are most critical for the storage of the
+data?</p>
+
+<p>Every systems design problem has some sort of data that you need to store. On
+that note, I’ve seen a couple different flavors of “data storage” discussions:</p>
+
+<ol>
+  <li>Thinking about the design patterns to use based on the properties of your
+business problem.</li>
+  <li>Discussing real-life databases or categories that you might use (e.g. SQL vs
+document database).</li>
+</ol>
+
+<p>To hedge your bets, I think you should start with 1 where you think about the
+data structures, and know how to map them to the database that implement.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>design pattern or data structure</th>
+      <th>database</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>hashmap</td>
+      <td>key-value store</td>
+    </tr>
+    <tr>
+      <td>b-tree index</td>
+      <td>indexed database</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>A common data structure is to:</p>
+
+<ol>
+  <li>have a dataset split into multiple “shards”</li>
+  <li>replicate each shard into replica sets (each replica set could have a single master via paxos quorum)</li>
+  <li>have the metadata of each replica server started in a config server.</li>
+  <li>have the config server heartbeat into replicas to do coordination (e.g. disenroll)</li>
+  <li>the master has a write-ahead-log to store the transactions, ensure ordering.
+Add a checksum to ensure the operation completes. Otherwise query master for
+correct row data and re-verify.</li>
+  <li>replicas replicate the WAL and perform subsqeuent writes.</li>
+</ol>
+
+<pre><code class="language-mermaid">graph TD
+CS[Config Server] --&gt; RS1[Replica Set 1]
+CS --&gt; RS2[Replica Set 2]
+CS --&gt; RS3[Replica Set 3]
+subgraph "Shard 1"
+RS1 --&gt; M1[Master]
+RS1 --&gt; S1A[Replica]
+RS1 --&gt; S1B[Replica]
+end
+subgraph "Shard 2"
+RS2 --&gt; M2[Master]
+RS2 --&gt; S2A[Replica]
+RS2 --&gt; S2B[Replica]
+end
+subgraph "Shard 3"
+RS3 --&gt; M3[Master]
+RS3 --&gt; S3A[Replica]
+RS3 --&gt; S3B[Replica]
+end
+%% Heartbeat connections
+CS -.-&gt;|Heartbeat| M1
+CS -.-&gt;|Heartbeat| M2
+CS -.-&gt;|Heartbeat| M3
+CS -.-&gt;|Heartbeat| S1A
+CS -.-&gt;|Heartbeat| S1B
+CS -.-&gt;|Heartbeat| S2A
+CS -.-&gt;|Heartbeat| S2B
+CS -.-&gt;|Heartbeat| S3A
+CS -.-&gt;|Heartbeat| S3B
+</code></pre>
+
+<h1 id="organizing-and-communicating-in-a-design-interview">Organizing and communicating in a design interview</h1>
+
+<ul>
+  <li>have three different text sections: this will help communicate to the
+interviewer what assumptions you have made.</li>
+  <li>requirements/</li>
+  <li>API?</li>
+  <li>user journey?</li>
+</ul>
+
+<h1 id="deeper-notes">Deeper notes</h1>
+
+<h2 id="design-patterns-per-use-case">Design patterns per use case</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>problem</th>
+      <th>solution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>thundering herd / high number of requests</td>
+      <td>exponential backoff</td>
+    </tr>
+    <tr>
+      <td>generating garbage / corruption over time</td>
+      <td>garbage collection process</td>
+    </tr>
+    <tr>
+      <td>ensuring nodes are available</td>
+      <td>heartbeating</td>
+    </tr>
+    <tr>
+      <td>high availability with state</td>
+      <td>master with a quorum (e.g. via paxos)</td>
+    </tr>
+    <tr>
+      <td>distributed consensus</td>
+      <td>paxos</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="design-patterns-when-considering-data-storage">Design Patterns when considering data storage</h2>
+
+<h3 id="choosing-the-partitioning-key-for-data-locality">Choosing the partitioning key for data locality.</h3>
+
+<p>Similar to Google bigtable, one could choose the partition key for rows by some
+structure that ensures that for most queries, the query only has to send a request
+subset of nodes, rather than all of them. This:</p>
+
+<ul>
+  <li>reduces the query load on all nodes.</li>
+  <li>also reduces the latency of the request, since fewer nodes have to respond.</li>
+</ul>
+
+<h3 id="paxos">Paxos</h3>
+
+<p>The Paxos algorithm can be used to achieve consensus across multiple separate
+hosts.</p>
+
+<p>The Google Chubby lock server can handle ~20 req / s of content updates, with
+a significant number of reads and KeepAlives.</p>
+
+<h3 id="write-ahead-log">write-ahead log</h3>
+
+<p>A write-ahead log can be used to ensure durability in the operations that are
+performed. A transaction can be acknowledged after it’s committed into a
+write-ahead log.</p>
+
+<h3 id="expontial-backoff">Expontial backoff</h3>
+
+<h3 id="read-locks-and-write-locks">Read locks and write locks</h3>
+
+<p>Read locks (aka shared locks) are a common database pattern which allows
+multiple readers on a row of data, preventing mutation. It prevents subsequent
+writes until all readers have released a lock.</p>
+
+<p>Write locks are an exclusive lock on the row, blocking both reads and writes.</p>]]></content><author><name></name></author><category term="coding" /><summary type="html"><![CDATA[Distributed System Design Interview]]></summary></entry><entry><title type="html">VS Code Debug Json Cheatsheet</title><link href="https://y.tsutsumi.io/vscode-debug-cheatsheet" rel="alternate" type="text/html" title="VS Code Debug Json Cheatsheet" /><published>2026-02-02T07:00:00+00:00</published><updated>2026-02-02T07:00:00+00:00</updated><id>https://y.tsutsumi.io/vscode-launch-debug</id><content type="html" xml:base="https://y.tsutsumi.io/vscode-debug-cheatsheet"><![CDATA[<p>With all of the new vscode-based editors out there (Cursor, Antigravity, and of course VS Code itself), I find myself having to reconfigure editors all the time.</p>
+
+<p>Here are some snippets of vs code debug configuration to easily copy-paste as needed.</p>
+
+<h2 id="go">Go</h2>
+
+<h3 id="running-a-command-line-tool">Running a command line tool</h3>
+
+<p>I’ve used this for when I’m trying to debug <a href="https://github.com/aep-dev/aepcli">aepcli</a></p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">       </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Debug Command Line App"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"go"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"request"</span><span class="p">:</span><span class="w"> </span><span class="s2">"launch"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"auto"</span><span class="p">,</span><span class="w">
+            </span><span class="err">//</span><span class="w"> </span><span class="err">or</span><span class="w"> </span><span class="err">path</span><span class="w"> </span><span class="err">to</span><span class="w"> </span><span class="err">command</span><span class="w"> </span><span class="err">line</span><span class="w">
+            </span><span class="nl">"program"</span><span class="p">:</span><span class="w"> </span><span class="s2">"${workspaceFolder}/cmd/aepcli"</span><span class="p">,</span><span class="w">
+           </span><span class="nl">"args"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+               </span><span class="s2">"http://localhost:8000/openapi.json"</span><span class="w">
+            </span><span class="p">]</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>]]></content><author><name></name></author><summary type="html"><![CDATA[With all of the new vscode-based editors out there (Cursor, Antigravity, and of course VS Code itself), I find myself having to reconfigure editors all the time.]]></summary></entry><entry><title type="html">realfood.gov</title><link href="https://y.tsutsumi.io/realfood-gov" rel="alternate" type="text/html" title="realfood.gov" /><published>2026-01-19T07:00:00+00:00</published><updated>2026-01-19T07:00:00+00:00</updated><id>https://y.tsutsumi.io/realfood-gov</id><content type="html" xml:base="https://y.tsutsumi.io/realfood-gov"><![CDATA[<p><a href="https://realfood.gov/">realfood.gov</a> looks to overhaul decades-long dietary guidelines for Americans.</p>
+
+<p>Although, like many food pyramids before it, there is a very strong lobbyist influence on this guidance (The <a href="https://www.nytimes.com/2026/01/07/well/rfk-jr-food-pyramid-nutrition-guidelines-protein.html">New York Times covers it well</a>), my thoughts are primarily on the guidance itself, as a health-conscious person who has done some reading on nutrition from folks like Dr. Peter Attia.</p>
+
+<h2 id="summary">Summary</h2>
+
+<p>My thoughts on the guidance is overall positive. But the changes I would make are:</p>
+
+<ul>
+  <li>Limit saturated fat as much as possible, similar to added sugars. Eating more saturated fat directly correlated to a higher increase in apob and cardiovascular disease.</li>
+  <li>Eliminate the conversation around whole foods vs processed foods. Acknowledge that most processed foods are nutritionally unhealthy, but focus on the nutritional content and not the processed nature.</li>
+  <li>Continue to focus on a plant-based diet. This is primarily because the amount of water and resources required to produce plant-based foods is significantly lower than the resources required for meat or most dairy. But meat is generally high in saturated fat so it’s best to avoid that anyway.</li>
+  <li>Positive changes: increased protein and fiber recommendations, reduction of high-carb foods in the pyramid.</li>
+</ul>
+
+<h2 id="the-details">The details</h2>
+
+<h3 id="pros">Pros</h3>
+
+<h4 id="increased-protein-intake">Increased protein intake</h4>
+
+<p>Generally, higher protein intake enables the body to build more muscle, although resistance training is much more important. This is especially critical in the later years where it’s incredibly hard to build muscles and strength.</p>
+
+<h4 id="reduced-bread--simple-carb-intake">Reduced bread / simple carb intake</h4>
+
+<p>It’s surprising that the original recommendations in the food pyramid were so heavy on carbs. Although ensuring you have enough energy throughout the day is a good thing, a carb-heavy diet can result in a lot of insulin to digest the glucose that is produced as a result, and can contribute to diabetes.</p>
+
+<p>There’s definitely healthier carbs in whole grains, but it is better to balance more protein or fats as well.</p>
+
+<h4 id="eliminating-bias-around-fats">Eliminating bias around fats</h4>
+
+<p>Unsaturated fats help improve satiety, and also reduce the number of carbs required to reach the daily caloric recommendation. I still think low-fat foods have their place, but as long as the fat is unsaturated, it is generally less causal to high ldl / apob, and is a good macronutrient to include in the mix.</p>
+
+<h3 id="mixed">Mixed</h3>
+
+<h4 id="well-intentioned-but-incorrect-focus-against-processed-foods">Well-intentioned, but incorrect, focus against processed foods.</h4>
+
+<p>The document focuses heavily on the concept of “real” foods, advocating against highly processed food.</p>
+
+<p>If you’re not willing to think about the nutritional content of food a bit more deeply, then I think it’s general it’s good guidance: most highly processed foods have extremely pool nutritional content, with high saturated fat, carbs, and low protein.</p>
+
+<p>However, this pairing ends up being a confounder: there just are not very many healthy but higly processed foods, and so most studies on highly processed food end up showing results very similar to studies on foods high in saturated fat, carbs, and low protein.</p>
+
+<p>Although it’s not a study, an anecdotal counterexample is <a href="https://huel.com/">huel</a>: definitely highly processed if you look at the ingredient list (dozens on ingredients, micronutrient blends), but many who run labs on the huel subreddit after multiple months exclusively on huel report lost fat, maintain muscles, and generally better labs such as blood pressure (<a href="https://www.reddit.com/r/Huel/comments/168xtf5/laboratory_results_4_months_on_100_huel_powder/">1</a>, <a href="https://discuss.huel.com/t/12-months-huel-only-diet-results/15750">2</a>).</p>
+
+<p>Another anecdotal example, is myself: my diet is primarily processed foods: I eat keto bread, protein powders, artificial sweeteners, huel, and sometimes slimfast (although when I eat “real food” it’s generally roasted whole vegetables).</p>
+
+<p>However, my labs for the past 2-3 years on this diet have only improved over time:</p>
+
+<ul>
+  <li>triclycerides are 50.</li>
+  <li>ldlc is 80 or lower.</li>
+  <li>body fat is the lowest it’s ever been.</li>
+  <li>blood pressure is consistently below 120/80: ten years ago I was generally right on the borderline.</li>
+</ul>
+
+<p>Which indicates to me the concerns are largely about the <em>overall nutritional content</em>, not about the processed nature of the food.</p>
+
+<p>Against, it’s generally good guidance, but is pointing at the wrong cause.</p>
+
+<h3 id="cons">Cons</h3>
+
+<h4 id="disregarding-saturated-fat">Disregarding saturated fat</h4>
+
+<p>The guidance effectively eliminates any guidance around saturated fat. Multiple studies at this point have proven the correlation between high saturated fat intake and apob (the lipoprotein that primarily gets caught in the subendothelial space of the arterial wall, contributing to ASCVD), so to ignore it’s guidance in my opinion, is mistaken.</p>
+
+<p>This is probably the guidance that I would be the most concerned about. It’s probably also not a coincidence that, since many meats and dairy tend to be much higher in saturated fat content than plant-based options, ignoring saturated fat tends to benefit the meat industry the most.</p>
+
+<p>The only guidance is the existing one which suggests limiting saturated fat intake to 10% of calories or less a day: in a 2000 kcal diet, that’s 200 calories, or roughly 22 grams. It’s less reinforced in the new narrative.</p>
+
+<p>I’d replace this guidance with limiting saturated fat to near-zero as much as possible, similar to added sugars.</p>
+
+<h4 id="eating-more-meat-over-a-plant-based-diet">Eating more meat over a plant-based diet</h4>
+
+<p>This particular con is less about the nutritional content: farming meat requires significantly more water and land than growing plants. I don’t think it’s really tenable to continue to increase the usage per capita for food, especially as the population keeps growing.</p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>I left my summary at the beginning, but my parting thoughts: It’s unfortunate that science, like anything human, has to be so strongly biased. And I see parts of this new guidance that has significant cons.</p>
+
+<p>But that said, the old guidance was not perfect either. I hope the next version (no doubt swiftly replaced by the next administration run by a Democrat) corrects some of the issues I’ve raised above, without regressing on some of the improvements.</p>]]></content><author><name></name></author><category term="reflection" /><summary type="html"><![CDATA[realfood.gov looks to overhaul decades-long dietary guidelines for Americans.]]></summary></entry><entry><title type="html">Review on the 2025 Framework 13</title><link href="https://y.tsutsumi.io/framework-13-2025" rel="alternate" type="text/html" title="Review on the 2025 Framework 13" /><published>2026-01-10T07:00:00+00:00</published><updated>2026-01-10T07:00:00+00:00</updated><id>https://y.tsutsumi.io/framework-laptop</id><content type="html" xml:base="https://y.tsutsumi.io/framework-13-2025"><![CDATA[<p><img src="./2026-01-10-framework-laptop.png" alt="The framework laptop 13" /></p>
+
+<p>I finally got a <a href="https://frame.work/">Framework</a> 13 laptop! This is something I’ve wanted for several years, ever since they started shipping their laptops in 2021.</p>
+
+<h1 id="a-quick-intro-to-framework">A quick intro to framework</h1>
+
+<p>Framework focuses on repairable, but also modular, devices. They have produced laptops in the 12,13, and 16 inch form factor, as well as a desktop. Some of the features that are specific to Framework devices include:</p>
+
+<p>“swappable I/O”: effectively there are slots of USB-C ports that have a square notch in them, paired with adapters to various common ports like USB-A, DisplayPort, or HDMI. The result is the user-facing ports are effectively changeable, to some extent on the fly: it’s hard to change the port in, say, a second, but if you had 20-30 seconds I think you could change them out.</p>
+
+<p>Repairable / interchangeable parts: there is a whole Framework store with replacement parts for everything from batteries to webcams to keyboards. You can change things like the bezel color around your monitor, or for the desktop they have square chicklets that you can replace with your own flair.</p>
+
+<h1 id="what-motivated-me">What motivated me</h1>
+
+<p>So why the wait? Well, at the time I had a working laptop from 2018 that was working perfectly okay. It still even works okay (battery has only degraded to maybe 80% or so at most).</p>
+
+<p>So in 2025, there’s a couple things that have changed for me:</p>
+
+<ul>
+  <li>The availablility of RISC-V and ARM boards especially.</li>
+  <li>The AI HX 370 processor, released this year.</li>
+</ul>
+
+<h1 id="impressions-and-thoughts">Impressions and thoughts</h1>
+
+<p>Overall, I’m very impressed and happy with my 13. I bought the “DIY” version, which require some self-installation of the RAM, hard drive, but I preferred that as it gave me time to quickly get a more visceral sense of the device.</p>
+
+<p>It’s also my first laptop with the 3:2 display, which runs taller than the ratios typically seen in laptops these days. I do feel like the extra vertical real estate is noticeable, and helps a bit with coding or text-based tasks.</p>
+
+<p>I’m also happy with the performance: the device feels extremely snappy with Ubuntu 25.10 and the standard Gnome display manager. Videos and tabs load quickly. Aside from games there is no percievable latency as far as processing is concerned.</p>
+
+<p>Of course, my frames of reference are an M2 MacBook Pro from 2022, and an HP Spectre X360 from 2018, but compared to both of these my laptop feels much smoother.</p>
+
+<p>Battery life also seems to be holding quite well - I charge pretty aggresively regardless, but even for heavy workloads like gaming with 100% GPU utilization I’m looking at 1-2 hours. If it’s more lightweight work than that I have not yet thought about battery at all, but I’ll probably do some more emperical benchmarks soon. <code class="language-plaintext highlighter-rouge">powertop</code> reports a draw of 7 watts or so at this time, so I’m guessing for light work I can get about 7 or 8 hours.</p>
+
+<p>The build of the laptop is also very nice - The aluminum feels very similar to a Macbook, but the device feels much lighter than the M2 PRO. This feels like a “premium” laptop to me.</p>
+
+<h2 id="availability-for-risc-v-and-arm-boards">Availability for RISC-V and ARM boards</h2>
+
+<p>The amazing thing about Framework devices are not just repairability - it’s the modularity as well.</p>
+
+<p>The 13 form factor in particular has been so successful that other vendors have started producing compatible boards:</p>
+
+<ul>
+  <li><a href="https://frame.work/blog/risc-v-mainboard-for-framework-laptop-13-is-now-available">DeepComputing’s RISC-V board</a></li>
+  <li><a href="https://metacomputing.io/products/metacomputing-aipc">MetaComputing’s ARM-based board</a>.</li>
+</ul>
+
+<p>Improving support of alternative processors seems like an amazing hobby project. Especially ARM with the recent announcement of it’s integration of <a href="https://fex-emu.com/">FEX</a>-based emulation of X86 to play steam games on ARM devices.</p>
+
+<h2 id="the-ai-9-hx-370">The AI 9 HX 370</h2>
+
+<p>I’ve been angling for the Framework 16 in particular because of the higher TDP, ensuring that I can use the maximum potential of any hardware I have for the device. This was also to ensure I could upgrade the GPU as more resource-intensive games are released.</p>
+
+<p>However, the AI HX 390 seems to have a pretty amazing iGPU, with the Radeon 890m. In my benchmarks I’m getting good <em>enough</em> framerates to accept it on the off change I’m gaming on the go. Note that these are using single-channel memory so the GPU can likely perform much, much better:</p>
+
+<ul>
+  <li>30-40 FPS with Cyberpunk 2077.</li>
+  <li>30 FPS with Balder’s Gate 3.</li>
+  <li>30 FPS with Expedition 33 (with some really low resolution settings).</li>
+</ul>
+
+<p>Some more lightweight games like Dispatch run at 60fps, just as good as my desktop.</p>
+
+<h3 id="for-ai">For AI</h3>
+
+<p>I’ve recently started dabling with ML model architecture and training. My <a href="https://github.com/toumorokoshi/yft-ml-sandbox/tree/main/alexnet">reproduction of the AlexNet paper</a> on the Imagenette dataset trains 60 epochs in about 3-4 hours. This isn’t nearly as fast as the 30 minutes on the <a href="https://docs.cloud.google.com/compute/docs/gpus?hl=ja#l4-gpus">L4 GPUs available through Google Cloud</a> that I normally test against, but it’s still a decent showing, especially limited at the 30w TDP.</p>
+
+<h2 id="mistake-buying-single-channel-memory">Mistake: buying single-channel memory</h2>
+
+<p>Honestly I wasn’t thinking straight on this one. I bought 1 32GB sodimm of RAM, thinking that I’ll buy a second one when the RAM prices go down (the current AI trend has caused RAM prices to more than triple). But the single sodimm really hurts any memorybound operations. In particular AI training/inference and gaming: two things I’m doing a fair bit right now. For gaming I’ve read benchmarks that dual dimms can up the framerate of some games by about 10-20%.</p>
+
+<p>Even if I buy a second one, I believe I will end up with a higher amount of ram anyway (probably maxing out at 128GB if possible, past the theoretically supported 96GB for the AI 9 HX 370).</p>
+
+<p>I’m considering buying a second smaller DIMM the first 16GB could be dual-channel, but then I would rely on how functional the processor is load-balancing across uneven sizes of RAM.</p>]]></content><author><name></name></author><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">Reflecting on 2025</title><link href="https://y.tsutsumi.io/my-year/2025" rel="alternate" type="text/html" title="Reflecting on 2025" /><published>2026-01-05T07:00:00+00:00</published><updated>2026-01-05T07:00:00+00:00</updated><id>https://y.tsutsumi.io/my-year/reflecting-on-2025</id><content type="html" xml:base="https://y.tsutsumi.io/my-year/2025"><![CDATA[<p>With the end of the year, it’s time for another reflection.</p>
+
+<h2 id="staying-focused">Staying focused</h2>
+
+<p>Overall, I’ve been much better about staying focused on various projects this year. One major contributor is not splitting my focus, and accepting that things take a lot longer than I expect. Whether it’s personal projects like thre AEPs, a new task at work, or a video game I want to play, trying to rush through leads to less satisfaction personally, and my accomplishments not being as deep on things as I’d like.</p>
+
+<h2 id="farsi">Farsi</h2>
+
+<p>If I had to be honest, my Farsi may have actually gotten worse this year. I’m still trying to learn the language, but I’m not doing classes weekly as much anymore, and I dropped Children of Morta due to a bunch of work projects that made me work a few late nights.</p>
+
+<p>I also haven’t really been watching Persian TV, which may be another contributing factor.</p>
+
+<h2 id="oss-aepdev">OSS: aep.dev</h2>
+
+<p>aep.dev this year has been great! We <a href="https://aep.dev/blog/aep-2026-release/">finally published our 2026 specification</a>, a culmination of several years of blood, sweat, and tears discussing API design.</p>
+
+<p>This was joint effort from multiple people who were involved in the ecosystem, including Alex Stephen, Marsh Gardiner, Mike Kistler, David Gagne, and more. It’s a privilege to be a part of that ecosystem.</p>
+
+<p>With the specification underway, I’m excited to move more into actionable territory, taking the spec to organizations to hear what they think.</p>
+
+<h2 id="fitness">Fitness</h2>
+
+<p>Between 2024 and 2025, I’ve lost a couple pounds of fat, arriving at roughly 12% body fat (via dexa), which I’ve largely tracked for most of the year.</p>
+
+<p>Keeping that percentage, I was able to even gain a couple of pounds from where I was at in the beginning of 2025.</p>
+
+<p>At roughly 170lbs (via morning weigh-in), or 175lbs according to Dexa, I think I’m at the point where any more weight loss may result in loss of muscle that is undesirable.</p>
+
+<p>Theoretically, advanced lifters can gain 3-4 pounds of mass a year, maximum. If I am able to gain even half of that while maintaining the current weight, I would be at 10.8% body fat, and would have achieved my goal.</p>
+
+<p>So, my focus this year is to maintain, but try to gain as much muscle as I can.</p>
+
+<p>I upped my protein intake temporarily to 1.8g / kg, but after I saw my Kidney’s health marker (EGFR) lower, I decided to lower intake back down to 1.8, and also go exclusively plant based (which research has shown has resulted in better kidney health overall).</p>
+
+<p>The EGFR marker with creatinine is known to not be the most reliable alone as it generally increases linearly with protein intake, but nonetheless I wanted to be careful about overall health and not increase my protein intake unless it seems like my creatinine numbers can be maintained.</p>
+
+<p>My bone density also significantly went down this year - I think it’s because I removed olympic lifts and heavy compounds such as deadlifts and squats. I plan to re-add these and check bone density afterward.</p>
+
+<h2 id="piano">Piano</h2>
+
+<p>A surprising win this year was Piano. Near the end of the year, I started practicing some holiday pieces after that Thanksgiving holiday. I’ve found that I can read pieces okay now, and generally play through a piece without much trouble, even if that is nowhere close to real speed.</p>
+
+<p>I think It’s a matter of impetus at this point: just keep practing, and I should be a pretty good player and can sight read without issue by the end of the year.</p>
+
+<h2 id="goals-for-2026">Goals for 2026</h2>
+
+<ul>
+  <li>Do 5 talks to evagnelize aep.dev (that would be a lot!)</li>
+  <li>Continue to play piano 10 minutes a day. I think I’m getting pretty good, so I’d like to keep that up.</li>
+  <li>Achieve 11% body fat (same as last year)</li>
+  <li>Gain a working knowledge of machine learning, and figure out how to meaningfully contribute to the ecosystem.</li>
+  <li>Become actually conversationally fluent at Farsi
+    <ul>
+      <li>Finish children of Morta.</li>
+    </ul>
+  </li>
+</ul>]]></content><author><name></name></author><category term="reflection" /><summary type="html"><![CDATA[With the end of the year, it’s time for another reflection.]]></summary></entry><entry><title type="html">Rebuilding AlexNet</title><link href="https://y.tsutsumi.io/alexnet" rel="alternate" type="text/html" title="Rebuilding AlexNet" /><published>2025-12-26T07:00:00+00:00</published><updated>2025-12-26T07:00:00+00:00</updated><id>https://y.tsutsumi.io/rebuilding-alexnet</id><content type="html" xml:base="https://y.tsutsumi.io/alexnet"><![CDATA[<h1 id="rebuilding-alexnet">Rebuilding AlexNet</h1>
+
+<p>My role at GM (aka ex-Cruise) has started pulling me and more and more into the machine learning space, in particular models that are critical to Autonomous vehicles such as perception, planning, world models, etc. For context, I have traditionally worked more on the system performance / vehicle software side, not the models directly.</p>
+
+<p>As such, I’ve started to try to get a better grasp of ML fundamentals. One of my first forays into getting hand-on experience is rebuilding <a href="https://en.wikipedia.org/wiki/AlexNet">AlexNet</a>, one of the most influential models to modern machine learning. It was the first model to get a top-5 error rate of 15.3% in the ImageNet Large Scale Recognition Challenge and using convolutional neural networks in the process.</p>
+
+<p>This post serves to document some of my learnings as I attempted to recreate it.</p>
+
+<h1 id="my-general-approach">My General Approach</h1>
+
+<p>I didn’t start by recreating AlexNet immediately: I instead started with
+a simple neuralnet + RELU based model, to try to understand the individual impact of various model architectures.</p>
+
+<p>I also tried to use vanilla PyTorch, although I did build a <a href="https://github.com/toumorokoshi/yft-ml-sandbox/tree/main/alexnet">bazel-based build workflow</a> since I prefer the hermicity and relatively simple dependency management of multiple languages.</p>
+
+<p>To keep the training fast (since I was focused more experimentation rather than production use cases), I used the much smaller <a href="https://github.com/fastai/imagenette">imagenette</a> dataset rather than ImageNet which AlexNet was trained and tested against. This has only 10 classifications, as well as less data.</p>
+
+<h1 id="the-learnings">The Learnings</h1>
+
+<h2 id="terminology">Terminology</h2>
+
+<p>If I had one big takeaway, it was understanding the terminology a lot more deeply! Knowing the terms logit, epoch, stochastic gradient descent, maxpool, generalization, and overfitting in a more intuitive and visceral helps me understand ideas discussed within our AV organization much more quickly.</p>
+
+<h2 id="always-randomize-datasets">Always randomize datasets</h2>
+
+<p>result: 9.99% -&gt; 40%</p>
+
+<p>My initial iteration had a 9.99% pass rate, after adding the debugger and looking at the predicted output of the model by printing the final logit layer, I noticed that the output was always a specific classification, no matter what the input was.</p>
+
+<p>This was caused by me not randomizing the dataset - effectively every epoch, the model would get exclusively trained against one classification for the last 10% of the time, biasing it toward that one classification.</p>
+
+<p>After I fixed that, my simple 2-layer neural network got up to 40% accuracy!</p>
+
+<h2 id="misc-things-that-helped-the-neural-net">Misc things that helped the neural net</h2>
+
+<p>The highest I could get the neural network was 44%. Here’s a table of things I tried:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Accuracy</th>
+      <th>Epochs</th>
+      <th>Batch Size</th>
+      <th>Learning Rate</th>
+      <th>Shuffled</th>
+      <th>Momentum</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>44.6%</td>
+      <td>10</td>
+      <td>32</td>
+      <td>0.01</td>
+      <td>yes</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>42.9%</td>
+      <td>20</td>
+      <td>16</td>
+      <td>0.01</td>
+      <td>yes</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>41.9%</td>
+      <td>10</td>
+      <td>16</td>
+      <td>0.001</td>
+      <td>yes</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>40.9%</td>
+      <td>10</td>
+      <td>32</td>
+      <td>0.001</td>
+      <td>yes</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>38.0%</td>
+      <td>5</td>
+      <td>16</td>
+      <td>0.001</td>
+      <td>yes</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>11%</td>
+      <td>10</td>
+      <td>16</td>
+      <td>0.01</td>
+      <td>no</td>
+      <td>0.9</td>
+    </tr>
+    <tr>
+      <td>9.9%</td>
+      <td>10</td>
+      <td>16</td>
+      <td>0.001</td>
+      <td>no</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>I could tweak batch size and learning rate to help it converge more quickly.</p>
+
+<h2 id="single-layer-convolution">Single-layer convolution</h2>
+
+<p>Switching to even a single-layer of convolution immediately caused the model to jump to 55%: as explained in the AlexNet paper, I think this can primarily be attributed to better generalization of the learnings in one particular segment of the image: without convolution and some form of feature consolidation, it’s really impossible to divine general relationships that shift across the matrix like the position of a dog in the image.</p>
+
+<h2 id="60-epochs-is-the-good-range">60+ epochs is the good range.</h2>
+
+<p>For most of the convolution models, many had some continued gain up to about 45 to 60 epochs. I believe this will be highly dependent on how much training data is available, but it’s interesting to thing that running the model against the same data 40+ times is required to hit some sort of ceiling.</p>
+
+<h2 id="dropout-added-10">dropout added 10%</h2>
+
+<p>The original AlexNet paper suggests that introducing dropout in the final connected layer (2 layers of linear + ReLU combinations) results in a significant raining improvement. They theorize this is due to the individual “neurons” in the matrices start to embed more generalization into themselves, not requiring the constant presence of the upstream neurons.</p>
+
+<p>In my experience, this increased the accuracy by roughly 10% from the non-dropout version. So clearly, the neurons embedding more information is a critical part to better models.</p>
+
+<h2 id="flipping-image-data-added-10-accuracy">flipping image data added 10% accuracy</h2>
+
+<p>There isn’t much more I could do with model architecture to increase the accuracy, but I got some pointers to go look at data.</p>
+
+<p>The biggest contributor was just flipping the image data half the time: I think this effectively doubles the dataset to some extent. Which implies that training data might be a bottleneck now rather than just learning capacity.</p>
+
+<p>Some other things I tried, which has less of an effect:</p>
+
+<ul>
+  <li>Scaling the data up and cropping didn’t seem to improve much. Maybe 1-2% at most.</li>
+  <li>Changing exposure, brightness also had maybe a 1-2% difference, although training still ended up in the same range.</li>
+</ul>
+
+<h2 id="my-current-score-78">my current score: 78%</h2>
+
+<p>For the imagenette, I was able to get a 78% score after 60 epochs. This is pretty good, as the original AlexNet paper, with a much larger dataset and longer training time, reached 85%.</p>
+
+<p>I did not see any overfitting directly (which I’d expect to see via loss curve that has an upward trend after multiple epochs). But I did see the loss plateau after about 45 epochs or so.</p>
+
+<p>Some quick notes:</p>
+
+<ul>
+  <li>Adding RMSNorm in the first 2 layers added roughly 1-2%.</li>
+  <li>Originally I had only convolutional layers with stride=2 rather than maxpool. With the maxpool layers instead I had a 4-5% bump.</li>
+</ul>]]></content><author><name></name></author><category term="coding" /><summary type="html"><![CDATA[Rebuilding AlexNet]]></summary></entry><entry><title type="html">How I code with AI</title><link href="https://y.tsutsumi.io/coding-with-ai" rel="alternate" type="text/html" title="How I code with AI" /><published>2025-11-08T07:00:00+00:00</published><updated>2025-11-08T07:00:00+00:00</updated><id>https://y.tsutsumi.io/my-ai-best-practices</id><content type="html" xml:base="https://y.tsutsumi.io/coding-with-ai"><![CDATA[<h1 id="how-i-code-with-ai">How I code with AI</h1>
+
+<p>Recently, like many developers, I’ve been experimenting a lot with coding with AI.</p>
+
+<p>Overall I’ve found that I am more productive with AI: some PRs are vastly easier, although I do write a decent bit myself (especially with https://aep.dev/, which is basically an english specification).</p>
+
+<p>I’ll update this page over time as I learn some new tricks as well.</p>
+
+<h2 id="adding-a-personal-coding-styleguide">Adding a personal coding styleguide</h2>
+
+<p>Most editors provide a way to add a custom styleguide. vscode calls these “instructions”.</p>
+
+<p>My personal instructions are here:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>---
+applyTo: '**'
+---
+# yft's personal coding guidelines
+- prefer fewer comments. Only add them when the code is not self-explanatory.
+- prefer functional programming.
+- IO with network and filesystem should be in wrapper functions that call inner functions that work on data structures.
+- unit tests should be written to run on the data structures directly rather than through IO, with only a single test on IO to serve as an integration test.
+- prefer composition over inheritance.
+- prefer to use constants, especially for hard-coded directories or values.
+- helper functions should have minimal logic.
+</code></pre></div></div>
+
+<h2 id="one-off-experiences">One-off experiences</h2>
+
+<h3 id="2025-11-10-using-jules-and-github-copilot">2025-11-10: using Jules and GitHub copilot</h3>
+
+<p>I had trying Jules (https://jules.google/docs/) this weekend on a personal project. It’s kind of similar to this so thought it was worth bringing up.</p>
+
+<p>Basically I had it write a PR to create a new proto schema for me: https://github.com/aep-dev/aep-components/pull/41. The workflow is you add a label “jules” to a GitHub issue, and it goes and generates a PR.</p>
+
+<p>The first pass (like many AI tools) was ok, but had a lot of changes that needed. Many were me not being clear about the initial expectations. But one major hangup was that jules didn’t understand that there was a github CI workflow that it should have run to find more errors. I tried to explain it here, but gave up because it was still failing and I was moving toward comments that just hand-fixed it: https://github.com/aep-dev/aep-components/pull/41#issuecomment-3506923393</p>
+
+<p>I actually tried the exact same change with the built-in copilot generator, which was much closer: https://github.com/aep-dev/aep-components/pull/44. It seemed to better understand the linting and ci workflows, and didn’t have the same breakages with buf.</p>
+
+<p>My workflow was still leaving a bunch of comments, many of which are direct code fixes. But I was able to massage and merge it in.</p>
+
+<p>Ultimately I think this would have been faster for me to have just done locally with cursor / copilot, then hand-fix and submit the PR myself, then have a PR generator do it. But it felt like needing a fundamental understanding of the tooling in the repo was critical.</p>]]></content><author><name></name></author><category term="programming" /><summary type="html"><![CDATA[How I code with AI]]></summary></entry><entry><title type="html">The Anxious Generation by Jonathan Haidt</title><link href="https://y.tsutsumi.io/books/anxious-generation" rel="alternate" type="text/html" title="The Anxious Generation by Jonathan Haidt" /><published>2025-11-02T07:00:00+00:00</published><updated>2025-11-02T07:00:00+00:00</updated><id>https://y.tsutsumi.io/books/the-anxious-generation</id><content type="html" xml:base="https://y.tsutsumi.io/books/anxious-generation"><![CDATA[<h1 id="the-anxious-generation">The Anxious Generation</h1>
+
+<p>I really liked reading the book “The Anxious generation” by Jonathan Haidt.</p>
+
+<p>The book argues for less screen time for children, especially social media at
+younger ages, which can be harmful.</p>
+
+<p>The jist of the book is:</p>
+
+<p>1: The time your child spends outside or interacting with kids is more valuable that almost all
+forms of screen time. I like this argument because it’s a relative comparison, rather than saying
+that screen time is inherently bad (which, as someone who spend his whole childhood in front a
+screen and turned out… not terrible, tend to disagree).</p>
+
+<p>2: Social media for young children can be a terrible infleunce. There’s cyberbullying, which can be
+much worse than regular bullying as people in general are willing to be a lot more horrible online.
+In addition, there’s the implicit pressure to live and look as glamorous as these famous influencers
+online, resulting in body dysmoprhia.</p>
+
+<p>Although the book references some studies, I agree on an anecdotal level that social media is not a
+necessary part of life for adolescents, and that screentime is something with, depending on the
+activity, rapidly diminishing returns, and a balance with other activities in life is critical.</p>]]></content><author><name></name></author><category term="book-reports" /><summary type="html"><![CDATA[The Anxious Generation]]></summary></entry><entry><title type="html">Setting up a streaming gaming Ubuntu PC for sunshine/moonlight</title><link href="https://y.tsutsumi.io/ubuntu-sunshine/" rel="alternate" type="text/html" title="Setting up a streaming gaming Ubuntu PC for sunshine/moonlight" /><published>2025-07-18T07:00:00+00:00</published><updated>2025-07-18T07:00:00+00:00</updated><id>https://y.tsutsumi.io/setting-up-moonlight-ubuntu</id><content type="html" xml:base="https://y.tsutsumi.io/ubuntu-sunshine/"><![CDATA[<h1 id="setting-up-a-streaming-gaming-ubuntu-pc-for-moonlight">Setting up a streaming gaming Ubuntu PC for moonlight</h1>
+
+<p>I’ve been working on building a new streaming gaming PC (that ordeal I will save
+for a future blog post), but in the process I had some difficulties with getting
+moonlight set up just the way I like it. So I figured these might be helpful to
+others.</p>
+
+<p>My goal is to have a PC that I use exclusively for streaming games via
+<a href="https://app.lizardbyte.dev/Sunshine/?lng=en-US">sunshine</a>. Sunshine is the
+replacement for Nvidia game streaming that was deprecated, and work as a
+complement to the streaming client <a href="https://moonlight-stream.org/">moonlight</a>.
+It allows for the streaming of video and audio to a client, which in turn
+streams controls (keyboard and / or a controller) back to the server.</p>
+
+<p>When all is said and done, I want what is effectively a box in my closet with
+only two things attached: a power cable, and an ethernet cable (for a
+low-latency wired connection to my network). I do not want dangling mice,
+keyboards or monitors. Just a box that connects to the internet, and is
+available for me to stream from.</p>
+
+<p>To accomplish this, I needed a few things:</p>
+
+<ol>
+  <li>A way to have a virtual display even if a physical monitor isn’t plugged in.</li>
+  <li>A way to login as a user right away (since sunshine needs a valid user).</li>
+  <li>A way to have sunshine available when the machine boots.</li>
+  <li>A way to wake the machine after it suspends</li>
+</ol>
+
+<h2 id="attaching-a-virtual-display">Attaching a virtual display</h2>
+
+<p>This was relatively easy!</p>
+
+<p>You can buy a <a href="https://www.google.com/search?q=dummy+plug+hdmi">dummy plug</a> that
+you just plug into the GPU. When you’ve got your PC set up, just replace your
+actual monitor with that.</p>
+
+<h2 id="logging-in-right-away">Logging in right away</h2>
+
+<p>This one just requires careful setup:</p>
+
+<ol>
+  <li>setup autologin in your operating system (varies by distro).</li>
+  <li><em>do not</em> use disk encryption.</li>
+</ol>
+
+<p>(2) is the major gotcha: if you add disk encryption it’ll ask for your password
+every time your computer starts up, which means plugging in a keyboard
+every time. you could just leave a keyboard by your computer for this purpose,
+but I’ve found I do have to restart my computer from time to time, and making
+bringing it back up as easy as pressing a button is a nice usability improvement.</p>
+
+<h2 id="start-sunshine-when-the-machine-boots">Start sunshine when the machine boots</h2>
+
+<p>This was pretty hard for me. Normally, this is a matter of installing the
+sunshine .deb from the <a href="https://github.com/LizardByte/Sunshine/releases">github
+releases</a>, but in my case I had
+to use Ubuntu 25.05 for a newer kernel version that supports my AMD GPU. Only
+LTS release are supported for sunshine.</p>
+
+<p>For a non-lts release, I found that using the <code class="language-plaintext highlighter-rouge">.appimage</code> worked the best. This
+unfortunately didn’t work for me without root, so I had to run sunshine as sudo:</p>
+
+<p><code class="language-plaintext highlighter-rouge">sudo -i PULSE_SERVER=unix:/run/user/$(id -u $whoami)/pulse/native /usr/bin/sunshine</code></p>
+
+<p>(I moved the appimage to /usr/bin/sunshine).</p>
+
+<p>I put this in a script, which I then added as a <a href="https://help.ubuntu.com/stable/ubuntu-help/startup-applications.html.en">startup application</a>:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/usr/bin/env bash</span>
+<span class="c"># I had to add a sleep to let the graphical interface completely come up.</span>
+<span class="c"># otherwise I would see a black screen.</span>
+<span class="nb">sleep </span>10
+<span class="nb">exec sudo</span> <span class="nt">-i</span> <span class="nv">PULSE_SERVER</span><span class="o">=</span>unix:/run/user/<span class="si">$(</span><span class="nb">id</span> <span class="nt">-u</span> <span class="nv">$whoami</span><span class="si">)</span>/pulse/native /usr/bin/sunshine
+</code></pre></div></div>
+
+<p>This works, but still has some wonkiness:</p>
+
+<ul>
+  <li>steam can’t be launched via moonlight because it tries to start it as root.</li>
+</ul>
+
+<h2 id="a-way-to-wake-the-machine-after-it-suspends">A way to wake the machine, after it suspends</h2>
+
+<p>Now you probably don’t want your machine on all the time - instead, you’d want
+it to suspend after a reasonable idle time frame, and have the ability to turn
+it one when you need it.</p>
+
+<p>I tried a few approach, none of which worked or were reliable (I think something
+else was resetting my network configuration):</p>
+
+<ul>
+  <li><a href="https://wiki.archlinux.org/title/Wake-on-LAN">adding a rule to /systemd/network</a></li>
+  <li>Adding a vanilla systemd unit to run ethtool.</li>
+</ul>
+
+<p>Ultimately I landed on the following:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># /lib/systemd/system/wol@.service
+[Unit]
+Description=Wake-on-lan for %i
+# This means run after the network is online, as well
+# as after suspension.
+After=network-online.target suspend.target
+
+[Service]
+Type=oneshot
+# something else in my OP keeps setting the WOL settings on the device.
+# adding this sleep gave whatever time to configure it's settings, so I could override them.
+ExecStartPre=/usr/bin/sleep 10
+ExecStart=/sbin/ethtool -s %i wol g
+
+[Install]
+# if we run network-online and suspend.target, run this too.
+WantedBy=network-online.target suspend.target
+</code></pre></div></div>
+
+<p>Installed by:</p>
+
+<p><code class="language-plaintext highlighter-rouge">systemctl enable wol@${ethid}</code></p>
+
+<p>Where <code class="language-plaintext highlighter-rouge">${ethid}</code> is the interface id you can get from <code class="language-plaintext highlighter-rouge">nmcli</code>.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>And that’s it! Most of it was troubleshooting systemd units. My takeaways are:</p>
+
+<ul>
+  <li>try to use systemd units as much as possible. It’s an extremely powerful
+system and enables you to start your process with the right sequencing and situations.</li>
+  <li>try to use LTS releases of Ubuntu if at all possible. Moonlight installation
+has been tricky, and I’m sure other packages only support LTS. I’m looking
+forward to upgrading to 2026.04 precisely for this benefit.</li>
+</ul>
+
+<h3 id="why-linux-why-ubuntu">Why linux? Why ubuntu?</h3>
+
+<p>Although not for everyone, I like to use Linux for a few reasons:</p>
+
+<ol>
+  <li>Linux distributions don’t to forced updates, thereby allowing gaming
+uninterrupted by some malware update.</li>
+  <li>Windows has a ton of bloatware and ads.</li>
+  <li>Linux is “free” - it doesn’t cost a cent to run it, and distros often work
+for years.</li>
+  <li>With the work done on <a href="https://www.winehq.org/">wine</a> and
+<a href="https://github.com/ValveSoftware/Proton">proton</a>, Windows games run
+extremely smooth on Linux now.</li>
+</ol>
+
+<p>For Ubuntu, I would go with <a href="https://bazzite.gg/">bazzite</a> for a pure gaming PC,
+but as this computer will be the most powerful one I have, I wanted it to have
+the option to be more general purpose in case I get the itch to do some real
+software development on it (maybe ML or some CPU emulation project).</p>]]></content><author><name></name></author><category term="computers" /><summary type="html"><![CDATA[Setting up a streaming gaming Ubuntu PC for moonlight]]></summary></entry></feed>

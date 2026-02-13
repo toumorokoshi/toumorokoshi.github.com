@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Move over bash: Python is my language for setup scripts now. | Yusuke Tsutsumi</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Move over bash: Python is my language for setup scripts now." />
+<meta name="author" content="toumorokoshi" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="I know when people discuss using programming languages, there’s two main schools of thought:" />
+<meta property="og:description" content="I know when people discuss using programming languages, there’s two main schools of thought:" />
+<link rel="canonical" href="https://y.tsutsumi.io/2012/09/08/move-over-bash-python-is-my-language-for-setup-scripts-now/" />
+<meta property="og:url" content="https://y.tsutsumi.io/2012/09/08/move-over-bash-python-is-my-language-for-setup-scripts-now/" />
+<meta property="og:site_name" content="Yusuke Tsutsumi" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2012-09-08T21:34:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Move over bash: Python is my language for setup scripts now." />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"toumorokoshi"},"dateModified":"2012-09-08T21:34:00+00:00","datePublished":"2012-09-08T21:34:00+00:00","description":"I know when people discuss using programming languages, there’s two main schools of thought:","headline":"Move over bash: Python is my language for setup scripts now.","mainEntityOfPage":{"@type":"WebPage","@id":"https://y.tsutsumi.io/2012/09/08/move-over-bash-python-is-my-language-for-setup-scripts-now/"},"url":"https://y.tsutsumi.io/2012/09/08/move-over-bash-python-is-my-language-for-setup-scripts-now/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" /><script async src="https://www.googletagmanager.com/gtag/js?id=G-325KP61WS9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { window.dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-325KP61WS9');
+</script>
+</head><body><header class="site-header">
+
+    <div class="wrapper"><a class="site-title" rel="author" href="/">Yusuke Tsutsumi</a><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path
+                            d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger">
+                <a class="page-link" href="/tag/coding/">Coding Posts</a>
+                <a class="page-link"
+                    href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a><a class="page-link" href="/resources/">Resources</a><a class="page-link" href="/about/">About Yusuke Tsutsumi</a></div>
+        </nav></div>
+    <style>
+        .gse-control-cse td {
+            border: 0;
+        }
+
+        td.gsc-input {
+            border: 0;
+        }
+
+        td.gsc-search-button {
+            border: 0;
+        }
+
+        table.gsc-input {
+            margin-bottom: 0;
+        }
+    </style>
+</header><main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <header class="post-header">
+        <h1 class="post-title p-name" itemprop="name headline">Move over bash: Python is my language for setup scripts now.</h1>
+        <p class="post-meta"><time class="dt-published" datetime="2012-09-08T21:34:00+00:00" itemprop="datePublished">
+                Sep 8, 2012
+            </time>• 
+            <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+                <span class="p-author h-card" itemprop="name">toumorokoshi</span></span></p>
+    </header>
+
+    <div class="post-content e-content" itemprop="articleBody">
+        <p>I know when people discuss using programming languages, there’s two main
+schools of thought:</p>
+
+<ul>
+  <li>Use the same language for as much of your stack as possible</li>
+  <li>Use the language that’s most appropriate for each part of the stack
+as much of possible.</li>
+</ul>
+
+<p>Clearly, there’s very strong advantages to both. Using the same language
+for everything provides you with a common language then anyone involved
+in your project can work on, they can dive into other parts fairly
+easily, and it’s very easy to hire developers who have experience in one
+language, as at the end of the day, I think all developer’s end up using
+one predominantly more than the rest.</p>
+
+<p>Using the proper language for each task, however, has it’s merits as
+well. These function-specific languages make these parts a lot easier to
+write, and it’s usually much faster too. A good example is trying to
+write a key-value store that can communicate through the web: Doing so
+in python gives you way too more function than you need. You need a
+low-level language that can handle memory management, and do so quickly.
+That’s why <a href="http://http://memcached.org/">memcached</a>is written in c++.</p>
+
+<p>When it came to deployment and bootstrapping, I, like most unix-y
+people, thought bash. Why would I think otherwise? after all, every
+single bootstrap script I’ve ever seen was in bash, it has great
+integration with the shell, and that’s all you really need. And it truly
+was all I ever needed… until I needed more.</p>
+
+<p>Now, I’m definitely no expert in bash, but every time I start to write a
+bash script, I truly remember how painful working with bash really is.
+Errors I’ve never seen before pop up at least a couple times every time
+I touch it, strange syntax issues, the methodology in which arguments
+are passed, the lack of libraries replaced by executables that may or
+may not exist on the system. After a half an hour of work on the script,
+I had an idea:</p>
+
+<p>Why not Python?</p>
+
+<p>And yes, why not Python? My whole team works with Python for pretty much
+everything else. People outside my team would just consume my script and
+would come to me if something was wrong anyway. So I started to write it
+in Python. And I accomplished what I wanted to do (perform multiple
+installations of Maven), within a half hour. Something I was only barely
+able to touch with bash in an hour.</p>
+
+<p>Once again, I’m not a bash expert, so I’m sure that play’s a huge part
+in my opinion here. But I think it’s interesting that once I broke out
+of my boxed-in thinking of using bash for all bootstrapping and python
+for only high-level services an tools, that the whole process became
+that much easier.</p>
+
+<p>And indeed, Python is actually a great language for writing setup
+scripts. Here’s some examples:</p>
+                <h2 id="extracting-targz-files-without-touching-the-file-system">   Extracting tar.gz files without touching the file system <a href="#extracting-targz-files-without-touching-the-file-system">#</a>   </h2>
+                    
+
+<p>With python, you can download a file in memory, and extract it write
+there. no more wasted I/O!</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">gzip</span><span class="p">,</span> <span class="n">tarfile</span>
+<span class="kn">from</span> <span class="nn">StringIO</span> <span class="kn">import</span> <span class="n">StringIO</span>
+<span class="n">url</span> <span class="o">=</span> <span class="n">MY_TAR</span>
+<span class="n">extractpath</span> <span class="o">=</span> <span class="n">MY_EXTRACT_PATH</span>
+<span class="n">gz</span> <span class="o">=</span> <span class="n">gzip</span><span class="p">.</span><span class="n">GzipFile</span><span class="p">(</span><span class="n">fileobj</span><span class="o">=</span><span class="n">StringIO</span><span class="p">(</span><span class="n">urllib</span><span class="p">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">url</span><span class="p">).</span><span class="n">read</span><span class="p">()))</span>
+<span class="n">tf</span> <span class="o">=</span> <span class="n">tarfile</span><span class="p">.</span><span class="n">TarFile</span><span class="p">(</span><span class="n">fileobj</span><span class="o">=</span><span class="n">gz</span><span class="p">)</span><span class="n">tf</span><span class="p">.</span><span class="n">extractall</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">extractpath</span><span class="p">)</span>
+</code></pre></div></div>
+                <h2 id="symlinking-directory-management-and-more">   Symlinking, directory management, and more! <a href="#symlinking-directory-management-and-more">#</a>   </h2>
+                    
+
+<p>You can use os.symlink on unix environments, and manage directories with
+the “sh” module. Moving directories from one place to another? then
+symlinking the executable into bin? no problem!</p>
+                <h2 id="optparse-a-setup-scripters-best-friend">   Optparse: A setup scripter’s best friend <a href="#optparse-a-setup-scripters-best-friend">#</a>   </h2>
+                    
+
+<p><a href="http://docs.python.org/library/optparse.html">http://docs.python.org/library/optparse.html</a></p>
+
+<p>Optparse provides you with the typical unix-like option parsing. Makes
+your setup feel just like a bash script, and no one would ever know!</p>
+
+<p>These are on top of what python provides you: dicts for key-value stores
+and representing complex metadata. Pretty much every Linux distribution
+has Python 2.6 or higher built in. Mac OS X now has 2.7. It’s pretty
+much as ubiquitious as bash, and way less hassle!</p>
+
+<p>So, if you have some project and you’re thinking about using bash. Just
+think about it: would it be easier in Python?</p>
+    </div>
+
+    
+
+    <a class="u-url" href="/2012/09/08/move-over-bash-python-is-my-language-for-setup-scripts-now/" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/%20/"></data>
+
+    <div class="wrapper">
+
+        <div class="footer-col-wrapper">
+            <script async src="https://cse.google.com/cse.js?cx=014358564571565173111:hnnbq4j54cy"></script>
+            <div class="gcse-search"></div>
+        </div>
+        <div class="footer-col-wrapper">
+            <div class="footer-col">
+                <p class="feed-subscribe">
+                    <a href="/feed/index.xml">
+                        <svg class="svg-icon orange">
+                            <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+                        </svg><span>Subscribe</span>
+                    </a>
+                </p>
+            </div>
+            <div class="footer-col">
+                <p>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</p>
+            </div>
+        </div>
+
+        <div class="social-links"><ul class="social-media-list"><li>
+  <a rel="me" href="https://bsky.app/profile/y.tsutsumi.io" target="_blank"
+    title="bluesky">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#bluesky"></use>
+    </svg>
+  </a>
+</li><li>
+  <a rel="me" href="https://github.com/toumorokoshi" target="_blank"
+    title="github">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#github"></use>
+    </svg>
+  </a>
+</li><li>
+  <a rel="me" href="https://www.linkedin.com/in/yusuke-tsutsumi" target="_blank"
+    title="linkedin">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#linkedin"></use>
+    </svg>
+  </a>
+</li></ul></div>
+
+    </div>
+    <script src="https://unpkg.com/mermaid@8.9.3/dist/mermaid.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: "default",
+    });
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+  });
+</script>
+
+</footer></body>
+
+</html>

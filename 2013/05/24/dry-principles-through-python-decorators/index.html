@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>DRY Principles through Python Decorators | Yusuke Tsutsumi</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="DRY Principles through Python Decorators" />
+<meta name="author" content="toumorokoshi" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Python decorators are a powerful tool to remove redundancy. Along with modularizing functionality into appropriate bite-sized methods, it makes even the most complex workflows into concise functionality." />
+<meta property="og:description" content="Python decorators are a powerful tool to remove redundancy. Along with modularizing functionality into appropriate bite-sized methods, it makes even the most complex workflows into concise functionality." />
+<link rel="canonical" href="https://y.tsutsumi.io/2013/05/24/dry-principles-through-python-decorators/" />
+<meta property="og:url" content="https://y.tsutsumi.io/2013/05/24/dry-principles-through-python-decorators/" />
+<meta property="og:site_name" content="Yusuke Tsutsumi" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2013-05-24T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="DRY Principles through Python Decorators" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"toumorokoshi"},"dateModified":"2013-05-24T00:00:00+00:00","datePublished":"2013-05-24T00:00:00+00:00","description":"Python decorators are a powerful tool to remove redundancy. Along with modularizing functionality into appropriate bite-sized methods, it makes even the most complex workflows into concise functionality.","headline":"DRY Principles through Python Decorators","mainEntityOfPage":{"@type":"WebPage","@id":"https://y.tsutsumi.io/2013/05/24/dry-principles-through-python-decorators/"},"url":"https://y.tsutsumi.io/2013/05/24/dry-principles-through-python-decorators/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" /><script async src="https://www.googletagmanager.com/gtag/js?id=G-325KP61WS9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { window.dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-325KP61WS9');
+</script>
+</head><body><header class="site-header">
+
+    <div class="wrapper"><a class="site-title" rel="author" href="/">Yusuke Tsutsumi</a><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path
+                            d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger">
+                <a class="page-link" href="/tag/coding/">Coding Posts</a>
+                <a class="page-link"
+                    href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a><a class="page-link" href="/resources/">Resources</a><a class="page-link" href="/about/">About Yusuke Tsutsumi</a></div>
+        </nav></div>
+    <style>
+        .gse-control-cse td {
+            border: 0;
+        }
+
+        td.gsc-input {
+            border: 0;
+        }
+
+        td.gsc-search-button {
+            border: 0;
+        }
+
+        table.gsc-input {
+            margin-bottom: 0;
+        }
+    </style>
+</header><main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <header class="post-header">
+        <h1 class="post-title p-name" itemprop="name headline">DRY Principles through Python Decorators</h1>
+        <p class="post-meta"><time class="dt-published" datetime="2013-05-24T00:00:00+00:00" itemprop="datePublished">
+                May 24, 2013
+            </time>• 
+            <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+                <span class="p-author h-card" itemprop="name">toumorokoshi</span></span></p>
+    </header>
+
+    <div class="post-content e-content" itemprop="articleBody">
+        <p>Python <a href="http://docs.python.org/3/glossary.html#term-decorator">decorators</a> are a
+powerful tool to remove redundancy. Along with modularizing
+functionality into appropriate bite-sized methods, it makes even the
+most complex workflows into concise functionality.</p>
+
+<p>For example, let’s look at the <a href="https://www.djangoproject.com/">Django web framework</a>, which handles
+requests by methods which receive a method object and return a
+response object:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">handle_request</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="s">"Hello, World"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>A case I ran into recently was having to write several api methods
+which must:</p>
+
+<ul>
+  <li>return json responses</li>
+  <li>some must return an error code if it’s a GET request vs a POST</li>
+</ul>
+
+<p>As an example, for a register api endpoint, I would write something like this:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="c1"># check for post only
+</span>    <span class="k">if</span> <span class="n">request</span><span class="p">.</span><span class="n">method</span> <span class="o">!=</span> <span class="s">'POST'</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="s">"error"</span><span class="p">:</span> <span class="s">"this method only accepts posts!"</span><span class="p">}</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="n">create_user</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="n">POST</span><span class="p">[</span><span class="s">'username'</span><span class="p">],</span>
+                                            <span class="n">request</span><span class="p">.</span><span class="n">POST</span><span class="p">[</span><span class="s">'email'</span><span class="p">],</span>
+                                            <span class="n">request</span><span class="p">.</span><span class="n">POST</span><span class="p">[</span><span class="s">'password'</span><span class="p">])</span>
+            <span class="c1"># optional fields
+</span>            <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="p">[</span><span class="s">'first_name'</span><span class="p">,</span> <span class="s">'last_name'</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">request</span><span class="p">.</span><span class="n">POST</span><span class="p">:</span>
+                    <span class="nb">setattr</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">request</span><span class="p">.</span><span class="n">POST</span><span class="p">[</span><span class="n">field</span><span class="p">])</span>
+            <span class="n">user</span><span class="p">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="s">"success"</span><span class="p">:</span> <span class="bp">True</span><span class="p">}</span>
+        <span class="k">except</span> <span class="nb">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="s">"error"</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="p">}</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="n">json</span><span class="p">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+    <span class="k">if</span> <span class="s">"error"</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+        <span class="n">response</span><span class="p">.</span><span class="n">status_code</span> <span class="o">=</span> <span class="mi">500</span>
+    <span class="k">return</span> <span class="n">response</span>
+</code></pre></div></div>
+
+<p>However, I’m going to need json responses and error returned in pretty
+much every api method I create. This would result in a majority of
+logic reproduced over and over again. Let’s try implementing some DRY principles with decorators.</p>
+                <h2 id="decorator-introduction">   Decorator Introduction <a href="#decorator-introduction">#</a>   </h2>
+                    
+
+<p>If you’re not familiar with decorators, they are effectively function
+wrappers that are run when the python interpreter loads the function,
+and can modify what the function receives and returns. For example, if
+I wanted to always return an integer result of one larger than whatever was
+returned, I could write my decorator as so:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># a decorator receives the method it's wrapping as a variable 'f'
+</span><span class="k">def</span> <span class="nf">increment</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+    <span class="c1"># we use arbitrary args and keywords to
+</span>    <span class="c1"># ensure we grab all the input arguments.
+</span>    <span class="k">def</span> <span class="nf">wrapped_f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+        <span class="c1"># note we call f against the variables passed into the wrapper,
+</span>        <span class="c1"># and cast the result to an int and increment .
+</span>        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">wrapped_f</span>  <span class="c1"># the wrapped function gets returned.
+</span></code></pre></div></div>
+
+<p>And now we can use it to decorate another method using the ‘@’ symbol:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">@</span><span class="n">increment</span>
+<span class="k">def</span> <span class="nf">plus</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">plus</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="k">assert</span><span class="p">(</span><span class="n">result</span> <span class="o">==</span> <span class="mi">11</span><span class="p">,</span> <span class="s">"We wrote our decorator wrong!"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Decorators modify the existing function, and assign the variable to
+whatever is returned by the decorator. In this case, ‘plus’ really
+refers to the result of increment(plus)</p>
+                <h2 id="return-an-error-on-non-post-requests">   Return an error on non-post requests <a href="#return-an-error-on-non-post-requests">#</a>   </h2>
+                    
+
+<p>Now let’s apply decorators to something useful. Let’s make a decorator
+that returns an error response if the request received isn’t a POST request in
+django:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">post_only</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+    <span class="s">""" Ensures a method is post only """</span>
+    <span class="k">def</span> <span class="nf">wrapped_f</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">request</span><span class="p">.</span><span class="n">method</span> <span class="o">!=</span> <span class="s">"POST"</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="n">json</span><span class="p">.</span><span class="n">dumps</span><span class="p">(</span>
+                <span class="p">{</span><span class="s">"error"</span><span class="p">:</span> <span class="s">"this method only accepts posts!"</span><span class="p">}))</span>
+            <span class="n">response</span><span class="p">.</span><span class="n">status_code</span> <span class="o">=</span> <span class="mi">500</span>
+            <span class="k">return</span> <span class="n">response</span>
+        <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">wrapped_f</span>
+</code></pre></div></div>
+
+<p>Now, we can apply this to our register api above:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">@</span><span class="n">post_only</span>
+<span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="n">create_user</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="n">POST</span><span class="p">[</span><span class="s">'username'</span><span class="p">],</span>
+                                        <span class="n">request</span><span class="p">.</span><span class="n">POST</span><span class="p">[</span><span class="s">'email'</span><span class="p">],</span>
+                                        <span class="n">request</span><span class="p">.</span><span class="n">POST</span><span class="p">[</span><span class="s">'password'</span><span class="p">])</span>
+        <span class="c1"># optional fields
+</span>        <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="p">[</span><span class="s">'first_name'</span><span class="p">,</span> <span class="s">'last_name'</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">request</span><span class="p">.</span><span class="n">POST</span><span class="p">:</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">request</span><span class="p">.</span><span class="n">POST</span><span class="p">[</span><span class="n">field</span><span class="p">])</span>
+        <span class="n">user</span><span class="p">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="s">"success"</span><span class="p">:</span> <span class="bp">True</span><span class="p">}</span>
+    <span class="k">except</span> <span class="nb">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="s">"error"</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="p">}</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="n">json</span><span class="p">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+    <span class="k">if</span> <span class="s">"error"</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+        <span class="n">response</span><span class="p">.</span><span class="n">status_code</span> <span class="o">=</span> <span class="mi">500</span>
+    <span class="k">return</span> <span class="n">response</span>
+</code></pre></div></div>
+
+<p>And now we have a repeatable decorator we can apply to every api method we have.</p>
+                <h2 id="send-the-response-as-json">   Send the response as json <a href="#send-the-response-as-json">#</a>   </h2>
+                    
+
+<p>To send the response as json (and also handle the 500 status code
+while we’re at it), we can just create another decorator:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">json_response</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+    <span class="s">""" Return the response as json, and return a 500 error code if an error exists """</span>
+    <span class="k">def</span> <span class="nf">wrapped</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="n">json</span><span class="p">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="o">==</span> <span class="nb">dict</span> <span class="ow">and</span> <span class="s">'error'</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+            <span class="n">response</span><span class="p">.</span><span class="n">status_code</span> <span class="o">=</span> <span class="mi">500</span>
+        <span class="k">return</span> <span class="n">response</span>
+</code></pre></div></div>
+
+<p>Now we can remove the json code from our methods, and add a decorator instead:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">@</span><span class="n">post_only</span>
+<span class="o">@</span><span class="n">json_response</span>
+<span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="n">create_user</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="n">POST</span><span class="p">[</span><span class="s">'username'</span><span class="p">],</span>
+                                        <span class="n">request</span><span class="p">.</span><span class="n">POST</span><span class="p">[</span><span class="s">'email'</span><span class="p">],</span>
+                                        <span class="n">request</span><span class="p">.</span><span class="n">POST</span><span class="p">[</span><span class="s">'password'</span><span class="p">])</span>
+        <span class="c1"># optional fields
+</span>        <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="p">[</span><span class="s">'first_name'</span><span class="p">,</span> <span class="s">'last_name'</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">request</span><span class="p">.</span><span class="n">POST</span><span class="p">:</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">request</span><span class="p">.</span><span class="n">POST</span><span class="p">[</span><span class="n">field</span><span class="p">])</span>
+        <span class="n">user</span><span class="p">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s">"success"</span><span class="p">:</span> <span class="bp">True</span><span class="p">}</span>
+    <span class="k">except</span> <span class="nb">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s">"error"</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="p">}</span>
+</code></pre></div></div>
+
+<p>Now, if I need to write a new method, I can just use these decorators
+to re-do the redundant work. If I need to make a sign-in method, I
+only have to write the real relevant code a second time:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">@</span><span class="n">post_only</span>
+<span class="o">@</span><span class="n">json_response</span>
+<span class="k">def</span> <span class="nf">login</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">request</span><span class="p">.</span><span class="n">user</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s">"error"</span><span class="p">:</span> <span class="s">"User is already authenticated!"</span><span class="p">}</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">auth</span><span class="p">.</span><span class="n">authenticate</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="n">POST</span><span class="p">[</span><span class="s">'username'</span><span class="p">],</span> <span class="n">request</span><span class="p">.</span><span class="n">POST</span><span class="p">[</span><span class="s">'password'</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">user</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">user</span><span class="p">.</span><span class="n">is_active</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s">"error"</span><span class="p">:</span> <span class="s">"User is inactive"</span><span class="p">}</span>
+        <span class="n">auth</span><span class="p">.</span><span class="n">login</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">user</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s">"success"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">"id"</span><span class="p">:</span> <span class="n">user</span><span class="p">.</span><span class="n">pk</span><span class="p">}</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s">"error"</span><span class="p">:</span> <span class="s">"User does not exist with those credentials"</span><span class="p">}</span>
+</code></pre></div></div>
+                <h2 id="bonus-parameterizing-your-request-method">   BONUS: parameterizing your request method <a href="#bonus-parameterizing-your-request-method">#</a>   </h2>
+                    
+
+<p>I’ve used the <a href="http://turbogears.org/index.html">Turbogears</a>
+framework for python, and something I’ve fallen in love with is the
+way query parameters are interpreted and passed directory into the
+method. So how can I mimic this behaviour in Django? Well, a decorator
+is one way!</p>
+
+<p>Here’s one:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">parameterize_request</span><span class="p">(</span><span class="n">types</span><span class="o">=</span><span class="p">(</span><span class="s">"POST"</span><span class="p">,)):</span>
+    <span class="s">"""
+    Parameterize the request instead of parsing the request directly.
+    Only the types specified will be added to the query parameters.
+
+    e.g. convert a=test&amp;b=cv in request.POST to
+    f(a=test, b=cv)
+    """</span>
+    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">wrapped</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+            <span class="n">kw</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">if</span> <span class="s">"GET"</span> <span class="ow">in</span> <span class="n">types</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">request</span><span class="p">.</span><span class="n">GET</span><span class="p">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">kw</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+            <span class="k">if</span> <span class="s">"POST"</span> <span class="ow">in</span> <span class="n">types</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">request</span><span class="p">.</span><span class="n">POST</span><span class="p">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">kw</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+            <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">wrapped</span>
+    <span class="k">return</span> <span class="n">wrapper</span>
+
+</code></pre></div></div>
+
+<p>Note that this is an example of a parameterized decorator. In this
+case, the <em>result</em> of the function is the actual decorator.</p>
+
+<p>Now, I can write my methods with parameterized arguments! I can even
+choose whether to allow GET and POST, or just one type of
+query parameter.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">@</span><span class="n">post_only</span>
+<span class="o">@</span><span class="n">json_response</span>
+<span class="o">@</span><span class="n">parameterize_request</span><span class="p">([</span><span class="s">"POST"</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span>
+             <span class="n">first_name</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">last_name</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="n">create_user</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
+    <span class="n">user</span><span class="p">.</span><span class="n">first_name</span><span class="o">=</span><span class="n">first_name</span>
+    <span class="n">user</span><span class="p">.</span><span class="n">last_name</span><span class="o">=</span><span class="n">last_name</span>
+    <span class="n">user</span><span class="p">.</span><span class="n">save</span><span class="p">()</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s">"success"</span><span class="p">:</span> <span class="bp">True</span><span class="p">}</span>
+</code></pre></div></div>
+
+<p>Now, we have a succinct, and easily understandable api!</p>
+                <h2 id="bonus-2-using-functoolswraps-to-preserve-docstrings-and-function-name">   BONUS #2: Using functools.wraps to preserve docstrings and function name <a href="#bonus-2-using-functoolswraps-to-preserve-docstrings-and-function-name">#</a>   </h2>
+                    
+
+<p>(Credit goes to Wes Turner to pointing this out)</p>
+
+<p>Unfortunately, one of the side effects of using decorators is that the
+method’s name (<strong>name</strong>) and docstring (<strong>doc</strong>) values are not
+preserved:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">increment</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+    <span class="s">""" Increment a function result """</span>
+    <span class="n">wrapped_f</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">wrapped_f</span>
+
+<span class="o">@</span><span class="n">increment</span>
+<span class="k">def</span> <span class="nf">plus</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+    <span class="s">""" Add two things together """</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+
+<span class="n">plus</span><span class="p">.</span><span class="n">__name__</span>  <span class="c1"># this is now 'wrapped_f' instead of 'plus'
+</span><span class="n">plus</span><span class="p">.</span><span class="n">__doc__</span>   <span class="c1"># this now returns 'Increment a function result' instead of 'Add two things together'
+</span></code></pre></div></div>
+
+<p>This causes issues for applications which use reflection, like Sphinx,
+a library to that automatically generates documentation for your
+python code.</p>
+
+<p>To resolve this, you can use a ‘wraps’ decorator to attach the name and docstring:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
+
+<span class="k">def</span> <span class="nf">increment</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+    <span class="s">""" Increment a function result """</span>
+    <span class="o">@</span><span class="n">wraps</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">wrapped_f</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">wrapped_f</span>
+
+<span class="o">@</span><span class="n">increment</span>
+<span class="k">def</span> <span class="nf">plus</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+    <span class="s">""" Add two things together """</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+
+<span class="n">plus</span><span class="p">.</span><span class="n">__name__</span>  <span class="c1"># this returns 'plus'
+</span><span class="n">plus</span><span class="p">.</span><span class="n">__doc__</span>   <span class="c1"># this returns 'Add two things together'
+</span></code></pre></div></div>
+                <h2 id="bonus-3-using-the-decorator-decorator">   BONUS #3: Using the ‘decorator’ decorator <a href="#bonus-3-using-the-decorator-decorator">#</a>   </h2>
+                    
+
+<p>(Credit goes to <a href="http://www.reddit.com/user/LeszekSwirski">LeszekSwirski</a> for
+this awesome tip.)</p>
+
+<p>** NOTE ** : Elghinn mentions in the comments that there are caveats to using this decorator.</p>
+
+<p>If you look at the way decorators above, there is a lost of repeating
+going on there as well, in the declaring and returning of a wrapper.</p>
+
+<p>you can install the python egg ‘decorator’, which includes a ‘decorator’
+decorator that provides the decorator boilerplate for you!</p>
+
+<p>With easy_install:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>easy_install decorator
+</code></pre></div></div>
+
+<p>Or Pip:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install </span>decorator
+</code></pre></div></div>
+
+<p>Then you can simply write:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">from decorator import decorator</span>
+
+<span class="err">@</span><span class="s">decorator</span>
+<span class="s">def post_only(f, request)</span><span class="err">:</span>
+    <span class="s2">"</span><span class="s">"</span><span class="s2">"</span><span class="nv"> </span><span class="s">Ensures</span><span class="nv"> </span><span class="s">a</span><span class="nv"> </span><span class="s">method</span><span class="nv"> </span><span class="s">is</span><span class="nv"> </span><span class="s">post</span><span class="nv"> </span><span class="s">only</span><span class="nv"> </span><span class="s">"</span><span class="s2">"</span><span class="s">"</span>
+    <span class="s">if request.method != "POST"</span><span class="err">:</span>
+        <span class="s">response = HttpResponse(json.dumps(</span>
+            <span class="s">{"error"</span><span class="err">:</span> <span class="s2">"</span><span class="s">this</span><span class="nv"> </span><span class="s">method</span><span class="nv"> </span><span class="s">only</span><span class="nv"> </span><span class="s">accepts</span><span class="nv"> </span><span class="s">posts!"</span><span class="err">}</span><span class="s">))</span>
+        <span class="s">response.status_code = </span><span class="m">500</span>
+        <span class="s">return response</span>
+    <span class="s">return f(request)</span>
+
+</code></pre></div></div>
+
+<p>What’s even more awesome about this decorator, is the fact that it
+preserves the return values of <strong>name</strong> and <strong>doc</strong>, so it wraps in
+the functionality functools.wraps performs as well!</p>
+    </div>
+
+    
+
+    <a class="u-url" href="/2013/05/24/dry-principles-through-python-decorators/" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/%20/"></data>
+
+    <div class="wrapper">
+
+        <div class="footer-col-wrapper">
+            <script async src="https://cse.google.com/cse.js?cx=014358564571565173111:hnnbq4j54cy"></script>
+            <div class="gcse-search"></div>
+        </div>
+        <div class="footer-col-wrapper">
+            <div class="footer-col">
+                <p class="feed-subscribe">
+                    <a href="/feed/index.xml">
+                        <svg class="svg-icon orange">
+                            <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+                        </svg><span>Subscribe</span>
+                    </a>
+                </p>
+            </div>
+            <div class="footer-col">
+                <p>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</p>
+            </div>
+        </div>
+
+        <div class="social-links"><ul class="social-media-list"><li>
+  <a rel="me" href="https://bsky.app/profile/y.tsutsumi.io" target="_blank"
+    title="bluesky">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#bluesky"></use>
+    </svg>
+  </a>
+</li><li>
+  <a rel="me" href="https://github.com/toumorokoshi" target="_blank"
+    title="github">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#github"></use>
+    </svg>
+  </a>
+</li><li>
+  <a rel="me" href="https://www.linkedin.com/in/yusuke-tsutsumi" target="_blank"
+    title="linkedin">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#linkedin"></use>
+    </svg>
+  </a>
+</li></ul></div>
+
+    </div>
+    <script src="https://unpkg.com/mermaid@8.9.3/dist/mermaid.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: "default",
+    });
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+  });
+</script>
+
+</footer></body>
+
+</html>
