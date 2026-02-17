@@ -1,4 +1,271 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2026-02-16T00:06:26+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">farsi</title><link href="https://y.tsutsumi.io/languages/farsi" rel="alternate" type="text/html" title="farsi" /><published>2026-02-09T07:00:00+00:00</published><updated>2026-02-09T07:00:00+00:00</updated><id>https://y.tsutsumi.io/languages/farsi-grammar</id><content type="html" xml:base="https://y.tsutsumi.io/languages/farsi"><![CDATA[<h1 id="farsi-grammar">Farsi Grammar</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2026-02-17T00:07:23+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">My Diet in 2026</title><link href="https://y.tsutsumi.io/diet" rel="alternate" type="text/html" title="My Diet in 2026" /><published>2026-02-16T07:00:00+00:00</published><updated>2026-02-16T07:00:00+00:00</updated><id>https://y.tsutsumi.io/diet-2026</id><content type="html" xml:base="https://y.tsutsumi.io/diet"><![CDATA[<p>This is are some notes about what I eat, how I eat, and why.</p>
+
+<p>see <a href="/diet/2022">/diet/2022</a> for an older version of this article.</p>
+
+<h2 id="short-checklist">Short checklist</h2>
+
+<ul>
+  <li>Vegan diet</li>
+  <li>Drink caffeinated drinks (e.g. coffee) to suppress appetite.</li>
+  <li>Sodas are a great way to suppress appetite.</li>
+  <li>Target 1.6g protein / kg body weight day.</li>
+  <li>Target 45g fiber / day.</li>
+  <li>Try to get as close to zero for saturated fat intake.</li>
+  <li>Target 1400kcal for cutting, 1800kcal for bulking.
+    <ul>
+      <li>when bulking, do a slow bulk to build muscle.</li>
+    </ul>
+  </li>
+  <li>targetting low carb diet (50 carbs / day).</li>
+</ul>
+
+<h2 id="example-diets">Example diets</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Food</th>
+      <th>Calories</th>
+      <th>Protein</th>
+      <th>Fiber</th>
+      <th>Carbs</th>
+      <th>Time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1/2 Soy Latte (180ml) + fiber</td>
+      <td>32</td>
+      <td>2.5</td>
+      <td>4</td>
+      <td>0.5</td>
+      <td>8:00am</td>
+    </tr>
+    <tr>
+      <td>Keto Bread + 60g Protein Spread</td>
+      <td>100</td>
+      <td>16</td>
+      <td>8</td>
+      <td>3</td>
+      <td>10:00am</td>
+    </tr>
+    <tr>
+      <td>Sparkling water or diet soda</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>11:30am</td>
+    </tr>
+    <tr>
+      <td>Keto Bread + 50g Protein Spread</td>
+      <td>100</td>
+      <td>16</td>
+      <td>8</td>
+      <td>3</td>
+      <td>12:00am</td>
+    </tr>
+    <tr>
+      <td>1/2 Soy Latte (180ml) + fiber</td>
+      <td>32</td>
+      <td>2.5</td>
+      <td>4</td>
+      <td>0.5</td>
+      <td>1:00pm</td>
+    </tr>
+    <tr>
+      <td>Huel Black (1/2 serving)</td>
+      <td>200</td>
+      <td>20</td>
+      <td>4</td>
+      <td>9</td>
+      <td>2:00pm</td>
+    </tr>
+    <tr>
+      <td>Powder</td>
+      <td>120</td>
+      <td>20</td>
+      <td>4</td>
+      <td> </td>
+      <td>4:00pm</td>
+    </tr>
+    <tr>
+      <td>Keto Bread + 50g Protein Spread</td>
+      <td>100</td>
+      <td>16</td>
+      <td>8</td>
+      <td>3</td>
+      <td>5:00pm</td>
+    </tr>
+    <tr>
+      <td>whatever for 20g protein defecit</td>
+      <td>??</td>
+      <td>??</td>
+      <td>?</td>
+      <td> </td>
+      <td>after work</td>
+    </tr>
+    <tr>
+      <td>Total</td>
+      <td>840g</td>
+      <td>100g</td>
+      <td>45g</td>
+      <td> </td>
+      <td> </td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="major-ideas">Major Ideas</h2>
+
+<h3 id="mostly-vegan-plant-based-diet">Mostly vegan (plant-based diet)</h3>
+
+<p><a href="https://y.tsutsumi.io/2020/03/04/book-report-the-blue-zones/">People who eat a plant-based diet live 7 years longer</a>.</p>
+
+<p>It’s hard for me to go completely vegan (I like my seafood and dairy), so I try to go for vegan meals most of the week at home. When I eat out I eat vegetarian or seafood.</p>
+
+<p>From what I read in Blue Zones (above), eating meat once a week still helps you get a lot of the longevity benefits.</p>
+
+<p>Those who have plant-based high protein diets also tend to have better kidney health than those who dairy / meat based high protein diets.</p>
+
+<h3 id="high-protein">High-protein</h3>
+
+<p>I eat 1.6 grams of protein per 1KG of body weight a day at minimum. Studies have shown that this is the amount that has shown to maximize muscular hypertrophy. I strive to maximize muscle mass ultimately for increasing my healthspan.</p>
+
+<p>With a vegan diet, that number likely should be higher: vegan proteins are not always complete, and may not be in an easily digestable form unlike meat.</p>
+
+<p>However, I do strive for foods that have a <a href="https://en.wikipedia.org/wiki/Digestible_Indispensable_Amino_Acid_Score">diaas score</a> close to 1 or greater:</p>
+
+<ul>
+  <li>soy protein isolate, soybeans, soymilk, tofu.</li>
+  <li>pea protein.</li>
+  <li>beans (kidney, fava).</li>
+</ul>
+
+<h3 id="targetting-caloric-restriction">Targetting Caloric Restriction</h3>
+
+<p>I’m currently in the middle of trying to lose weight: my last Dexa scan in 2022/10 put me at 21% body fat, which is much higher than I’m hoping. My current target is 15% body fat, which means I have to lose 12 lbs of body weight.</p>
+
+<p>To that end, I’m looking at some minor caloric restriction: at 1700 kcal / day, and assuming I can build up a daily caloric expendature of 2100 kcal, that would be me at 3500 / (2100 - 1700) ~ 8.75 days to lose a pound of weight. And ideally I could my weight in 108 days (~4 months).</p>
+
+<p>I’m mixing that with lifting weights to try to guarantee muscle hypertrophy.</p>
+
+<p>In reality my caloric intake is often higher due to limited self-control, but I’m working on that.</p>
+
+<h2 id="other-tips">Other Tips</h2>
+
+<h3 id="sucralose-may-cause-nafld">Sucralose may cause NAFLD</h3>
+
+<p>When I started eating four servings of Huel protein powder a day (to try to up
+my protein intake, those 80 grams help) along with drinking a sugar-free sweet
+coffee daily, I found that my ALT and AST numbers have grown significantly
+(11-&gt;16 and 17-&gt;25, respectively over 10 months).</p>
+
+<p>I’m not sure the precise cause, by after doing some research I found some
+research in mice that shows sucralose and stevia (and regular sugar) consumption
+increasing ALT and AST.</p>
+
+<p>Correlation is not causation, but I’m currently (2023/04) trying to lower my
+Sucralose consumption significantly to see if my numbers change at all.</p>
+
+<h2 id="only-allulose-and-stevia-for-non-nutritive-sweeteners">Only Allulose and Stevia for non-nutritive sweeteners</h2>
+
+<p>Several non-nutritive sweeteners have downsides:</p>
+
+<ul>
+  <li>Aspartame may cause an insulin response.</li>
+  <li>Erithrytol may cause blood clotting, and impact the blood/brain barrier.</li>
+  <li>Sucralose may cause NAFLD.</li>
+</ul>
+
+<p>Which leaves a limited set of non-nutritive sweeteners to choose from:</p>
+
+<ul>
+  <li>Allulose</li>
+  <li>Stevia</li>
+</ul>
+
+<h2 id="specific-food-recommendations">Specific Food Recommendations</h2>
+
+<p>To hit a 50 carb target with 1400 kcal, you need to target foods that provide
+roughly 1 carb per 26 kcal or less.</p>
+
+<p>Also, unlike most low carb diets, I prefer to stay low in saturated fat as well.
+It’s a hard balance but I try to make sure these foods have relatively low
+saturated fat.</p>
+
+<p>For my specific dietary preferences, my recommendations are:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Food</th>
+      <th>Calories</th>
+      <th>Protein</th>
+      <th>Fiber</th>
+      <th>Carbs</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1/2 Soy Latte (180ml) + inulin fiber</td>
+      <td>32</td>
+      <td>2.5</td>
+      <td>2</td>
+      <td>0.5</td>
+    </tr>
+    <tr>
+      <td>Huel Black (1/2 serving)</td>
+      <td>200</td>
+      <td>20</td>
+      <td>4</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <td>Nature’s own Keto Bread</td>
+      <td>35</td>
+      <td>6</td>
+      <td>9</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>Simple Truth Protein Crackers</td>
+      <td>120</td>
+      <td>10</td>
+      <td>6</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <td>Almonds</td>
+      <td>160</td>
+      <td>6</td>
+      <td>3</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>Spinach (100g)</td>
+      <td>23</td>
+      <td>2.9</td>
+      <td>2.2</td>
+      <td>3.6</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="nespresso">Nespresso</h3>
+
+<p>I like to drink Nespresso every morning. I generally may make a mezzo (half
+americano, half soy latte) with the following:</p>
+
+<ul>
+  <li>Mezzo with Tropical Coconut Flavor + 180ml soy milk.</li>
+  <li>Straight: Peppermint Pinwheel.</li>
+  <li>Bianco Doppio with 120ml milk.</li>
+  <li>2x Altissio with 180ml milk (I like this because they offer a decaf option).</li>
+</ul>
+
+<p>Sometimes I replace the soy with a larger volume of macadamia milk (fewer
+calories).</p>]]></content><author><name></name></author><category term="diet" /><category term="health" /><summary type="html"><![CDATA[This is are some notes about what I eat, how I eat, and why.]]></summary></entry><entry><title type="html">farsi</title><link href="https://y.tsutsumi.io/languages/farsi" rel="alternate" type="text/html" title="farsi" /><published>2026-02-09T07:00:00+00:00</published><updated>2026-02-09T07:00:00+00:00</updated><id>https://y.tsutsumi.io/languages/farsi-grammar</id><content type="html" xml:base="https://y.tsutsumi.io/languages/farsi"><![CDATA[<h1 id="farsi-grammar">Farsi Grammar</h1>
 
 <p>In my spare time, I’m learning Farsi. I’ll use this as a kitchen sink for my notes on the language.</p>
 
@@ -693,157 +960,4 @@ online, resulting in body dysmoprhia.</p>
 
 <p>Although the book references some studies, I agree on an anecdotal level that social media is not a
 necessary part of life for adolescents, and that screentime is something with, depending on the
-activity, rapidly diminishing returns, and a balance with other activities in life is critical.</p>]]></content><author><name></name></author><category term="book-reports" /><summary type="html"><![CDATA[The Anxious Generation]]></summary></entry><entry><title type="html">Setting up a streaming gaming Ubuntu PC for sunshine/moonlight</title><link href="https://y.tsutsumi.io/ubuntu-sunshine/" rel="alternate" type="text/html" title="Setting up a streaming gaming Ubuntu PC for sunshine/moonlight" /><published>2025-07-18T07:00:00+00:00</published><updated>2025-07-18T07:00:00+00:00</updated><id>https://y.tsutsumi.io/setting-up-moonlight-ubuntu</id><content type="html" xml:base="https://y.tsutsumi.io/ubuntu-sunshine/"><![CDATA[<h1 id="setting-up-a-streaming-gaming-ubuntu-pc-for-moonlight">Setting up a streaming gaming Ubuntu PC for moonlight</h1>
-
-<p>I’ve been working on building a new streaming gaming PC (that ordeal I will save
-for a future blog post), but in the process I had some difficulties with getting
-moonlight set up just the way I like it. So I figured these might be helpful to
-others.</p>
-
-<p>My goal is to have a PC that I use exclusively for streaming games via
-<a href="https://app.lizardbyte.dev/Sunshine/?lng=en-US">sunshine</a>. Sunshine is the
-replacement for Nvidia game streaming that was deprecated, and work as a
-complement to the streaming client <a href="https://moonlight-stream.org/">moonlight</a>.
-It allows for the streaming of video and audio to a client, which in turn
-streams controls (keyboard and / or a controller) back to the server.</p>
-
-<p>When all is said and done, I want what is effectively a box in my closet with
-only two things attached: a power cable, and an ethernet cable (for a
-low-latency wired connection to my network). I do not want dangling mice,
-keyboards or monitors. Just a box that connects to the internet, and is
-available for me to stream from.</p>
-
-<p>To accomplish this, I needed a few things:</p>
-
-<ol>
-  <li>A way to have a virtual display even if a physical monitor isn’t plugged in.</li>
-  <li>A way to login as a user right away (since sunshine needs a valid user).</li>
-  <li>A way to have sunshine available when the machine boots.</li>
-  <li>A way to wake the machine after it suspends</li>
-</ol>
-
-<h2 id="attaching-a-virtual-display">Attaching a virtual display</h2>
-
-<p>This was relatively easy!</p>
-
-<p>You can buy a <a href="https://www.google.com/search?q=dummy+plug+hdmi">dummy plug</a> that
-you just plug into the GPU. When you’ve got your PC set up, just replace your
-actual monitor with that.</p>
-
-<h2 id="logging-in-right-away">Logging in right away</h2>
-
-<p>This one just requires careful setup:</p>
-
-<ol>
-  <li>setup autologin in your operating system (varies by distro).</li>
-  <li><em>do not</em> use disk encryption.</li>
-</ol>
-
-<p>(2) is the major gotcha: if you add disk encryption it’ll ask for your password
-every time your computer starts up, which means plugging in a keyboard
-every time. you could just leave a keyboard by your computer for this purpose,
-but I’ve found I do have to restart my computer from time to time, and making
-bringing it back up as easy as pressing a button is a nice usability improvement.</p>
-
-<h2 id="start-sunshine-when-the-machine-boots">Start sunshine when the machine boots</h2>
-
-<p>This was pretty hard for me. Normally, this is a matter of installing the
-sunshine .deb from the <a href="https://github.com/LizardByte/Sunshine/releases">github
-releases</a>, but in my case I had
-to use Ubuntu 25.05 for a newer kernel version that supports my AMD GPU. Only
-LTS release are supported for sunshine.</p>
-
-<p>For a non-lts release, I found that using the <code class="language-plaintext highlighter-rouge">.appimage</code> worked the best. This
-unfortunately didn’t work for me without root, so I had to run sunshine as sudo:</p>
-
-<p><code class="language-plaintext highlighter-rouge">sudo -i PULSE_SERVER=unix:/run/user/$(id -u $whoami)/pulse/native /usr/bin/sunshine</code></p>
-
-<p>(I moved the appimage to /usr/bin/sunshine).</p>
-
-<p>I put this in a script, which I then added as a <a href="https://help.ubuntu.com/stable/ubuntu-help/startup-applications.html.en">startup application</a>:</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/usr/bin/env bash</span>
-<span class="c"># I had to add a sleep to let the graphical interface completely come up.</span>
-<span class="c"># otherwise I would see a black screen.</span>
-<span class="nb">sleep </span>10
-<span class="nb">exec sudo</span> <span class="nt">-i</span> <span class="nv">PULSE_SERVER</span><span class="o">=</span>unix:/run/user/<span class="si">$(</span><span class="nb">id</span> <span class="nt">-u</span> <span class="nv">$whoami</span><span class="si">)</span>/pulse/native /usr/bin/sunshine
-</code></pre></div></div>
-
-<p>This works, but still has some wonkiness:</p>
-
-<ul>
-  <li>steam can’t be launched via moonlight because it tries to start it as root.</li>
-</ul>
-
-<h2 id="a-way-to-wake-the-machine-after-it-suspends">A way to wake the machine, after it suspends</h2>
-
-<p>Now you probably don’t want your machine on all the time - instead, you’d want
-it to suspend after a reasonable idle time frame, and have the ability to turn
-it one when you need it.</p>
-
-<p>I tried a few approach, none of which worked or were reliable (I think something
-else was resetting my network configuration):</p>
-
-<ul>
-  <li><a href="https://wiki.archlinux.org/title/Wake-on-LAN">adding a rule to /systemd/network</a></li>
-  <li>Adding a vanilla systemd unit to run ethtool.</li>
-</ul>
-
-<p>Ultimately I landed on the following:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># /lib/systemd/system/wol@.service
-[Unit]
-Description=Wake-on-lan for %i
-# This means run after the network is online, as well
-# as after suspension.
-After=network-online.target suspend.target
-
-[Service]
-Type=oneshot
-# something else in my OP keeps setting the WOL settings on the device.
-# adding this sleep gave whatever time to configure it's settings, so I could override them.
-ExecStartPre=/usr/bin/sleep 10
-ExecStart=/sbin/ethtool -s %i wol g
-
-[Install]
-# if we run network-online and suspend.target, run this too.
-WantedBy=network-online.target suspend.target
-</code></pre></div></div>
-
-<p>Installed by:</p>
-
-<p><code class="language-plaintext highlighter-rouge">systemctl enable wol@${ethid}</code></p>
-
-<p>Where <code class="language-plaintext highlighter-rouge">${ethid}</code> is the interface id you can get from <code class="language-plaintext highlighter-rouge">nmcli</code>.</p>
-
-<h2 id="conclusion">Conclusion</h2>
-
-<p>And that’s it! Most of it was troubleshooting systemd units. My takeaways are:</p>
-
-<ul>
-  <li>try to use systemd units as much as possible. It’s an extremely powerful
-system and enables you to start your process with the right sequencing and situations.</li>
-  <li>try to use LTS releases of Ubuntu if at all possible. Moonlight installation
-has been tricky, and I’m sure other packages only support LTS. I’m looking
-forward to upgrading to 2026.04 precisely for this benefit.</li>
-</ul>
-
-<h3 id="why-linux-why-ubuntu">Why linux? Why ubuntu?</h3>
-
-<p>Although not for everyone, I like to use Linux for a few reasons:</p>
-
-<ol>
-  <li>Linux distributions don’t to forced updates, thereby allowing gaming
-uninterrupted by some malware update.</li>
-  <li>Windows has a ton of bloatware and ads.</li>
-  <li>Linux is “free” - it doesn’t cost a cent to run it, and distros often work
-for years.</li>
-  <li>With the work done on <a href="https://www.winehq.org/">wine</a> and
-<a href="https://github.com/ValveSoftware/Proton">proton</a>, Windows games run
-extremely smooth on Linux now.</li>
-</ol>
-
-<p>For Ubuntu, I would go with <a href="https://bazzite.gg/">bazzite</a> for a pure gaming PC,
-but as this computer will be the most powerful one I have, I wanted it to have
-the option to be more general purpose in case I get the itch to do some real
-software development on it (maybe ML or some CPU emulation project).</p>]]></content><author><name></name></author><category term="computers" /><summary type="html"><![CDATA[Setting up a streaming gaming Ubuntu PC for moonlight]]></summary></entry></feed>
+activity, rapidly diminishing returns, and a balance with other activities in life is critical.</p>]]></content><author><name></name></author><category term="book-reports" /><summary type="html"><![CDATA[The Anxious Generation]]></summary></entry></feed>
