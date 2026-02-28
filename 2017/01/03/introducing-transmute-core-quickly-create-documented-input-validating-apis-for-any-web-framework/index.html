@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Introducing transmute-core: quickly create documented, input validating APIs for any web framework | Yusuke Tsutsumi</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Introducing transmute-core: quickly create documented, input validating APIs for any web framework" />
+<meta name="author" content="toumorokoshi" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="A majority of my career has been spent on building web services in Python. Specifically, internal ones that have minimal or no UIs, and speak REST (or at least are rest-ish)." />
+<meta property="og:description" content="A majority of my career has been spent on building web services in Python. Specifically, internal ones that have minimal or no UIs, and speak REST (or at least are rest-ish)." />
+<link rel="canonical" href="https://y.tsutsumi.io/2017/01/03/introducing-transmute-core-quickly-create-documented-input-validating-apis-for-any-web-framework/" />
+<meta property="og:url" content="https://y.tsutsumi.io/2017/01/03/introducing-transmute-core-quickly-create-documented-input-validating-apis-for-any-web-framework/" />
+<meta property="og:site_name" content="Yusuke Tsutsumi" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-01-03T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Introducing transmute-core: quickly create documented, input validating APIs for any web framework" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"toumorokoshi"},"dateModified":"2017-01-03T00:00:00+00:00","datePublished":"2017-01-03T00:00:00+00:00","description":"A majority of my career has been spent on building web services in Python. Specifically, internal ones that have minimal or no UIs, and speak REST (or at least are rest-ish).","headline":"Introducing transmute-core: quickly create documented, input validating APIs for any web framework","mainEntityOfPage":{"@type":"WebPage","@id":"https://y.tsutsumi.io/2017/01/03/introducing-transmute-core-quickly-create-documented-input-validating-apis-for-any-web-framework/"},"url":"https://y.tsutsumi.io/2017/01/03/introducing-transmute-core-quickly-create-documented-input-validating-apis-for-any-web-framework/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" /><script async src="https://www.googletagmanager.com/gtag/js?id=G-325KP61WS9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { window.dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-325KP61WS9');
+</script>
+</head><body><header class="site-header">
+
+    <div class="wrapper"><a class="site-title" rel="author" href="/">Yusuke Tsutsumi</a><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path
+                            d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger">
+                <a class="page-link" href="/tag/coding/">Coding Posts</a>
+                <a class="page-link"
+                    href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a><a class="page-link" href="/resources/">Resources</a><a class="page-link" href="/about/">About Yusuke Tsutsumi</a></div>
+        </nav></div>
+    <style>
+        .gse-control-cse td {
+            border: 0;
+        }
+
+        td.gsc-input {
+            border: 0;
+        }
+
+        td.gsc-search-button {
+            border: 0;
+        }
+
+        table.gsc-input {
+            margin-bottom: 0;
+        }
+    </style>
+</header><main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <header class="post-header">
+        <h1 class="post-title p-name" itemprop="name headline">Introducing transmute-core: quickly create documented, input validating APIs for any web framework</h1>
+        <p class="post-meta"><time class="dt-published" datetime="2017-01-03T00:00:00+00:00" itemprop="datePublished">
+                Jan 3, 2017
+            </time>• 
+            <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+                <span class="p-author h-card" itemprop="name">toumorokoshi</span></span></p>
+    </header>
+
+    <div class="post-content e-content" itemprop="articleBody">
+        <p>A majority of my career has been spent on building web services in
+Python. Specifically, internal ones that have minimal or no UIs, and
+speak
+<a href="https://en.wikipedia.org/wiki/Representational_state_transfer">REST</a>
+(or at least are rest-ish).</p>
+
+<p>With each new service, I found myself re-implementing work to make
+user-friendly REST APIs:</p>
+
+<ul>
+  <li>validation of incoming data, and descriptive errors when a field
+does not match the type or is otherwise invalid.</li>
+  <li>documenting said schema, providing UIs or wiki pages allowing users
+to understand what the API provides.</li>
+  <li>handling serialization to and from multiple content types (json,
+yaml)</li>
+</ul>
+
+<p>This is maddening work to do over and over again, and details are often
+missed: sometimes yaml is not supported for a particular API, or there
+is a specific field that is not validated. Someone will ask about an API
+that you changed, and forgot to document a new parameter. It's hard to
+scale API maintenance when you're dealing with forgetting some minute
+boilerplate.</p>
+
+<p>This was further exacerbated by using different web frameworks for
+different projects. Every framework provides their own REST plugin or
+library, and often there's a lack of functional parity, or declaring an
+API is completely different and requires learning multiple approaches.</p>
+
+<p>So with this monumental pain, what if I told you can get an API that:</p>
+
+<ul>
+  <li>validates incoming data types</li>
+  <li>supports multiple content types</li>
+  <li>has a fully documented UI</li>
+</ul>
+
+<p>Just by writing a vanilla Python function? And what if I told you this
+can work for YOUR Python framework of choice in 100 statements of Python
+code?</p>
+
+<p>Well, that's what the transmute framework is.</p>
+                <h2 id="how-it-works">   How it works <a href="#how-it-works">#</a>   </h2>
+                    
+
+<p><a href="http://transmute-core.readthedocs.io/en/latest/">transmute-core</a> is a
+library that provides tools to quickly implement rest APIs. It's
+designed to be consumed indirectly, through a thin layer that adapts it
+to the style of the individual framework.</p>
+                <h3 id="http-endpoints">   HTTP Endpoints <a href="#http-endpoints">#</a>   </h3>
+                    
+
+<p>Here is an example of a GET endpoint in flask:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">flask_transmute</span>
+
+<span class="c1"># flask-like decorator.
+</span><span class="o">@</span><span class="n">flask_transmute</span><span class="p">.</span><span class="n">route</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">paths</span><span class="o">=</span><span class="s">'/multiply'</span><span class="p">)</span>
+<span class="c1"># tell transmute what types are, which ensures validations
+</span><span class="o">@</span><span class="n">flask_transmute</span><span class="p">.</span><span class="n">annotate</span><span class="p">({</span><span class="s">"left"</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="s">"right"</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="s">"return"</span><span class="p">:</span> <span class="nb">int</span><span class="p">})</span>
+<span class="c1"># the function is a vanilla Python function
+</span><span class="k">def</span> <span class="nf">multiply</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">left</span> <span class="o">*</span> <span class="n">right</span>
+</code></pre></div></div>
+
+<p>And one in aiohttp, the web framework that uses Python 3's asyncio:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">aiohttp_transmute</span>
+
+<span class="o">@</span><span class="n">aiohttp_transmute</span><span class="p">.</span><span class="n">describe</span><span class="p">(</span><span class="n">paths</span><span class="o">=</span><span class="s">'/multiply'</span><span class="p">)</span>
+<span class="c1"># tell transmute what types are, which ensures validations
+# Python3.5+ supports annotations natively
+#
+# request is provided by aiohttp.
+</span><span class="k">def</span> <span class="nf">multiply</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">left</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">left</span> <span class="o">*</span> <span class="n">right</span>
+
+<span class="n">aiohttp_transmute</span><span class="p">.</span><span class="n">route</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">multiply</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Both do the following:</p>
+
+<ul>
+  <li>generate a valid route in the target framework</li>
+  <li>detect the content type (yaml or json, and parse the body)</li>
+  <li>verify that input parameters match the parameters specified. return
+a 400 status code an details if not.</li>
+  <li>write back yaml or json, depending on the content type</li>
+</ul>
+
+<p>Note that we don't have to deal with the content type serialization,
+read from request objects, or returning a valid response object: that's
+all handled by transmute. This keeps the functions cleaner in general:
+it looks similar to any other Python function.</p>
+                <h3 id="complex-schemas-via-schematic-or-any-validation-framework">   Complex Schemas via Schematic (or any validation framework) <a href="#complex-schemas-via-schematic-or-any-validation-framework">#</a>   </h3>
+                    
+
+<p>Primitive types in the parameters are OK, but it's often true that more
+complex types are desired.</p>
+
+<p>Schema declaration and validation has multiple solutions already, so
+transmute defers this other libraries. By default transmute uses
+<a href="http://schematics.readthedocs.org/en/latest/">schematics</a>.:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">schematics.models</span> <span class="kn">import</span> <span class="n">Model</span>
+<span class="kn">from</span> <span class="nn">schematics.types</span> <span class="kn">import</span> <span class="n">StringType</span><span class="p">,</span> <span class="n">IntType</span>
+
+<span class="k">class</span> <span class="nc">Card</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">StringType</span><span class="p">()</span>
+    <span class="n">price</span> <span class="o">=</span> <span class="n">IntType</span><span class="p">()</span>
+
+
+<span class="c1"># passing in a schematics model as the type enables
+# validation and creation of the object when converted
+# to an API.
+</span><span class="o">@</span><span class="n">annotate</span><span class="p">({</span><span class="s">"card"</span><span class="p">:</span> <span class="n">Card</span><span class="p">})</span>
+<span class="k">def</span> <span class="nf">submit_card</span><span class="p">(</span><span class="n">card</span><span class="p">):</span>
+    <span class="n">db</span><span class="p">.</span><span class="n">save_card</span><span class="p">(</span><span class="n">card</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Of course, some may prefer other solutions like marshmallow. In that
+case, transmute-core provides a transmute-context for users to customize
+and use their own implementation of transmute's serializers:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">transmute_core</span> <span class="kn">import</span> <span class="n">TransmuteContext</span><span class="p">,</span> <span class="n">default_context</span>
+
+<span class="n">context</span> <span class="o">=</span> <span class="n">TransmuteContext</span><span class="p">(</span><span class="n">serializers</span><span class="o">=</span><span class="n">MySerializer</span><span class="p">())</span>
+
+<span class="n">route</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">fn</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">)</span>
+
+<span class="c1"># alternatively, you could modify the default context directly
+# (be careful about where this code is called: it needs
+# to happen before any routes are constructed)
+</span><span class="n">default_context</span><span class="p">.</span><span class="n">serializers</span> <span class="o">=</span> <span class="n">MySerializer</span><span class="p">()</span>
+</code></pre></div></div>
+                <h3 id="documentation-via-swagger">   Documentation via Swagger <a href="#documentation-via-swagger">#</a>   </h3>
+                    
+
+<p><a href="http://swagger.io/">Swagger / OpenAPI</a> allows one to define a REST API
+using json. Transmute generates swagger json files based on the
+transmute routes added to an app, and transmute-core provides the static
+CSS and JavaScript files required to render a nice documentation
+interface for it:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">flask_transmute</span> <span class="kn">import</span> <span class="n">add_swagger</span>
+
+<span class="c1"># reads all the transmute routes that have been added, extracts their
+# swagger definitions, and generates a swagger json and an HTML page that renders it.
+</span><span class="n">add_swagger</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="s">"/swagger.json"</span><span class="p">,</span> <span class="s">"/swagger"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="transmute-core-swagger.png" alt="image" /></p>
+
+<p>This also means clients can be auto-generated as well: swagger has a
+large number of open source projects dedicated to parsing and generating
+swagger clients. However, I haven't explored this too deeply.</p>
+                <h2 id="lightweight-framework-implementations">   Lightweight Framework Implementations <a href="#lightweight-framework-implementations">#</a>   </h2>
+                    
+
+<p>Earlier in this post, it is mentioned that there should a wrapper around
+transmute-core for your framework, as the style of how to add routes and
+how to extract values from requests may vary.</p>
+
+<p>A goal of transmute was to make the framework-specific code as thin as
+possible: this allows more re-use and common behavior across the
+frameworks, enabling developers across frameworks to improve
+functionality for everyone.</p>
+
+<p>Two reference implementations exist, and they are very thin. As of this
+writing, they are at:</p>
+
+<ul>
+  <li>flask-transmute: 166 lines of code, 80 statements</li>
+  <li>aiohttp-transmute: 218 lines of code, 103 statements (a little
+bloated to support legacy APIs)</li>
+</ul>
+
+<p>A one-page example for flask integration is also provided, to illustrate
+what is required to create a new one. That's 200 LOC with comments, a
+little more than 100 without.</p>
+
+<p><a href="http://transmute-core.readthedocs.io/en/latest/creating_a_framework.html">http://transmute-core.readthedocs.io/en/latest/creating_a_framework.html</a></p>
+                <h2 id="impressions">   Impressions <a href="#impressions">#</a>   </h2>
+                    
+
+<p>Frameworks are always a means to an end: it's about reducing that
+effort between what you want to build and actually building it.</p>
+
+<p>I love great, well designed APIs. And dealing with the minutiae of some
+detail I missed in boilerplate content type handling or object
+serialization was draining the enjoyment out of authoring them. Since
+I've started using transmute for all of my projects, it's let me focus
+on what I care about most: actually writing the functional code, and
+designing the great interfaces that let people use them. For the most
+part, it feels like just writing another function in Python.</p>
+
+<p>The auto-documentation is freeing from both sides: as an author I can
+keep my documentation in line with my implementation, because my
+implementation is the source. For consumers, they're immediately
+provided with a simple UI where they can rapidly iterate with the API
+call they would like to make.</p>
+
+<p>It's also great knowing I can use transmute in the next framework,
+whatever that may be: I can take all the work and behavior that's
+embedded in transmute, with a module or two's worth of code.</p>
+                <h2 id="conclusion">   Conclusion <a href="#conclusion">#</a>   </h2>
+                    
+
+<p><a href="http://transmute-core.readthedocs.io/en/latest/index.html">Give it a
+shot</a>!
+<a href="https://github.com/toumorokoshi/transmute-core">Issues and PRs</a> are
+welcome, and I'd love to see someone apply transmute to another
+framework.</p>
+    </div>
+
+    
+
+    <a class="u-url" href="/2017/01/03/introducing-transmute-core-quickly-create-documented-input-validating-apis-for-any-web-framework/" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/%20/"></data>
+
+    <div class="wrapper">
+
+        <div class="footer-col-wrapper">
+            <script async src="https://cse.google.com/cse.js?cx=014358564571565173111:hnnbq4j54cy"></script>
+            <div class="gcse-search"></div>
+        </div>
+        <div class="footer-col-wrapper">
+            <div class="footer-col">
+                <p class="feed-subscribe">
+                    <a href="/feed/index.xml">
+                        <svg class="svg-icon orange">
+                            <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+                        </svg><span>Subscribe</span>
+                    </a>
+                </p>
+            </div>
+            <div class="footer-col">
+                <p>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</p>
+            </div>
+        </div>
+
+        <div class="social-links"><ul class="social-media-list"><li>
+  <a rel="me" href="https://bsky.app/profile/y.tsutsumi.io" target="_blank"
+    title="bluesky">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#bluesky"></use>
+    </svg>
+  </a>
+</li><li>
+  <a rel="me" href="https://github.com/toumorokoshi" target="_blank"
+    title="github">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#github"></use>
+    </svg>
+  </a>
+</li><li>
+  <a rel="me" href="https://www.linkedin.com/in/yusuke-tsutsumi" target="_blank"
+    title="linkedin">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#linkedin"></use>
+    </svg>
+  </a>
+</li></ul></div>
+
+    </div>
+    <script src="https://unpkg.com/mermaid@8.9.3/dist/mermaid.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: "default",
+    });
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+  });
+</script>
+
+</footer></body>
+
+</html>
