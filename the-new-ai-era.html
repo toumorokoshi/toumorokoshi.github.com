@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>The New AI Era | Yusuke Tsutsumi</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="The New AI Era" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="The new AI Era" />
+<meta property="og:description" content="The new AI Era" />
+<link rel="canonical" href="https://y.tsutsumi.io/the-new-ai-era" />
+<meta property="og:url" content="https://y.tsutsumi.io/the-new-ai-era" />
+<meta property="og:site_name" content="Yusuke Tsutsumi" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-03-16T07:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="The New AI Era" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2026-03-16T07:00:00+00:00","datePublished":"2026-03-16T07:00:00+00:00","description":"The new AI Era","headline":"The New AI Era","mainEntityOfPage":{"@type":"WebPage","@id":"https://y.tsutsumi.io/the-new-ai-era"},"url":"https://y.tsutsumi.io/the-new-ai-era"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" /><script async src="https://www.googletagmanager.com/gtag/js?id=G-325KP61WS9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { window.dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-325KP61WS9');
+</script>
+</head><body><header class="site-header">
+
+    <div class="wrapper"><a class="site-title" rel="author" href="/">Yusuke Tsutsumi</a><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path
+                            d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger">
+                <a class="page-link" href="/tag/coding/">Coding Posts</a>
+                <a class="page-link"
+                    href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a><a class="page-link" href="/resources/">Resources</a><a class="page-link" href="/about/">About Yusuke Tsutsumi</a></div>
+        </nav></div>
+    <style>
+        .gse-control-cse td {
+            border: 0;
+        }
+
+        td.gsc-input {
+            border: 0;
+        }
+
+        td.gsc-search-button {
+            border: 0;
+        }
+
+        table.gsc-input {
+            margin-bottom: 0;
+        }
+    </style>
+</header><main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <header class="post-header">
+        <h1 class="post-title p-name" itemprop="name headline">The New AI Era</h1>
+        <p class="post-meta"><time class="dt-published" datetime="2026-03-16T07:00:00+00:00" itemprop="datePublished">
+                Mar 16, 2026
+            </time></p>
+    </header>
+
+    <div class="post-content e-content" itemprop="articleBody">
+        <h1 id="the-new-ai-era">   The new AI Era <a href="#the-new-ai-era">#</a>   </h1>
+                    
+
+<p>Recently I read about <a href="https://steve-yegge.medium.com/welcome-to-gas-town-4f25ee16dd04">Steve Yegge’s post about GasTown</a>, an ecosystem of agent orchestration to go get monster-sized projects done.</p>
+
+<p>I was a bit slow on the uptake when it came to AI: a lot of code last year was hand-written when many had already started letting agents do most of it. My thought was, at the time, the models themselves were often unable to produce a working feature. Let alone produce <em>good</em> code.</p>
+
+<p>But only a year later, with models like Claude Opus 4.6 and Gemini 3.1 pro, these agents are generating code extremely quickly. And the code is actually… decent. It’s not mind-blowing - the agent still makes multiple stylistic mistakes, despite my prompt telling it not to:</p>
+
+<ul>
+  <li>It does not adopt functional programming methodologies, freely mixing IO with business logic.</li>
+  <li>It repeats itself constantly.</li>
+  <li>It often re-writes things it can use a library for.</li>
+</ul>
+
+<p>But it’s good enough where I can get into a productive loop.</p>
+                <h2 id="my-workflow-today">   My workflow today <a href="#my-workflow-today">#</a>   </h2>
+                    
+
+<p>My workflow looks like:</p>
+
+<ol>
+  <li>Write up a design or prompt (I usually like to document my actual written prose somewhere, usually a DESIGN.md).</li>
+  <li>Ask Cursor / Claude / Gemini to implement it.</li>
+  <li>Review the code, ask it to fix things. Back to 1 if needed.</li>
+  <li>Validate the feature e2e. Back to 1 if needed.</li>
+  <li>Commit and push.</li>
+</ol>
+
+<p>I’d argue this is very hands-on. But even with this level of micro-managing, I get a ton of changes done in a short period. Over 1.5 hours on a random Saturday, I got through 7 feature requests in <a href="https://github.com/aep-dev/aep-e2e-validator/commits/main/">aep-e2e-validator</a>, and I felt good about the code and the result of those. Probably 3-4x what I could with a coding-first approach, and with probably one half of the mental load.</p>
+
+<p>Oh, and I also created a code extension to fill in some missing gaps I had in openvsx (https://github.com/toumorokoshi/code-fileclrk). And a couple bugs in other repositories. So I guess that’s more like 10 contributions in a 1.5 hour period, and a 5x increase?</p>
+
+<p>Regardless the multiplier at this point is astounding. As Steve said in his blog post, the bottleneck here really is no longer the code.</p>
+                <h2 id="my-workflow-in-the-future">   My workflow in the future <a href="#my-workflow-in-the-future">#</a>   </h2>
+                    
+
+<p>I thought the above was great, but then I read GasTown. To be clear, I am a still a pessimist on AI, so I don’t want to say I’ve drunk the Kool-aid just yet. But the extremely detailed post helped me really understand what an 100x future could look like. It’s basically layers of abstractions, but with AI agents filling almost every single piece of the puzzle:</p>
+
+<ul>
+  <li>agents are writing code.</li>
+  <li>agents are reviewing PRs.</li>
+  <li>agents are helping summarize the changes and writing them out to a record of what decisions were made.</li>
+  <li>you talk to an agent to help dispatch these tasks to other agents.</li>
+</ul>
+
+<p>And so on - multiple role-based agents, that fill whatever gap you’ve encountered with the other agents you’ve already deployed. Assuming the agent is good enough, or you’ve anchored the manual review to the point of no return (e.g. before performing a financial transaction, or perhaps cutting a release), you could delegate the next level of review over and over again.</p>
+
+<p>And intuitively - this kind of makes a wacky kind of sense, where you are <em>abstracting yourself to the point where you are focusing on the problem where human judgement is truly needed</em>. In the past, for someone to get something accomplished with software, you had to work on every single piece by hand (perhaps except the hardware you run on). But now, if there’s a task you don’t find particularly appealing, and as long as you’re willing to do some manual review, you can definitely delegate that to an agent!</p>
+                <h3 id="the-caveat-you-need-the-domain-knowledge-to-succeed">   The caveat: you need the domain knowledge to succeed <a href="#the-caveat-you-need-the-domain-knowledge-to-succeed">#</a>   </h3>
+                    
+
+<p>Some might read the above and believe that this means that an individual does not need the same skills that the agent does. For example, a non-technical person can write software. I don’t really believe that’s the case, at least not 100%.</p>
+
+<p>For one, it’s important to know that there are just some concerns that are so mission-critical that you cannot reasonably accomplish that without some sort of expertise or awareness. Those are:</p>
+
+<ul>
+  <li>Proper resource management, quotas, and monitoring so you don’t get a giant check that backrupts you.</li>
+  <li>Security. If your service is compromised, the damage is irreperable.</li>
+</ul>
+
+<p>But there’s a huge swath of things that you don’t really have to understand too deeply at the beginning. And as long as you have the skills and time to dive in, AI could take the first swag at it:</p>
+
+<ul>
+  <li>command-line interfaces.</li>
+  <li>applications that run locally.</li>
+  <li>any codebases that have significant guardrails (linting / testing / etc).</li>
+</ul>
+                <h2 id="final-thoughts">   Final Thoughts <a href="#final-thoughts">#</a>   </h2>
+                    
+                <h3 id="so-what-is-the-bottleneck-now">   So what is the bottleneck now? <a href="#so-what-is-the-bottleneck-now">#</a>   </h3>
+                    
+
+<p>It feels like the bottleneck now is the human’s ability to reason about a problem and figure out a good solution. I suppose one can argue that human reasoning was always the bottleneck, but I think the abstraction is at a higher level now.</p>
+
+<p>Oh, and money / energy. You can produce as much as you have money to pay for an agent to generate for you. That or your human ability to think about these problems, which limits you first.</p>
+                <h3 id="human-interaction-is-still-needed">   Human interaction is still needed <a href="#human-interaction-is-still-needed">#</a>   </h3>
+                    
+
+<p>In this fever dream of AI, there are no humans. But to make real change happen in an organization, you still need to talk to people, and that’s the real challenge.</p>
+
+<p>Pretty much everything that has real impact, to some extent, requires thoughtful interaction with others:</p>
+
+<ul>
+  <li>Getting buy-in on the idea.</li>
+  <li>Getting others to use it (sharing demos, recordings, talking to people in 1-1s and through slack).</li>
+  <li>Getting approvals to merge or ship the code.</li>
+  <li>Getting the team that owns the product to accept your idea and put it on their roadmap (or accept your code).</li>
+</ul>
+
+<p>So although some coding is trivial now, I don’t believe that the bulk of the my work, for example, is removed. Communication and interaction with individuals is still key.</p>
+                <h3 id="agents-give-us-the-freedom-to-dive-into-the-problem-we-want-to">   Agents give us the freedom to dive into the problem we want to <a href="#agents-give-us-the-freedom-to-dive-into-the-problem-we-want-to">#</a>   </h3>
+                    
+
+<p>Perhaps there is a world where someone chooses to completely ignore code or a particular engineering problem algother. But I don’t really see this as my motivation.</p>
+
+<p>I think agents provide us the freedom to work on the problems we want to, or perhaps minimize the time we spend on the problems we don’t want to work on. We have a fairly autonomous coder / problem solver than can get things <em>mostly</em> right, and we can trust if we need to.</p>
+
+<p>But if we want to, we can dive right in! And there’s reasons to do so: the code may have gotten too messy, the abstractions are not easily understood, or the code is not performant.</p>
+
+<p>And if you want to assert that level of control and code something yourself, you can! So again, in some ways it’s refreshing in that you can spend more of your time on the problems <em>you</em> care about, not just the rote ones that need to be done.</p>
+                <h3 id="when-and-how-will-we-get-to-this-glorious-future">   When and how will we get to this glorious future? <a href="#when-and-how-will-we-get-to-this-glorious-future">#</a>   </h3>
+                    
+
+<p>So when can we get to this world where agents completely autonomously write their own code and produce real, working products?</p>
+
+<p>I think for some software engineers, they’re basically there today. GasTown seems like it’s run fairly automated with agents working on it all the time. I don’t think throwing agents at compilers and browsers has produced a working product either.</p>
+
+<p>For me personally, I don’t know if I have a project that really is accelerated by 100 autonomous agents all writing code. But I’d like to start climbing this maturity ladder to see if I can squeeze out a little bit more of that time to think about the problems I’m really interested in diving into.</p>
+    </div>
+
+    
+
+    <a class="u-url" href="/the-new-ai-era" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/%20/"></data>
+
+    <div class="wrapper">
+
+        <div class="footer-col-wrapper">
+            <script async src="https://cse.google.com/cse.js?cx=014358564571565173111:hnnbq4j54cy"></script>
+            <div class="gcse-search"></div>
+        </div>
+        <div class="footer-col-wrapper">
+            <div class="footer-col">
+                <p class="feed-subscribe">
+                    <a href="/feed/index.xml">
+                        <svg class="svg-icon orange">
+                            <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+                        </svg><span>Subscribe</span>
+                    </a>
+                </p>
+            </div>
+            <div class="footer-col">
+                <p>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</p>
+            </div>
+        </div>
+
+        <div class="social-links"><ul class="social-media-list"><li>
+  <a rel="me" href="https://bsky.app/profile/y.tsutsumi.io" target="_blank"
+    title="bluesky">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#bluesky"></use>
+    </svg>
+  </a>
+</li><li>
+  <a rel="me" href="https://github.com/toumorokoshi" target="_blank"
+    title="github">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#github"></use>
+    </svg>
+  </a>
+</li><li>
+  <a rel="me" href="https://www.linkedin.com/in/yusuke-tsutsumi" target="_blank"
+    title="linkedin">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#linkedin"></use>
+    </svg>
+  </a>
+</li></ul></div>
+
+    </div>
+    <script src="https://unpkg.com/mermaid@8.9.3/dist/mermaid.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: "default",
+    });
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+  });
+</script>
+
+</footer></body>
+
+</html>
