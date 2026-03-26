@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2026-03-25T00:08:00+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">The New AI Era</title><link href="https://y.tsutsumi.io/the-new-ai-era" rel="alternate" type="text/html" title="The New AI Era" /><published>2026-03-16T07:00:00+00:00</published><updated>2026-03-16T07:00:00+00:00</updated><id>https://y.tsutsumi.io/the-new-ai-era</id><content type="html" xml:base="https://y.tsutsumi.io/the-new-ai-era"><![CDATA[<h1 id="the-new-ai-era">The new AI Era</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2026-03-26T00:10:06+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">The New AI Era</title><link href="https://y.tsutsumi.io/the-new-ai-era" rel="alternate" type="text/html" title="The New AI Era" /><published>2026-03-16T07:00:00+00:00</published><updated>2026-03-16T07:00:00+00:00</updated><id>https://y.tsutsumi.io/the-new-ai-era</id><content type="html" xml:base="https://y.tsutsumi.io/the-new-ai-era"><![CDATA[<h1 id="the-new-ai-era">The new AI Era</h1>
 
 <p>Recently I read about <a href="https://steve-yegge.medium.com/welcome-to-gas-town-4f25ee16dd04">Steve Yegge’s post about GasTown</a>, an ecosystem of agent orchestration to go get monster-sized projects done.</p>
 
@@ -302,7 +302,7 @@ b. A random sampling of the data you would like to evalute of size X</li>
 
 <ul>
   <li>Vegan diet</li>
-  <li>Drink caffeinated drinks (e.g. coffee) to suppress appetite.</li>
+  <li>Drink caffeinated drinks (e.g. coffee) to suppress appetite, and to <a href="https://medicine.nus.edu.sg/news/caffeine-helps-restore-memory-function-after-sleep-loss-nus-medicine-study-shows/">help combat memory loss</a>.</li>
   <li>Sodas are a great way to suppress appetite.</li>
   <li>Target 1.6g protein / kg body weight day.</li>
   <li>Target 45g fiber / day.</li>
@@ -313,6 +313,8 @@ b. A random sampling of the data you would like to evalute of size X</li>
     </ul>
   </li>
   <li>targetting low carb diet (50 carbs / day).</li>
+  <li>Moderate sodium intake</li>
+  <li>Try to hit 100% RDA on potassium (this is very, very hard): this helps counteract bloating caused by sodium.</li>
 </ul>
 
 <h2 id="example-diets">Example diets</h2>
@@ -561,7 +563,19 @@ americano, half soy latte) with the following:</p>
 </ul>
 
 <p>Sometimes I replace the soy with a larger volume of macadamia milk (fewer
-calories).</p>]]></content><author><name></name></author><category term="diet" /><category term="health" /><summary type="html"><![CDATA[This is are some notes about what I eat, how I eat, and why.]]></summary></entry><entry><title type="html">farsi</title><link href="https://y.tsutsumi.io/languages/farsi" rel="alternate" type="text/html" title="farsi" /><published>2026-02-09T07:00:00+00:00</published><updated>2026-02-09T07:00:00+00:00</updated><id>https://y.tsutsumi.io/languages/farsi-grammar</id><content type="html" xml:base="https://y.tsutsumi.io/languages/farsi"><![CDATA[<h1 id="farsi-grammar">Farsi Grammar</h1>
+calories).</p>
+
+<h3 id="good-foods">Good Foods</h3>
+
+<ul>
+  <li>Pistachio: relatively lower carbs, low saturated fat, high potassium.
+    <ul>
+      <li>
+        <h2 id="high-phosphorous-so-try-to-eat-it-in-moderation">high phosphorous so try to eat it in moderation.</h2>
+      </li>
+    </ul>
+  </li>
+</ul>]]></content><author><name></name></author><category term="diet" /><category term="health" /><summary type="html"><![CDATA[This is are some notes about what I eat, how I eat, and why.]]></summary></entry><entry><title type="html">farsi</title><link href="https://y.tsutsumi.io/languages/farsi" rel="alternate" type="text/html" title="farsi" /><published>2026-02-09T07:00:00+00:00</published><updated>2026-02-09T07:00:00+00:00</updated><id>https://y.tsutsumi.io/languages/farsi-grammar</id><content type="html" xml:base="https://y.tsutsumi.io/languages/farsi"><![CDATA[<h1 id="farsi-grammar">Farsi Grammar</h1>
 
 <p>In my spare time, I’m learning Farsi. I’ll use this as a kitchen sink for my notes on the language.</p>
 
