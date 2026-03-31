@@ -1,4 +1,102 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2026-03-31T00:18:05+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">The New AI Era</title><link href="https://y.tsutsumi.io/the-new-ai-era" rel="alternate" type="text/html" title="The New AI Era" /><published>2026-03-16T07:00:00+00:00</published><updated>2026-03-16T07:00:00+00:00</updated><id>https://y.tsutsumi.io/the-new-ai-era</id><content type="html" xml:base="https://y.tsutsumi.io/the-new-ai-era"><![CDATA[<h1 id="the-new-ai-era">The new AI Era</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2026-03-31T18:00:44+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Local, Parallel, and Autonomous: Building a Fully Agent-Generated Codebase</title><link href="https://y.tsutsumi.io/2026/03/30/agentic-orchestration-with-beads-and-lelouch/" rel="alternate" type="text/html" title="Local, Parallel, and Autonomous: Building a Fully Agent-Generated Codebase" /><published>2026-03-30T07:00:00+00:00</published><updated>2026-03-30T07:00:00+00:00</updated><id>https://y.tsutsumi.io/2026/03/30/agentic-orchestration-with-beads-and-lelouch</id><content type="html" xml:base="https://y.tsutsumi.io/2026/03/30/agentic-orchestration-with-beads-and-lelouch/"><![CDATA[<p>I’ve started a video series on agentic coding, and you can view the first video <a href="https://youtu.be/dXyPfslMLYE?si=uRz0qamR3sqWTW0i">here</a>. This is a short summary if you prefer a post instead!</p>
+
+<p>The agentic workflow is something I’m calling “local, parallel, and autonomous”.
+It’s a dive deep into making a whole codebase from scratch, completely
+hands-off.</p>
+
+<h4 id="the-core-attributes">The Core Attributes</h4>
+
+<p>The main pillars for this workflow are straightforward:</p>
+
+<ul>
+  <li><strong>Local:</strong> All the git worktrees run locally on my machine, avoiding the complications of remote execution.</li>
+  <li><strong>Parallel:</strong> It’s built to scale so multiple agents can work on different issues across multiple worktrees at the same time.</li>
+  <li><strong>Autonomous:</strong> The agents complete issues from start to finish without human intervention.</li>
+</ul>
+
+<h4 id="choosing-the-right-projects">Choosing the Right Projects</h4>
+
+<p>Let’s be clear: as of March 2026, there are a <em>lot</em> of risks with this approach. I wouldn’t confidently build and deploy a production SaaS web application this way because the necessary guardrails for safety and privacy requirements just aren’t there yet.</p>
+
+<p>Because of that, I choose self-contained, smaller projects. I’ve built a few codebases this way, including:</p>
+
+<ul>
+  <li>Small VS Code extensions (one to <a href="https://github.com/toumorokoshi/vscode-hivemind">synchronize my dotfiles</a>, another to add missing file operations).</li>
+  <li>A self-contained GitHub page that <a href="https://github.com/toumorokoshi/paste-as-simple-markdown">converts LaTeX to Markdown and plaintext</a>.</li>
+  <li><a href="https://github.com/toumorokoshi/lelouch/tree/main/docs">Lelouch</a>, the workload orchestrator I use for this very process.</li>
+</ul>
+
+<p>For more complex, large-scale systems, I still rely heavily on a manual cycle where the AI generates code and I heavily review it.</p>
+
+<h4 id="bootstrapping-setting-the-guardrails">Bootstrapping: Setting the Guardrails</h4>
+
+<p>To get things started, I wrote a repository called <a href="https://github.com/toumorokoshi/agentic-bootstrap">agentic-bootstrap</a> to provide the scaffolding. Inside its <code class="language-plaintext highlighter-rouge">templates/</code> directory, I keep generic rules that help agents stay on the rails.</p>
+
+<p>The bootstrap relies on a few key components:</p>
+
+<ul>
+  <li><strong>AGENTS.md:</strong> This file acts as the playbook. It tells agents to study the README first, ensures CI passes, enforces linting rules, and mandates that documentation is always updated.</li>
+  <li><strong>specs/:</strong> This directory holds design specifications. Splitting the design up limits the context an agent has to load to accomplish a particular task, separating the “designer” agent from the “executor” agent.</li>
+  <li><strong>Example Files:</strong> For the Heaptrack UI, I included a sample <code class="language-plaintext highlighter-rouge">.zst</code> file in the repo so the agent actually knows how to read the format it’s supposed to parse.</li>
+</ul>
+
+<h4 id="writing-specs-the-grill-approach">Writing Specs: The “Grill” Approach</h4>
+
+<p>When it’s time to write the overall design, you can write it yourself, but I
+used an approach called “grilling” to illustrate another, more agentic way to
+bootstrap.</p>
+
+<p>I tell the agent: <em>“Interview me about the purpose of this project”</em>. It asks me questions about architecture and UI, and I respond with my requirements—for example, that the app should be a purely client-side React app, include dark mode, and support drag-and-drop.</p>
+
+<p>The agent then writes out the design documents in the <code class="language-plaintext highlighter-rouge">specs/</code> directory. I usually do a quick offline review; for instance, the agent once hallucinated some weird typography requirements asking for “Apple’s clear glass” style, which I promptly deleted.</p>
+
+<h4 id="managing-the-queue-with-beads">Managing the Queue with Beads</h4>
+
+<p>For the issue database, I use a tool called Beads, created by Steve Yegge. It acts as a local database for issues, supports being reused across multiple work trees, and is highly agent-friendly with support for <code class="language-plaintext highlighter-rouge">--json</code> flags.</p>
+
+<p>You simply initialize it with <code class="language-plaintext highlighter-rouge">bd init --stealth</code>. From there, you can manage the queue:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">bd create</code> to make new issues.</li>
+  <li><code class="language-plaintext highlighter-rouge">bd update {id} --status=open</code> or <code class="language-plaintext highlighter-rouge">--status=closed</code> to manage state.</li>
+  <li><code class="language-plaintext highlighter-rouge">bd delete {id}</code> to remove them.</li>
+</ul>
+
+<p>I like to use a “thinking” model for a seeder prompt to write highly detailed initial issues, and I use the Beads VS Code extension to visually track what the agents are working on.</p>
+
+<h4 id="orchestration-with-lelouch">Orchestration with Lelouch</h4>
+
+<p>To orchestrate the workers, I wrote <a href="https://github.com/toumorokoshi/lelouch">Lelouch</a>. It’s effectively a way to run an agent, one per github worktree, pulling issues out of the Beads database.</p>
+
+<p>To initialize it just run <code class="language-plaintext highlighter-rouge">lelouch init</code> per worktree. It monitors your
+repositories, pulling open tasks from the Beads database by priority and
+dispatching them.</p>
+
+<p>I typically run Lelouch with the Gemini Flash model via CLI because it has a
+more forgiving usage limit. I also add a pre-prompt like <em>“run tests, commit,
+and push”</em> to make sure it follows through.</p>
+
+<p>When I run <code class="language-plaintext highlighter-rouge">lelouch run -v</code>, the loop begins. It moves issues to “in progress” and logs the agent’s responses directly into the working notes, so I can see exactly what it’s up to. It’s incredibly satisfying to just watch the issues update in the VS Code extension while the agents hum away.</p>
+
+<h4 id="handling-bugs-and-gaps">Handling Bugs and Gaps</h4>
+
+<p>The process isn’t perfect. During my Heaptrack build, the agent created a <code class="language-plaintext highlighter-rouge">gaps.md</code> file but failed to actually implement the missing features. I had to manually prompt it: <em>“There are gaps in gaps.md that are not yet implemented. Please create BD issues for them.”</em>.</p>
+
+<p>When I tested the UI, I found that the flame graph had sizing issues and the <code class="language-plaintext highlighter-rouge">.zst</code> file wasn’t loading properly.</p>
+
+<p>Fixing this is a matter of adding issues to the command line via <code class="language-plaintext highlighter-rouge">bd q "fix the
+bug with the zst file not outputting the flame graph"</code>. Lelouch immediately
+picks it up in the background.</p>
+
+<h4 id="takeaways-for-2026">Takeaways for 2026</h4>
+
+<p>I’ve done this with four or five projects now, and having a central issue database with parallel worker agents is a scalable model.</p>
+
+<p>I know that there’s been existing examples online of people who have done
+everything from write compilers over to full web browsers, and games with
+varying success. Despite that, I’m still skeptical and looking for ways to get it to be a consistent, high quality enough generator that it can be used for more production code. To get there, I think it’ll take more guardrails, especially security-related ones. Some projects are already using agents with a security persona to try to get there.</p>
+
+<p>But all technology has to start somewhere, and this workflow serves as an interesting baseline for my process I intend to grow.</p>]]></content><author><name></name></author><category term="coding" /><summary type="html"><![CDATA[I’ve started a video series on agentic coding, and you can view the first video here. This is a short summary if you prefer a post instead!]]></summary></entry><entry><title type="html">The New AI Era</title><link href="https://y.tsutsumi.io/the-new-ai-era" rel="alternate" type="text/html" title="The New AI Era" /><published>2026-03-16T07:00:00+00:00</published><updated>2026-03-16T07:00:00+00:00</updated><id>https://y.tsutsumi.io/the-new-ai-era</id><content type="html" xml:base="https://y.tsutsumi.io/the-new-ai-era"><![CDATA[<h1 id="the-new-ai-era">The new AI Era</h1>
 
 <p>Recently I read about <a href="https://steve-yegge.medium.com/welcome-to-gas-town-4f25ee16dd04">Steve Yegge’s post about GasTown</a>, an ecosystem of agent orchestration to go get monster-sized projects done.</p>
 
@@ -1018,60 +1116,4 @@ writes until all readers have released a lock.</p>
 
 <p>Even if I buy a second one, I believe I will end up with a higher amount of ram anyway (probably maxing out at 128GB if possible, past the theoretically supported 96GB for the AI 9 HX 370).</p>
 
-<p>I’m considering buying a second smaller DIMM the first 16GB could be dual-channel, but then I would rely on how functional the processor is load-balancing across uneven sizes of RAM.</p>]]></content><author><name></name></author><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">Reflecting on 2025</title><link href="https://y.tsutsumi.io/my-year/2025" rel="alternate" type="text/html" title="Reflecting on 2025" /><published>2026-01-05T07:00:00+00:00</published><updated>2026-01-05T07:00:00+00:00</updated><id>https://y.tsutsumi.io/my-year/reflecting-on-2025</id><content type="html" xml:base="https://y.tsutsumi.io/my-year/2025"><![CDATA[<p>With the end of the year, it’s time for another reflection.</p>
-
-<h2 id="staying-focused">Staying focused</h2>
-
-<p>Overall, I’ve been much better about staying focused on various projects this year. One major contributor is not splitting my focus, and accepting that things take a lot longer than I expect. Whether it’s personal projects like thre AEPs, a new task at work, or a video game I want to play, trying to rush through leads to less satisfaction personally, and my accomplishments not being as deep on things as I’d like.</p>
-
-<h2 id="farsi">Farsi</h2>
-
-<p>If I had to be honest, my Farsi may have actually gotten worse this year. I’m still trying to learn the language, but I’m not doing classes weekly as much anymore, and I dropped Children of Morta due to a bunch of work projects that made me work a few late nights.</p>
-
-<p>I also haven’t really been watching Persian TV, which may be another contributing factor.</p>
-
-<h2 id="oss-aepdev">OSS: aep.dev</h2>
-
-<p>aep.dev this year has been great! We <a href="https://aep.dev/blog/aep-2026-release/">finally published our 2026 specification</a>, a culmination of several years of blood, sweat, and tears discussing API design.</p>
-
-<p>This was joint effort from multiple people who were involved in the ecosystem, including Alex Stephen, Marsh Gardiner, Mike Kistler, David Gagne, and more. It’s a privilege to be a part of that ecosystem.</p>
-
-<p>With the specification underway, I’m excited to move more into actionable territory, taking the spec to organizations to hear what they think.</p>
-
-<h2 id="fitness">Fitness</h2>
-
-<p>Between 2024 and 2025, I’ve lost a couple pounds of fat, arriving at roughly 12% body fat (via dexa), which I’ve largely tracked for most of the year.</p>
-
-<p>Keeping that percentage, I was able to even gain a couple of pounds from where I was at in the beginning of 2025.</p>
-
-<p>At roughly 170lbs (via morning weigh-in), or 175lbs according to Dexa, I think I’m at the point where any more weight loss may result in loss of muscle that is undesirable.</p>
-
-<p>Theoretically, advanced lifters can gain 3-4 pounds of mass a year, maximum. If I am able to gain even half of that while maintaining the current weight, I would be at 10.8% body fat, and would have achieved my goal.</p>
-
-<p>So, my focus this year is to maintain, but try to gain as much muscle as I can.</p>
-
-<p>I upped my protein intake temporarily to 1.8g / kg, but after I saw my Kidney’s health marker (EGFR) lower, I decided to lower intake back down to 1.8, and also go exclusively plant based (which research has shown has resulted in better kidney health overall).</p>
-
-<p>The EGFR marker with creatinine is known to not be the most reliable alone as it generally increases linearly with protein intake, but nonetheless I wanted to be careful about overall health and not increase my protein intake unless it seems like my creatinine numbers can be maintained.</p>
-
-<p>My bone density also significantly went down this year - I think it’s because I removed olympic lifts and heavy compounds such as deadlifts and squats. I plan to re-add these and check bone density afterward.</p>
-
-<h2 id="piano">Piano</h2>
-
-<p>A surprising win this year was Piano. Near the end of the year, I started practicing some holiday pieces after that Thanksgiving holiday. I’ve found that I can read pieces okay now, and generally play through a piece without much trouble, even if that is nowhere close to real speed.</p>
-
-<p>I think It’s a matter of impetus at this point: just keep practing, and I should be a pretty good player and can sight read without issue by the end of the year.</p>
-
-<h2 id="goals-for-2026">Goals for 2026</h2>
-
-<ul>
-  <li>Do 5 talks to evagnelize aep.dev (that would be a lot!)</li>
-  <li>Continue to play piano 10 minutes a day. I think I’m getting pretty good, so I’d like to keep that up.</li>
-  <li>Achieve 11% body fat (same as last year)</li>
-  <li>Gain a working knowledge of machine learning, and figure out how to meaningfully contribute to the ecosystem.</li>
-  <li>Become actually conversationally fluent at Farsi
-    <ul>
-      <li>Finish children of Morta.</li>
-    </ul>
-  </li>
-</ul>]]></content><author><name></name></author><category term="reflection" /><summary type="html"><![CDATA[With the end of the year, it’s time for another reflection.]]></summary></entry></feed>
+<p>I’m considering buying a second smaller DIMM the first 16GB could be dual-channel, but then I would rely on how functional the processor is load-balancing across uneven sizes of RAM.</p>]]></content><author><name></name></author><summary type="html"><![CDATA[]]></summary></entry></feed>
