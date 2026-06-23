@@ -1,4 +1,87 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2026-06-22T00:27:19+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Local, Parallel, and Autonomous: Building a Fully Agent-Generated Codebase</title><link href="https://y.tsutsumi.io/2026/03/30/agentic-orchestration-with-beads-and-lelouch/" rel="alternate" type="text/html" title="Local, Parallel, and Autonomous: Building a Fully Agent-Generated Codebase" /><published>2026-03-30T07:00:00+00:00</published><updated>2026-03-30T07:00:00+00:00</updated><id>https://y.tsutsumi.io/2026/03/30/agentic-orchestration-with-beads-and-lelouch</id><content type="html" xml:base="https://y.tsutsumi.io/2026/03/30/agentic-orchestration-with-beads-and-lelouch/"><![CDATA[<p>I’ve started a video series on agentic coding, and you can view the first video <a href="https://youtu.be/dXyPfslMLYE?si=uRz0qamR3sqWTW0i">here</a>. This is a short summary if you prefer a post instead!</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2026-06-23T00:26:13+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Thoughts on Soft Delete</title><link href="https://y.tsutsumi.io/aep-soft-delete/" rel="alternate" type="text/html" title="Thoughts on Soft Delete" /><published>2026-06-22T07:00:00+00:00</published><updated>2026-06-22T07:00:00+00:00</updated><id>https://y.tsutsumi.io/aep-soft-delete</id><content type="html" xml:base="https://y.tsutsumi.io/aep-soft-delete/"><![CDATA[<p>This document serves as a corrolary to <a href="https://github.com/aep-dev/aeps/issues/111">this issue on
+aep.dev</a>, including my thoughts to
+remove the soft delete pattern.</p>
+
+<h2 id="the-background">The background</h2>
+
+<p>As of 2025-09-13, the aeps have a pattern in which one can “soft delete” a
+resource - where it not actually removed from a collection, but is actually
+flagged as deleted. This allows the resource to be recoverable later.</p>
+
+<p>The soft delete pattern, I believe, exists to serve the purpose of situations
+where recovery is desired, such as most situations where persistent data is
+stored:</p>
+
+<ul>
+  <li>A database, where recreating the resource does not restore any valuble data
+stored.</li>
+  <li>A filesystem, where a file may need to be recovered after the fact.</li>
+</ul>
+
+<h2 id="the-implementation-of-soft-delete-today">The implementation of soft delete today</h2>
+
+<p>The current implementation of AEPs’ soft delete boils down to the following:</p>
+
+<ol>
+  <li>a new custom method, <code class="language-plaintext highlighter-rouge">undelete</code>, on the resource.</li>
+  <li>an added field <code class="language-plaintext highlighter-rouge">show_deleted</code> to the <code class="language-plaintext highlighter-rouge">List</code> standard method, where resources
+are hidden unless specified.</li>
+  <li>an added field <code class="language-plaintext highlighter-rouge">show_deleted</code> to the <code class="language-plaintext highlighter-rouge">Get</code> standard method, where the resource will
+return 410 without it.</li>
+</ol>
+
+<p>There are a few other details (such as the usage of expiry_date) that are
+additional, but do not force any additional fields on the standard methods.</p>
+
+<h2 id="the-problems-soft-delete-is-not-compatible-with-declarative-clients">The problems: soft delete is not compatible with declarative clients</h2>
+
+<p>Declarative clients expect consistent resource-oriented operations on each
+resource - for simple CRUD on a resource, declarative clients are able to easily
+map each operation to the resource lifecycle.</p>
+
+<pre><code class="language-mermaid">graph LR
+  exists
+  not_exists
+  exists -- "update" --&gt; exists
+  not_exists -- "create" --&gt; exists
+  exists -- "delete" --&gt; not_exists
+</code></pre>
+
+<p>For soft delete, where would that fit in? Effectively it creates another state - soft deleted.</p>
+
+<pre><code class="language-mermaid">graph LR
+  exists
+  soft_deleted
+  not_exists
+  not_exists -- "create" --&gt; exists
+  exists -- "update" --&gt; exists
+  soft_delete -- "undelete" --&gt; exists
+  soft_delete -- "expiry hit" --&gt; not_exists
+</code></pre>
+
+<p>But this may also result in weird cases like:</p>
+
+<p>A resource “create” throwing an error because the resource is soft-deleted, and
+therefore exists. But a get would return a 404.</p>
+
+<h2 id="proposed-alternative">Proposed alternative</h2>
+
+<p>Since the primary use case is about backing up and enabling restoration of data,
+the proposal would be to replace these augmentations on the primary resource, to
+adding a second resource for “backups” or “snapshots”.</p>
+
+<p>The pattern would look something like:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/database/foo
+/database-snapshots/foo/snapshots/latest
+</code></pre></div></div>
+
+<p>The database-snapshot could be support a custom method, <code class="language-plaintext highlighter-rouge">restore</code>, that would be
+similar to undelete and bring an old resource back.</p>
+
+<p>This would be similar to the <a href="https://aep.dev/162/">resource revision</a> pattern -
+where a design pattern is introduced by adding a new resource, not by augmenting
+standard methods.</p>]]></content><author><name></name></author><category term="coding" /><summary type="html"><![CDATA[This document serves as a corrolary to this issue on aep.dev, including my thoughts to remove the soft delete pattern.]]></summary></entry><entry><title type="html">Local, Parallel, and Autonomous: Building a Fully Agent-Generated Codebase</title><link href="https://y.tsutsumi.io/2026/03/30/agentic-orchestration-with-beads-and-lelouch/" rel="alternate" type="text/html" title="Local, Parallel, and Autonomous: Building a Fully Agent-Generated Codebase" /><published>2026-03-30T07:00:00+00:00</published><updated>2026-03-30T07:00:00+00:00</updated><id>https://y.tsutsumi.io/2026/03/30/agentic-orchestration-with-beads-and-lelouch</id><content type="html" xml:base="https://y.tsutsumi.io/2026/03/30/agentic-orchestration-with-beads-and-lelouch/"><![CDATA[<p>I’ve started a video series on agentic coding, and you can view the first video <a href="https://youtu.be/dXyPfslMLYE?si=uRz0qamR3sqWTW0i">here</a>. This is a short summary if you prefer a post instead!</p>
 
 <p>The agentic workflow is something I’m calling “local, parallel, and autonomous”.
 It’s a dive deep into making a whole codebase from scratch, completely
@@ -1042,78 +1125,4 @@ writes until all readers have released a lock.</p>
 
 <p>I left my summary at the beginning, but my parting thoughts: It’s unfortunate that science, like anything human, has to be so strongly biased. And I see parts of this new guidance that has significant cons.</p>
 
-<p>But that said, the old guidance was not perfect either. I hope the next version (no doubt swiftly replaced by the next administration run by a Democrat) corrects some of the issues I’ve raised above, without regressing on some of the improvements.</p>]]></content><author><name></name></author><category term="reflection" /><summary type="html"><![CDATA[realfood.gov looks to overhaul decades-long dietary guidelines for Americans.]]></summary></entry><entry><title type="html">Review on the 2025 Framework 13</title><link href="https://y.tsutsumi.io/framework-13-2025" rel="alternate" type="text/html" title="Review on the 2025 Framework 13" /><published>2026-01-10T07:00:00+00:00</published><updated>2026-01-10T07:00:00+00:00</updated><id>https://y.tsutsumi.io/framework-laptop</id><content type="html" xml:base="https://y.tsutsumi.io/framework-13-2025"><![CDATA[<p><img src="../../assets/2026-01-10-framework-laptop.png" alt="The framework laptop 13" /></p>
-
-<p>I finally got a <a href="https://frame.work/">Framework</a> 13 laptop! This is something I’ve wanted for several years, ever since they started shipping their laptops in 2021.</p>
-
-<h1 id="a-quick-intro-to-framework">A quick intro to framework</h1>
-
-<p>Framework focuses on repairable, but also modular, devices. They have produced laptops in the 12,13, and 16 inch form factor, as well as a desktop. Some of the features that are specific to Framework devices include:</p>
-
-<p>“swappable I/O”: effectively there are slots of USB-C ports that have a square notch in them, paired with adapters to various common ports like USB-A, DisplayPort, or HDMI. The result is the user-facing ports are effectively changeable, to some extent on the fly: it’s hard to change the port in, say, a second, but if you had 20-30 seconds I think you could change them out.</p>
-
-<p>Repairable / interchangeable parts: there is a whole Framework store with replacement parts for everything from batteries to webcams to keyboards. You can change things like the bezel color around your monitor, or for the desktop they have square chicklets that you can replace with your own flair.</p>
-
-<h1 id="what-motivated-me">What motivated me</h1>
-
-<p>So why the wait? Well, at the time I had a working laptop from 2018 that was working perfectly okay. It still even works okay (battery has only degraded to maybe 80% or so at most).</p>
-
-<p>So in 2025, there’s a couple things that have changed for me:</p>
-
-<ul>
-  <li>The availablility of RISC-V and ARM boards especially.</li>
-  <li>The AI HX 370 processor, released this year.</li>
-</ul>
-
-<h1 id="impressions-and-thoughts">Impressions and thoughts</h1>
-
-<p>Overall, I’m very impressed and happy with my 13. I bought the “DIY” version, which require some self-installation of the RAM, hard drive, but I preferred that as it gave me time to quickly get a more visceral sense of the device.</p>
-
-<p>It’s also my first laptop with the 3:2 display, which runs taller than the ratios typically seen in laptops these days. I do feel like the extra vertical real estate is noticeable, and helps a bit with coding or text-based tasks.</p>
-
-<p>I’m also happy with the performance: the device feels extremely snappy with Ubuntu 25.10 and the standard Gnome display manager. Videos and tabs load quickly. Aside from games there is no percievable latency as far as processing is concerned.</p>
-
-<p>Of course, my frames of reference are an M2 MacBook Pro from 2022, and an HP Spectre X360 from 2018, but compared to both of these my laptop feels much smoother.</p>
-
-<p>Battery life also seems to be holding quite well - I charge pretty aggresively regardless, but even for heavy workloads like gaming with 100% GPU utilization I’m looking at 1-2 hours. If it’s more lightweight work than that I have not yet thought about battery at all, but I’ll probably do some more emperical benchmarks soon. <code class="language-plaintext highlighter-rouge">powertop</code> reports a draw of 7 watts or so at this time, so I’m guessing for light work I can get about 7 or 8 hours.</p>
-
-<p>The build of the laptop is also very nice - The aluminum feels very similar to a Macbook, but the device feels much lighter than the M2 PRO. This feels like a “premium” laptop to me.</p>
-
-<h2 id="availability-for-risc-v-and-arm-boards">Availability for RISC-V and ARM boards</h2>
-
-<p>The amazing thing about Framework devices are not just repairability - it’s the modularity as well.</p>
-
-<p>The 13 form factor in particular has been so successful that other vendors have started producing compatible boards:</p>
-
-<ul>
-  <li><a href="https://frame.work/blog/risc-v-mainboard-for-framework-laptop-13-is-now-available">DeepComputing’s RISC-V board</a></li>
-  <li><a href="https://metacomputing.io/products/metacomputing-aipc">MetaComputing’s ARM-based board</a>.</li>
-</ul>
-
-<p>Improving support of alternative processors seems like an amazing hobby project. Especially ARM with the recent announcement of it’s integration of <a href="https://fex-emu.com/">FEX</a>-based emulation of X86 to play steam games on ARM devices.</p>
-
-<h2 id="the-ai-9-hx-370">The AI 9 HX 370</h2>
-
-<p>I’ve been angling for the Framework 16 in particular because of the higher TDP, ensuring that I can use the maximum potential of any hardware I have for the device. This was also to ensure I could upgrade the GPU as more resource-intensive games are released.</p>
-
-<p>However, the AI HX 390 seems to have a pretty amazing iGPU, with the Radeon 890m. In my benchmarks I’m getting good <em>enough</em> framerates to accept it on the off change I’m gaming on the go. Note that these are using single-channel memory so the GPU can likely perform much, much better:</p>
-
-<ul>
-  <li>30-40 FPS with Cyberpunk 2077.</li>
-  <li>30 FPS with Balder’s Gate 3.</li>
-  <li>30 FPS with Expedition 33 (with some really low resolution settings).</li>
-</ul>
-
-<p>Some more lightweight games like Dispatch run at 60fps, just as good as my desktop.</p>
-
-<h3 id="for-ai">For AI</h3>
-
-<p>I’ve recently started dabling with ML model architecture and training. My <a href="https://github.com/toumorokoshi/yft-ml-sandbox/tree/main/alexnet">reproduction of the AlexNet paper</a> on the Imagenette dataset trains 60 epochs in about 3-4 hours. This isn’t nearly as fast as the 30 minutes on the <a href="https://docs.cloud.google.com/compute/docs/gpus?hl=ja#l4-gpus">L4 GPUs available through Google Cloud</a> that I normally test against, but it’s still a decent showing, especially limited at the 30w TDP.</p>
-
-<h2 id="mistake-buying-single-channel-memory">Mistake: buying single-channel memory</h2>
-
-<p>Honestly I wasn’t thinking straight on this one. I bought 1 32GB sodimm of RAM, thinking that I’ll buy a second one when the RAM prices go down (the current AI trend has caused RAM prices to more than triple). But the single sodimm really hurts any memorybound operations. In particular AI training/inference and gaming: two things I’m doing a fair bit right now. For gaming I’ve read benchmarks that dual dimms can up the framerate of some games by about 10-20%.</p>
-
-<p>Even if I buy a second one, I believe I will end up with a higher amount of ram anyway (probably maxing out at 128GB if possible, past the theoretically supported 96GB for the AI 9 HX 370).</p>
-
-<p>I’m considering buying a second smaller DIMM the first 16GB could be dual-channel, but then I would rely on how functional the processor is load-balancing across uneven sizes of RAM.</p>]]></content><author><name></name></author><summary type="html"><![CDATA[]]></summary></entry></feed>
+<p>But that said, the old guidance was not perfect either. I hope the next version (no doubt swiftly replaced by the next administration run by a Democrat) corrects some of the issues I’ve raised above, without regressing on some of the improvements.</p>]]></content><author><name></name></author><category term="reflection" /><summary type="html"><![CDATA[realfood.gov looks to overhaul decades-long dietary guidelines for Americans.]]></summary></entry></feed>
