@@ -1,4 +1,82 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2026-06-29T00:24:27+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Thoughts on Soft Delete</title><link href="https://y.tsutsumi.io/aep-soft-delete/" rel="alternate" type="text/html" title="Thoughts on Soft Delete" /><published>2026-06-22T07:00:00+00:00</published><updated>2026-06-22T07:00:00+00:00</updated><id>https://y.tsutsumi.io/aep-soft-delete</id><content type="html" xml:base="https://y.tsutsumi.io/aep-soft-delete/"><![CDATA[<p>This document serves as a corrolary to <a href="https://github.com/aep-dev/aeps/issues/111">this issue on
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2026-06-30T00:24:35+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Thoughts on allow_missing in AEPs</title><link href="https://y.tsutsumi.io/aep-allow-missing/" rel="alternate" type="text/html" title="Thoughts on allow_missing in AEPs" /><published>2026-06-29T07:00:00+00:00</published><updated>2026-06-29T07:00:00+00:00</updated><id>https://y.tsutsumi.io/aep-allow-missing</id><content type="html" xml:base="https://y.tsutsumi.io/aep-allow-missing/"><![CDATA[<p>The main concern I have with <code class="language-plaintext highlighter-rouge">allow_missing</code> is duplication. Does it overlap with some existing api, such as the new apply method?</p>
+
+<p>I could imagine there’s some differences:</p>
+
+<ul>
+  <li>If a field is missing, an apply could reject the request, while update with allow_missing would silently accept it with some default.</li>
+</ul>
+
+<p>Today, apply with fields missing does not actually state that the request should be rejected. Instead, it states:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Note that PUT requests with fields missing in the resource may result in overwriting values in the resource with existing values. For that reason, AEP-compliant APIs generally use the PATCH HTTP verb.
+</code></pre></div></div>
+
+<p>So the behavior is actually one of:</p>
+
+<ul>
+  <li>use the default values for those fields.</li>
+  <li>do not modify the existing one.</li>
+</ul>
+
+<p>But does not clarify which is expected. This should be fixed regardless.</p>
+
+<p>If the choice is to leave unset values unmodified, that it is identical to the behavior of update with <code class="language-plaintext highlighter-rouge">allow_missing</code>.</p>
+
+<p>If default values are chosen, then in proto, that would be nearly identical to an update with a full field mask set (a wildcard <code class="language-plaintext highlighter-rouge">*</code>).</p>
+
+<p>But thinking a bit about that second user journey, generally the idea that one would like to <em>reset</em> a resource back to it’s default values is somewhat non-sensical:</p>
+
+<ul>
+  <li>If one would like to update a resource back to it’s default, set it explicitly in your update.</li>
+  <li>If you would like to leave the value alone, leave it unset.</li>
+</ul>
+
+<p>This is a relatively easy thing to accomplish in OAS: one can examine the fields in a resource, see if they are unset, and then in turn only modify the ones that are set.</p>
+
+<p>For protobuf, this is a bit more difficult because of the fact that non-optional fields are set to their default values. However, even there I think there’s a solution: effectively make every protobuf field explicitly optional, at which point it behaves just like json.</p>
+
+<p>In the above case, one can just set the fields they would like to modify, or are aware of. Combined with a field mask, this would determine wet</p>
+
+<h2 id="user-journeys">User journeys</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>What you’re trying to do with a field</th>
+      <th>how to accomplish it in protobuf</th>
+      <th>how to do it in REST</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Set a field to empty</td>
+      <td>include it in the field mask, set field as null</td>
+      <td>set value as none</td>
+    </tr>
+    <tr>
+      <td>Don’t modify a field</td>
+      <td>don’t include the field in the field mask, set field as null</td>
+      <td>don’t include value in json payload</td>
+    </tr>
+    <tr>
+      <td>Set a field to a specific value</td>
+      <td>include the field in the field mask, set field with desired value</td>
+      <td>include value in json payload</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>Ultimately, <code class="language-plaintext highlighter-rouge">allow_missing</code> and update, due to it’s inclusion of field masks, are a more flexible version of the apply method. Generally clients should just use that method across the board.</p>
+
+<p>In addition, the following guidance should probably be added:</p>
+
+<ul>
+  <li>update protobuf guidance that all fields should be optional.</li>
+  <li>the apply field should clarify whether it will use default values if a field is missing, or leave the field unmodified.</li>
+  <li>the apply field should clarify that a request with required fields missing will reject the response.</li>
+</ul>]]></content><author><name></name></author><category term="coding" /><summary type="html"><![CDATA[The main concern I have with allow_missing is duplication. Does it overlap with some existing api, such as the new apply method?]]></summary></entry><entry><title type="html">Thoughts on Soft Delete</title><link href="https://y.tsutsumi.io/aep-soft-delete/" rel="alternate" type="text/html" title="Thoughts on Soft Delete" /><published>2026-06-22T07:00:00+00:00</published><updated>2026-06-22T07:00:00+00:00</updated><id>https://y.tsutsumi.io/aep-soft-delete</id><content type="html" xml:base="https://y.tsutsumi.io/aep-soft-delete/"><![CDATA[<p>This document serves as a corrolary to <a href="https://github.com/aep-dev/aeps/issues/111">this issue on
 aep.dev</a>, including my thoughts to
 remove the soft delete pattern.</p>
 
@@ -1045,84 +1123,4 @@ writes until all readers have released a lock.</p>
                </span><span class="s2">"http://localhost:8000/openapi.json"</span><span class="w">
             </span><span class="p">]</span><span class="w">
         </span><span class="p">}</span><span class="w">
-</span></code></pre></div></div>]]></content><author><name></name></author><summary type="html"><![CDATA[With all of the new vscode-based editors out there (Cursor, Antigravity, and of course VS Code itself), I find myself having to reconfigure editors all the time.]]></summary></entry><entry><title type="html">realfood.gov</title><link href="https://y.tsutsumi.io/realfood-gov" rel="alternate" type="text/html" title="realfood.gov" /><published>2026-01-19T07:00:00+00:00</published><updated>2026-01-19T07:00:00+00:00</updated><id>https://y.tsutsumi.io/realfood-gov</id><content type="html" xml:base="https://y.tsutsumi.io/realfood-gov"><![CDATA[<p><a href="https://realfood.gov/">realfood.gov</a> looks to overhaul decades-long dietary guidelines for Americans.</p>
-
-<p>Although, like many food pyramids before it, there is a very strong lobbyist influence on this guidance (The <a href="https://www.nytimes.com/2026/01/07/well/rfk-jr-food-pyramid-nutrition-guidelines-protein.html">New York Times covers it well</a>), my thoughts are primarily on the guidance itself, as a health-conscious person who has done some reading on nutrition from folks like Dr. Peter Attia.</p>
-
-<h2 id="summary">Summary</h2>
-
-<p>My thoughts on the guidance is overall positive. But the changes I would make are:</p>
-
-<ul>
-  <li>Limit saturated fat as much as possible, similar to added sugars. Eating more saturated fat directly correlated to a higher increase in apob and cardiovascular disease.</li>
-  <li>Eliminate the conversation around whole foods vs processed foods. Acknowledge that most processed foods are nutritionally unhealthy, but focus on the nutritional content and not the processed nature.</li>
-  <li>Continue to focus on a plant-based diet. This is primarily because the amount of water and resources required to produce plant-based foods is significantly lower than the resources required for meat or most dairy. But meat is generally high in saturated fat so it’s best to avoid that anyway.</li>
-  <li>Positive changes: increased protein and fiber recommendations, reduction of high-carb foods in the pyramid.</li>
-</ul>
-
-<h2 id="the-details">The details</h2>
-
-<h3 id="pros">Pros</h3>
-
-<h4 id="increased-protein-intake">Increased protein intake</h4>
-
-<p>Generally, higher protein intake enables the body to build more muscle, although resistance training is much more important. This is especially critical in the later years where it’s incredibly hard to build muscles and strength.</p>
-
-<h4 id="reduced-bread--simple-carb-intake">Reduced bread / simple carb intake</h4>
-
-<p>It’s surprising that the original recommendations in the food pyramid were so heavy on carbs. Although ensuring you have enough energy throughout the day is a good thing, a carb-heavy diet can result in a lot of insulin to digest the glucose that is produced as a result, and can contribute to diabetes.</p>
-
-<p>There’s definitely healthier carbs in whole grains, but it is better to balance more protein or fats as well.</p>
-
-<h4 id="eliminating-bias-around-fats">Eliminating bias around fats</h4>
-
-<p>Unsaturated fats help improve satiety, and also reduce the number of carbs required to reach the daily caloric recommendation. I still think low-fat foods have their place, but as long as the fat is unsaturated, it is generally less causal to high ldl / apob, and is a good macronutrient to include in the mix.</p>
-
-<h3 id="mixed">Mixed</h3>
-
-<h4 id="well-intentioned-but-incorrect-focus-against-processed-foods">Well-intentioned, but incorrect, focus against processed foods.</h4>
-
-<p>The document focuses heavily on the concept of “real” foods, advocating against highly processed food.</p>
-
-<p>If you’re not willing to think about the nutritional content of food a bit more deeply, then I think it’s general it’s good guidance: most highly processed foods have extremely pool nutritional content, with high saturated fat, carbs, and low protein.</p>
-
-<p>However, this pairing ends up being a confounder: there just are not very many healthy but higly processed foods, and so most studies on highly processed food end up showing results very similar to studies on foods high in saturated fat, carbs, and low protein.</p>
-
-<p>Although it’s not a study, an anecdotal counterexample is <a href="https://huel.com/">huel</a>: definitely highly processed if you look at the ingredient list (dozens on ingredients, micronutrient blends), but many who run labs on the huel subreddit after multiple months exclusively on huel report lost fat, maintain muscles, and generally better labs such as blood pressure (<a href="https://www.reddit.com/r/Huel/comments/168xtf5/laboratory_results_4_months_on_100_huel_powder/">1</a>, <a href="https://discuss.huel.com/t/12-months-huel-only-diet-results/15750">2</a>).</p>
-
-<p>Another anecdotal example, is myself: my diet is primarily processed foods: I eat keto bread, protein powders, artificial sweeteners, huel, and sometimes slimfast (although when I eat “real food” it’s generally roasted whole vegetables).</p>
-
-<p>However, my labs for the past 2-3 years on this diet have only improved over time:</p>
-
-<ul>
-  <li>triclycerides are 50.</li>
-  <li>ldlc is 80 or lower.</li>
-  <li>body fat is the lowest it’s ever been.</li>
-  <li>blood pressure is consistently below 120/80: ten years ago I was generally right on the borderline.</li>
-</ul>
-
-<p>Which indicates to me the concerns are largely about the <em>overall nutritional content</em>, not about the processed nature of the food.</p>
-
-<p>Against, it’s generally good guidance, but is pointing at the wrong cause.</p>
-
-<h3 id="cons">Cons</h3>
-
-<h4 id="disregarding-saturated-fat">Disregarding saturated fat</h4>
-
-<p>The guidance effectively eliminates any guidance around saturated fat. Multiple studies at this point have proven the correlation between high saturated fat intake and apob (the lipoprotein that primarily gets caught in the subendothelial space of the arterial wall, contributing to ASCVD), so to ignore it’s guidance in my opinion, is mistaken.</p>
-
-<p>This is probably the guidance that I would be the most concerned about. It’s probably also not a coincidence that, since many meats and dairy tend to be much higher in saturated fat content than plant-based options, ignoring saturated fat tends to benefit the meat industry the most.</p>
-
-<p>The only guidance is the existing one which suggests limiting saturated fat intake to 10% of calories or less a day: in a 2000 kcal diet, that’s 200 calories, or roughly 22 grams. It’s less reinforced in the new narrative.</p>
-
-<p>I’d replace this guidance with limiting saturated fat to near-zero as much as possible, similar to added sugars.</p>
-
-<h4 id="eating-more-meat-over-a-plant-based-diet">Eating more meat over a plant-based diet</h4>
-
-<p>This particular con is less about the nutritional content: farming meat requires significantly more water and land than growing plants. I don’t think it’s really tenable to continue to increase the usage per capita for food, especially as the population keeps growing.</p>
-
-<h2 id="conclusions">Conclusions</h2>
-
-<p>I left my summary at the beginning, but my parting thoughts: It’s unfortunate that science, like anything human, has to be so strongly biased. And I see parts of this new guidance that has significant cons.</p>
-
-<p>But that said, the old guidance was not perfect either. I hope the next version (no doubt swiftly replaced by the next administration run by a Democrat) corrects some of the issues I’ve raised above, without regressing on some of the improvements.</p>]]></content><author><name></name></author><category term="reflection" /><summary type="html"><![CDATA[realfood.gov looks to overhaul decades-long dietary guidelines for Americans.]]></summary></entry></feed>
+</span></code></pre></div></div>]]></content><author><name></name></author><summary type="html"><![CDATA[With all of the new vscode-based editors out there (Cursor, Antigravity, and of course VS Code itself), I find myself having to reconfigure editors all the time.]]></summary></entry></feed>

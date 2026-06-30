@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Thoughts on allow_missing in AEPs | Yusuke Tsutsumi</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Thoughts on allow_missing in AEPs" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="The main concern I have with allow_missing is duplication. Does it overlap with some existing api, such as the new apply method?" />
+<meta property="og:description" content="The main concern I have with allow_missing is duplication. Does it overlap with some existing api, such as the new apply method?" />
+<link rel="canonical" href="https://y.tsutsumi.io/aep-allow-missing/" />
+<meta property="og:url" content="https://y.tsutsumi.io/aep-allow-missing/" />
+<meta property="og:site_name" content="Yusuke Tsutsumi" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-06-29T07:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Thoughts on allow_missing in AEPs" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2026-06-29T07:00:00+00:00","datePublished":"2026-06-29T07:00:00+00:00","description":"The main concern I have with allow_missing is duplication. Does it overlap with some existing api, such as the new apply method?","headline":"Thoughts on allow_missing in AEPs","mainEntityOfPage":{"@type":"WebPage","@id":"https://y.tsutsumi.io/aep-allow-missing/"},"url":"https://y.tsutsumi.io/aep-allow-missing/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" /><script async src="https://www.googletagmanager.com/gtag/js?id=G-325KP61WS9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { window.dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-325KP61WS9');
+</script>
+</head><body><header class="site-header">
+
+    <div class="wrapper"><a class="site-title" rel="author" href="/">Yusuke Tsutsumi</a><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path
+                            d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger">
+                <a class="page-link" href="/tag/coding/">Coding Posts</a>
+                <a class="page-link"
+                    href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a><a class="page-link" href="/resources/">Resources</a><a class="page-link" href="/about/">About Yusuke Tsutsumi</a></div>
+        </nav></div>
+    <style>
+        .gse-control-cse td {
+            border: 0;
+        }
+
+        td.gsc-input {
+            border: 0;
+        }
+
+        td.gsc-search-button {
+            border: 0;
+        }
+
+        table.gsc-input {
+            margin-bottom: 0;
+        }
+    </style>
+</header><main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <header class="post-header">
+        <h1 class="post-title p-name" itemprop="name headline">Thoughts on allow_missing in AEPs</h1>
+        <p class="post-meta"><time class="dt-published" datetime="2026-06-29T07:00:00+00:00" itemprop="datePublished">
+                Jun 29, 2026
+            </time></p>
+    </header>
+
+    <div class="post-content e-content" itemprop="articleBody">
+        <p>The main concern I have with <code class="language-plaintext highlighter-rouge">allow_missing</code> is duplication. Does it overlap with some existing api, such as the new apply method?</p>
+
+<p>I could imagine there’s some differences:</p>
+
+<ul>
+  <li>If a field is missing, an apply could reject the request, while update with allow_missing would silently accept it with some default.</li>
+</ul>
+
+<p>Today, apply with fields missing does not actually state that the request should be rejected. Instead, it states:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Note that PUT requests with fields missing in the resource may result in overwriting values in the resource with existing values. For that reason, AEP-compliant APIs generally use the PATCH HTTP verb.
+</code></pre></div></div>
+
+<p>So the behavior is actually one of:</p>
+
+<ul>
+  <li>use the default values for those fields.</li>
+  <li>do not modify the existing one.</li>
+</ul>
+
+<p>But does not clarify which is expected. This should be fixed regardless.</p>
+
+<p>If the choice is to leave unset values unmodified, that it is identical to the behavior of update with <code class="language-plaintext highlighter-rouge">allow_missing</code>.</p>
+
+<p>If default values are chosen, then in proto, that would be nearly identical to an update with a full field mask set (a wildcard <code class="language-plaintext highlighter-rouge">*</code>).</p>
+
+<p>But thinking a bit about that second user journey, generally the idea that one would like to <em>reset</em> a resource back to it’s default values is somewhat non-sensical:</p>
+
+<ul>
+  <li>If one would like to update a resource back to it’s default, set it explicitly in your update.</li>
+  <li>If you would like to leave the value alone, leave it unset.</li>
+</ul>
+
+<p>This is a relatively easy thing to accomplish in OAS: one can examine the fields in a resource, see if they are unset, and then in turn only modify the ones that are set.</p>
+
+<p>For protobuf, this is a bit more difficult because of the fact that non-optional fields are set to their default values. However, even there I think there’s a solution: effectively make every protobuf field explicitly optional, at which point it behaves just like json.</p>
+
+<p>In the above case, one can just set the fields they would like to modify, or are aware of. Combined with a field mask, this would determine wet</p>
+                <h2 id="user-journeys">   User journeys <a href="#user-journeys">#</a>   </h2>
+                    
+
+<table>
+  <thead>
+    <tr>
+      <th>What you’re trying to do with a field</th>
+      <th>how to accomplish it in protobuf</th>
+      <th>how to do it in REST</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Set a field to empty</td>
+      <td>include it in the field mask, set field as null</td>
+      <td>set value as none</td>
+    </tr>
+    <tr>
+      <td>Don’t modify a field</td>
+      <td>don’t include the field in the field mask, set field as null</td>
+      <td>don’t include value in json payload</td>
+    </tr>
+    <tr>
+      <td>Set a field to a specific value</td>
+      <td>include the field in the field mask, set field with desired value</td>
+      <td>include value in json payload</td>
+    </tr>
+  </tbody>
+</table>
+                <h2 id="conclusions">   Conclusions <a href="#conclusions">#</a>   </h2>
+                    
+
+<p>Ultimately, <code class="language-plaintext highlighter-rouge">allow_missing</code> and update, due to it’s inclusion of field masks, are a more flexible version of the apply method. Generally clients should just use that method across the board.</p>
+
+<p>In addition, the following guidance should probably be added:</p>
+
+<ul>
+  <li>update protobuf guidance that all fields should be optional.</li>
+  <li>the apply field should clarify whether it will use default values if a field is missing, or leave the field unmodified.</li>
+  <li>the apply field should clarify that a request with required fields missing will reject the response.</li>
+</ul>
+    </div>
+
+    
+    <script type="module" src="https://esm.sh/gh/loueed/bsky@v1.0.0/comments"></script>
+    <bsky-comments post=""></bsky-comments>
+    
+
+    <a class="u-url" href="/aep-allow-missing/" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/%20/"></data>
+
+    <div class="wrapper">
+
+        <div class="footer-col-wrapper">
+            <script async src="https://cse.google.com/cse.js?cx=014358564571565173111:hnnbq4j54cy"></script>
+            <div class="gcse-search"></div>
+        </div>
+        <div class="footer-col-wrapper">
+            <div class="footer-col">
+                <p class="feed-subscribe">
+                    <a href="/feed/index.xml">
+                        <svg class="svg-icon orange">
+                            <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+                        </svg><span>Subscribe</span>
+                    </a>
+                </p>
+            </div>
+            <div class="footer-col">
+                <p>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</p>
+            </div>
+        </div>
+
+        <div class="social-links"><ul class="social-media-list"><li>
+  <a rel="me" href="https://bsky.app/profile/y.tsutsumi.io" target="_blank"
+    title="bluesky">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#bluesky"></use>
+    </svg>
+  </a>
+</li><li>
+  <a rel="me" href="https://github.com/toumorokoshi" target="_blank"
+    title="github">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#github"></use>
+    </svg>
+  </a>
+</li><li>
+  <a rel="me" href="https://www.linkedin.com/in/yusuke-tsutsumi" target="_blank"
+    title="linkedin">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#linkedin"></use>
+    </svg>
+  </a>
+</li></ul></div>
+
+    </div>
+    <script src="https://unpkg.com/mermaid@8.9.3/dist/mermaid.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: "default",
+    });
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+  });
+</script>
+
+</footer></body>
+
+</html>
