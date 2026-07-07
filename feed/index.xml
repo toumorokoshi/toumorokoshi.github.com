@@ -1,4 +1,98 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2026-07-06T01:50:30+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Thoughts on allow_missing in AEPs</title><link href="https://y.tsutsumi.io/aep-allow-missing/" rel="alternate" type="text/html" title="Thoughts on allow_missing in AEPs" /><published>2026-06-29T07:00:00+00:00</published><updated>2026-06-29T07:00:00+00:00</updated><id>https://y.tsutsumi.io/aep-allow-missing</id><content type="html" xml:base="https://y.tsutsumi.io/aep-allow-missing/"><![CDATA[<p>The main concern I have with <code class="language-plaintext highlighter-rouge">allow_missing</code> is duplication. Does it overlap with some existing api, such as the new apply method?</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2026-07-07T01:48:17+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Thoughts on Subpaths in AEPs</title><link href="https://y.tsutsumi.io/aep-subpaths/" rel="alternate" type="text/html" title="Thoughts on Subpaths in AEPs" /><published>2026-07-06T07:00:00+00:00</published><updated>2026-07-06T07:00:00+00:00</updated><id>https://y.tsutsumi.io/aep-subpaths</id><content type="html" xml:base="https://y.tsutsumi.io/aep-subpaths/"><![CDATA[<h2 id="problem">Problem</h2>
+
+<p>The primary problem has to do with AEP-compliant APIs that have a subpath prefix. An example is something like:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>api.example.com/users/v1
+</code></pre></div></div>
+
+<p>Here the resource path starts <em>after</em> a constant prefix in the API.</p>
+
+<p>The question is: should APIs with a path prefix like this be allowed? and if so, how should the clients and consumers handle this?</p>
+
+<h2 id="should-apis-with-path-prefixes-be-allowed">Should APIs with path prefixes be allowed?</h2>
+
+<p>Even today, having a path prefix is a very common attribute in APIs. Therefore, I don’t see much of an option here but to allow these.</p>
+
+<p>Examples include:</p>
+
+<ul>
+  <li>The Google APIs, which are always <a href="https://cloud.google.com/iam/docs/reference/rest/">wrapped with a version prefix</a>.</li>
+  <li>The Roblox Cloud APIs, prefixed with a <a href="https://create.roblox.com/docs/en-us/cloud/features/groups">version and cloud prefix</a>.</li>
+</ul>
+
+<p>To exclude these APIs from compliance because their existence of a prefix would significantly hamper the adoption of the AEPs.</p>
+
+<p>Therefore, I think the choice to include support for this is more of a practical choice than one taken for an ideal design.</p>
+
+<h2 id="problems-with-a-path-prefix">Problems with a path prefix</h2>
+
+<p>Introducing this pattern, however, comes with challenges. Enumerating the difficulties, those are:</p>
+
+<h3 id="a-path-prefix-breaks-the-collectionresource-pattern">A path prefix breaks the collection/resource pattern</h3>
+
+<p>The main issue with a prefix comes with the ability to semantically interpret the meaning of a path. The resource model in the AEP specific includes a pattern of collection, resource id elements. For example, take a book in a bookshelf:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/bookshelves/living-room/books/pride-and-prejudice.
+</code></pre></div></div>
+
+<p>From here, it’s very easy to understand the following:</p>
+
+<ul>
+  <li>there are two collections of resources: <code class="language-plaintext highlighter-rouge">bookshelves</code> and <code class="language-plaintext highlighter-rouge">books</code>.</li>
+  <li><code class="language-plaintext highlighter-rouge">books</code> are a subcollection under a bookshelf.</li>
+  <li>The bookshelf in question is <code class="language-plaintext highlighter-rouge">living-room</code>, while the book in question is <code class="language-plaintext highlighter-rouge">pride-and-prejudice</code>.</li>
+</ul>
+
+<p>If we add a prefix, say, <code class="language-plaintext highlighter-rouge">cloud/v1</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/cloud/v1/bookshelves/living-room/books/pride-and-prejudice
+</code></pre></div></div>
+
+<p>Now there is some ambiguity: is <code class="language-plaintext highlighter-rouge">v1</code> a cloud? Although this is immediately obvious to a human, to a machine there is no longer a discrete algorithm to extract collections and elements.</p>
+
+<h2 id="addressing-the-problems">Addressing the problems</h2>
+
+<p>Although the above brings up more abstract problems, we need to look at how to resolve them discretely. Thinking through where there are practical challenges:</p>
+
+<h3 id="how-to-reference-a-resource">How to reference a resource</h3>
+
+<p>For a <em>resource reference</em>, the path to the resource is used. Should this resource include the path prefix, or no?</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    # with the prefix
+    book: "/cloud/v1/bookshelves/living-room/books/pride-and-prejudice",
+    # without
+    book: "bookshelves/living-room/books/pride-and-prejudice",
+</code></pre></div></div>
+
+<p>For protobuf APIs in the AEPs, the path of the resource is used directly in operations such as Get / Update / Delete. Therefore, it does not need the prefix.</p>
+
+<p>For <em>REST</em> JSON APIs, the reference will probably, at some point, be used to reconstruct the full path. For example, a backend may perform a GET on the HTTP path of the resource to retrieve information about it. However, resolving that resource reference would require some knowledge of the API domain to begin with, so it wouldn’t be a stretch to <em>also</em> intern the path.</p>
+
+<p>The biggest issue is with <em>full resource paths</em> - examples where a resource references another resource in a different API. However, that too could also be solved by
+including the full path, including the api name, which in turn would also include the path prefix:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{api name}/{resource path}
+{api.example.com/cloud/v1}/{bookshelves/living-room/books/pride-and-prejudice}
+</code></pre></div></div>
+
+<p>So there are cases well handled as well.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>To support subpaths in API, I propose the following:</p>
+
+<ol>
+  <li>full resource paths to other APIs <em>always</em> include the api name: this enables clients to retrieve the resource without knowledge of where the API description of that separate API exists.
+    <ol>
+      <li>alternatively, the API <em>could</em> describe the API name it expects via an annotation. This would allow a client to resolve that path.</li>
+    </ol>
+  </li>
+  <li>modify the API names description to clarify that it can include a sub-path.
+    <ol>
+      <li>this also solves a separate problem, where an API may have resources tightly coupled to a separate path.</li>
+    </ol>
+  </li>
+</ol>]]></content><author><name></name></author><category term="coding" /><summary type="html"><![CDATA[Problem]]></summary></entry><entry><title type="html">Thoughts on allow_missing in AEPs</title><link href="https://y.tsutsumi.io/aep-allow-missing/" rel="alternate" type="text/html" title="Thoughts on allow_missing in AEPs" /><published>2026-06-29T07:00:00+00:00</published><updated>2026-06-29T07:00:00+00:00</updated><id>https://y.tsutsumi.io/aep-allow-missing</id><content type="html" xml:base="https://y.tsutsumi.io/aep-allow-missing/"><![CDATA[<p>The main concern I have with <code class="language-plaintext highlighter-rouge">allow_missing</code> is duplication. Does it overlap with some existing api, such as the new apply method?</p>
 
 <p>I could imagine there’s some differences:</p>
 
@@ -1102,25 +1196,4 @@ write-ahead log.</p>
 multiple readers on a row of data, preventing mutation. It prevents subsequent
 writes until all readers have released a lock.</p>
 
-<p>Write locks are an exclusive lock on the row, blocking both reads and writes.</p>]]></content><author><name></name></author><category term="coding" /><summary type="html"><![CDATA[Distributed System Design Interview]]></summary></entry><entry><title type="html">VS Code Debug Json Cheatsheet</title><link href="https://y.tsutsumi.io/vscode-debug-cheatsheet" rel="alternate" type="text/html" title="VS Code Debug Json Cheatsheet" /><published>2026-02-02T07:00:00+00:00</published><updated>2026-02-02T07:00:00+00:00</updated><id>https://y.tsutsumi.io/vscode-launch-debug</id><content type="html" xml:base="https://y.tsutsumi.io/vscode-debug-cheatsheet"><![CDATA[<p>With all of the new vscode-based editors out there (Cursor, Antigravity, and of course VS Code itself), I find myself having to reconfigure editors all the time.</p>
-
-<p>Here are some snippets of vs code debug configuration to easily copy-paste as needed.</p>
-
-<h2 id="go">Go</h2>
-
-<h3 id="running-a-command-line-tool">Running a command line tool</h3>
-
-<p>I’ve used this for when I’m trying to debug <a href="https://github.com/aep-dev/aepcli">aepcli</a></p>
-
-<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">       </span><span class="p">{</span><span class="w">
-          </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Debug Command Line App"</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"go"</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"request"</span><span class="p">:</span><span class="w"> </span><span class="s2">"launch"</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"auto"</span><span class="p">,</span><span class="w">
-            </span><span class="err">//</span><span class="w"> </span><span class="err">or</span><span class="w"> </span><span class="err">path</span><span class="w"> </span><span class="err">to</span><span class="w"> </span><span class="err">command</span><span class="w"> </span><span class="err">line</span><span class="w">
-            </span><span class="nl">"program"</span><span class="p">:</span><span class="w"> </span><span class="s2">"${workspaceFolder}/cmd/aepcli"</span><span class="p">,</span><span class="w">
-           </span><span class="nl">"args"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-               </span><span class="s2">"http://localhost:8000/openapi.json"</span><span class="w">
-            </span><span class="p">]</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-</span></code></pre></div></div>]]></content><author><name></name></author><summary type="html"><![CDATA[With all of the new vscode-based editors out there (Cursor, Antigravity, and of course VS Code itself), I find myself having to reconfigure editors all the time.]]></summary></entry></feed>
+<p>Write locks are an exclusive lock on the row, blocking both reads and writes.</p>]]></content><author><name></name></author><category term="coding" /><summary type="html"><![CDATA[Distributed System Design Interview]]></summary></entry></feed>
