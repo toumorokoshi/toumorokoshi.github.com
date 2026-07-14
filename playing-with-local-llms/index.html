@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Playing around with Local LLMs | Yusuke Tsutsumi</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Playing around with Local LLMs" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Like many, I’ve started to get really bullish on the future of local LLMs - the open models and weights are getting better every few weeks. Qualitatively, I think it’s still abundantly clear that local LLMs are not at par with the larger hosted models for my high-priority use cases like coding." />
+<meta property="og:description" content="Like many, I’ve started to get really bullish on the future of local LLMs - the open models and weights are getting better every few weeks. Qualitatively, I think it’s still abundantly clear that local LLMs are not at par with the larger hosted models for my high-priority use cases like coding." />
+<link rel="canonical" href="https://y.tsutsumi.io/playing-with-local-llms/" />
+<meta property="og:url" content="https://y.tsutsumi.io/playing-with-local-llms/" />
+<meta property="og:site_name" content="Yusuke Tsutsumi" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-07-13T07:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Playing around with Local LLMs" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2026-07-13T07:00:00+00:00","datePublished":"2026-07-13T07:00:00+00:00","description":"Like many, I’ve started to get really bullish on the future of local LLMs - the open models and weights are getting better every few weeks. Qualitatively, I think it’s still abundantly clear that local LLMs are not at par with the larger hosted models for my high-priority use cases like coding.","headline":"Playing around with Local LLMs","mainEntityOfPage":{"@type":"WebPage","@id":"https://y.tsutsumi.io/playing-with-local-llms/"},"url":"https://y.tsutsumi.io/playing-with-local-llms/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" /><script async src="https://www.googletagmanager.com/gtag/js?id=G-325KP61WS9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { window.dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-325KP61WS9');
+</script>
+</head><body><header class="site-header">
+
+    <div class="wrapper"><a class="site-title" rel="author" href="/">Yusuke Tsutsumi</a><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path
+                            d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger">
+                <a class="page-link" href="/tag/coding/">Coding Posts</a>
+                <a class="page-link"
+                    href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a><a class="page-link" href="/resources/">Resources</a><a class="page-link" href="/about/">About Yusuke Tsutsumi</a></div>
+        </nav></div>
+    <style>
+        .gse-control-cse td {
+            border: 0;
+        }
+
+        td.gsc-input {
+            border: 0;
+        }
+
+        td.gsc-search-button {
+            border: 0;
+        }
+
+        table.gsc-input {
+            margin-bottom: 0;
+        }
+    </style>
+</header><main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <header class="post-header">
+        <h1 class="post-title p-name" itemprop="name headline">Playing around with Local LLMs</h1>
+        <p class="post-meta"><time class="dt-published" datetime="2026-07-13T07:00:00+00:00" itemprop="datePublished">
+                Jul 13, 2026
+            </time></p>
+    </header>
+
+    <div class="post-content e-content" itemprop="articleBody">
+        <p>Like many, I’ve started to get really bullish on the future of local LLMs - the open models and weights are getting better every few weeks. Qualitatively, I think it’s still abundantly clear that local LLMs are not at par with the larger hosted models for my high-priority use cases like coding.</p>
+
+<p>That all said, it’s a matter of time.</p>
+                <h2 id="how-do-you-run-local-llms">   How do you run local LLMs? <a href="#how-do-you-run-local-llms">#</a>   </h2>
+                    
+
+<p><a href="https://github.com/ggml-org/llama.cpp">llama.cpp</a> has been a good harness:</p>
+
+<ul>
+  <li>It’s able to run most of the modern models without issue.</li>
+  <li>It has a simple command, <code class="language-plaintext highlighter-rouge">llama-server</code>, for serving the model text-completion API interface that is commonly used by harnesses.</li>
+</ul>
+
+<p>Using it is as simple as downloading the <a href="https://github.com/ggml-org/llama.cpp/releases">prebuilt binaries</a> from the GitHub. More ideally you build from source, which can sometimes improve support for your GPU as the build can detect it and compile itself appropriately.</p>
+
+<p>llama.cpp works with models that are saved in the gguf format. I’ve found that <a href="https://huggingface.co/unsloth">unsloth.ai</a>’s <a href="https://huggingface.co/unsloth">huggingface collections</a> have most models I’ve wanted to try.</p>
+
+<p>I grab a model and serve it from my NVidia Spark DGX at port <code class="language-plaintext highlighter-rouge">0.0.0.0</code> so my other machines can access it:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>llama-server <span class="nt">-hf</span> unsloth/gemma-4-E4B-it-GGUF:UD-Q4_K_XL <span class="nt">-h</span> 0.0.0.0
+</code></pre></div></div>
+                <h2 id="what-impacts-the-runtime-latency-of-a-model">   What impacts the runtime latency of a model <a href="#what-impacts-the-runtime-latency-of-a-model">#</a>   </h2>
+                    
+
+<p>A critical aspect of local models is the runtime latency - I think roughly 60 tokens / second is the sweet spot, producing a good amount of code quickly without having to shift my focus for long periods of time.</p>
+
+<p>It’s a bit reductionist to boil things down to a few specific parameters, but with the model’s I’ve been testing I think the general factors I see are:</p>
+
+<ul>
+  <li>Total size of the weights: a combination of total parameter count * data format (fp16, fp8, int8, and lower). Running models with larger weights is bottle-necked by the total amount of dram that your GPU supports (i.e. the DGX spark has 128GB of unified memory available).</li>
+  <li>The size of the effective weights: using techniques like mixture of experts, not all weights are utilized on each inference run. Although the weights still need to be loaded into dram to ensure they can be quickly read for each token prediction. This is limited by memory bandwidth to load the values by GPU, or in rarer cases the tops.</li>
+</ul>
+                <h2 id="what-models-work-well">   What models work well? <a href="#what-models-work-well">#</a>   </h2>
+                    
+                <h3 id="qwen36-27b">   Qwen3.6-27b <a href="#qwen36-27b">#</a>   </h3>
+                    
+
+<p>I’ve heard this is a great model, but the 7-8 token/s were not enough for me to be truly productive: especially with the amount of thinking it does, it barely gets to a tool call within the span of 10 minutes. Even with multi-token-prediction (MTP) where a speedup is expected, it is just too slow.</p>
+                <h3 id="qwen3-code-next">   Qwen3-code-next <a href="#qwen3-code-next">#</a>   </h3>
+                    
+
+<p>I’ve found that this has been fairly productive - at 60+ tok/s it’s able to produce code efficiently, and call tools appropriately. I’ve had it write a couple changes to vs code extensions, or add features to fairly large frontend applications.</p>
+
+<p>It is definitely not as robust as my go-tos: Cursor’s default and Gemini flash 3.5 medium: both can make these changes and test them without issue.</p>
+                <h2 id="where-do-local-models-fall-short">   Where do local models fall short? <a href="#where-do-local-models-fall-short">#</a>   </h2>
+                    
+
+<p>Despite my enthusiasm, local models are still no where near good enough to replace all use cases I have for larger models. Examples include:</p>
+
+<ul>
+  <li>Getting stuck into loops: even on relatively simple solutions (remove all translucent panels in this react page), it will get stuck in a loop where it redoes and undoes the change, because it keeps second-guessing itself.</li>
+  <li>Requiring very specific instructions: with models like Gemini-3.5-medium I can just say “add a copy to jira link on the issue page”. With Qwen3-coder-next I have to give a precise list of steps, sometimes mentioning what files to touch.</li>
+  <li>With all the local models I’ve tried, I’ve had to give specific feedback after the change as well - in some cases the feature is entirely incorrect (e.g. access to the Jira API doesn’t work).</li>
+</ul>
+
+<p>But in some cases it’s able to read the codebase, produce fixes, and resolve them without personal intervention. I couldn’t imagine a local model that I can run on a tiny computer on my desk being capable of that a year ago.</p>
+                <h2 id="conclusion">   Conclusion <a href="#conclusion">#</a>   </h2>
+                    
+
+<p>Although local LLMs aren’t all I need <em>yet</em>, it’s very easy to see a future where that may be the case. It’s going to be a combination of:</p>
+
+<ul>
+  <li>Better models that need fewer weights to achieve similar benchmarks.</li>
+  <li>Increased memory storage to enable models with a larger number of total parameters.</li>
+  <li>Increased memory bandwidth and/or flops to enable running models at much faster tokens / second for larger effective weights.</li>
+</ul>
+                <h2 id="side-quest-profiling-my-gpu">   Side quest: Profiling my GPU <a href="#side-quest-profiling-my-gpu">#</a>   </h2>
+                    
+
+<p>I really wanted to get Qwen 3.6 working, so I tried to profile the execution of the model. To do so on an NVidia GPU, one can use Nvidia Nsight Systems to get a sense of the kernels that have the longest runtime:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nsys <span class="nt">-o</span> llama_profile ./build/bin/llama-cli <span class="nt">-hf</span> <span class="k">${</span><span class="nv">MODEL</span><span class="k">}</span> <span class="nt">-p</span> <span class="s2">"The quick brown fox"</span> <span class="nt">-n</span> 5 <span class="nt">--no-conversation</span>
+</code></pre></div></div>
+
+<p>Then produce a match that looks at the specific kernels in question:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo</span> <span class="nt">-E</span> /usr/local/cuda/bin/ncu <span class="nt">-f</span> <span class="nt">-k</span> regex:<span class="s1">'(quantize_q8_1|mul_mat_vec_q|k_bin_bcast|k_get_rows_float)'</span> <span class="nt">-o</span> <span class="nv">$PWD</span>/llama_profile_report ~/bin/llama-completion <span class="nt">-hf</span> <span class="k">${</span><span class="nv">MODEL</span><span class="k">}</span> <span class="nt">-p</span> <span class="s2">"The quick brown fox"</span> <span class="nt">-n</span> 1 <span class="nt">-no-cnv</span>
+</code></pre></div></div>
+
+<p>What’s interesting about this investigation is that I found that the workload is neither saturating compute nor memory bandwidth - the SM activation actually seems to be somewhat uneven, perhaps due to sparse matrix multiplication. Something I plan on looking at, with a write up in the future.</p>
+
+<p><img src="../../assets/2026-07-13-playing-with-local-llms.png" alt="" /></p>
+                <h2 id="references">   References <a href="#references">#</a>   </h2>
+    </div>
+
+    
+    <script type="module" src="https://esm.sh/gh/loueed/bsky@v1.0.0/comments"></script>
+    <bsky-comments post=""></bsky-comments>
+    
+
+    <a class="u-url" href="/playing-with-local-llms/" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/%20/"></data>
+
+    <div class="wrapper">
+
+        <div class="footer-col-wrapper">
+            <script async src="https://cse.google.com/cse.js?cx=014358564571565173111:hnnbq4j54cy"></script>
+            <div class="gcse-search"></div>
+        </div>
+        <div class="footer-col-wrapper">
+            <div class="footer-col">
+                <p class="feed-subscribe">
+                    <a href="/feed/index.xml">
+                        <svg class="svg-icon orange">
+                            <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+                        </svg><span>Subscribe</span>
+                    </a>
+                </p>
+            </div>
+            <div class="footer-col">
+                <p>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</p>
+            </div>
+        </div>
+
+        <div class="social-links"><ul class="social-media-list"><li>
+  <a rel="me" href="https://bsky.app/profile/y.tsutsumi.io" target="_blank"
+    title="bluesky">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#bluesky"></use>
+    </svg>
+  </a>
+</li><li>
+  <a rel="me" href="https://github.com/toumorokoshi" target="_blank"
+    title="github">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#github"></use>
+    </svg>
+  </a>
+</li><li>
+  <a rel="me" href="https://www.linkedin.com/in/yusuke-tsutsumi" target="_blank"
+    title="linkedin">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#linkedin"></use>
+    </svg>
+  </a>
+</li></ul></div>
+
+    </div>
+    <script src="https://unpkg.com/mermaid@8.9.3/dist/mermaid.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: "default",
+    });
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+  });
+</script>
+
+</footer></body>
+
+</html>
