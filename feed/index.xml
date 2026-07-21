@@ -1,4 +1,84 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2026-07-20T01:24:03+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Playing around with Local LLMs</title><link href="https://y.tsutsumi.io/playing-with-local-llms/" rel="alternate" type="text/html" title="Playing around with Local LLMs" /><published>2026-07-13T07:00:00+00:00</published><updated>2026-07-13T07:00:00+00:00</updated><id>https://y.tsutsumi.io/playing-with-local-llms</id><content type="html" xml:base="https://y.tsutsumi.io/playing-with-local-llms/"><![CDATA[<p>Like many, I’ve started to get really bullish on the future of local LLMs - the open models and weights are getting better every few weeks. Qualitatively, I think it’s still abundantly clear that local LLMs are not at par with the larger hosted models for my high-priority use cases like coding.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2026-07-21T01:20:38+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Figuring Out Actual FLOPS</title><link href="https://y.tsutsumi.io/figuring-out-actual-flops/" rel="alternate" type="text/html" title="Figuring Out Actual FLOPS" /><published>2026-07-20T07:00:00+00:00</published><updated>2026-07-20T07:00:00+00:00</updated><id>https://y.tsutsumi.io/figuring-out-actual-flops</id><content type="html" xml:base="https://y.tsutsumi.io/figuring-out-actual-flops/"><![CDATA[<p>You’ll often see “peak TOPS” advertised for accelerators like GPUs - but where does that number come from, and can we achieve it? Let’s break it down using the DGX Spark’s 1000 TOPS as an example.</p>
+
+<p>Peak TOPS refers to trillions of floating point operations per second - but in the case of accelerators like NVIDIA GPUs, that number is almost always in reference to an MMA operation - performing matrix multiplication and accumulating the results.</p>
+
+<p>It’s also worth noting that TOPS is always in the context of a specific <em>precision</em> - the data type that you’re operating on. Many vendors now report peak TOPS in a smaller data type used in quantized data formats such as FP8, INT8, or as low as FP4 (or per-block precision like NVFP4).</p>
+
+<p>In addition, oftentimes TOPS are now reported using “sparse” TOPS - which assumes that the underlying matrix being multiplied has a pattern of zero or near-zero values that would effectively skip the multiplication entirely. It’s often ratios of 2:1 sparsity, so when we see reports of “X TOPS”, it’s X/2. So in the case of DGX, we should target roughly 500 TOPS.</p>
+
+<p>Can we derive this number? For NVidia blackwell GPUs, the TOPS match this equation:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SM_COUNT * TENSOR_CORES_PER_SM * TENSOR_CORE_FLOPS_PER_CYCLE * CLOCK_SPEED
+</code></pre></div></div>
+
+<p>Substituting the Blackwell architecture parameters for the GB10 GPU:</p>
+
+<ul>
+  <li>SMs = 48</li>
+  <li>Tensor Cores per SM = 4</li>
+  <li>Tensor Core FP4 FLOPS per cycle = 2048</li>
+  <li>Clock Speed = 2.418 GHz</li>
+</ul>
+
+<p>Substituting these values into the equation above:</p>
+
+<p>Peak FP4 = 48 SMs * 4 Tensor Cores/SM * 2048 FLOPs/Core/Clock * 2.418 * 10^9 Hz
+Peak FP4 = 950,273,280,000 operations per second ~= 950.27 TFLOPS</p>
+
+<p>But of course those are reported as sparse TOPS, so we halve the value:</p>
+
+<p>Sparse FP4 = Peak FP4 / 2
+Sparse FP4 = 475,136,640,000 operations per second ~= 475.14 TFLOPS</p>
+
+<p>To achieve this, however, you need to make sure you’re maximizing the number of values you can fit in the registers of the tensor core as well. Specifically, you have to use the <code class="language-plaintext highlighter-rouge">mma.sync.aligned.kind::mxf4nvf4.block_scale.scale_vec</code> matrix multiply instruction, ensuring that you don’t pad additional bits in the register, using only the required 4 bits per element. Otherwise, for example with 8 bit padding, you’re effectively halving the utilization of the tensor core.</p>
+
+<p>However, if you get all of those right, you can finally achieve max TOPS!</p>
+
+<p>Thanks to <a href="https://github.com/secYOUre">Alfonso De Gregorio</a> for the <code class="language-plaintext highlighter-rouge">nvfp4bench</code> tool (https://github.com/secYOUre/nvfp4bench), and for sharing the final insight of the register padding slowing things down in my own benchmarks: https://github.com/toumorokoshi/yft-ml-sandbox/blob/main/cuda/gemm/experiment.md</p>
+
+<h2 id="additional-notes">Additional Notes</h2>
+
+<h3 id="how-to-query-hardware-parameters">How to Query Hardware Parameters</h3>
+
+<h4 id="method-1-programmatically-querying-sm-count-and-clock-speed-via-cuda-api">Method 1: Programmatically Querying SM Count and Clock Speed via CUDA API</h4>
+
+<p>You can write a simple CUDA program querying the <a href="https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__DEVICE.html#group__CUDART__DEVICE_1g1bf2e920221402b11ede84cf7cc60dc1">cudaGetDeviceProperties</a> API to retrieve these hardware specifications directly:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;cuda_runtime.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">cudaDeviceProp</span> <span class="n">prop</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">deviceId</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// Target GPU device ID</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">cudaGetDeviceProperties</span><span class="p">(</span><span class="o">&amp;</span><span class="n">prop</span><span class="p">,</span> <span class="n">deviceId</span><span class="p">)</span> <span class="o">==</span> <span class="n">cudaSuccess</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"GPU Device: %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">prop</span><span class="p">.</span><span class="n">name</span><span class="p">);</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"SM Count (multiProcessorCount): %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">prop</span><span class="p">.</span><span class="n">multiProcessorCount</span><span class="p">);</span>
+
+        <span class="kt">int</span> <span class="n">clockRateKHz</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="c1">// Query clock rate attribute (cudaDevAttrClockRate)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">cudaDeviceGetAttribute</span><span class="p">(</span><span class="o">&amp;</span><span class="n">clockRateKHz</span><span class="p">,</span> <span class="n">cudaDevAttrClockRate</span><span class="p">,</span> <span class="n">deviceId</span><span class="p">)</span> <span class="o">==</span> <span class="n">cudaSuccess</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">printf</span><span class="p">(</span><span class="s">"Clock Rate (cudaDevAttrClockRate): %d kHz (%.3f GHz)</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">clockRateKHz</span><span class="p">,</span> <span class="n">clockRateKHz</span> <span class="o">/</span> <span class="mf">1e6</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h4 id="inspecting-compute-capability-via-nvidia-smi">Inspecting Compute Capability via nvidia-smi</h4>
+
+<p>You can query the GPU model name and its CUDA Compute Capability from the command line:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nvidia-smi <span class="nt">--query-gpu</span><span class="o">=</span>name,compute_cap <span class="nt">--format</span><span class="o">=</span>csv
+</code></pre></div></div>
+<p>For example, this returns <code class="language-plaintext highlighter-rouge">NVIDIA GB10, 12.1</code>. Once you have the Compute Capability, you can reference the <a href="https://developer.nvidia.com/cuda-gpus">NVIDIA Developer CUDA GPUs Page</a> and the <a href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#features-and-technical-specifications">NVIDIA CUDA C++ Programming Guide Architecture Specs</a> to look up the exact SM counts and Tensor Core properties.</p>
+
+<h2 id="references">References</h2>
+
+<ul>
+  <li><strong>Information about SM / Tensor Core counts:</strong> https://chipsandcheese.com/p/analyzing-nvidia-gb10s-gpu</li>
+  <li><strong>NVIDIA Blackwell Architecture Whitepaper:</strong> <a href="https://images.nvidia.com/aem-dam/Solutions/Data-Center/blackwell/nvidia-blackwell-gpu-architecture-whitepaper.pdf">NVIDIA Blackwell GPU Architecture Whitepaper</a> - Core specifications for SM counts, fifth-generation Tensor Cores, and FP4 throughput metrics.</li>
+</ul>]]></content><author><name></name></author><category term="coding" /><summary type="html"><![CDATA[You’ll often see “peak TOPS” advertised for accelerators like GPUs - but where does that number come from, and can we achieve it? Let’s break it down using the DGX Spark’s 1000 TOPS as an example.]]></summary></entry><entry><title type="html">Playing around with Local LLMs</title><link href="https://y.tsutsumi.io/playing-with-local-llms/" rel="alternate" type="text/html" title="Playing around with Local LLMs" /><published>2026-07-13T07:00:00+00:00</published><updated>2026-07-13T07:00:00+00:00</updated><id>https://y.tsutsumi.io/playing-with-local-llms</id><content type="html" xml:base="https://y.tsutsumi.io/playing-with-local-llms/"><![CDATA[<p>Like many, I’ve started to get really bullish on the future of local LLMs - the open models and weights are getting better every few weeks. Qualitatively, I think it’s still abundantly clear that local LLMs are not at par with the larger hosted models for my high-priority use cases like coding.</p>
 
 <p>That all said, it’s a matter of time.</p>
 
@@ -1011,49 +1091,4 @@ calories).</p>
       </li>
     </ul>
   </li>
-</ul>]]></content><author><name></name></author><category term="diet" /><category term="health" /><summary type="html"><![CDATA[This is are some notes about what I eat, how I eat, and why.]]></summary></entry><entry><title type="html">farsi</title><link href="https://y.tsutsumi.io/languages/farsi" rel="alternate" type="text/html" title="farsi" /><published>2026-02-09T07:00:00+00:00</published><updated>2026-02-09T07:00:00+00:00</updated><id>https://y.tsutsumi.io/languages/farsi-grammar</id><content type="html" xml:base="https://y.tsutsumi.io/languages/farsi"><![CDATA[<h1 id="farsi-grammar">Farsi Grammar</h1>
-
-<p>In my spare time, I’m learning Farsi. I’ll use this as a kitchen sink for my notes on the language.</p>
-
-<h2 id="peyda-konam">Peyda Konam</h2>
-
-<p>In farsi, there are phrases such as</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ادامه پیدل کنم
-</code></pre></div></div>
-
-<p>The peyda konam (found X) is used in a situation where a direct action is not taken to make the object achieve that state.</p>
-
-<p>For example, you could say “if the revolution continues…” - but this does not refer to any specific object ensuring the revolution does continue.</p>
-
-<p>This is where “peyda konam” comes in. Since it’s nebulous whether it will actually happen, it’s about it finding itself in a situation when it does occur vs actively being done.</p>
-
-<h2 id="mitoonestan">Mitoonestan</h2>
-
-<p>The word mitoonestan (می‌توانستم) is the past continuous/imperfect form of the verb tavānestan (توانستن), which means “to be able to.”</p>
-
-<p>Mitoonestan is interesting, because it is a model / auxiliary verb. Model / auxiliary verbs require a <em>main verb</em> to clarify what is possible / what is desired / etc.</p>
-
-<p>So applying the past tense to these case is complicated, and the way that it’s done in farsi is to conjugate the modal verb, not the main verb.</p>
-
-<p>e.g. I couldn’t do it is نمتستن کنم.</p>
-
-<h2 id="the-word-az-is-used-sometimes-where-its-not-in-english">The word “az” is used sometimes where it’s not in english</h2>
-
-<p>Sometimes you might hear an Iranian use phrases like “thanks from” when speaking English. This is be cause in Persian, the word for from, “از”, is used as a preposition where it is not in English.</p>
-
-<p>For example, “thanks for” is actually “thankful from” (تشکر از).</p>
-
-<h2 id="always-use-keh-even-for-who">Always use “keh”, even for “who”</h2>
-
-<p>Unlike English, where we use “who” for people and “what” for things, Farsi uses “keh” for both.</p>
-
-<p>For example, “who is there?” is “کی اونجاست؟” (key unjāst?) - but “what is there?” is “چی اونجاست؟” (chi unjāst?).</p>
-
-<h2 id="use-chand-ta-for-unknown-quantities">Use “chand ta” for unknown quantities</h2>
-
-<p>When you’re asking about a quantity of something, and you don’t know the exact number, use “chand ta” (چند تا).</p>
-
-<p>For example, “how many apples are there?” is “چند تا سیب اونجاست؟” (chand ta sib unjāst?).</p>
-
-<p>This is in contrast to “chand hafte ha” (چند هفته ها) which is used when you’re saying a quantity (plural is attached to the object).</p>]]></content><author><name></name></author><category term="language-learning" /><summary type="html"><![CDATA[Farsi Grammar]]></summary></entry></feed>
+</ul>]]></content><author><name></name></author><category term="diet" /><category term="health" /><summary type="html"><![CDATA[This is are some notes about what I eat, how I eat, and why.]]></summary></entry></feed>
