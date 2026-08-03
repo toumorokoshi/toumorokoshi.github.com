@@ -229,6 +229,24 @@ extremely smooth on Linux now.</li>
 but as this computer will be the most powerful one I have, I wanted it to have
 the option to be more general purpose in case I get the itch to do some real
 software development on it (maybe ML or some CPU emulation project).</p>
+                <h3 id="stopping-the-remote-desktop-popup">   Stopping the remote desktop popup <a href="#stopping-the-remote-desktop-popup">#</a>   </h3>
+                    
+
+<p>updated 2026-08-01</p>
+
+<p>On some games, hitting the xbox button results in a remote desktop popup, which is really annoying when you’re trying to play games.</p>
+
+<p>I’ve found that running the following prevents xtest from running, which is hooked into activating the remote desktop through a legacy pipeline:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gsettings set org.gnome.mutter.wayland xwayland-disable-extension '["Xtest"]'
+</code></pre></div></div>
+
+<p>references:</p>
+
+<ul>
+  <li>https://github.com/ValveSoftware/steam-for-linux/issues/10442</li>
+  <li>https://www.reddit.com/r/linux_gaming/comments/1cabdsy/how_do_i_get_rid_of_remote_desktop_popup/</li>
+</ul>
     </div>
 
     
