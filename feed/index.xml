@@ -1,4 +1,126 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2026-10-05T00:07:08+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Calculating and achieving peak TOPS on the DGX Spark</title><link href="https://y.tsutsumi.io/peak-tops-dgx-spark/" rel="alternate" type="text/html" title="Calculating and achieving peak TOPS on the DGX Spark" /><published>2026-07-20T07:00:00+00:00</published><updated>2026-07-20T07:00:00+00:00</updated><id>https://y.tsutsumi.io/figuring-out-actual-flops</id><content type="html" xml:base="https://y.tsutsumi.io/peak-tops-dgx-spark/"><![CDATA[<p>You’ll often see “peak TOPS” advertised for accelerators like GPUs - but where does that number come from, and can we achieve it? Let’s break it down using the DGX Spark’s 1000 TOPS as an example.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2026-10-06T00:05:18+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">How I code in 2026</title><link href="https://y.tsutsumi.io/how-i-code-in-2026/" rel="alternate" type="text/html" title="How I code in 2026" /><published>2026-10-05T07:00:00+00:00</published><updated>2026-10-05T07:00:00+00:00</updated><id>https://y.tsutsumi.io/how-i-code-in-2026</id><content type="html" xml:base="https://y.tsutsumi.io/how-i-code-in-2026/"><![CDATA[<ul>
+  <li><a href="#tldr">TLDR</a></li>
+  <li><a href="#agents-write-the-code">Agents write the code</a>
+    <ul>
+      <li><a href="#what-i-do-modify-by-hand">What I do modify by hand</a></li>
+    </ul>
+  </li>
+  <li><a href="#i-read-the-code">I read the code</a></li>
+  <li><a href="#stack-up-a-mega-pr-then-break-it-down">Stack up a mega-PR, then break it down</a></li>
+  <li><a href="#agents-help-review-the-code">Agents help review the code</a></li>
+  <li><a href="#using-agents-to-help-prioritize-reviews">Using agents to help prioritize reviews</a></li>
+  <li><a href="#for-small-pet-projects-i-yolo">For small pet projects, I yolo</a></li>
+  <li><a href="#final-thoughts">Final thoughts</a></li>
+</ul>
+
+<p>The way I code now, or rather “code”, is completely different than it was in 2025. With that progress, I thought it would be fun to document my current process. In reality, who knows how I’ll be doing it, even 4 months down the road.</p>
+
+<p>I remember the days when I would spend hours rooting around for the right place to modify, thinking through every single keystroke. The reactions to this shift range from outright disgust to unbridled excitement, but either way the reality is that the industry has largely moved on. Or at least, it’s going to.</p>
+
+<h2 id="tldr">TLDR</h2>
+
+<ul>
+  <li>I haven’t really integrated using my voice yet. But I’m interested in it!</li>
+  <li>I don’t hand write code. I have agents write it, and I chat with it.
+    <ul>
+      <li>When the agent writes code, I have it make one mega-PR, then split it as needed.</li>
+    </ul>
+  </li>
+  <li>Agents help me review code, but I still review them myself.
+    <ul>
+      <li>I use a skill to help me manage the now massive review queue.</li>
+    </ul>
+  </li>
+  <li>On any given day I have up to 4 worktrees active doing work. I occasionally have a need to go beyond that number (5, maybe 6, to do investigative work, or if my other agents are waiting on CI, tests, or some long command).</li>
+</ul>
+
+<h2 id="agents-write-the-code">Agents write the code</h2>
+
+<p>These days, I do not hand-modify code. Maybe I will touch a constant or two, but almost any operation is easier to just type a few words and have the agent do it instead:</p>
+
+<ul>
+  <li>refactoring a name requires touching multiple files.</li>
+  <li>modifying some behavioral function requires fixing unit tests.</li>
+</ul>
+
+<p>Whenever I think about going and opening a file in an IDE, I just realize it’s faster to tell my agent to go do it.</p>
+
+<h3 id="what-i-do-modify-by-hand">What I do modify by hand</h3>
+
+<p>There are things I touch a handful of the time:</p>
+
+<ul>
+  <li>small docstrings with poor grammar.</li>
+  <li>pr descriptions.</li>
+</ul>
+
+<p>But again, my mindset comes down to whether it’s easier to type a few lines in my editor, or just tell the agent.</p>
+
+<h2 id="i-read-the-code">I read the code</h2>
+
+<p>I still read the code my agent produces. Honestly, it’s a good mental exercise for me to be able to understand how these pieces fit.</p>
+
+<p>I often ask follow-up questions in the agent session. This is how I ramp myself up on the architecture of the system, ask about tradeoffs, etc.</p>
+
+<h2 id="stack-up-a-mega-pr-then-break-it-down">Stack up a mega-PR, then break it down</h2>
+
+<p>Often the work I’m trying to do is to lead to a particular outcome, and it’s much easier to let an agent loose (safely), see what it can find, then correct it all later.</p>
+
+<p>So I typically have an agent work on a pretty massive change, refactoring and modifying whatever files it needs. After that, I look at the changes, adjust the results, and once I think it’s ready, cut it down into several pieces into a stack (we use Graphite at GM).</p>
+
+<h2 id="agents-help-review-the-code">Agents help review the code</h2>
+
+<p>Some people just let agents review everything, with very little human oversight. The options I’ve heard of are:</p>
+
+<ol>
+  <li>full auto: have agents review everything. If it LGTM to them, merge.</li>
+  <li>agents, then review yourself: have an agent review the code first, and identify the risk and problem areas. Review those yourself.</li>
+  <li>manual (of course): review it all yourself.</li>
+</ol>
+
+<p>I go with 2, or if the LOC is small enough, I just review it myself (3):</p>
+
+<ul>
+  <li>Agents catch a good number of issues I don’t.</li>
+  <li>Despite the fact that I see agents give correct answers a vast majority of the time, they still make mistakes. And I want to make sure I am still a trustworthy producer of features, rather than someone who pushes responsibility on others to keep me and my agents in check.</li>
+</ul>
+
+<h2 id="using-agents-to-help-prioritize-reviews">Using agents to help prioritize reviews</h2>
+
+<p>I am in a few groups on our GitHub repository, and the number of reviews is growing. As a result, I have 100+ reviews in my queue at any moment.</p>
+
+<p>I wrote a skill to help organize them, so I can make sure to unblock small, safe changes, and also raise up the big changes that might require more thorough review. I categorize mine into:</p>
+
+<ul>
+  <li>safe: constant / enum / value changes. Easy LGTM.</li>
+  <li>mostly safe: a few refactors. Requires a little reading but not bad.</li>
+  <li>complex: this is the category where a lot of review and time is needed.
+    <ul>
+      <li>I’ll probably have my review agent look at it first and give me some ideas on what to look at.</li>
+    </ul>
+  </li>
+  <li>reviewed: these are ones I’ve already reviewed.</li>
+</ul>
+
+<h2 id="for-small-pet-projects-i-yolo">For small pet projects, I yolo</h2>
+
+<p>The above is all for production, critical code bases: these are the things where degrading code quality can increase complexity and make things slower for agents, and likely completely incomprehensible for humans. I want to steer very safely for those.</p>
+
+<p>But for small projects that only run locally, single-page-apps and utilities, I can just work directly from the spec:</p>
+
+<ul>
+  <li>I define what I want.</li>
+  <li>I review, and give feedback on the high-level approach.</li>
+  <li>The agent modifies accordingly.</li>
+</ul>
+
+<p>The models (I usually use a mix of ChatGPT Sol, Opus 5.5, Gemini flash 3.8) are already great at producing small-scoped projects. I think we’re past the point of needing to steer agents because they’re not giving us at least <em>something</em> usable. And it’s great being able to quickly iterate on something you need.</p>
+
+<h2 id="final-thoughts">Final thoughts</h2>
+
+<p>It’s amazing to me how in a few months, I went from some hand writing of PRs to effectively zero. A lot of people feel like this is a sign that our whole profession might become obsolete, and admittedly there’s some truth to that.</p>
+
+<p>However, it still feels like human, expert judgment is critical here. At least if you care about code quality and keeping the codebase functional, having expert reviewers who can steer changes toward re-use, eliminate abstractions, and make sure core use cases are satisfied is essential.</p>]]></content><author><name></name></author><category term="coding" /><summary type="html"><![CDATA[TLDR Agents write the code What I do modify by hand I read the code Stack up a mega-PR, then break it down Agents help review the code Using agents to help prioritize reviews For small pet projects, I yolo Final thoughts]]></summary></entry><entry><title type="html">Calculating and achieving peak TOPS on the DGX Spark</title><link href="https://y.tsutsumi.io/peak-tops-dgx-spark/" rel="alternate" type="text/html" title="Calculating and achieving peak TOPS on the DGX Spark" /><published>2026-07-20T07:00:00+00:00</published><updated>2026-07-20T07:00:00+00:00</updated><id>https://y.tsutsumi.io/figuring-out-actual-flops</id><content type="html" xml:base="https://y.tsutsumi.io/peak-tops-dgx-spark/"><![CDATA[<p>You’ll often see “peak TOPS” advertised for accelerators like GPUs - but where does that number come from, and can we achieve it? Let’s break it down using the DGX Spark’s 1000 TOPS as an example.</p>
 
 <p>Peak TOPS refers to trillions of floating point operations per second - but in the case of accelerators like NVIDIA GPUs, that number is almost always in reference to an MMA operation - performing matrix multiplication and accumulating the results.</p>
 
@@ -810,285 +932,4 @@ b. A random sampling of the data you would like to evalute of size X</li>
 
 <p>Success! After the above, I can now hibernate my laptop.</p>
 
-<p>Even with my 64GB of RAM, the hibernate / restore has been pretty quick so far: roughly 20 seconds at most to come back up from a full hibernate. Good solution for laptops I use once in 24 hours.</p>]]></content><author><name></name></author><category term="linux" /><category term="hibernate" /><summary type="html"><![CDATA[Setting up Hibernate on Linux]]></summary></entry><entry><title type="html">My Diet in 2026</title><link href="https://y.tsutsumi.io/diet" rel="alternate" type="text/html" title="My Diet in 2026" /><published>2026-02-16T07:00:00+00:00</published><updated>2026-02-16T07:00:00+00:00</updated><id>https://y.tsutsumi.io/diet-2026</id><content type="html" xml:base="https://y.tsutsumi.io/diet"><![CDATA[<p>This is are some notes about what I eat, how I eat, and why.</p>
-
-<p>see <a href="/diet/2022">/diet/2022</a> for an older version of this article.</p>
-
-<h2 id="short-checklist">Short checklist</h2>
-
-<ul>
-  <li>Vegan diet</li>
-  <li>Drink caffeinated drinks (e.g. coffee) to suppress appetite, and to <a href="https://medicine.nus.edu.sg/news/caffeine-helps-restore-memory-function-after-sleep-loss-nus-medicine-study-shows/">help combat memory loss</a>.</li>
-  <li>Sodas are a great way to suppress appetite.</li>
-  <li>Target 1.6g protein / kg body weight day.</li>
-  <li>Target 45g fiber / day.</li>
-  <li>Try to get as close to zero for saturated fat intake.</li>
-  <li>Target 1400kcal for cutting, 1800kcal for bulking.
-    <ul>
-      <li>when bulking, do a slow bulk to build muscle.</li>
-    </ul>
-  </li>
-  <li>targetting low carb diet (50 carbs / day).</li>
-  <li>Moderate sodium intake</li>
-  <li>Try to hit 100% RDA on potassium (this is very, very hard): this helps counteract bloating caused by sodium.</li>
-</ul>
-
-<h2 id="example-diets">Example diets</h2>
-
-<table>
-  <thead>
-    <tr>
-      <th>Food</th>
-      <th>Calories</th>
-      <th>Protein</th>
-      <th>Fiber</th>
-      <th>Carbs</th>
-      <th>Time</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>1/2 Soy Latte (180ml) + fiber</td>
-      <td>32</td>
-      <td>2.5</td>
-      <td>4</td>
-      <td>0.5</td>
-      <td>8:00am</td>
-    </tr>
-    <tr>
-      <td>Keto Bread + 60g Protein Spread</td>
-      <td>100</td>
-      <td>16</td>
-      <td>8</td>
-      <td>3</td>
-      <td>10:00am</td>
-    </tr>
-    <tr>
-      <td>Sparkling water or diet soda</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>11:30am</td>
-    </tr>
-    <tr>
-      <td>Keto Bread + 50g Protein Spread</td>
-      <td>100</td>
-      <td>16</td>
-      <td>8</td>
-      <td>3</td>
-      <td>12:00am</td>
-    </tr>
-    <tr>
-      <td>1/2 Soy Latte (180ml) + fiber</td>
-      <td>32</td>
-      <td>2.5</td>
-      <td>4</td>
-      <td>0.5</td>
-      <td>1:00pm</td>
-    </tr>
-    <tr>
-      <td>Huel Black (1/2 serving)</td>
-      <td>200</td>
-      <td>20</td>
-      <td>4</td>
-      <td>9</td>
-      <td>2:00pm</td>
-    </tr>
-    <tr>
-      <td>Powder</td>
-      <td>120</td>
-      <td>20</td>
-      <td>4</td>
-      <td> </td>
-      <td>4:00pm</td>
-    </tr>
-    <tr>
-      <td>Keto Bread + 50g Protein Spread</td>
-      <td>100</td>
-      <td>16</td>
-      <td>8</td>
-      <td>3</td>
-      <td>5:00pm</td>
-    </tr>
-    <tr>
-      <td>whatever for 20g protein defecit</td>
-      <td>??</td>
-      <td>??</td>
-      <td>?</td>
-      <td> </td>
-      <td>after work</td>
-    </tr>
-    <tr>
-      <td>Total</td>
-      <td>840g</td>
-      <td>100g</td>
-      <td>45g</td>
-      <td> </td>
-      <td> </td>
-    </tr>
-  </tbody>
-</table>
-
-<h2 id="major-ideas">Major Ideas</h2>
-
-<h3 id="mostly-vegan-plant-based-diet">Mostly vegan (plant-based diet)</h3>
-
-<p><a href="https://y.tsutsumi.io/2020/03/04/book-report-the-blue-zones/">People who eat a plant-based diet live 7 years longer</a>.</p>
-
-<p>It’s hard for me to go completely vegan (I like my seafood and dairy), so I try to go for vegan meals most of the week at home. When I eat out I eat vegetarian or seafood.</p>
-
-<p>From what I read in Blue Zones (above), eating meat once a week still helps you get a lot of the longevity benefits.</p>
-
-<p>Those who have plant-based high protein diets also tend to have better kidney health than those who dairy / meat based high protein diets.</p>
-
-<h3 id="high-protein">High-protein</h3>
-
-<p>I eat 1.6 grams of protein per 1KG of body weight a day at minimum. Studies have shown that this is the amount that has shown to maximize muscular hypertrophy. I strive to maximize muscle mass ultimately for increasing my healthspan.</p>
-
-<p>With a vegan diet, that number likely should be higher: vegan proteins are not always complete, and may not be in an easily digestable form unlike meat.</p>
-
-<p>However, I do strive for foods that have a <a href="https://en.wikipedia.org/wiki/Digestible_Indispensable_Amino_Acid_Score">diaas score</a> close to 1 or greater:</p>
-
-<ul>
-  <li>soy protein isolate, soybeans, soymilk, tofu.</li>
-  <li>pea protein.</li>
-  <li>beans (kidney, fava).</li>
-</ul>
-
-<h3 id="targetting-caloric-restriction">Targetting Caloric Restriction</h3>
-
-<p>I’m currently in the middle of trying to lose weight: my last Dexa scan in 2022/10 put me at 21% body fat, which is much higher than I’m hoping. My current target is 15% body fat, which means I have to lose 12 lbs of body weight.</p>
-
-<p>To that end, I’m looking at some minor caloric restriction: at 1700 kcal / day, and assuming I can build up a daily caloric expendature of 2100 kcal, that would be me at 3500 / (2100 - 1700) ~ 8.75 days to lose a pound of weight. And ideally I could my weight in 108 days (~4 months).</p>
-
-<p>I’m mixing that with lifting weights to try to guarantee muscle hypertrophy.</p>
-
-<p>In reality my caloric intake is often higher due to limited self-control, but I’m working on that.</p>
-
-<h2 id="other-tips">Other Tips</h2>
-
-<h3 id="sucralose-may-cause-nafld">Sucralose may cause NAFLD</h3>
-
-<p>When I started eating four servings of Huel protein powder a day (to try to up
-my protein intake, those 80 grams help) along with drinking a sugar-free sweet
-coffee daily, I found that my ALT and AST numbers have grown significantly
-(11-&gt;16 and 17-&gt;25, respectively over 10 months).</p>
-
-<p>I’m not sure the precise cause, by after doing some research I found some
-research in mice that shows sucralose and stevia (and regular sugar) consumption
-increasing ALT and AST.</p>
-
-<p>Correlation is not causation, but I’m currently (2023/04) trying to lower my
-Sucralose consumption significantly to see if my numbers change at all.</p>
-
-<h2 id="only-allulose-and-stevia-for-non-nutritive-sweeteners">Only Allulose and Stevia for non-nutritive sweeteners</h2>
-
-<p>Several non-nutritive sweeteners have downsides:</p>
-
-<ul>
-  <li>Aspartame may cause an insulin response.</li>
-  <li>Erithrytol may cause blood clotting, and impact the blood/brain barrier.</li>
-  <li>Sucralose may cause NAFLD.</li>
-</ul>
-
-<p>Which leaves a limited set of non-nutritive sweeteners to choose from:</p>
-
-<ul>
-  <li>Allulose</li>
-  <li>Stevia</li>
-</ul>
-
-<h2 id="specific-food-recommendations">Specific Food Recommendations</h2>
-
-<p>To hit a 50 carb target with 1400 kcal, you need to target foods that provide
-roughly 1 carb per 26 kcal or less.</p>
-
-<p>Also, unlike most low carb diets, I prefer to stay low in saturated fat as well.
-It’s a hard balance but I try to make sure these foods have relatively low
-saturated fat.</p>
-
-<p>For my specific dietary preferences, my recommendations are:</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Food</th>
-      <th>Calories</th>
-      <th>Protein</th>
-      <th>Fiber</th>
-      <th>Carbs</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>1/2 Soy Latte (180ml) + inulin fiber</td>
-      <td>32</td>
-      <td>2.5</td>
-      <td>2</td>
-      <td>0.5</td>
-    </tr>
-    <tr>
-      <td>Huel Black (1/2 serving)</td>
-      <td>200</td>
-      <td>20</td>
-      <td>4</td>
-      <td>9</td>
-    </tr>
-    <tr>
-      <td>Nature’s own Keto Bread</td>
-      <td>35</td>
-      <td>6</td>
-      <td>9</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <td>Simple Truth Protein Crackers</td>
-      <td>120</td>
-      <td>10</td>
-      <td>6</td>
-      <td>4</td>
-    </tr>
-    <tr>
-      <td>Almonds</td>
-      <td>160</td>
-      <td>6</td>
-      <td>3</td>
-      <td>3</td>
-    </tr>
-    <tr>
-      <td>Spinach (100g)</td>
-      <td>23</td>
-      <td>2.9</td>
-      <td>2.2</td>
-      <td>3.6</td>
-    </tr>
-  </tbody>
-</table>
-
-<h3 id="nespresso">Nespresso</h3>
-
-<p>I like to drink Nespresso every morning. I generally may make a mezzo (half
-americano, half soy latte) with the following:</p>
-
-<ul>
-  <li>Mezzo with Tropical Coconut Flavor + 180ml soy milk.</li>
-  <li>Straight: Peppermint Pinwheel.</li>
-  <li>Bianco Doppio with 120ml milk.</li>
-  <li>2x Altissio with 180ml milk (I like this because they offer a decaf option).</li>
-</ul>
-
-<p>Sometimes I replace the soy with a larger volume of macadamia milk (fewer
-calories).</p>
-
-<h3 id="good-foods">Good Foods</h3>
-
-<ul>
-  <li>Pistachio: relatively lower carbs, low saturated fat, high potassium.
-    <ul>
-      <li>
-        <h2 id="high-phosphorous-so-try-to-eat-it-in-moderation">high phosphorous so try to eat it in moderation.</h2>
-      </li>
-    </ul>
-  </li>
-</ul>]]></content><author><name></name></author><category term="diet" /><category term="health" /><summary type="html"><![CDATA[This is are some notes about what I eat, how I eat, and why.]]></summary></entry></feed>
+<p>Even with my 64GB of RAM, the hibernate / restore has been pretty quick so far: roughly 20 seconds at most to come back up from a full hibernate. Good solution for laptops I use once in 24 hours.</p>]]></content><author><name></name></author><category term="linux" /><category term="hibernate" /><summary type="html"><![CDATA[Setting up Hibernate on Linux]]></summary></entry></feed>

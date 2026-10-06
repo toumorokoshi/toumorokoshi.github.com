@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>How I code in 2026 | Yusuke Tsutsumi</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="How I code in 2026" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="TLDR Agents write the code What I do modify by hand I read the code Stack up a mega-PR, then break it down Agents help review the code Using agents to help prioritize reviews For small pet projects, I yolo Final thoughts" />
+<meta property="og:description" content="TLDR Agents write the code What I do modify by hand I read the code Stack up a mega-PR, then break it down Agents help review the code Using agents to help prioritize reviews For small pet projects, I yolo Final thoughts" />
+<link rel="canonical" href="https://y.tsutsumi.io/how-i-code-in-2026/" />
+<meta property="og:url" content="https://y.tsutsumi.io/how-i-code-in-2026/" />
+<meta property="og:site_name" content="Yusuke Tsutsumi" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-10-05T07:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="How I code in 2026" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2026-10-05T07:00:00+00:00","datePublished":"2026-10-05T07:00:00+00:00","description":"TLDR Agents write the code What I do modify by hand I read the code Stack up a mega-PR, then break it down Agents help review the code Using agents to help prioritize reviews For small pet projects, I yolo Final thoughts","headline":"How I code in 2026","mainEntityOfPage":{"@type":"WebPage","@id":"https://y.tsutsumi.io/how-i-code-in-2026/"},"url":"https://y.tsutsumi.io/how-i-code-in-2026/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" /><script async src="https://www.googletagmanager.com/gtag/js?id=G-325KP61WS9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { window.dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-325KP61WS9');
+</script>
+</head><body><header class="site-header">
+
+    <div class="wrapper"><a class="site-title" rel="author" href="/">Yusuke Tsutsumi</a><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path
+                            d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger">
+                <a class="page-link" href="/tag/coding/">Coding Posts</a>
+                <a class="page-link"
+                    href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a><a class="page-link" href="/resources/">Resources</a><a class="page-link" href="/about/">About Yusuke Tsutsumi</a></div>
+        </nav></div>
+    <style>
+        .gse-control-cse td {
+            border: 0;
+        }
+
+        td.gsc-input {
+            border: 0;
+        }
+
+        td.gsc-search-button {
+            border: 0;
+        }
+
+        table.gsc-input {
+            margin-bottom: 0;
+        }
+    </style>
+</header><main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <header class="post-header">
+        <h1 class="post-title p-name" itemprop="name headline">How I code in 2026</h1>
+        <p class="post-meta"><time class="dt-published" datetime="2026-10-05T07:00:00+00:00" itemprop="datePublished">
+                Oct 5, 2026
+            </time></p>
+    </header>
+
+    <div class="post-content e-content" itemprop="articleBody">
+        <ul>
+  <li><a href="#tldr">TLDR</a></li>
+  <li><a href="#agents-write-the-code">Agents write the code</a>
+    <ul>
+      <li><a href="#what-i-do-modify-by-hand">What I do modify by hand</a></li>
+    </ul>
+  </li>
+  <li><a href="#i-read-the-code">I read the code</a></li>
+  <li><a href="#stack-up-a-mega-pr-then-break-it-down">Stack up a mega-PR, then break it down</a></li>
+  <li><a href="#agents-help-review-the-code">Agents help review the code</a></li>
+  <li><a href="#using-agents-to-help-prioritize-reviews">Using agents to help prioritize reviews</a></li>
+  <li><a href="#for-small-pet-projects-i-yolo">For small pet projects, I yolo</a></li>
+  <li><a href="#final-thoughts">Final thoughts</a></li>
+</ul>
+
+<p>The way I code now, or rather “code”, is completely different than it was in 2025. With that progress, I thought it would be fun to document my current process. In reality, who knows how I’ll be doing it, even 4 months down the road.</p>
+
+<p>I remember the days when I would spend hours rooting around for the right place to modify, thinking through every single keystroke. The reactions to this shift range from outright disgust to unbridled excitement, but either way the reality is that the industry has largely moved on. Or at least, it’s going to.</p>
+                <h2 id="tldr">   TLDR <a href="#tldr">#</a>   </h2>
+                    
+
+<ul>
+  <li>I haven’t really integrated using my voice yet. But I’m interested in it!</li>
+  <li>I don’t hand write code. I have agents write it, and I chat with it.
+    <ul>
+      <li>When the agent writes code, I have it make one mega-PR, then split it as needed.</li>
+    </ul>
+  </li>
+  <li>Agents help me review code, but I still review them myself.
+    <ul>
+      <li>I use a skill to help me manage the now massive review queue.</li>
+    </ul>
+  </li>
+  <li>On any given day I have up to 4 worktrees active doing work. I occasionally have a need to go beyond that number (5, maybe 6, to do investigative work, or if my other agents are waiting on CI, tests, or some long command).</li>
+</ul>
+                <h2 id="agents-write-the-code">   Agents write the code <a href="#agents-write-the-code">#</a>   </h2>
+                    
+
+<p>These days, I do not hand-modify code. Maybe I will touch a constant or two, but almost any operation is easier to just type a few words and have the agent do it instead:</p>
+
+<ul>
+  <li>refactoring a name requires touching multiple files.</li>
+  <li>modifying some behavioral function requires fixing unit tests.</li>
+</ul>
+
+<p>Whenever I think about going and opening a file in an IDE, I just realize it’s faster to tell my agent to go do it.</p>
+                <h3 id="what-i-do-modify-by-hand">   What I do modify by hand <a href="#what-i-do-modify-by-hand">#</a>   </h3>
+                    
+
+<p>There are things I touch a handful of the time:</p>
+
+<ul>
+  <li>small docstrings with poor grammar.</li>
+  <li>pr descriptions.</li>
+</ul>
+
+<p>But again, my mindset comes down to whether it’s easier to type a few lines in my editor, or just tell the agent.</p>
+                <h2 id="i-read-the-code">   I read the code <a href="#i-read-the-code">#</a>   </h2>
+                    
+
+<p>I still read the code my agent produces. Honestly, it’s a good mental exercise for me to be able to understand how these pieces fit.</p>
+
+<p>I often ask follow-up questions in the agent session. This is how I ramp myself up on the architecture of the system, ask about tradeoffs, etc.</p>
+                <h2 id="stack-up-a-mega-pr-then-break-it-down">   Stack up a mega-PR, then break it down <a href="#stack-up-a-mega-pr-then-break-it-down">#</a>   </h2>
+                    
+
+<p>Often the work I’m trying to do is to lead to a particular outcome, and it’s much easier to let an agent loose (safely), see what it can find, then correct it all later.</p>
+
+<p>So I typically have an agent work on a pretty massive change, refactoring and modifying whatever files it needs. After that, I look at the changes, adjust the results, and once I think it’s ready, cut it down into several pieces into a stack (we use Graphite at GM).</p>
+                <h2 id="agents-help-review-the-code">   Agents help review the code <a href="#agents-help-review-the-code">#</a>   </h2>
+                    
+
+<p>Some people just let agents review everything, with very little human oversight. The options I’ve heard of are:</p>
+
+<ol>
+  <li>full auto: have agents review everything. If it LGTM to them, merge.</li>
+  <li>agents, then review yourself: have an agent review the code first, and identify the risk and problem areas. Review those yourself.</li>
+  <li>manual (of course): review it all yourself.</li>
+</ol>
+
+<p>I go with 2, or if the LOC is small enough, I just review it myself (3):</p>
+
+<ul>
+  <li>Agents catch a good number of issues I don’t.</li>
+  <li>Despite the fact that I see agents give correct answers a vast majority of the time, they still make mistakes. And I want to make sure I am still a trustworthy producer of features, rather than someone who pushes responsibility on others to keep me and my agents in check.</li>
+</ul>
+                <h2 id="using-agents-to-help-prioritize-reviews">   Using agents to help prioritize reviews <a href="#using-agents-to-help-prioritize-reviews">#</a>   </h2>
+                    
+
+<p>I am in a few groups on our GitHub repository, and the number of reviews is growing. As a result, I have 100+ reviews in my queue at any moment.</p>
+
+<p>I wrote a skill to help organize them, so I can make sure to unblock small, safe changes, and also raise up the big changes that might require more thorough review. I categorize mine into:</p>
+
+<ul>
+  <li>safe: constant / enum / value changes. Easy LGTM.</li>
+  <li>mostly safe: a few refactors. Requires a little reading but not bad.</li>
+  <li>complex: this is the category where a lot of review and time is needed.
+    <ul>
+      <li>I’ll probably have my review agent look at it first and give me some ideas on what to look at.</li>
+    </ul>
+  </li>
+  <li>reviewed: these are ones I’ve already reviewed.</li>
+</ul>
+                <h2 id="for-small-pet-projects-i-yolo">   For small pet projects, I yolo <a href="#for-small-pet-projects-i-yolo">#</a>   </h2>
+                    
+
+<p>The above is all for production, critical code bases: these are the things where degrading code quality can increase complexity and make things slower for agents, and likely completely incomprehensible for humans. I want to steer very safely for those.</p>
+
+<p>But for small projects that only run locally, single-page-apps and utilities, I can just work directly from the spec:</p>
+
+<ul>
+  <li>I define what I want.</li>
+  <li>I review, and give feedback on the high-level approach.</li>
+  <li>The agent modifies accordingly.</li>
+</ul>
+
+<p>The models (I usually use a mix of ChatGPT Sol, Opus 5.5, Gemini flash 3.8) are already great at producing small-scoped projects. I think we’re past the point of needing to steer agents because they’re not giving us at least <em>something</em> usable. And it’s great being able to quickly iterate on something you need.</p>
+                <h2 id="final-thoughts">   Final thoughts <a href="#final-thoughts">#</a>   </h2>
+                    
+
+<p>It’s amazing to me how in a few months, I went from some hand writing of PRs to effectively zero. A lot of people feel like this is a sign that our whole profession might become obsolete, and admittedly there’s some truth to that.</p>
+
+<p>However, it still feels like human, expert judgment is critical here. At least if you care about code quality and keeping the codebase functional, having expert reviewers who can steer changes toward re-use, eliminate abstractions, and make sure core use cases are satisfied is essential.</p>
+    </div>
+
+    
+    <script type="module" src="https://esm.sh/gh/loueed/bsky@v1.0.0/comments"></script>
+    <bsky-comments post=""></bsky-comments>
+    
+
+    <a class="u-url" href="/how-i-code-in-2026/" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/%20/"></data>
+
+    <div class="wrapper">
+
+        <div class="footer-col-wrapper">
+            <script async src="https://cse.google.com/cse.js?cx=014358564571565173111:hnnbq4j54cy"></script>
+            <div class="gcse-search"></div>
+        </div>
+        <div class="footer-col-wrapper">
+            <div class="footer-col">
+                <p class="feed-subscribe">
+                    <a href="/feed/index.xml">
+                        <svg class="svg-icon orange">
+                            <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+                        </svg><span>Subscribe</span>
+                    </a>
+                </p>
+            </div>
+            <div class="footer-col">
+                <p>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</p>
+            </div>
+        </div>
+
+        <div class="social-links"><ul class="social-media-list"><li>
+  <a rel="me" href="https://bsky.app/profile/y.tsutsumi.io" target="_blank"
+    title="bluesky">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#bluesky"></use>
+    </svg>
+  </a>
+</li><li>
+  <a rel="me" href="https://github.com/toumorokoshi" target="_blank"
+    title="github">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#github"></use>
+    </svg>
+  </a>
+</li><li>
+  <a rel="me" href="https://www.linkedin.com/in/yusuke-tsutsumi" target="_blank"
+    title="linkedin">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#linkedin"></use>
+    </svg>
+  </a>
+</li></ul></div>
+
+    </div>
+    <script src="https://unpkg.com/mermaid@8.9.3/dist/mermaid.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: "default",
+    });
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+  });
+</script>
+
+</footer></body>
+
+</html>
