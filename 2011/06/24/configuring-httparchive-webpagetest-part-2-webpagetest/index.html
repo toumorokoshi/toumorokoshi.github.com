@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Configuring HttpArchive + Webpagetest (Part 2: Webpagetest) | Yusuke Tsutsumi</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Configuring HttpArchive + Webpagetest (Part 2: Webpagetest)" />
+<meta name="author" content="toumorokoshi" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Welcome to part 2! This post discusses installing Webpagetest.org. In order to do so, we will need:" />
+<meta property="og:description" content="Welcome to part 2! This post discusses installing Webpagetest.org. In order to do so, we will need:" />
+<link rel="canonical" href="https://y.tsutsumi.io/2011/06/24/configuring-httparchive-webpagetest-part-2-webpagetest/" />
+<meta property="og:url" content="https://y.tsutsumi.io/2011/06/24/configuring-httparchive-webpagetest-part-2-webpagetest/" />
+<meta property="og:site_name" content="Yusuke Tsutsumi" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2011-06-24T19:03:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Configuring HttpArchive + Webpagetest (Part 2: Webpagetest)" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"toumorokoshi"},"dateModified":"2011-06-24T19:03:00+00:00","datePublished":"2011-06-24T19:03:00+00:00","description":"Welcome to part 2! This post discusses installing Webpagetest.org. In order to do so, we will need:","headline":"Configuring HttpArchive + Webpagetest (Part 2: Webpagetest)","mainEntityOfPage":{"@type":"WebPage","@id":"https://y.tsutsumi.io/2011/06/24/configuring-httparchive-webpagetest-part-2-webpagetest/"},"url":"https://y.tsutsumi.io/2011/06/24/configuring-httparchive-webpagetest-part-2-webpagetest/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" /><script async src="https://www.googletagmanager.com/gtag/js?id=G-325KP61WS9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { window.dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-325KP61WS9');
+</script>
+</head><body><header class="site-header">
+
+    <div class="wrapper"><a class="site-title" rel="author" href="/">Yusuke Tsutsumi</a><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path
+                            d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger">
+                <a class="page-link" href="/tag/coding/">Coding Posts</a>
+                <a class="page-link"
+                    href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a><a class="page-link" href="/resources/">Resources</a><a class="page-link" href="/about/">About Yusuke Tsutsumi</a></div>
+        </nav></div>
+    <style>
+        .gse-control-cse td {
+            border: 0;
+        }
+
+        td.gsc-input {
+            border: 0;
+        }
+
+        td.gsc-search-button {
+            border: 0;
+        }
+
+        table.gsc-input {
+            margin-bottom: 0;
+        }
+    </style>
+</header><main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <header class="post-header">
+        <h1 class="post-title p-name" itemprop="name headline">Configuring HttpArchive + Webpagetest (Part 2: Webpagetest)</h1>
+        <p class="post-meta"><time class="dt-published" datetime="2011-06-24T19:03:00+00:00" itemprop="datePublished">
+                Jun 24, 2011
+            </time>• 
+            <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+                <span class="p-author h-card" itemprop="name">toumorokoshi</span></span></p>
+    </header>
+
+    <div class="post-content e-content" itemprop="articleBody">
+        <p>Welcome to part 2! This post discusses installing Webpagetest.org. In
+order to do so, we will need:</p>
+
+<ul>
+  <li>A windows machine (XP or Windows 7 have been tested with this method)</li>
+  <li>Apache2.2 or higher</li>
+  <li>PHP5 or higher</li>
+  <li>IE of some sort (IE8 or 9 would be best)</li>
+  <li>ffmpeg</li>
+</ul>
+
+<p>It is possible to split up the web server and the testing server, but I
+put them both on the same machine for ease of use. In addition I found
+installing and configuring Apache and PHP together on windows was
+surprisingly difficult, so I suggest installing <a href="http://www.apachefriends.org/en/xampp-windows.html">Xampp</a>. It’s a
+single-install program that includes many of the tools used for serving
+web pages and web development, such as Apache, PHP5, MySQL, and
+Filezilla. Windows 7 machines have IE 8 installed by default, but
+upgrading is straightforward for XP machines.</p>
+
+<p>Once you have your machine set up properly, it’s time to install
+Webpagetest! You can download the source here: <a href="http://code.google.com/p/webpagetest/downloads/list">Webpagetest.org
+source</a>.</p>
+
+<p>There are also installation instructions on the webpagetest.org google
+site. I would recommend following these fora a complete guide, but what
+I have written is a shorter version and will attain the same result.</p>
+
+<p><a href="https://sites.google.com/a/webpagetest.org/docs/private-instances">https://sites.google.com/a/webpagetest.org/docs/private-instances</a></p>
+
+<p>Configure Apache to point to the www directory of your source, or move
+the contents of the folder to the “htdocs” folder under Xampp (I found
+that the Virtualhost directive in Apache was having issues, so I just
+threw everything into the htdocs folder, where Xampp is initially
+configured to point to). I found that on the windows machine, giving
+read/write permissions to the directories needed was not an issue.</p>
+
+<p>You will then have to configure everything properly. This involves
+basically copying and pasting everything in the settings folder to it’s
+non-sample equivalent. I was able to do this because I wanted a basic
+instance, but keep in mind you may need to do more if you want more
+complex options.</p>
+
+<p>Configuring the system to run the tests is best explained, verbatim from
+the private-instance setup site linked above:</p>
+
+<ol>
+  <li>
+    <p>Configure the test system to automatically log-on to an administrator
+account. Running “control userpasswords2” from the start menu is one way
+to configure it.</p>
+  </li>
+  <li>
+    <p>Disable any screen savers (the desktop needs to remain visible for the
+video capture to work)</p>
+  </li>
+  <li>
+    <p>Disable UAC (Vista or later - slide to “never notify”)</p>
+  </li>
+  <li>Uninstall IE Enhanced-Security Mode (Windows Server)</li>
+  <li>Copy the test software from the <strong>agent</strong> folder to the system (to
+“c:\webpagetest” for this example)</li>
+  <li>Install the DUMMYNET ipfw driver
+    <ul>
+      <li>Pull up the properties for the Network Adapter that is used to access
+the Internet</li>
+      <li>Click “Install”</li>
+      <li>Select “Service” and click “Add”</li>
+      <li>Click “Have Disk” and navigate to c:\webpagetest\dummynet</li>
+      <li>Select the ipfw+dummynet service (and click through any warnings
+about the driver being unsigned)</li>
+    </ul>
+  </li>
+  <li>Create a shortcut to c:\webpagetest\dummynet\ipfw.cmd in the startup
+folder</li>
+  <li>Create a shortcut to c:\webpagetest\urlblast.exe in the startup folder</li>
+  <li>Make a copy of the settings file (urlblast.ini) based on the sample
+    <ul>
+      <li>Give it the path to the server (default configuration points to a
+server on the local machine)</li>
+      <li>Configure the location to match the location defined on the server in
+locations.ini (if modified)</li>
+      <li>Configure the location key to match the server in locations.ini (if
+modified)</li>
+    </ul>
+  </li>
+  <li>Reboot to make sure everything starts up correctly</li>
+</ol>
+
+<p><strong>Note:</strong>On windows 7, ipfw will not properly install (it will not
+show up under installable services). If you want to use windows 7, you
+must add a “Location = LAN” directive under test in settings.inc in
+settings:</p>
+
+<div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">[Test]</span>
+<span class="py">Location</span> <span class="p">=</span> <span class="s">LAN</span>
+</code></pre></div></div>
+
+<p>After that, your instance should be set up! Now that wasn’t so bad, was
+it?</p>
+
+<p>Next time we’ll talk about installing HttpArchive!</p>
+    </div>
+
+    
+
+    <a class="u-url" href="/2011/06/24/configuring-httparchive-webpagetest-part-2-webpagetest/" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/%20/"></data>
+
+    <div class="wrapper">
+
+        <div class="footer-col-wrapper">
+            <script async src="https://cse.google.com/cse.js?cx=014358564571565173111:hnnbq4j54cy"></script>
+            <div class="gcse-search"></div>
+        </div>
+        <div class="footer-col-wrapper">
+            <div class="footer-col">
+                <p class="feed-subscribe">
+                    <a href="/feed/index.xml">
+                        <svg class="svg-icon orange">
+                            <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+                        </svg><span>Subscribe</span>
+                    </a>
+                </p>
+            </div>
+            <div class="footer-col">
+                <p>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</p>
+            </div>
+        </div>
+
+        <div class="social-links"><ul class="social-media-list"><li>
+  <a rel="me" href="https://bsky.app/profile/y.tsutsumi.io" target="_blank"
+    title="bluesky">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#bluesky"></use>
+    </svg>
+  </a>
+</li><li>
+  <a rel="me" href="https://github.com/toumorokoshi" target="_blank"
+    title="github">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#github"></use>
+    </svg>
+  </a>
+</li><li>
+  <a rel="me" href="https://www.linkedin.com/in/yusuke-tsutsumi" target="_blank"
+    title="linkedin">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#linkedin"></use>
+    </svg>
+  </a>
+</li></ul></div>
+
+    </div>
+    <script src="https://unpkg.com/mermaid@8.9.3/dist/mermaid.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: "default",
+    });
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+  });
+</script>
+
+</footer></body>
+
+</html>

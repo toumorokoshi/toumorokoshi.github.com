@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Automatic Package installation using ELPA in Emacs 24 | Yusuke Tsutsumi</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Automatic Package installation using ELPA in Emacs 24" />
+<meta name="author" content="toumorokoshi" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Emacs 24 includes many improvements over 23, but there is one particular addition that makes me run around and go crazy with joy: a built-in package management system, ELPA (Emacs 24 is still in development, Bozhidar Batsov has a good guide on how to get it set up). I switched over to Emacs almost a year ago, searching for something that would give me an IDE with the following attributes:" />
+<meta property="og:description" content="Emacs 24 includes many improvements over 23, but there is one particular addition that makes me run around and go crazy with joy: a built-in package management system, ELPA (Emacs 24 is still in development, Bozhidar Batsov has a good guide on how to get it set up). I switched over to Emacs almost a year ago, searching for something that would give me an IDE with the following attributes:" />
+<link rel="canonical" href="https://y.tsutsumi.io/2012/02/16/automatic-package-installation-using-elpa-in-emacs-24/" />
+<meta property="og:url" content="https://y.tsutsumi.io/2012/02/16/automatic-package-installation-using-elpa-in-emacs-24/" />
+<meta property="og:site_name" content="Yusuke Tsutsumi" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2012-02-16T23:59:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Automatic Package installation using ELPA in Emacs 24" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"toumorokoshi"},"dateModified":"2012-02-16T23:59:00+00:00","datePublished":"2012-02-16T23:59:00+00:00","description":"Emacs 24 includes many improvements over 23, but there is one particular addition that makes me run around and go crazy with joy: a built-in package management system, ELPA (Emacs 24 is still in development, Bozhidar Batsov has a good guide on how to get it set up). I switched over to Emacs almost a year ago, searching for something that would give me an IDE with the following attributes:","headline":"Automatic Package installation using ELPA in Emacs 24","mainEntityOfPage":{"@type":"WebPage","@id":"https://y.tsutsumi.io/2012/02/16/automatic-package-installation-using-elpa-in-emacs-24/"},"url":"https://y.tsutsumi.io/2012/02/16/automatic-package-installation-using-elpa-in-emacs-24/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" /><script async src="https://www.googletagmanager.com/gtag/js?id=G-325KP61WS9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { window.dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-325KP61WS9');
+</script>
+</head><body><header class="site-header">
+
+    <div class="wrapper"><a class="site-title" rel="author" href="/">Yusuke Tsutsumi</a><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path
+                            d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger">
+                <a class="page-link" href="/tag/coding/">Coding Posts</a>
+                <a class="page-link"
+                    href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a><a class="page-link" href="/resources/">Resources</a><a class="page-link" href="/about/">About Yusuke Tsutsumi</a></div>
+        </nav></div>
+    <style>
+        .gse-control-cse td {
+            border: 0;
+        }
+
+        td.gsc-input {
+            border: 0;
+        }
+
+        td.gsc-search-button {
+            border: 0;
+        }
+
+        table.gsc-input {
+            margin-bottom: 0;
+        }
+    </style>
+</header><main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <header class="post-header">
+        <h1 class="post-title p-name" itemprop="name headline">Automatic Package installation using ELPA in Emacs 24</h1>
+        <p class="post-meta"><time class="dt-published" datetime="2012-02-16T23:59:00+00:00" itemprop="datePublished">
+                Feb 16, 2012
+            </time>• 
+            <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+                <span class="p-author h-card" itemprop="name">toumorokoshi</span></span></p>
+    </header>
+
+    <div class="post-content e-content" itemprop="articleBody">
+        <p>Emacs 24 includes many improvements over 23, but there is one particular
+addition that makes me run around and go crazy with joy: a built-in
+package management system, <a href="http://tromey.com/elpa/">ELPA</a> (Emacs 24 is still in development,
+<a href="http://batsov.com/articles/2011/10/09/getting-started-with-emacs-24/">Bozhidar Batsov</a> has a good guide on how to get it set up). I switched
+over to Emacs almost a year ago, searching for something that would give
+me an IDE with the following attributes:</p>
+
+<ul>
+  <li>Functionality (context-based completion, on the fly syntax checking)</li>
+  <li>Customization (key bindings, easily extensible)</li>
+  <li>Portability (minimal setup on new environments)</li>
+</ul>
+
+<p>There are a lot of nice extensions that do well for the first two.
+However, Portability was always tricky. To get some of the more power
+coding features in Emacs, one needed to install large packages, and
+there was no way to move these around short of zipping the whole thing
+up or finding and installing all these packages again.</p>
+
+<p>ELPA completes the trifecta I have been looking for. It was now easy to
+have a list of packages to install. I have a GitHub repository to
+contain all of my .emacs setup, so I can just clone a repository with
+every new environment. To make the setup completely automatic, I needed
+a method to automatically install packages that did not exist. After a
+little research, I was able to figure it out:</p>
+
+<div class="language-lisp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">;; Packages to install first (check if emacs is 24 or higher)</span>
+<span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">&gt;=</span> <span class="nv">emacs-major-version</span> <span class="mi">24</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">progn</span>
+        <span class="c1">;; Add a larger package list</span>
+        <span class="p">(</span><span class="k">setq</span> <span class="nv">package-archives</span> <span class="o">'</span><span class="p">(</span>
+            <span class="p">(</span><span class="s">"ELPA"</span> <span class="o">.</span> <span class="s">"http://tromey.com/elpa/"</span><span class="p">)</span>
+            <span class="p">(</span><span class="s">"gnu"</span> <span class="o">.</span> <span class="s">"http://elpa.gnu.org/packages/"</span><span class="p">)</span>
+            <span class="p">(</span><span class="s">"marmalade"</span> <span class="o">.</span> <span class="s">"http://marmalade-repo.org/packages/"</span><span class="p">))</span>
+        <span class="p">)</span>
+        <span class="p">(</span><span class="nv">package-refresh-contents</span><span class="p">)</span>
+        <span class="c1">;; Install flymake mode if it doesn't exist, then configure       (when (not (require 'flymake nil t))</span>
+            <span class="p">(</span><span class="nv">package-install</span> <span class="ss">'flymake</span><span class="p">))</span>
+            <span class="p">(</span><span class="nv">global-set-key</span> <span class="p">(</span><span class="nv">kbd</span> <span class="s">"C-; C-f"</span><span class="p">)</span> <span class="ss">'flymake-mode</span><span class="p">)</span>
+            <span class="c1">;; flymake-cursor</span>
+            <span class="p">(</span><span class="nb">when</span> <span class="p">(</span><span class="nb">not</span> <span class="p">(</span><span class="nb">require</span> <span class="ss">'flymake-cursor</span> <span class="no">nil</span> <span class="no">t</span><span class="p">))</span>
+                <span class="p">(</span><span class="nv">package-install</span> <span class="ss">'flymake-cursor</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="c1">;; Install rainbow mode if it doesn't exist, then  configure</span>
+            <span class="p">(</span><span class="nb">when</span> <span class="p">(</span><span class="nb">not</span> <span class="p">(</span><span class="nb">require</span> <span class="ss">'rainbow-mode</span> <span class="no">nil</span> <span class="no">t</span><span class="p">))</span>
+                <span class="p">(</span><span class="nv">package-install</span> <span class="ss">'rainbow-mode</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="p">(</span><span class="nb">defun</span> <span class="nv">all-css-modes</span><span class="p">()</span>
+                <span class="p">(</span><span class="nv">css-mode</span><span class="p">)</span>
+                <span class="p">(</span><span class="nv">rainbow-mode</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="p">(</span><span class="nv">add-to-list</span> <span class="ss">'auto-mode-alist</span> <span class="o">'</span><span class="p">(</span><span class="err">"</span><span class="nv">\.css</span> <span class="nv">quot</span><span class="c1">; . all-css-modes)</span>
+<span class="p">))</span>
+</code></pre></div></div>
+
+<p><strong>NOTE!!!</strong> This must be run after ALL OTHER INITIALIZATIONS are run!
+You can do this by placing it within a hook:</p>
+
+<div class="language-lisp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="nv">add-hook</span> <span class="ss">'after-init-hook</span> <span class="o">'</span><span class="p">(</span><span class="k">lambda</span> <span class="p">()</span> <span class="p">(</span><span class="nb">load</span> <span class="s">"~/.emacs.loadpackages"</span><span class="p">)))</span> <span class="c1">;; anything within the lambda will run after everything has initialized.</span>
+</code></pre></div></div>
+
+<p>As you can see, I’ve put the above logic into a file called
+“.emacs.loadpackages”. This is so I can remove it at easy if I want a
+more bare environment.</p>
+
+<p>I’d like to talk about this a little bit in detail. The first line
+ensures that emacs is version 24 or higher:</p>
+
+<div class="language-lisp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nb">&gt;=</span> <span class="nv">emacs-major-version</span> <span class="mi">24</span><span class="p">)</span> <span class="nv">PACKAGE_STUFF_HERE</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>I then add more repositories to the package manager, gnu and Marmalade
+(the base package is a bit limited, in my opinion)</p>
+
+<div class="language-lisp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="k">setq</span> <span class="nv">package-archives</span> <span class="o">'</span><span class="p">(</span>
+    <span class="p">(</span><span class="s">"ELPA"</span> <span class="o">.</span> <span class="s">"http://tromey.com/elpa/"</span><span class="p">)</span>
+    <span class="p">(</span><span class="s">"gnu"</span> <span class="o">.</span> <span class="s">"http://elpa.gnu.org/packages/"</span><span class="p">)</span>
+    <span class="p">(</span><span class="s">"marmalade"</span> <span class="o">.</span> <span class="s">"http://marmalade-repo.org/packages/"</span><span class="p">)</span>
+<span class="p">))</span>
+</code></pre></div></div>
+
+<p>This requires a refresh:</p>
+
+<div class="language-lisp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="nv">package-refresh-contents</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>And then onto the logic to see if a package exists! You can use require
+to see if a package exists, nullifying the error message it usually
+return by adding the true statement at the end. For example, this will
+return true when the package fly-make cursor is not installed:</p>
+
+<div class="language-lisp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="nb">not</span> <span class="p">(</span><span class="nb">require</span> <span class="ss">'flymake-cursor</span> <span class="no">nil</span> <span class="no">t</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>You can then add this to a complete clause:</p>
+
+<div class="language-lisp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="nb">when</span> <span class="p">(</span><span class="nb">not</span> <span class="p">(</span><span class="nb">require</span> <span class="ss">'flymake-cursor</span> <span class="no">nil</span> <span class="no">t</span><span class="p">))</span> <span class="p">(</span><span class="nv">package-install</span> <span class="ss">'flymake-cursor</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>And you’re done!</p>
+                <h2 id="issues">   Issues <a href="#issues">#</a>   </h2>
+                    
+
+<p>There a couple of things I’m still working on regarding this setup.
+Although I haven’t gotten any environment breaking errors so far,
+there’s not a lot of error checking, so I’m sure it can break if things
+are not completely right. In addition, this does not work very well for
+portable programmers, as Emacs will try to initialize ELPA, resulting in
+an exception due to not being able to contact the server.</p>
+
+<p>Please leave comments and suggestions!</p>
+    </div>
+
+    
+
+    <a class="u-url" href="/2012/02/16/automatic-package-installation-using-elpa-in-emacs-24/" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/%20/"></data>
+
+    <div class="wrapper">
+
+        <div class="footer-col-wrapper">
+            <script async src="https://cse.google.com/cse.js?cx=014358564571565173111:hnnbq4j54cy"></script>
+            <div class="gcse-search"></div>
+        </div>
+        <div class="footer-col-wrapper">
+            <div class="footer-col">
+                <p class="feed-subscribe">
+                    <a href="/feed/index.xml">
+                        <svg class="svg-icon orange">
+                            <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+                        </svg><span>Subscribe</span>
+                    </a>
+                </p>
+            </div>
+            <div class="footer-col">
+                <p>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</p>
+            </div>
+        </div>
+
+        <div class="social-links"><ul class="social-media-list"><li>
+  <a rel="me" href="https://bsky.app/profile/y.tsutsumi.io" target="_blank"
+    title="bluesky">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#bluesky"></use>
+    </svg>
+  </a>
+</li><li>
+  <a rel="me" href="https://github.com/toumorokoshi" target="_blank"
+    title="github">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#github"></use>
+    </svg>
+  </a>
+</li><li>
+  <a rel="me" href="https://www.linkedin.com/in/yusuke-tsutsumi" target="_blank"
+    title="linkedin">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#linkedin"></use>
+    </svg>
+  </a>
+</li></ul></div>
+
+    </div>
+    <script src="https://unpkg.com/mermaid@8.9.3/dist/mermaid.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: "default",
+    });
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+  });
+</script>
+
+</footer></body>
+
+</html>
