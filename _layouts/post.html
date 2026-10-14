@@ -1,6 +1,9 @@
 ---
 layout: default
 ---
+{% capture toc_content %}{% include toc.html html=content h_min=2 h_max=3 class="post-toc-list" sanitize=true item_class="post-toc-item post-toc-level-%level%" submenu_class="post-toc-sublist" anchor_class="post-toc-link" %}{% endcapture %}
+{% assign cleaned_toc = toc_content | strip %}
+<div class="post-layout{% if cleaned_toc != '' %} has-toc{% endif %}">
 <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
     <header class="post-header">
@@ -41,3 +44,19 @@ layout: default
 
     <a class="u-url" href="{{ page.url | relative_url }}" hidden></a>
 </article>
+
+{% if cleaned_toc != '' %}
+<aside class="post-sidebar" aria-label="Table of contents">
+    <div class="post-sidebar-sticky">
+        <div class="post-toc-title">On this page</div>
+        <nav class="post-toc" aria-label="Table of Contents">
+            {{ toc_content }}
+        </nav>
+    </div>
+</aside>
+{% endif %}
+</div>
+
+{% if cleaned_toc != '' %}
+<script src="{{ '/assets/js/post-toc.js' | relative_url }}"></script>
+{% endif %}

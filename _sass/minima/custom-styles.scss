@@ -1,2 +1,138 @@
 // Placeholder to allow defining custom styles that override everything else.
 // (Use `_sass/minima/custom-variables.scss` to override variable defaults)
+
+/* ==========================================================================
+   Table of Contents & Post Sidebar Navigation
+   ========================================================================== */
+
+html {
+  scroll-behavior: smooth;
+}
+
+.post-content h2,
+.post-content h3,
+.post-content h4 {
+  scroll-margin-top: 1.5rem;
+}
+
+/* Post page container expansion on wide viewports when a TOC is present */
+@media screen and (min-width: 1100px) {
+  .layout--post:has(.has-toc) .wrapper,
+  .layout--post .wrapper:has(.has-toc) {
+    max-width: 1080px;
+  }
+}
+
+.post-layout {
+  display: flex;
+  flex-direction: column;
+
+  @media screen and (min-width: 1100px) {
+    &.has-toc {
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 40px;
+
+      .post {
+        flex: 1 1 0;
+        min-width: 0;
+        max-width: 760px;
+      }
+
+      .post-sidebar {
+        display: block;
+        width: 250px;
+        flex-shrink: 0;
+        margin-top: 10px;
+      }
+    }
+  }
+
+  @media screen and (max-width: 1099px) {
+    .post-sidebar {
+      display: none;
+    }
+  }
+}
+
+.post-sidebar-sticky {
+  position: sticky;
+  top: 2rem;
+  max-height: calc(100vh - 4rem);
+  overflow-y: auto;
+  padding-left: 15px;
+  border-left: 1px solid $border-color-01;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $border-color-01;
+    border-radius: 4px;
+  }
+}
+
+.post-toc-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: $brand-color;
+  margin-bottom: 0.75rem;
+}
+
+.post-toc {
+  font-size: 0.85rem;
+  line-height: 1.4;
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .post-toc-item {
+    margin: 0;
+    padding: 0;
+  }
+
+  .post-toc-sublist {
+    margin-left: 0.85rem;
+    padding-left: 0.5rem;
+    border-left: 1px solid lighten($brand-color, 35%);
+  }
+
+  .post-toc-link {
+    display: block;
+    padding: 0.25rem 0;
+    color: lighten($text-color, 25%);
+    text-decoration: none;
+    transition: color 0.15s ease;
+    word-break: break-word;
+
+    &:hover {
+      color: $link-base-color;
+      text-decoration: none;
+    }
+
+    &.is-active {
+      color: $link-base-color;
+      font-weight: 600;
+    }
+  }
+
+  .post-toc-level-2 > .post-toc-link {
+    font-size: 0.85rem;
+  }
+
+  .post-toc-level-3 > .post-toc-link {
+    font-size: 0.78rem;
+    color: lighten($text-color, 35%);
+
+    &.is-active {
+      color: $link-base-color;
+    }
+  }
+}

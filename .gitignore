@@ -50,6 +50,7 @@ _drafts
 *.md
 assets/*
 !assets/css
+!assets/js
 vendor
 pages
 .jekyll-metadata
