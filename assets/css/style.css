@@ -321,4 +321,46 @@ table td { border: 1px solid #e8e8e8; }
 /** Grid helpers */
 @media screen and (min-width: 800px) { .one-half { width: calc(50% - (30px / 2)); } }
 
+/* ========================================================================== Table of Contents & Post Sidebar Navigation ========================================================================== */
+html { scroll-behavior: smooth; }
+
+.post-content h2, .post-content h3, .post-content h4 { scroll-margin-top: 1.5rem; }
+
+/* Post page container expansion on wide viewports when a TOC is present */
+@media screen and (min-width: 1100px) { .layout--post:has(.has-toc) .wrapper, .layout--post .wrapper:has(.has-toc) { max-width: 1080px; } }
+
+.post-layout { display: flex; flex-direction: column; }
+
+@media screen and (min-width: 1100px) { .post-layout.has-toc { flex-direction: row; align-items: flex-start; justify-content: space-between; gap: 40px; } .post-layout.has-toc .post { flex: 1 1 0; min-width: 0; max-width: 760px; } .post-layout.has-toc .post-sidebar { display: block; width: 250px; flex-shrink: 0; margin-top: 10px; } }
+
+@media screen and (max-width: 1099px) { .post-layout .post-sidebar { display: none; } }
+
+.post-sidebar-sticky { position: sticky; top: 2rem; max-height: calc(100vh - 4rem); overflow-y: auto; padding-left: 15px; border-left: 1px solid #e8e8e8; }
+
+.post-sidebar-sticky::-webkit-scrollbar { width: 4px; }
+
+.post-sidebar-sticky::-webkit-scrollbar-thumb { background-color: #e8e8e8; border-radius: 4px; }
+
+.post-toc-title { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #828282; margin-bottom: 0.75rem; }
+
+.post-toc { font-size: 0.85rem; line-height: 1.4; }
+
+.post-toc ul { list-style: none; margin: 0; padding: 0; }
+
+.post-toc .post-toc-item { margin: 0; padding: 0; }
+
+.post-toc .post-toc-sublist { margin-left: 0.85rem; padding-left: 0.5rem; border-left: 1px solid #dbdbdb; }
+
+.post-toc .post-toc-link { display: block; padding: 0.25rem 0; color: #515151; text-decoration: none; transition: color 0.15s ease; word-break: break-word; }
+
+.post-toc .post-toc-link:hover { color: #2a7ae2; text-decoration: none; }
+
+.post-toc .post-toc-link.is-active { color: #2a7ae2; font-weight: 600; }
+
+.post-toc .post-toc-level-2 > .post-toc-link { font-size: 0.85rem; }
+
+.post-toc .post-toc-level-3 > .post-toc-link { font-size: 0.78rem; color: #6a6a6a; }
+
+.post-toc .post-toc-level-3 > .post-toc-link.is-active { color: #2a7ae2; }
+
 /*# sourceMappingURL=style.css.map */

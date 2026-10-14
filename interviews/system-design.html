@@ -27,7 +27,7 @@
 
   gtag('config', 'G-325KP61WS9');
 </script>
-</head><body><header class="site-header">
+</head><body class="layout--post"><header class="site-header">
 
     <div class="wrapper"><a class="site-title" rel="author" href="/">Yusuke Tsutsumi</a><nav class="site-nav">
             <input type="checkbox" id="nav-trigger" class="nav-trigger" />
@@ -64,7 +64,10 @@
     </style>
 </header><main class="page-content" aria-label="Content">
       <div class="wrapper">
-        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+        
+
+<div class="post-layout has-toc">
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
     <header class="post-header">
         <h1 class="post-title p-name" itemprop="name headline">Distributed System Design Interview</h1>
@@ -305,6 +308,22 @@ writes until all readers have released a lock.</p>
 
     <a class="u-url" href="/interviews/system-design" hidden></a>
 </article>
+
+
+<aside class="post-sidebar" aria-label="Table of contents">
+    <div class="post-sidebar-sticky">
+        <div class="post-toc-title">On this page</div>
+        <nav class="post-toc" aria-label="Table of Contents">
+            <ul class="post-toc-list"><li class="post-toc-item post-toc-level-2"><a href="#1-gather-requirements" class="post-toc-link">1: gather requirements</a><ul class="post-toc-sublist"><li class="post-toc-item post-toc-level-3"><a href="#napkin-math-around-requirements" class="post-toc-link">napkin math around requirements</a></li><li class="post-toc-item post-toc-level-3"><a href="#figure-out-data-storage" class="post-toc-link">Figure out data storage</a></li></ul></li><li class="post-toc-item post-toc-level-2"><a href="#design-patterns-per-use-case" class="post-toc-link">Design patterns per use case</a></li><li class="post-toc-item post-toc-level-2"><a href="#design-patterns-when-considering-data-storage" class="post-toc-link">Design Patterns when considering data storage</a><ul class="post-toc-sublist"><li class="post-toc-item post-toc-level-3"><a href="#choosing-the-partitioning-key-for-data-locality" class="post-toc-link">Choosing the partitioning key for data locality.</a></li><li class="post-toc-item post-toc-level-3"><a href="#paxos" class="post-toc-link">Paxos</a></li><li class="post-toc-item post-toc-level-3"><a href="#write-ahead-log" class="post-toc-link">write-ahead log</a></li><li class="post-toc-item post-toc-level-3"><a href="#expontial-backoff" class="post-toc-link">Expontial backoff</a></li><li class="post-toc-item post-toc-level-3"><a href="#read-locks-and-write-locks" class="post-toc-link">Read locks and write locks</a></li></ul></li></ul>
+        </nav>
+    </div>
+</aside>
+
+</div>
+
+
+<script src="/assets/js/post-toc.js"></script>
+
       </div>
     </main><footer class="site-footer h-card">
     <data class="u-url" href="/%20/"></data>
