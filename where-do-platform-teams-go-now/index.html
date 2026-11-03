@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Where do platform teams go now? | Yusuke Tsutsumi</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Where do platform teams go now?" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="As an engineer who’s worked on platform teams almost my whole career, I think the time has come for teams to fundamentally change the way we work. AI has made it easy to blow right past, rewrite, and re-invent platforms when users don’t find it helpful. Platform teams do help, and I think it’s important that we change our tack to ensure healthy, common ecosystems." />
+<meta property="og:description" content="As an engineer who’s worked on platform teams almost my whole career, I think the time has come for teams to fundamentally change the way we work. AI has made it easy to blow right past, rewrite, and re-invent platforms when users don’t find it helpful. Platform teams do help, and I think it’s important that we change our tack to ensure healthy, common ecosystems." />
+<link rel="canonical" href="https://y.tsutsumi.io/where-do-platform-teams-go-now/" />
+<meta property="og:url" content="https://y.tsutsumi.io/where-do-platform-teams-go-now/" />
+<meta property="og:site_name" content="Yusuke Tsutsumi" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-11-02T07:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Where do platform teams go now?" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2026-11-02T07:00:00+00:00","datePublished":"2026-11-02T07:00:00+00:00","description":"As an engineer who’s worked on platform teams almost my whole career, I think the time has come for teams to fundamentally change the way we work. AI has made it easy to blow right past, rewrite, and re-invent platforms when users don’t find it helpful. Platform teams do help, and I think it’s important that we change our tack to ensure healthy, common ecosystems.","headline":"Where do platform teams go now?","mainEntityOfPage":{"@type":"WebPage","@id":"https://y.tsutsumi.io/where-do-platform-teams-go-now/"},"url":"https://y.tsutsumi.io/where-do-platform-teams-go-now/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" /><script async src="https://www.googletagmanager.com/gtag/js?id=G-325KP61WS9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { window.dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-325KP61WS9');
+</script>
+</head><body class="layout--post"><header class="site-header">
+
+    <div class="wrapper"><a class="site-title" rel="author" href="/">Yusuke Tsutsumi</a><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path
+                            d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger">
+                <a class="page-link" href="/tag/coding/">Coding Posts</a>
+                <a class="page-link"
+                    href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a><a class="page-link" href="/resources/">Resources</a><a class="page-link" href="/about/">About Yusuke Tsutsumi</a></div>
+        </nav></div>
+    <style>
+        .gse-control-cse td {
+            border: 0;
+        }
+
+        td.gsc-input {
+            border: 0;
+        }
+
+        td.gsc-search-button {
+            border: 0;
+        }
+
+        table.gsc-input {
+            margin-bottom: 0;
+        }
+    </style>
+</header><main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        
+
+<div class="post-layout has-toc">
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <header class="post-header">
+        <h1 class="post-title p-name" itemprop="name headline">Where do platform teams go now?</h1>
+        <p class="post-meta"><time class="dt-published" datetime="2026-11-02T07:00:00+00:00" itemprop="datePublished">
+                Nov 2, 2026
+            </time></p>
+    </header>
+
+    <div class="post-content e-content" itemprop="articleBody">
+        <p>As an engineer who’s worked on platform teams almost my whole career, I think the time has come for teams to fundamentally change the way we work. AI has made it easy to blow right past, rewrite, and re-invent platforms when users don’t find it helpful. Platform teams do help, and I think it’s important that we change our tack to ensure healthy, common ecosystems.</p>
+
+<p>In summary, I’m advocating for:</p>
+
+<ol>
+  <li>A mindset shift toward close, realtime co-design, directly with the customer.</li>
+  <li>Pursuing 10x experiments to find and explore new opportunities.</li>
+</ol>
+                <h2 id="background">   Background <a href="#background">#</a>   </h2>
+                    
+                <h3 id="why-do-platform-teams-exist">   Why do platform teams exist? <a href="#why-do-platform-teams-exist">#</a>   </h3>
+                    
+
+<p>When a company is founded, the number of employees is small, and they are generally mission-focused:</p>
+
+<ul>
+  <li>Build things to specifically address what they need.</li>
+  <li>Pick up only the layers of abstraction needed at the time.</li>
+  <li>Focus on accomplishing the organization’s goals, with long-term maintenance and priority as a secondary concern.</li>
+</ul>
+
+<p>Traditionally, this approach hits a bottleneck as a company increases in size, products, and complexity. This is where platform teams are founded. Platform teams:</p>
+
+<ul>
+  <li>Build shared abstractions that reduce the complexity of a problem for the business.</li>
+  <li>Govern the usage of shared resources.</li>
+  <li>Maintain shared services, reducing the need for operational toil on product teams.</li>
+  <li>Identify further areas of shared problems.</li>
+</ul>
+
+<p>Platform teams rarely accelerate the <em>first</em> team that encounters a problem. However, they often accelerate the second, third, and subsequent teams. They also ensure the reliability of the platform.</p>
+                <h3 id="what-has-changed-almost-anything-can-be-agentically-coded-now">   What has changed: almost anything can be agentically coded now <a href="#what-has-changed-almost-anything-can-be-agentically-coded-now">#</a>   </h3>
+                    
+
+<p>We live in a world where almost anything, no matter how complex, can be agent-coded as a solution to a problem. For example, I work in machine learning, so these include:</p>
+
+<ul>
+  <li>complex data-loading and compression strategies.</li>
+  <li>quantization evaluation tooling.</li>
+  <li>fully-featured UIs with rich metadata to analyze the data.</li>
+</ul>
+
+<p>However, this can apply to a lot of other areas, such as with web services:</p>
+
+<ul>
+  <li>telemetry pipelines</li>
+  <li>a/b testing services</li>
+  <li>pub/sub frameworks.</li>
+</ul>
+
+<p>Customers of platform teams are being bottlenecked less and less by 0-to-1 offerings from platform teams. And systems that do not provide perceived value to the end user can be easily bypassed.</p>
+
+<p>The short of it is: users can solve many of their own problems and build bespoke solutions that work for them, and in some ways improve on the offerings that “standard” infrastructure provides.</p>
+                <h3 id="the-perception-infra-is-seen-as-slow-complex-and-unreliable">   The perception: “Infra” is seen as slow, complex, and unreliable <a href="#the-perception-infra-is-seen-as-slow-complex-and-unreliable">#</a>   </h3>
+                    
+
+<p><em>NOTE</em>: perception is <em>not</em> always reality. This section serves as an honest reflection of sentiment that is worth being aware of.</p>
+
+<p>Internally at GM, when talking to users about ML pipelines, the main reason given for the bypass is that shared platforms are seen as <em>slow</em>, <em>complex</em>, and <em>unreliable</em>. The sentiment is debatable, but the rationale is:</p>
+
+<ul>
+  <li>The layers of abstraction that these systems provide are difficult for agents to understand.</li>
+  <li>Compared to a third-party company or a software-as-a-service (SaaS) platform, internal services are perceived to have more outages.</li>
+  <li>The platform is slow: existing common strategies around dataloading, delays for pipeline startup time, are seen as delays that could be bypassed with bespoke, tailor-tuned code.</li>
+</ul>
+
+<p>This is not unique: I have worked on platforms almost my whole career, and have always heard feedback mainly about speed gaps in the platform. In other words, platforms often become perceived as the exact opposite of what they are intended to be.</p>
+                <h2 id="where-to-go-from-here-the-approach-for-platforms-needs-to-change">   Where to go from here: the approach for platforms needs to change <a href="#where-to-go-from-here-the-approach-for-platforms-needs-to-change">#</a>   </h2>
+                    
+
+<p>So where do we go from here? Given how easy it is to agentically code everything, and the general sentiment around shared platforms, how can we ensure the success of a platform?</p>
+                <h3 id="the-strategy-summary">   The strategy summary <a href="#the-strategy-summary">#</a>   </h3>
+                    
+
+<p>The strategy comes down to the following:</p>
+
+<ul>
+  <li>Proactive customer outreach and co-design: solve the problems the customers are having <em>now</em>. Validate success with the customer.</li>
+  <li>Embed, with direct project contribution: don’t wait for customers to come to you. Join in on users’ standups and team meetings to hear about their problems.</li>
+  <li>Run our own 10x experiments: explore new opportunities the same way product teams do.</li>
+  <li>Speed, speed, speed: build platforms that are faster and more reliable than any agentically created system.</li>
+  <li>Minimize abstractions: build only what the customer needs.</li>
+  <li>Add guardrails where they matter.</li>
+</ul>
+                <h3 id="proactive-customer-outreach-and-co-design">   Proactive customer outreach and co-design <a href="#proactive-customer-outreach-and-co-design">#</a>   </h3>
+                    
+
+<p>“If you build it, they will come” is less true now. If an agent can just code something that works, the customer may never reach out to see what the shared infrastructure can do.</p>
+
+<p>Any new tool should be written with an explicit customer and use case in mind. Co-design is how one can discover the pain points and gaps.</p>
+
+<p>A product should only be called complete when a customer has validated it, and can say it is providing meaningful value.</p>
+
+<p>Everyone, no matter what seniority you are, should take 30 minutes out of their week to either see a customer’s workflow to understand their painpoints directly, or look at the execution chat channels to see what issues are being raised. If you see friction in someone else’s domain, start a thread and let them know!</p>
+                <h3 id="embed-with-direct-contribution">   Embed, with direct contribution <a href="#embed-with-direct-contribution">#</a>   </h3>
+                    
+
+<p>Instead of allowing product workstreams to work by themselves, embed into those teams, join their standup and sync meetings, and directly make platform improvements that the customer is asking for: level up the platform to accelerate critical user priorities.</p>
+
+<p>I had a great example of this with an internal project, where a customer decided not to use some of the libraries and abstractions we have around PyTorch to help add metadata to improve compilation to GPU-native code. We joined their meetings and had the discussion, and found the main concern was with coupling on some other legacy libraries and increased build times. From there, we moved quickly, shaved off over 30,000 dependent files, and reduced our build times by 20-30 seconds.</p>
+
+<p>That engagement continues to pay dividends, with active discussion on the merit of the abstractions around aspects like the multiple classes involved in training configuration.</p>
+                <h3 id="run-our-own-10x-experiments">   Run our own 10x experiments <a href="#run-our-own-10x-experiments">#</a>   </h3>
+                    
+
+<p>Product teams, being oriented toward a smaller business goal and not maintenance for others, have a little more freedom with their implementations. But that does not mean that platform teams can’t experiment in a similar fashion.</p>
+
+<p>We should run 10x experiments (e.g., cleanroom implementations, rewrites to lower level languages, or complete redesigns). We could try having an agent run the experiment, see what it finds, and transfer learnings.</p>
+                <h3 id="speed-speed-speed">   Speed, speed, speed <a href="#speed-speed-speed">#</a>   </h3>
+                    
+
+<p>Using the platform and its tools should be comparable to a third-party service, or the raw components. Significant overhead invites teams to skip common components altogether.</p>
+                <h3 id="minimize-abstractions-work-toward-small-utilities">   Minimize abstractions, work toward small utilities <a href="#minimize-abstractions-work-toward-small-utilities">#</a>   </h3>
+                    
+
+<p>Agents are really good at taking small abstractions, and composing them together:</p>
+
+<ul>
+  <li>They can tirelessly look for methods in the right module.</li>
+  <li>Tests can be written to validate behavior.</li>
+  <li>Agents are good at writing simple, functional code.</li>
+</ul>
+
+<p>Traditionally, abstractions have been added to attempt to reduce human cognitive load. However:</p>
+
+<ul>
+  <li>agents have no such limitation</li>
+  <li>abstractions can cause agents to introduce additional abstractions just to get the functionality they’re looking for, increasing abstractions unnecessarily.</li>
+</ul>
+
+<p>Minimizing the layers between an agent and the functionality ensures those primitives are used more often, as they would be nearly identical to the code the agent would generate anyway.</p>
+
+<p><em>If using the abstraction is more lines of code than just writing the unabstracted version, that is almost always an antipattern</em>.</p>
+                <h3 id="add-guardrails-where-they-matter">   Add guardrails where they matter <a href="#add-guardrails-where-they-matter">#</a>   </h3>
+                    
+
+<p>Platforms will always exist to provide guardrails. These are critical to ensure that the organization at large is able to stay functional, preventing a single bad actor from impacting velocity for all. These include:</p>
+
+<ul>
+  <li>quotas, queues, and usage limits to prioritize scarce resources like compute.</li>
+  <li>managing egress limits and throttling egress.</li>
+  <li>using common platforms when dealing with hairy, business-critical problems: billing, authorization, and security in general—domains where we need careful scrutiny, because a failure can sink a business.</li>
+</ul>
+                <h2 id="conclusion-and-on-to-an-exciting-new-world">   Conclusion, and on to an exciting new world <a href="#conclusion-and-on-to-an-exciting-new-world">#</a>   </h2>
+                    
+
+<p>Although platform teams are less often in the critical path for innovation in this new world, this is an exciting opportunity to meet the customer where they are, and directly contribute to the organization’s most important goals!</p>
+
+<p>Instead of playing a passive role waiting for adoption to drive impact, platform teams can be proactive, solve immediate blockers and problems, and continue to participate in our product wins!</p>
+
+<p>To do so, we need to double down on a mindset around <em>user</em> value.</p>
+
+<p>Platform teams are dead. Long live platform teams!</p>
+                <h2 id="additional-details-and-elaboration">   Additional details and elaboration <a href="#additional-details-and-elaboration">#</a>   </h2>
+                    
+                <h3 id="the-importance-of-validation-directly-with-a-customer">   The importance of validation directly with a customer <a href="#the-importance-of-validation-directly-with-a-customer">#</a>   </h3>
+                    
+
+<p>This is a big one. I have been in several meetings where the platform team has made multiple changes to improve reliability - adding monitors, re-architecting systems, etc. But the user didn’t feel like things had changed at all.</p>
+
+<p>This could be a misconception on the user’s part: they are probably doing multiple things, and they may only use your product once in a while.</p>
+
+<p>But it also could be that the fundamental problem has not yet been solved. To ensure it is:</p>
+
+<ul>
+  <li>Meet with the customer, and show them what you’ve done.</li>
+  <li>Confirm that they agree the problem is addressed.</li>
+</ul>
+    </div>
+
+    
+    <script type="module" src="https://esm.sh/gh/loueed/bsky@v1.0.0/comments"></script>
+    <bsky-comments post=""></bsky-comments>
+    
+
+    <a class="u-url" href="/where-do-platform-teams-go-now/" hidden></a>
+</article>
+
+
+<aside class="post-sidebar" aria-label="Table of contents">
+    <div class="post-sidebar-sticky">
+        <div class="post-toc-title">On this page</div>
+        <nav class="post-toc" aria-label="Table of Contents">
+            <ul class="post-toc-list"><li class="post-toc-item post-toc-level-2"><a href="#background" class="post-toc-link">Background</a><ul class="post-toc-sublist"><li class="post-toc-item post-toc-level-3"><a href="#why-do-platform-teams-exist" class="post-toc-link">Why do platform teams exist?</a></li><li class="post-toc-item post-toc-level-3"><a href="#what-has-changed-almost-anything-can-be-agentically-coded-now" class="post-toc-link">What has changed: almost anything can be agentically coded now</a></li><li class="post-toc-item post-toc-level-3"><a href="#the-perception-infra-is-seen-as-slow-complex-and-unreliable" class="post-toc-link">The perception: “Infra” is seen as slow, complex, and unreliable</a></li></ul></li><li class="post-toc-item post-toc-level-2"><a href="#where-to-go-from-here-the-approach-for-platforms-needs-to-change" class="post-toc-link">Where to go from here: the approach for platforms needs to change</a><ul class="post-toc-sublist"><li class="post-toc-item post-toc-level-3"><a href="#the-strategy-summary" class="post-toc-link">The strategy summary</a></li><li class="post-toc-item post-toc-level-3"><a href="#proactive-customer-outreach-and-co-design" class="post-toc-link">Proactive customer outreach and co-design</a></li><li class="post-toc-item post-toc-level-3"><a href="#embed-with-direct-contribution" class="post-toc-link">Embed, with direct contribution</a></li><li class="post-toc-item post-toc-level-3"><a href="#run-our-own-10x-experiments" class="post-toc-link">Run our own 10x experiments</a></li><li class="post-toc-item post-toc-level-3"><a href="#speed-speed-speed" class="post-toc-link">Speed, speed, speed</a></li><li class="post-toc-item post-toc-level-3"><a href="#minimize-abstractions-work-toward-small-utilities" class="post-toc-link">Minimize abstractions, work toward small utilities</a></li><li class="post-toc-item post-toc-level-3"><a href="#add-guardrails-where-they-matter" class="post-toc-link">Add guardrails where they matter</a></li></ul></li><li class="post-toc-item post-toc-level-2"><a href="#conclusion-and-on-to-an-exciting-new-world" class="post-toc-link">Conclusion, and on to an exciting new world</a></li><li class="post-toc-item post-toc-level-2"><a href="#additional-details-and-elaboration" class="post-toc-link">Additional details and elaboration</a><ul class="post-toc-sublist"><li class="post-toc-item post-toc-level-3"><a href="#the-importance-of-validation-directly-with-a-customer" class="post-toc-link">The importance of validation directly with a customer</a></li></ul></li></ul>
+        </nav>
+    </div>
+</aside>
+
+</div>
+
+
+<script src="/assets/js/post-toc.js"></script>
+
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/%20/"></data>
+
+    <div class="wrapper">
+
+        <div class="footer-col-wrapper">
+            <script async src="https://cse.google.com/cse.js?cx=014358564571565173111:hnnbq4j54cy"></script>
+            <div class="gcse-search"></div>
+        </div>
+        <div class="footer-col-wrapper">
+            <div class="footer-col">
+                <p class="feed-subscribe">
+                    <a href="/feed/index.xml">
+                        <svg class="svg-icon orange">
+                            <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+                        </svg><span>Subscribe</span>
+                    </a>
+                </p>
+            </div>
+            <div class="footer-col">
+                <p>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</p>
+            </div>
+        </div>
+
+        <div class="social-links"><ul class="social-media-list"><li>
+  <a rel="me" href="https://bsky.app/profile/y.tsutsumi.io" target="_blank"
+    title="bluesky">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#bluesky"></use>
+    </svg>
+  </a>
+</li><li>
+  <a rel="me" href="https://github.com/toumorokoshi" target="_blank"
+    title="github">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#github"></use>
+    </svg>
+  </a>
+</li><li>
+  <a rel="me" href="https://www.linkedin.com/in/yusuke-tsutsumi" target="_blank"
+    title="linkedin">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#linkedin"></use>
+    </svg>
+  </a>
+</li></ul></div>
+
+    </div>
+    <script src="https://unpkg.com/mermaid@8.9.3/dist/mermaid.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: "default",
+    });
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+  });
+</script>
+
+</footer></body>
+
+</html>

@@ -1,4 +1,171 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2026-11-02T00:04:30+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">How I code in 2026</title><link href="https://y.tsutsumi.io/how-i-code-in-2026/" rel="alternate" type="text/html" title="How I code in 2026" /><published>2026-10-05T07:00:00+00:00</published><updated>2026-10-05T07:00:00+00:00</updated><id>https://y.tsutsumi.io/how-i-code-in-2026</id><content type="html" xml:base="https://y.tsutsumi.io/how-i-code-in-2026/"><![CDATA[<ul>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2026-11-03T00:04:16+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Where do platform teams go now?</title><link href="https://y.tsutsumi.io/where-do-platform-teams-go-now/" rel="alternate" type="text/html" title="Where do platform teams go now?" /><published>2026-11-02T07:00:00+00:00</published><updated>2026-11-02T07:00:00+00:00</updated><id>https://y.tsutsumi.io/where-do-platform-teams-go-now</id><content type="html" xml:base="https://y.tsutsumi.io/where-do-platform-teams-go-now/"><![CDATA[<p>As an engineer who’s worked on platform teams almost my whole career, I think the time has come for teams to fundamentally change the way we work. AI has made it easy to blow right past, rewrite, and re-invent platforms when users don’t find it helpful. Platform teams do help, and I think it’s important that we change our tack to ensure healthy, common ecosystems.</p>
+
+<p>In summary, I’m advocating for:</p>
+
+<ol>
+  <li>A mindset shift toward close, realtime co-design, directly with the customer.</li>
+  <li>Pursuing 10x experiments to find and explore new opportunities.</li>
+</ol>
+
+<h2 id="background">Background</h2>
+
+<h3 id="why-do-platform-teams-exist">Why do platform teams exist?</h3>
+
+<p>When a company is founded, the number of employees is small, and they are generally mission-focused:</p>
+
+<ul>
+  <li>Build things to specifically address what they need.</li>
+  <li>Pick up only the layers of abstraction needed at the time.</li>
+  <li>Focus on accomplishing the organization’s goals, with long-term maintenance and priority as a secondary concern.</li>
+</ul>
+
+<p>Traditionally, this approach hits a bottleneck as a company increases in size, products, and complexity. This is where platform teams are founded. Platform teams:</p>
+
+<ul>
+  <li>Build shared abstractions that reduce the complexity of a problem for the business.</li>
+  <li>Govern the usage of shared resources.</li>
+  <li>Maintain shared services, reducing the need for operational toil on product teams.</li>
+  <li>Identify further areas of shared problems.</li>
+</ul>
+
+<p>Platform teams rarely accelerate the <em>first</em> team that encounters a problem. However, they often accelerate the second, third, and subsequent teams. They also ensure the reliability of the platform.</p>
+
+<h3 id="what-has-changed-almost-anything-can-be-agentically-coded-now">What has changed: almost anything can be agentically coded now</h3>
+
+<p>We live in a world where almost anything, no matter how complex, can be agent-coded as a solution to a problem. For example, I work in machine learning, so these include:</p>
+
+<ul>
+  <li>complex data-loading and compression strategies.</li>
+  <li>quantization evaluation tooling.</li>
+  <li>fully-featured UIs with rich metadata to analyze the data.</li>
+</ul>
+
+<p>However, this can apply to a lot of other areas, such as with web services:</p>
+
+<ul>
+  <li>telemetry pipelines</li>
+  <li>a/b testing services</li>
+  <li>pub/sub frameworks.</li>
+</ul>
+
+<p>Customers of platform teams are being bottlenecked less and less by 0-to-1 offerings from platform teams. And systems that do not provide perceived value to the end user can be easily bypassed.</p>
+
+<p>The short of it is: users can solve many of their own problems and build bespoke solutions that work for them, and in some ways improve on the offerings that “standard” infrastructure provides.</p>
+
+<h3 id="the-perception-infra-is-seen-as-slow-complex-and-unreliable">The perception: “Infra” is seen as slow, complex, and unreliable</h3>
+
+<p><em>NOTE</em>: perception is <em>not</em> always reality. This section serves as an honest reflection of sentiment that is worth being aware of.</p>
+
+<p>Internally at GM, when talking to users about ML pipelines, the main reason given for the bypass is that shared platforms are seen as <em>slow</em>, <em>complex</em>, and <em>unreliable</em>. The sentiment is debatable, but the rationale is:</p>
+
+<ul>
+  <li>The layers of abstraction that these systems provide are difficult for agents to understand.</li>
+  <li>Compared to a third-party company or a software-as-a-service (SaaS) platform, internal services are perceived to have more outages.</li>
+  <li>The platform is slow: existing common strategies around dataloading, delays for pipeline startup time, are seen as delays that could be bypassed with bespoke, tailor-tuned code.</li>
+</ul>
+
+<p>This is not unique: I have worked on platforms almost my whole career, and have always heard feedback mainly about speed gaps in the platform. In other words, platforms often become perceived as the exact opposite of what they are intended to be.</p>
+
+<h2 id="where-to-go-from-here-the-approach-for-platforms-needs-to-change">Where to go from here: the approach for platforms needs to change</h2>
+
+<p>So where do we go from here? Given how easy it is to agentically code everything, and the general sentiment around shared platforms, how can we ensure the success of a platform?</p>
+
+<h3 id="the-strategy-summary">The strategy summary</h3>
+
+<p>The strategy comes down to the following:</p>
+
+<ul>
+  <li>Proactive customer outreach and co-design: solve the problems the customers are having <em>now</em>. Validate success with the customer.</li>
+  <li>Embed, with direct project contribution: don’t wait for customers to come to you. Join in on users’ standups and team meetings to hear about their problems.</li>
+  <li>Run our own 10x experiments: explore new opportunities the same way product teams do.</li>
+  <li>Speed, speed, speed: build platforms that are faster and more reliable than any agentically created system.</li>
+  <li>Minimize abstractions: build only what the customer needs.</li>
+  <li>Add guardrails where they matter.</li>
+</ul>
+
+<h3 id="proactive-customer-outreach-and-co-design">Proactive customer outreach and co-design</h3>
+
+<p>“If you build it, they will come” is less true now. If an agent can just code something that works, the customer may never reach out to see what the shared infrastructure can do.</p>
+
+<p>Any new tool should be written with an explicit customer and use case in mind. Co-design is how one can discover the pain points and gaps.</p>
+
+<p>A product should only be called complete when a customer has validated it, and can say it is providing meaningful value.</p>
+
+<p>Everyone, no matter what seniority you are, should take 30 minutes out of their week to either see a customer’s workflow to understand their painpoints directly, or look at the execution chat channels to see what issues are being raised. If you see friction in someone else’s domain, start a thread and let them know!</p>
+
+<h3 id="embed-with-direct-contribution">Embed, with direct contribution</h3>
+
+<p>Instead of allowing product workstreams to work by themselves, embed into those teams, join their standup and sync meetings, and directly make platform improvements that the customer is asking for: level up the platform to accelerate critical user priorities.</p>
+
+<p>I had a great example of this with an internal project, where a customer decided not to use some of the libraries and abstractions we have around PyTorch to help add metadata to improve compilation to GPU-native code. We joined their meetings and had the discussion, and found the main concern was with coupling on some other legacy libraries and increased build times. From there, we moved quickly, shaved off over 30,000 dependent files, and reduced our build times by 20-30 seconds.</p>
+
+<p>That engagement continues to pay dividends, with active discussion on the merit of the abstractions around aspects like the multiple classes involved in training configuration.</p>
+
+<h3 id="run-our-own-10x-experiments">Run our own 10x experiments</h3>
+
+<p>Product teams, being oriented toward a smaller business goal and not maintenance for others, have a little more freedom with their implementations. But that does not mean that platform teams can’t experiment in a similar fashion.</p>
+
+<p>We should run 10x experiments (e.g., cleanroom implementations, rewrites to lower level languages, or complete redesigns). We could try having an agent run the experiment, see what it finds, and transfer learnings.</p>
+
+<h3 id="speed-speed-speed">Speed, speed, speed</h3>
+
+<p>Using the platform and its tools should be comparable to a third-party service, or the raw components. Significant overhead invites teams to skip common components altogether.</p>
+
+<h3 id="minimize-abstractions-work-toward-small-utilities">Minimize abstractions, work toward small utilities</h3>
+
+<p>Agents are really good at taking small abstractions, and composing them together:</p>
+
+<ul>
+  <li>They can tirelessly look for methods in the right module.</li>
+  <li>Tests can be written to validate behavior.</li>
+  <li>Agents are good at writing simple, functional code.</li>
+</ul>
+
+<p>Traditionally, abstractions have been added to attempt to reduce human cognitive load. However:</p>
+
+<ul>
+  <li>agents have no such limitation</li>
+  <li>abstractions can cause agents to introduce additional abstractions just to get the functionality they’re looking for, increasing abstractions unnecessarily.</li>
+</ul>
+
+<p>Minimizing the layers between an agent and the functionality ensures those primitives are used more often, as they would be nearly identical to the code the agent would generate anyway.</p>
+
+<p><em>If using the abstraction is more lines of code than just writing the unabstracted version, that is almost always an antipattern</em>.</p>
+
+<h3 id="add-guardrails-where-they-matter">Add guardrails where they matter</h3>
+
+<p>Platforms will always exist to provide guardrails. These are critical to ensure that the organization at large is able to stay functional, preventing a single bad actor from impacting velocity for all. These include:</p>
+
+<ul>
+  <li>quotas, queues, and usage limits to prioritize scarce resources like compute.</li>
+  <li>managing egress limits and throttling egress.</li>
+  <li>using common platforms when dealing with hairy, business-critical problems: billing, authorization, and security in general—domains where we need careful scrutiny, because a failure can sink a business.</li>
+</ul>
+
+<h2 id="conclusion-and-on-to-an-exciting-new-world">Conclusion, and on to an exciting new world</h2>
+
+<p>Although platform teams are less often in the critical path for innovation in this new world, this is an exciting opportunity to meet the customer where they are, and directly contribute to the organization’s most important goals!</p>
+
+<p>Instead of playing a passive role waiting for adoption to drive impact, platform teams can be proactive, solve immediate blockers and problems, and continue to participate in our product wins!</p>
+
+<p>To do so, we need to double down on a mindset around <em>user</em> value.</p>
+
+<p>Platform teams are dead. Long live platform teams!</p>
+
+<h2 id="additional-details-and-elaboration">Additional details and elaboration</h2>
+
+<h3 id="the-importance-of-validation-directly-with-a-customer">The importance of validation directly with a customer</h3>
+
+<p>This is a big one. I have been in several meetings where the platform team has made multiple changes to improve reliability - adding monitors, re-architecting systems, etc. But the user didn’t feel like things had changed at all.</p>
+
+<p>This could be a misconception on the user’s part: they are probably doing multiple things, and they may only use your product once in a while.</p>
+
+<p>But it also could be that the fundamental problem has not yet been solved. To ensure it is:</p>
+
+<ul>
+  <li>Meet with the customer, and show them what you’ve done.</li>
+  <li>Confirm that they agree the problem is addressed.</li>
+</ul>]]></content><author><name></name></author><category term="coding" /><summary type="html"><![CDATA[As an engineer who’s worked on platform teams almost my whole career, I think the time has come for teams to fundamentally change the way we work. AI has made it easy to blow right past, rewrite, and re-invent platforms when users don’t find it helpful. Platform teams do help, and I think it’s important that we change our tack to ensure healthy, common ecosystems.]]></summary></entry><entry><title type="html">How I code in 2026</title><link href="https://y.tsutsumi.io/how-i-code-in-2026/" rel="alternate" type="text/html" title="How I code in 2026" /><published>2026-10-05T07:00:00+00:00</published><updated>2026-10-05T07:00:00+00:00</updated><id>https://y.tsutsumi.io/how-i-code-in-2026</id><content type="html" xml:base="https://y.tsutsumi.io/how-i-code-in-2026/"><![CDATA[<ul>
   <li><a href="#tldr">TLDR</a></li>
   <li><a href="#agents-write-the-code">Agents write the code</a>
     <ul>
@@ -808,128 +975,4 @@ b. A random sampling of the data you would like to evalute of size X</li>
       <li>this would be helpful to see how many “categories” of data there are.</li>
     </ul>
   </li>
-</ul>]]></content><author><name></name></author><category term="coding" /><category term="ml" /><summary type="html"><![CDATA[Data Uniqueness via Gradient Similarity]]></summary></entry><entry><title type="html">Setting up Hibernate on Linux</title><link href="https://y.tsutsumi.io/setting-up-hibernate-linux" rel="alternate" type="text/html" title="Setting up Hibernate on Linux" /><published>2026-02-23T07:00:00+00:00</published><updated>2026-02-23T07:00:00+00:00</updated><id>https://y.tsutsumi.io/setting-up-hibernate-linux</id><content type="html" xml:base="https://y.tsutsumi.io/setting-up-hibernate-linux"><![CDATA[<h1 id="setting-up-hibernate-on-linux">Setting up Hibernate on Linux</h1>
-
-<p>My Framework 13 laptop has an issue where the battery drains very quickly, even when sleeping.</p>
-
-<p>This seems to be a known issue with Framework laptops. Since I often just use my work computer during the weekdays, the laptop is dead before I can use it again.</p>
-
-<h2 id="reviewing-sleep-states-available">Reviewing sleep states available</h2>
-
-<p>In Linux, there are specific levels of sleep states that can be used:</p>
-
-<ul>
-  <li>freeze (S0ix)</li>
-  <li>standby (S1): rarely used in modern systems.</li>
-  <li>mem (S3): hardware is powered off except ram.</li>
-  <li>disk (S4): hibernate. system state is moved to disk.</li>
-</ul>
-
-<h2 id="checking-power-states-available">Checking power states available</h2>
-
-<p>First I checked what was available with:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> /sys/power/state
-<span class="c"># freeze mem</span>
-</code></pre></div></div>
-
-<p>So freeze and mem are available.</p>
-
-<h2 id="configuring-hibernate-with-luks">Configuring hibernate with LUKS</h2>
-
-<p>I like to use LUKS (Linux Unified Key Setup) to encrypt my drives. To do so with hibernate, the following workflow is required:</p>
-
-<ol>
-  <li>use the bootloader to loader the initramfs</li>
-  <li>have the initramfs decrypt the LVM volume that contains the main partition as well as swap.</li>
-  <li>the initramfs detects that the swap partition is available and restores the system state from it, if a hibernate image is found.</li>
-</ol>
-
-<h3 id="configuring-the-partitions">Configuring the partitions</h3>
-
-<p>The final partition structure will look something like:</p>
-
-<ul>
-  <li>/dev/nvme0n1p1 (EFI / bootloader)</li>
-  <li>/dev/nvme0n1p2 Linux filesystem partition: an unencrypted boot partition that contains the OS needed to perform the decryption of the encrypted drive.</li>
-  <li>/dev/nvme0n1p3 Linux filesystem partition: the encrypted disk partition.
-    <ul>
-      <li>/dev/mapper/dm-crypt-0
-        <ul>
-          <li>/dev/mapper/ubuntu–vg-ubuntu–lv: the actual OS.</li>
-          <li>/dev/mapper/swap: the swap space that the partition will hibernate to.</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="steps">Steps</h2>
-
-<p><em>NOTE</em>: these were with my install of ubuntu 25.10. YMMV.</p>
-
-<h3 id="resize-the-partition-and-make-a-swap-partition">Resize the partition and make a swap partition</h3>
-
-<ol>
-  <li>use a live USB so I can modify the partition</li>
-  <li>open the luks partition: <code class="language-plaintext highlighter-rouge">sudo cryptsetup open ${partition} ${lvm-volume-name}</code></li>
-  <li>reduce the size: <code class="language-plaintext highlighter-rouge">sudo lvreduce -r -L -128G /dev/mapper/${root-lvm-partition}</code></li>
-  <li>create the volume: <code class="language-plaintext highlighter-rouge">sudo lvcreate -L 128G -n swap ${lvm-volume-name}</code></li>
-  <li>format as swap: <code class="language-plaintext highlighter-rouge">sudo mkswap /dev/mapper/${swap-lvm-partition}</code></li>
-</ol>
-
-<h3 id="make-the-partition-swap">Make the partition swap</h3>
-
-<p>This ensures the swap partition is available on boot to suspend to.</p>
-
-<p>When back into the OS:</p>
-
-<ol>
-  <li><code class="language-plaintext highlighter-rouge">sudo swapon /dev/mapper/${swap-partition-name}</code></li>
-  <li>Update <code class="language-plaintext highlighter-rouge">/etc/fstab</code> to mount the swap on boot:</li>
-</ol>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/dev/mapper/{swap-partition-name} none swap sw 0 0
-</code></pre></div></div>
-
-<h3 id="set-the-swap-partition-as-a-hibernate-partition">set the swap partition as a hibernate partition</h3>
-
-<p>This tells the kernel where to look for the hibernate image when resuming.</p>
-
-<ol>
-  <li>modify <code class="language-plaintext highlighter-rouge">GRUB_CMDLINE_LINUX_DEFAULT</code> in <code class="language-plaintext highlighter-rouge">/etc/grub/config</code> with:</li>
-</ol>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>resume=/dev/mapper/{swap-partition-name}
-</code></pre></div></div>
-
-<ol>
-  <li>run <code class="language-plaintext highlighter-rouge">sudo update-grub</code></li>
-</ol>
-
-<h3 id="enable-hibernate-in-the-linux-kernel-image">enable hibernate in the linux kernel image</h3>
-
-<p>This is required for the initramfs to know how to restore from the hibernate image.</p>
-
-<ol>
-  <li>create file <code class="language-plaintext highlighter-rouge">/etc/initramfs-tools/conf.d/resume</code> with:</li>
-</ol>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>RESUME=/dev/mapper/{swap-partition-name}
-</code></pre></div></div>
-
-<ol>
-  <li>run <code class="language-plaintext highlighter-rouge">sudo update-initramfs -u -k all</code></li>
-</ol>
-
-<h3 id="disable-secure-boot">disable secure boot</h3>
-
-<p>The last step is to disable secure boot in the BIOS.</p>
-
-<p>Theoretically there is a way to sign the hibernated image with a TPM (trusted partner module) or a MOK (machine-only-key), but I didn’t want to have to re-encrypt my volume.</p>
-
-<h2 id="conclusion">Conclusion</h2>
-
-<p>Success! After the above, I can now hibernate my laptop.</p>
-
-<p>Even with my 64GB of RAM, the hibernate / restore has been pretty quick so far: roughly 20 seconds at most to come back up from a full hibernate. Good solution for laptops I use once in 24 hours.</p>]]></content><author><name></name></author><category term="linux" /><category term="hibernate" /><summary type="html"><![CDATA[Setting up Hibernate on Linux]]></summary></entry></feed>
+</ul>]]></content><author><name></name></author><category term="coding" /><category term="ml" /><summary type="html"><![CDATA[Data Uniqueness via Gradient Similarity]]></summary></entry></feed>
