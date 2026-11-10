@@ -1,4 +1,219 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2026-11-09T00:04:29+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Where do platform teams go now?</title><link href="https://y.tsutsumi.io/where-do-platform-teams-go-now/" rel="alternate" type="text/html" title="Where do platform teams go now?" /><published>2026-11-02T07:00:00+00:00</published><updated>2026-11-02T07:00:00+00:00</updated><id>https://y.tsutsumi.io/where-do-platform-teams-go-now</id><content type="html" xml:base="https://y.tsutsumi.io/where-do-platform-teams-go-now/"><![CDATA[<p>As an engineer who’s worked on platform teams almost my whole career, I think the time has come for teams to fundamentally change the way we work. AI has made it easy to blow right past, rewrite, and re-invent platforms when users don’t find it helpful. Platform teams do help, and I think it’s important that we change our tack to ensure healthy, common ecosystems.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2026-11-10T00:04:26+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Building a small form factor PC</title><link href="https://y.tsutsumi.io/sff-pc/" rel="alternate" type="text/html" title="Building a small form factor PC" /><published>2026-11-09T07:00:00+00:00</published><updated>2026-11-09T07:00:00+00:00</updated><id>https://y.tsutsumi.io/sff-pc</id><content type="html" xml:base="https://y.tsutsumi.io/sff-pc/"><![CDATA[<p><em>note</em>: this is a really old post that I never published. I’m doing it now, but obviously pricing of components is significantly higher than it was when I wrote this in June of 2025.</p>
+
+<h2 id="expedition-33-the-catalyst-for-building-my-own-sff-pc">Expedition 33: the catalyst for building my own SFF PC</h2>
+
+<p><a href="https://www.expedition33.com/">Clair Obscur: Expedition 33</a> is an amazing game.
+I’m only a couple hours into it, and I’m already in love with the atmosphere,
+the gameplay, and the story.</p>
+
+<p>That said, the game plays like a potato on my 10-year-old desktop and 7-year-old
+GPU. I’m getting 19 frames per second, the battles are particularly
+sensitive to timing, and the frame rates are slow (with 20+ ms of streaming and bluetooth latency). I don’t think I’m experiencing the game like I should.</p>
+
+<p>Also I’ve been interested in building a new computer for a while, especially a small form
+factor PC, where the size is considerably smaller (20 liters or less) than that
+of a standard desktop (40 liters or greater). So onto my journey with an SFF PC!</p>
+
+<h2 id="choosing-the-components">Choosing the Components</h2>
+
+<p>Part one of the journey is to choose the components. Building an SFF PC feels
+like a constraints problem, starting with the volume of the pieces down to
+what’s actually compatible. Some of the considerations include:</p>
+
+<ul>
+  <li>The actual volume of things like heatsinks, fans, and watercoolers. Even a few
+millimeters difference can prevent a component from fitting.</li>
+</ul>
+
+<h3 id="power-supply">Power Supply</h3>
+
+<ul>
+  <li>Decision: <a href="https://www.newegg.com/corsair-sf-series-sfx-1000-w-80-plus-platinum-certified-power-supply-cp-9020257-na/p/N82E16817139332">Corsair SF Series SFX 1000w</a></li>
+</ul>
+
+<p>The total power draw across the GPU, CPU, motherboard, RAM, disk, etc. has to
+be less than the total power output of the PSU (power supply unit).</p>
+
+<p>These days in 2025, the CPU and GPU are likely the main factors for power draw.
+GPUs especially have gotten quite power hungry, with the 4090 drawing a whopping
+450 watts of power!</p>
+
+<p>But for most GPUs you won’t see a draw beyond 250 watts. Combine that with CPUs and their 150
+watt power draw max, and you’re looking at wanting at least 500 watts.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Power Draw (Watts)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>High-end GPU</strong> (RTX 4080/4090)</td>
+      <td>320-450</td>
+    </tr>
+    <tr>
+      <td><strong>High-end CPU</strong> (Intel i9-14900K / AMD Ryzen 9 7950X)</td>
+      <td>125-253</td>
+    </tr>
+    <tr>
+      <td><strong>Motherboard</strong></td>
+      <td>15-30</td>
+    </tr>
+    <tr>
+      <td><strong>RAM</strong> (32GB DDR5)</td>
+      <td>5-10</td>
+    </tr>
+    <tr>
+      <td><strong>NVMe SSD</strong></td>
+      <td>3-8</td>
+    </tr>
+    <tr>
+      <td><strong>Case fans</strong> (4-6 fans)</td>
+      <td>10-20</td>
+    </tr>
+    <tr>
+      <td><strong>CPU cooler</strong></td>
+      <td>5-15</td>
+    </tr>
+    <tr>
+      <td><strong>USB devices</strong></td>
+      <td>5-10</td>
+    </tr>
+    <tr>
+      <td><strong>Other components</strong></td>
+      <td>10-20</td>
+    </tr>
+    <tr>
+      <td><strong>Total System Power</strong></td>
+      <td><strong>500-820</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<p><em>Note: These are typical power draws under normal load. Peak power draw during
+intensive gaming or rendering can be 10-20% higher.</em></p>
+
+<h3 id="choosing-a-case">Choosing a case</h3>
+
+<p>Decision: <a href="https://www.newegg.com/lian-li-mini-itx-aluminum-steel-cases-silver-matte-black-a4-h2o-a4/p/2AM-000Z-00095?Item=9SIAFSTGMK0722">Lian Li A4
+H2O</a>.</p>
+
+<p>It turns out the case is one of the hardest parts of making a small form factor
+PC - since many of the popular cases were out of stock or were pre-order only.
+The following was out of stock when I checked in June of 2025:</p>
+
+<ul>
+  <li><a href="https://ncased.com/collections/t-series">NCASE T series</a>.</li>
+</ul>
+
+<p>If I need to buy it soon, the <a href="https://www.coolermaster.com/en-us/products/masterbox-nr200/?tab=tech_spec">NR200 is solid and you can’t go
+wrong</a>.</p>
+
+<p>I ended up going with the Lian Li A4. The main reasons are:</p>
+
+<ul>
+  <li>Supports Liquid Cooling (which seems critical to get good thermals)</li>
+  <li>Only 11 liters. There are some cases which go as low as 8 liters with a GPU, but
+I felt 11 was a good deal smaller than the standard NR200 which would make it
+a fun challenge.</li>
+  <li>I’d have to use a riser to connect the GPU to the motherboard via a cable, which is another fun one!</li>
+</ul>
+
+<p>Apparently reviews say that a water cooler (all-in-one or AIO) is sufficient,
+so this also makes the build a bit easier to only require a single cooler
+component to install.</p>
+
+<h3 id="choosing-a-motherboard">Choosing a motherboard</h3>
+
+<p>Decision: <a href="https://www.newegg.com/asus-rog-strix-x870-i-gaming-wifi-mini-itx-amd-motherboard-amd-x870-am5/p/N82E16813119685R?Item=N82E16813119685R">ROG Strix X870-I Gaming
+WIFI</a></p>
+
+<p>For a motherboard, my main requirement was something that supported USB4:
+although extremely unlikely, I have multiple Thunderbolt 3/4 docks and wanted to
+see if eventually I could just plug it into one of those vs reroute all the
+cables if I ever wanted to use this directly.</p>
+
+<p>That said, it’s not as simple as a USB4 port being available: with the fact that
+I’ll be using a dedicated GPU, I would have to get hybrid graphics (with GPU and
+CPU) working in Linux, then connect that. This is a different configuration than
+what I intend to use (with streaming via a virtualized monitor).</p>
+
+<p>Ultimately I went with the ROG Strix X870-I: with 2 USB4 ports and multiple
+others including Wifi7, it’s the most future-proof, especially as I’ll likely be
+upgrading the GPU as time goes on.</p>
+
+<h3 id="cpu">CPU</h3>
+
+<ul>
+  <li>Decision: <a href="https://www.newegg.com/amd-ryzen-7-9000-series-ryzen-7-9800x3d-granite-ridge-zen-5-socket-am5-desktop-cpu-processor/p/N82E16819113877">AMD 9800X3D</a></li>
+</ul>
+
+<p>The current top of the line CPU for gaming is the AMD 9800X3D. So I went with that.</p>
+
+<h3 id="gpu">GPU</h3>
+
+<p>Decision: <a href="https://www.newegg.com/gigabyte-gv-r9060xtgaming-oc-16gd-radeon-rx-9060-xt-16gb-graphics-card-triple-fans/p/N82E16814932806">16GB AMD 9060XT</a></p>
+
+<p>For the GPU, I went with an AMD GPU, primarily due to the price: during 2025 I honestly wasn’t thinking too much about local AI, so did not think about the disadvantages that running on AMD would cause, performance-wise. That said with 2026 agents perhaps it’s easier to optimize.</p>
+
+<p>Regardless, it was an affordable option, and cost me roughly $300 at the time. In particular, I opted for 16GB of VRAM, because the main bottleneck for this rendering can often be the need to pull the data from the host RAM into the GPU DRAM. At 1440p resolution and high/epic presets, Expedition 33 has a 10-20% higher frame rate. And I think it, to some extent, future-proofs me for other games.</p>
+
+<h3 id="ram">RAM</h3>
+
+<p>Decision: <a href="https://www.newegg.com/team-group-t-create-expert-96gb-ddr5-6400-cas-latency-cl32-desktop-memory-black/p/N82E16820985240">T-Create 96gb (2x48gb) DDR5-6400</a>.</p>
+
+<ul>
+  <li>For SFF PCs, only get low-profile RAM sticks (which will ensure room for CPU heatsinks)</li>
+</ul>
+
+<p>For RAM, I guess the motherboard has already decided that it will be DDR5.</p>
+
+<p>I looked for the largest amount of RAM I could get, which looked to be 96gb in 2025.</p>
+
+<p>I chose 6400 because it was $60 (20%) cheaper than 6800, and it sounds like
+ultimately the RAM speed is not a huge impact on gaming performance (~1 FPS on
+most games).</p>
+
+<h3 id="aio-cooler">AIO cooler</h3>
+
+<ul>
+  <li>Decision: <a href="https://www.newegg.com/p/3C6-03AW-001P0">DeepCool LS520 SE</a></li>
+</ul>
+
+<p>You have to be careful with the liquid cooling as well, there are several concerns:</p>
+
+<ul>
+  <li>The height of the cap on the CPU (some RGB models have really large ones that
+protrude from the case)</li>
+  <li>The size of the fans: the case itself can only fit smaller (120mm fans), so
+you have to buy an AIO cooler that fits.</li>
+</ul>
+
+<p>The A4 H2O allows only 55mm of clearance for the pump block on top of the CPU. I
+found the DeepCool LS520 SE has the exact clearance I need, and 120mm fans. And
+the thermal paste is pre-applied!</p>
+
+<h3 id="the-operating-system">The operating system</h3>
+
+<p>For the operating system, I went with a vanilla Ubuntu installer. This was primarily because I was hoping for the stability of the LTS releases, as well as the fact that Moonlight had Debian packages for them.</p>
+
+<p>However, I ran into snags with drivers: the LTS releases used an outdated Linux kernel which didn’t support my GPU, nor the Wifi 7 module my motherboard uses.</p>
+
+<p>Ultimately, I upgraded to Ubuntu 25.04, then 25.10 when that became available. I also used the <a href="https://ubuntu.com/kernel/lifecycle">hardware enablement</a> packages to support my drivers.</p>
+
+<p>If I had to re-do, I might just use something like Arch Linux, where I don’t have to worry about drivers.</p>
+
+<p>For a few other tricks I used, see <a href="/ubuntu-sunshine/">my other blog post about streaming with moonlight</a>.</p>
+
+<h2 id="end-result">End Result</h2>
+
+<p><img src="../../assets/2026-11-09-sff-pc.png" alt="Setting up Ubuntu on the open SFF PC build" /></p>
+
+<p><img src="../../assets/2026-11-09-sff-pc-1.png" alt="The finished SFF PC next to the original full-tower desktop" /></p>
+
+<p>The finished product, next to my original tower! The PC sits in my closet, streaming games via Moonlight.</p>]]></content><author><name></name></author><category term="coding" /><summary type="html"><![CDATA[note: this is a really old post that I never published. I’m doing it now, but obviously pricing of components is significantly higher than it was when I wrote this in June of 2025.]]></summary></entry><entry><title type="html">Where do platform teams go now?</title><link href="https://y.tsutsumi.io/where-do-platform-teams-go-now/" rel="alternate" type="text/html" title="Where do platform teams go now?" /><published>2026-11-02T07:00:00+00:00</published><updated>2026-11-02T07:00:00+00:00</updated><id>https://y.tsutsumi.io/where-do-platform-teams-go-now</id><content type="html" xml:base="https://y.tsutsumi.io/where-do-platform-teams-go-now/"><![CDATA[<p>As an engineer who’s worked on platform teams almost my whole career, I think the time has come for teams to fundamentally change the way we work. AI has made it easy to blow right past, rewrite, and re-invent platforms when users don’t find it helpful. Platform teams do help, and I think it’s important that we change our tack to ensure healthy, common ecosystems.</p>
 
 <p>In summary, I’m advocating for:</p>
 
@@ -910,69 +1125,4 @@ varying success. Despite that, I’m still skeptical and looking for ways to get
 
 <p>I think for some software engineers, they’re basically there today. GasTown seems like it’s run fairly automated with agents working on it all the time. I don’t think throwing agents at compilers and browsers has produced a working product either.</p>
 
-<p>For me personally, I don’t know if I have a project that really is accelerated by 100 autonomous agents all writing code. But I’d like to start climbing this maturity ladder to see if I can squeeze out a little bit more of that time to think about the problems I’m really interested in diving into.</p>]]></content><author><name></name></author><category term="coding" /><summary type="html"><![CDATA[The new AI Era]]></summary></entry><entry><title type="html">DUGS: Data Uniquess via Gradient Similarity</title><link href="https://y.tsutsumi.io/dugs" rel="alternate" type="text/html" title="DUGS: Data Uniquess via Gradient Similarity" /><published>2026-03-08T07:00:00+00:00</published><updated>2026-03-08T07:00:00+00:00</updated><id>https://y.tsutsumi.io/data-uniqueness-via-gradient-similarity-dugs</id><content type="html" xml:base="https://y.tsutsumi.io/dugs"><![CDATA[<h1 id="data-uniqueness-via-gradient-similarity">Data Uniqueness via Gradient Similarity</h1>
-
-<h2 id="summary">Summary</h2>
-
-<p>This post outlines an experiment I ran to try to better understand the unique data inputs I’m using for model training. This is a modification of DVGS - “Data Valuation via Gradient Similarity”, that I’m calling DUGS (data uniquess via gradient simlarity).</p>
-
-<h2 id="algorithm-high-level">Algorithm high level</h2>
-
-<p>The high level idea is:</p>
-
-<ol>
-  <li>Grab the following:
-a. An already trained model
-b. A random sampling of the data you would like to evalute of size X</li>
-  <li>Initialize a map of <code class="language-plaintext highlighter-rouge">{data_point_id, uniquess_dimension}</code> to store differing data points.</li>
-  <li>Run a training pass on each datapoint. Calculate the gradient up to a layer Z.</li>
-  <li>Reduce the dimensionality of that vector via a random matrix <code class="language-plaintext highlighter-rouge">{gradient_size, uniqueness_dimension}</code> to reduce the cost of calculating gradient similarity. (Johnson-Lindenstrauss projections)</li>
-  <li>Use cosine similarity to compare it to existing vectors in the list
-    <ol>
-      <li>if the similarity is less than some threshold (0.3 by default) from any of the previous data points, add the new data point to the list.</li>
-    </ol>
-  </li>
-</ol>
-
-<h2 id="tunable-parameters">Tunable parameters</h2>
-
-<h3 id="data-set-size">Data Set Size</h3>
-
-<p>The size of the data set you are running the evaluation on will affect the runtime of the algorithm linearly.</p>
-
-<h3 id="uniqueness-dimension-via-johnson-lindestrauss-lemma-error">Uniqueness dimension via Johnson-lindestrauss lemma error</h3>
-
-<p>The smaller the dimension size you can reduce to, the more efficient the calculation is.</p>
-
-<p>The Johnson-Lindenstrauss Lemma states that preserving the vector dimensionality within an error bound <code class="language-plaintext highlighter-rouge">e</code> for a dataset size <code class="language-plaintext highlighter-rouge">N</code> is calculated as:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>k &gt; (8 * ln(N) / e^2)
-</code></pre></div></div>
-
-<p>Although we are only seeking a limited number of datasets, making this match the target <em>full dataset</em> size ensures that there is sufficient dimensionality to understand the nuances between the dataset. The main tunable parameter is the margin of error introduced by the reduction of matrix for comparison.</p>
-
-<p>For example, for 10,000 images, and a desired error of 0.001, you would have to have a base 2 dimension of roughly <code class="language-plaintext highlighter-rouge">8 * ln(10000) / (0.001^2)) = 73682722</code>, or somewhere between 2^26 ~ 2^27 (rounding to some base 2 size matrix is preferred to align with scheduling on processors which primarily have cache sizes, multithreaded processor / code SM counts that align to some multiple of 2).</p>
-
-<h3 id="number-of-layers-to-backpropagate">Number of layers to backpropagate</h3>
-
-<p>This one is a model-specific choice: the more layers that backpropagation is run, the runtime complexity will multiplied by the cost to compute the backpropagation of that layer.</p>
-
-<p>As a rule of thumb, I think you want to only go back to the number of a relatively low number of layers: there is an intuition that the later layers of a model are the ones more correlated to fine-tuned behavior for the specific task. This is probably the behavior that one is most interested in, such as wehn trying to find more datapoints of similar, but underrepresented data, to increase the distribution thereof.</p>
-
-<h2 id="results">Results</h2>
-
-<p>I tried this out in my sandbox against my toy model <a href="https://github.com/toumorokoshi/yft-ml-sandbox/tree/main/alexnet_dvgs">based on AlexNet</a>, which uses the <a href="https://github.com/fastai/imagenette">Imagenette dataset</a>. Looking at the results visually, it looks like it was able to differentiate and find examples of each of the 10 categories:</p>
-
-<p><img src="../../assets/2026-03-08-data-uniqueness-via-gradient-similarity-dugs.png" alt="2026-03-08-data-uniqueness-via-gradient-similarity-dugs.png" /></p>
-
-<h3 id="future-experiments-to-try">Future Experiments to try</h3>
-
-<ul>
-  <li>focus on the gradient of a specific layer (e.g. the embeddings)</li>
-  <li>use dimensionality reduction via Johnson-Lindenstrauss projections</li>
-  <li>can we use some form of k means clustering to help group the data points?
-    <ul>
-      <li>this would be helpful to see how many “categories” of data there are.</li>
-    </ul>
-  </li>
-</ul>]]></content><author><name></name></author><category term="coding" /><category term="ml" /><summary type="html"><![CDATA[Data Uniqueness via Gradient Similarity]]></summary></entry></feed>
+<p>For me personally, I don’t know if I have a project that really is accelerated by 100 autonomous agents all writing code. But I’d like to start climbing this maturity ladder to see if I can squeeze out a little bit more of that time to think about the problems I’m really interested in diving into.</p>]]></content><author><name></name></author><category term="coding" /><summary type="html"><![CDATA[The new AI Era]]></summary></entry></feed>

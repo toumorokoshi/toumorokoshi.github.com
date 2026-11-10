@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Building a small form factor PC | Yusuke Tsutsumi</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Building a small form factor PC" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="note: this is a really old post that I never published. I’m doing it now, but obviously pricing of components is significantly higher than it was when I wrote this in June of 2025." />
+<meta property="og:description" content="note: this is a really old post that I never published. I’m doing it now, but obviously pricing of components is significantly higher than it was when I wrote this in June of 2025." />
+<link rel="canonical" href="https://y.tsutsumi.io/sff-pc/" />
+<meta property="og:url" content="https://y.tsutsumi.io/sff-pc/" />
+<meta property="og:site_name" content="Yusuke Tsutsumi" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-11-09T07:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Building a small form factor PC" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2026-11-09T07:00:00+00:00","datePublished":"2026-11-09T07:00:00+00:00","description":"note: this is a really old post that I never published. I’m doing it now, but obviously pricing of components is significantly higher than it was when I wrote this in June of 2025.","headline":"Building a small form factor PC","mainEntityOfPage":{"@type":"WebPage","@id":"https://y.tsutsumi.io/sff-pc/"},"url":"https://y.tsutsumi.io/sff-pc/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://y.tsutsumi.io/feed/index.xml" title="Yusuke Tsutsumi" /><script async src="https://www.googletagmanager.com/gtag/js?id=G-325KP61WS9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { window.dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-325KP61WS9');
+</script>
+</head><body class="layout--post"><header class="site-header">
+
+    <div class="wrapper"><a class="site-title" rel="author" href="/">Yusuke Tsutsumi</a><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path
+                            d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger">
+                <a class="page-link" href="/tag/coding/">Coding Posts</a>
+                <a class="page-link"
+                    href="https://nbviewer.jupyter.org/github/toumorokoshi/notebooks/tree/master/">Notebooks</a><a class="page-link" href="/resources/">Resources</a><a class="page-link" href="/about/">About Yusuke Tsutsumi</a></div>
+        </nav></div>
+    <style>
+        .gse-control-cse td {
+            border: 0;
+        }
+
+        td.gsc-input {
+            border: 0;
+        }
+
+        td.gsc-search-button {
+            border: 0;
+        }
+
+        table.gsc-input {
+            margin-bottom: 0;
+        }
+    </style>
+</header><main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        
+
+<div class="post-layout has-toc">
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <header class="post-header">
+        <h1 class="post-title p-name" itemprop="name headline">Building a small form factor PC</h1>
+        <p class="post-meta"><time class="dt-published" datetime="2026-11-09T07:00:00+00:00" itemprop="datePublished">
+                Nov 9, 2026
+            </time></p>
+    </header>
+
+    <div class="post-content e-content" itemprop="articleBody">
+        <p><em>note</em>: this is a really old post that I never published. I’m doing it now, but obviously pricing of components is significantly higher than it was when I wrote this in June of 2025.</p>
+                <h2 id="expedition-33-the-catalyst-for-building-my-own-sff-pc">   Expedition 33: the catalyst for building my own SFF PC <a href="#expedition-33-the-catalyst-for-building-my-own-sff-pc">#</a>   </h2>
+                    
+
+<p><a href="https://www.expedition33.com/">Clair Obscur: Expedition 33</a> is an amazing game.
+I’m only a couple hours into it, and I’m already in love with the atmosphere,
+the gameplay, and the story.</p>
+
+<p>That said, the game plays like a potato on my 10-year-old desktop and 7-year-old
+GPU. I’m getting 19 frames per second, the battles are particularly
+sensitive to timing, and the frame rates are slow (with 20+ ms of streaming and bluetooth latency). I don’t think I’m experiencing the game like I should.</p>
+
+<p>Also I’ve been interested in building a new computer for a while, especially a small form
+factor PC, where the size is considerably smaller (20 liters or less) than that
+of a standard desktop (40 liters or greater). So onto my journey with an SFF PC!</p>
+                <h2 id="choosing-the-components">   Choosing the Components <a href="#choosing-the-components">#</a>   </h2>
+                    
+
+<p>Part one of the journey is to choose the components. Building an SFF PC feels
+like a constraints problem, starting with the volume of the pieces down to
+what’s actually compatible. Some of the considerations include:</p>
+
+<ul>
+  <li>The actual volume of things like heatsinks, fans, and watercoolers. Even a few
+millimeters difference can prevent a component from fitting.</li>
+</ul>
+                <h3 id="power-supply">   Power Supply <a href="#power-supply">#</a>   </h3>
+                    
+
+<ul>
+  <li>Decision: <a href="https://www.newegg.com/corsair-sf-series-sfx-1000-w-80-plus-platinum-certified-power-supply-cp-9020257-na/p/N82E16817139332">Corsair SF Series SFX 1000w</a></li>
+</ul>
+
+<p>The total power draw across the GPU, CPU, motherboard, RAM, disk, etc. has to
+be less than the total power output of the PSU (power supply unit).</p>
+
+<p>These days in 2025, the CPU and GPU are likely the main factors for power draw.
+GPUs especially have gotten quite power hungry, with the 4090 drawing a whopping
+450 watts of power!</p>
+
+<p>But for most GPUs you won’t see a draw beyond 250 watts. Combine that with CPUs and their 150
+watt power draw max, and you’re looking at wanting at least 500 watts.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Power Draw (Watts)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>High-end GPU</strong> (RTX 4080/4090)</td>
+      <td>320-450</td>
+    </tr>
+    <tr>
+      <td><strong>High-end CPU</strong> (Intel i9-14900K / AMD Ryzen 9 7950X)</td>
+      <td>125-253</td>
+    </tr>
+    <tr>
+      <td><strong>Motherboard</strong></td>
+      <td>15-30</td>
+    </tr>
+    <tr>
+      <td><strong>RAM</strong> (32GB DDR5)</td>
+      <td>5-10</td>
+    </tr>
+    <tr>
+      <td><strong>NVMe SSD</strong></td>
+      <td>3-8</td>
+    </tr>
+    <tr>
+      <td><strong>Case fans</strong> (4-6 fans)</td>
+      <td>10-20</td>
+    </tr>
+    <tr>
+      <td><strong>CPU cooler</strong></td>
+      <td>5-15</td>
+    </tr>
+    <tr>
+      <td><strong>USB devices</strong></td>
+      <td>5-10</td>
+    </tr>
+    <tr>
+      <td><strong>Other components</strong></td>
+      <td>10-20</td>
+    </tr>
+    <tr>
+      <td><strong>Total System Power</strong></td>
+      <td><strong>500-820</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<p><em>Note: These are typical power draws under normal load. Peak power draw during
+intensive gaming or rendering can be 10-20% higher.</em></p>
+                <h3 id="choosing-a-case">   Choosing a case <a href="#choosing-a-case">#</a>   </h3>
+                    
+
+<p>Decision: <a href="https://www.newegg.com/lian-li-mini-itx-aluminum-steel-cases-silver-matte-black-a4-h2o-a4/p/2AM-000Z-00095?Item=9SIAFSTGMK0722">Lian Li A4
+H2O</a>.</p>
+
+<p>It turns out the case is one of the hardest parts of making a small form factor
+PC - since many of the popular cases were out of stock or were pre-order only.
+The following was out of stock when I checked in June of 2025:</p>
+
+<ul>
+  <li><a href="https://ncased.com/collections/t-series">NCASE T series</a>.</li>
+</ul>
+
+<p>If I need to buy it soon, the <a href="https://www.coolermaster.com/en-us/products/masterbox-nr200/?tab=tech_spec">NR200 is solid and you can’t go
+wrong</a>.</p>
+
+<p>I ended up going with the Lian Li A4. The main reasons are:</p>
+
+<ul>
+  <li>Supports Liquid Cooling (which seems critical to get good thermals)</li>
+  <li>Only 11 liters. There are some cases which go as low as 8 liters with a GPU, but
+I felt 11 was a good deal smaller than the standard NR200 which would make it
+a fun challenge.</li>
+  <li>I’d have to use a riser to connect the GPU to the motherboard via a cable, which is another fun one!</li>
+</ul>
+
+<p>Apparently reviews say that a water cooler (all-in-one or AIO) is sufficient,
+so this also makes the build a bit easier to only require a single cooler
+component to install.</p>
+                <h3 id="choosing-a-motherboard">   Choosing a motherboard <a href="#choosing-a-motherboard">#</a>   </h3>
+                    
+
+<p>Decision: <a href="https://www.newegg.com/asus-rog-strix-x870-i-gaming-wifi-mini-itx-amd-motherboard-amd-x870-am5/p/N82E16813119685R?Item=N82E16813119685R">ROG Strix X870-I Gaming
+WIFI</a></p>
+
+<p>For a motherboard, my main requirement was something that supported USB4:
+although extremely unlikely, I have multiple Thunderbolt 3/4 docks and wanted to
+see if eventually I could just plug it into one of those vs reroute all the
+cables if I ever wanted to use this directly.</p>
+
+<p>That said, it’s not as simple as a USB4 port being available: with the fact that
+I’ll be using a dedicated GPU, I would have to get hybrid graphics (with GPU and
+CPU) working in Linux, then connect that. This is a different configuration than
+what I intend to use (with streaming via a virtualized monitor).</p>
+
+<p>Ultimately I went with the ROG Strix X870-I: with 2 USB4 ports and multiple
+others including Wifi7, it’s the most future-proof, especially as I’ll likely be
+upgrading the GPU as time goes on.</p>
+                <h3 id="cpu">   CPU <a href="#cpu">#</a>   </h3>
+                    
+
+<ul>
+  <li>Decision: <a href="https://www.newegg.com/amd-ryzen-7-9000-series-ryzen-7-9800x3d-granite-ridge-zen-5-socket-am5-desktop-cpu-processor/p/N82E16819113877">AMD 9800X3D</a></li>
+</ul>
+
+<p>The current top of the line CPU for gaming is the AMD 9800X3D. So I went with that.</p>
+                <h3 id="gpu">   GPU <a href="#gpu">#</a>   </h3>
+                    
+
+<p>Decision: <a href="https://www.newegg.com/gigabyte-gv-r9060xtgaming-oc-16gd-radeon-rx-9060-xt-16gb-graphics-card-triple-fans/p/N82E16814932806">16GB AMD 9060XT</a></p>
+
+<p>For the GPU, I went with an AMD GPU, primarily due to the price: during 2025 I honestly wasn’t thinking too much about local AI, so did not think about the disadvantages that running on AMD would cause, performance-wise. That said with 2026 agents perhaps it’s easier to optimize.</p>
+
+<p>Regardless, it was an affordable option, and cost me roughly $300 at the time. In particular, I opted for 16GB of VRAM, because the main bottleneck for this rendering can often be the need to pull the data from the host RAM into the GPU DRAM. At 1440p resolution and high/epic presets, Expedition 33 has a 10-20% higher frame rate. And I think it, to some extent, future-proofs me for other games.</p>
+                <h3 id="ram">   RAM <a href="#ram">#</a>   </h3>
+                    
+
+<p>Decision: <a href="https://www.newegg.com/team-group-t-create-expert-96gb-ddr5-6400-cas-latency-cl32-desktop-memory-black/p/N82E16820985240">T-Create 96gb (2x48gb) DDR5-6400</a>.</p>
+
+<ul>
+  <li>For SFF PCs, only get low-profile RAM sticks (which will ensure room for CPU heatsinks)</li>
+</ul>
+
+<p>For RAM, I guess the motherboard has already decided that it will be DDR5.</p>
+
+<p>I looked for the largest amount of RAM I could get, which looked to be 96gb in 2025.</p>
+
+<p>I chose 6400 because it was $60 (20%) cheaper than 6800, and it sounds like
+ultimately the RAM speed is not a huge impact on gaming performance (~1 FPS on
+most games).</p>
+                <h3 id="aio-cooler">   AIO cooler <a href="#aio-cooler">#</a>   </h3>
+                    
+
+<ul>
+  <li>Decision: <a href="https://www.newegg.com/p/3C6-03AW-001P0">DeepCool LS520 SE</a></li>
+</ul>
+
+<p>You have to be careful with the liquid cooling as well, there are several concerns:</p>
+
+<ul>
+  <li>The height of the cap on the CPU (some RGB models have really large ones that
+protrude from the case)</li>
+  <li>The size of the fans: the case itself can only fit smaller (120mm fans), so
+you have to buy an AIO cooler that fits.</li>
+</ul>
+
+<p>The A4 H2O allows only 55mm of clearance for the pump block on top of the CPU. I
+found the DeepCool LS520 SE has the exact clearance I need, and 120mm fans. And
+the thermal paste is pre-applied!</p>
+                <h3 id="the-operating-system">   The operating system <a href="#the-operating-system">#</a>   </h3>
+                    
+
+<p>For the operating system, I went with a vanilla Ubuntu installer. This was primarily because I was hoping for the stability of the LTS releases, as well as the fact that Moonlight had Debian packages for them.</p>
+
+<p>However, I ran into snags with drivers: the LTS releases used an outdated Linux kernel which didn’t support my GPU, nor the Wifi 7 module my motherboard uses.</p>
+
+<p>Ultimately, I upgraded to Ubuntu 25.04, then 25.10 when that became available. I also used the <a href="https://ubuntu.com/kernel/lifecycle">hardware enablement</a> packages to support my drivers.</p>
+
+<p>If I had to re-do, I might just use something like Arch Linux, where I don’t have to worry about drivers.</p>
+
+<p>For a few other tricks I used, see <a href="/ubuntu-sunshine/">my other blog post about streaming with moonlight</a>.</p>
+                <h2 id="end-result">   End Result <a href="#end-result">#</a>   </h2>
+                    
+
+<p><img src="../../assets/2026-11-09-sff-pc.png" alt="Setting up Ubuntu on the open SFF PC build" /></p>
+
+<p><img src="../../assets/2026-11-09-sff-pc-1.png" alt="The finished SFF PC next to the original full-tower desktop" /></p>
+
+<p>The finished product, next to my original tower! The PC sits in my closet, streaming games via Moonlight.</p>
+    </div>
+
+    
+    <script type="module" src="https://esm.sh/gh/loueed/bsky@v1.0.0/comments"></script>
+    <bsky-comments post=""></bsky-comments>
+    
+
+    <a class="u-url" href="/sff-pc/" hidden></a>
+</article>
+
+
+<aside class="post-sidebar" aria-label="Table of contents">
+    <div class="post-sidebar-sticky">
+        <div class="post-toc-title">On this page</div>
+        <nav class="post-toc" aria-label="Table of Contents">
+            <ul class="post-toc-list"><li class="post-toc-item post-toc-level-2"><a href="#expedition-33-the-catalyst-for-building-my-own-sff-pc" class="post-toc-link">Expedition 33: the catalyst for building my own SFF PC</a></li><li class="post-toc-item post-toc-level-2"><a href="#choosing-the-components" class="post-toc-link">Choosing the Components</a><ul class="post-toc-sublist"><li class="post-toc-item post-toc-level-3"><a href="#power-supply" class="post-toc-link">Power Supply</a></li><li class="post-toc-item post-toc-level-3"><a href="#choosing-a-case" class="post-toc-link">Choosing a case</a></li><li class="post-toc-item post-toc-level-3"><a href="#choosing-a-motherboard" class="post-toc-link">Choosing a motherboard</a></li><li class="post-toc-item post-toc-level-3"><a href="#cpu" class="post-toc-link">CPU</a></li><li class="post-toc-item post-toc-level-3"><a href="#gpu" class="post-toc-link">GPU</a></li><li class="post-toc-item post-toc-level-3"><a href="#ram" class="post-toc-link">RAM</a></li><li class="post-toc-item post-toc-level-3"><a href="#aio-cooler" class="post-toc-link">AIO cooler</a></li><li class="post-toc-item post-toc-level-3"><a href="#the-operating-system" class="post-toc-link">The operating system</a></li></ul></li><li class="post-toc-item post-toc-level-2"><a href="#end-result" class="post-toc-link">End Result</a></li></ul>
+        </nav>
+    </div>
+</aside>
+
+</div>
+
+
+<script src="/assets/js/post-toc.js"></script>
+
+      </div>
+    </main><footer class="site-footer h-card">
+    <data class="u-url" href="/%20/"></data>
+
+    <div class="wrapper">
+
+        <div class="footer-col-wrapper">
+            <script async src="https://cse.google.com/cse.js?cx=014358564571565173111:hnnbq4j54cy"></script>
+            <div class="gcse-search"></div>
+        </div>
+        <div class="footer-col-wrapper">
+            <div class="footer-col">
+                <p class="feed-subscribe">
+                    <a href="/feed/index.xml">
+                        <svg class="svg-icon orange">
+                            <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+                        </svg><span>Subscribe</span>
+                    </a>
+                </p>
+            </div>
+            <div class="footer-col">
+                <p>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</p>
+            </div>
+        </div>
+
+        <div class="social-links"><ul class="social-media-list"><li>
+  <a rel="me" href="https://bsky.app/profile/y.tsutsumi.io" target="_blank"
+    title="bluesky">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#bluesky"></use>
+    </svg>
+  </a>
+</li><li>
+  <a rel="me" href="https://github.com/toumorokoshi" target="_blank"
+    title="github">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#github"></use>
+    </svg>
+  </a>
+</li><li>
+  <a rel="me" href="https://www.linkedin.com/in/yusuke-tsutsumi" target="_blank"
+    title="linkedin">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#linkedin"></use>
+    </svg>
+  </a>
+</li></ul></div>
+
+    </div>
+    <script src="https://unpkg.com/mermaid@8.9.3/dist/mermaid.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: "default",
+    });
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+  });
+</script>
+
+</footer></body>
+
+</html>
