@@ -16,7 +16,7 @@ jobs:
       - name: setup-node
         uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 20
           cache: "npm"
       - name: setup-ruby
         uses: ruby/setup-ruby@v1
@@ -30,9 +30,9 @@ jobs:
           cache: "pip"
       - name: install-deps
         run: |
+          npm ci
           pip install google-api-python-client
           pip install google-auth
-        # npm install -g @mermaid-js/mermaid-cli
       - name: build-site
         run: ./scripts/build.sh
         env:

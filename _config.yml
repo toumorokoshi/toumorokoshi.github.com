@@ -31,6 +31,8 @@ permalink: /:year/:month/:day/:slug/
 
 # Build settings
 theme: minima
+kramdown:
+  math_engine: mathml
 plugins:
   - jekyll-feed
   - jekyll-diagrams
