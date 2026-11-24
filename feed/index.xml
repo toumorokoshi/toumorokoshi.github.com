@@ -1,1 +1,1041 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2026-11-24T00:02:32+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle></feed>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://y.tsutsumi.io/feed/index.xml" rel="self" type="application/atom+xml" /><link href="https://y.tsutsumi.io/" rel="alternate" type="text/html" /><updated>2026-11-24T01:48:53+00:00</updated><id>https://y.tsutsumi.io/feed/index.xml</id><title type="html">Yusuke Tsutsumi</title><subtitle>My blog on software, productivity, and obsessively optimizing. I work at Google, ex-Zillow. Thoughts my own.</subtitle><entry><title type="html">Cohen’s Kappa</title><link href="https://y.tsutsumi.io/cohen-kappa/" rel="alternate" type="text/html" title="Cohen’s Kappa" /><published>2026-11-16T07:00:00+00:00</published><updated>2026-11-16T07:00:00+00:00</updated><id>https://y.tsutsumi.io/cohen-kappa</id><content type="html" xml:base="https://y.tsutsumi.io/cohen-kappa/"><![CDATA[<p>Cohen’s Kappa is pretty interesting - it’s a way to measure how much two independent classifiers agree, beyond what you’d expect by chance. It’s written out as:</p>
+
+\[\kappa = \frac{p_o - p_e}{1 - p_e}\]
+
+<p>where:</p>
+
+<ul>
+  <li>\(p_o\) is the observed agreement: the fraction of items both classifiers labeled the same.</li>
+  <li>\(p_e\) is the expected agreement by chance: \(p_e = \sum_k p_{A,k} \cdot p_{B,k}\), where \(p_{A,k}\) and \(p_{B,k}\) are the fractions of items that A and B each assigned to category \(k\).</li>
+</ul>
+
+<p>So, effectively, it measures how much the two classifiers agree after removing the agreement you’d expect by chance. A \(\kappa\) of 1 is perfect agreement, and 0 is no better than chance.</p>
+
+<p>The algorithm is basically:</p>
+
+<ol>
+  <li>Have the two parties, A and B, perform the classification.</li>
+  <li>Figure out the expected agreement by chance. For each category \(k\), multiply the fraction of items A put in \(k\) by the fraction B put in \(k\), then sum across all categories to get \(p_e\).</li>
+  <li>Calculate the observed agreement \(p_o\): the fraction of items where A and B chose the same category.</li>
+  <li>Subtract the expected agreement from the observed agreement, and divide by the most agreement possible beyond chance: \(\kappa = (p_o - p_e) / (1 - p_e)\).</li>
+</ol>]]></content><author><name></name></author><category term="coding" /><summary type="html"><![CDATA[Cohen’s Kappa is pretty interesting - it’s a way to measure how much two independent classifiers agree, beyond what you’d expect by chance. It’s written out as:]]></summary></entry><entry><title type="html">Building a small form factor PC</title><link href="https://y.tsutsumi.io/sff-pc/" rel="alternate" type="text/html" title="Building a small form factor PC" /><published>2026-11-09T07:00:00+00:00</published><updated>2026-11-09T07:00:00+00:00</updated><id>https://y.tsutsumi.io/sff-pc</id><content type="html" xml:base="https://y.tsutsumi.io/sff-pc/"><![CDATA[<p><em>note</em>: this is a really old post that I never published. I’m doing it now, but obviously pricing of components is significantly higher than it was when I wrote this in June of 2025.</p>
+
+<h2 id="expedition-33-the-catalyst-for-building-my-own-sff-pc">Expedition 33: the catalyst for building my own SFF PC</h2>
+
+<p><a href="https://www.expedition33.com/">Clair Obscur: Expedition 33</a> is an amazing game.
+I’m only a couple hours into it, and I’m already in love with the atmosphere,
+the gameplay, and the story.</p>
+
+<p>That said, the game plays like a potato on my 10-year-old desktop and 7-year-old
+GPU. I’m getting 19 frames per second, the battles are particularly
+sensitive to timing, and the frame rates are slow (with 20+ ms of streaming and bluetooth latency). I don’t think I’m experiencing the game like I should.</p>
+
+<p>Also I’ve been interested in building a new computer for a while, especially a small form
+factor PC, where the size is considerably smaller (20 liters or less) than that
+of a standard desktop (40 liters or greater). So onto my journey with an SFF PC!</p>
+
+<h2 id="choosing-the-components">Choosing the Components</h2>
+
+<p>Part one of the journey is to choose the components. Building an SFF PC feels
+like a constraints problem, starting with the volume of the pieces down to
+what’s actually compatible. Some of the considerations include:</p>
+
+<ul>
+  <li>The actual volume of things like heatsinks, fans, and watercoolers. Even a few
+millimeters difference can prevent a component from fitting.</li>
+</ul>
+
+<h3 id="power-supply">Power Supply</h3>
+
+<ul>
+  <li>Decision: <a href="https://www.newegg.com/corsair-sf-series-sfx-1000-w-80-plus-platinum-certified-power-supply-cp-9020257-na/p/N82E16817139332">Corsair SF Series SFX 1000w</a></li>
+</ul>
+
+<p>The total power draw across the GPU, CPU, motherboard, RAM, disk, etc. has to
+be less than the total power output of the PSU (power supply unit).</p>
+
+<p>These days in 2025, the CPU and GPU are likely the main factors for power draw.
+GPUs especially have gotten quite power hungry, with the 4090 drawing a whopping
+450 watts of power!</p>
+
+<p>But for most GPUs you won’t see a draw beyond 250 watts. Combine that with CPUs and their 150
+watt power draw max, and you’re looking at wanting at least 500 watts.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Power Draw (Watts)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>High-end GPU</strong> (RTX 4080/4090)</td>
+      <td>320-450</td>
+    </tr>
+    <tr>
+      <td><strong>High-end CPU</strong> (Intel i9-14900K / AMD Ryzen 9 7950X)</td>
+      <td>125-253</td>
+    </tr>
+    <tr>
+      <td><strong>Motherboard</strong></td>
+      <td>15-30</td>
+    </tr>
+    <tr>
+      <td><strong>RAM</strong> (32GB DDR5)</td>
+      <td>5-10</td>
+    </tr>
+    <tr>
+      <td><strong>NVMe SSD</strong></td>
+      <td>3-8</td>
+    </tr>
+    <tr>
+      <td><strong>Case fans</strong> (4-6 fans)</td>
+      <td>10-20</td>
+    </tr>
+    <tr>
+      <td><strong>CPU cooler</strong></td>
+      <td>5-15</td>
+    </tr>
+    <tr>
+      <td><strong>USB devices</strong></td>
+      <td>5-10</td>
+    </tr>
+    <tr>
+      <td><strong>Other components</strong></td>
+      <td>10-20</td>
+    </tr>
+    <tr>
+      <td><strong>Total System Power</strong></td>
+      <td><strong>500-820</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<p><em>Note: These are typical power draws under normal load. Peak power draw during
+intensive gaming or rendering can be 10-20% higher.</em></p>
+
+<h3 id="choosing-a-case">Choosing a case</h3>
+
+<p>Decision: <a href="https://www.newegg.com/lian-li-mini-itx-aluminum-steel-cases-silver-matte-black-a4-h2o-a4/p/2AM-000Z-00095?Item=9SIAFSTGMK0722">Lian Li A4
+H2O</a>.</p>
+
+<p>It turns out the case is one of the hardest parts of making a small form factor
+PC - since many of the popular cases were out of stock or were pre-order only.
+The following was out of stock when I checked in June of 2025:</p>
+
+<ul>
+  <li><a href="https://ncased.com/collections/t-series">NCASE T series</a>.</li>
+</ul>
+
+<p>If I need to buy it soon, the <a href="https://www.coolermaster.com/en-us/products/masterbox-nr200/?tab=tech_spec">NR200 is solid and you can’t go
+wrong</a>.</p>
+
+<p>I ended up going with the Lian Li A4. The main reasons are:</p>
+
+<ul>
+  <li>Supports Liquid Cooling (which seems critical to get good thermals)</li>
+  <li>Only 11 liters. There are some cases which go as low as 8 liters with a GPU, but
+I felt 11 was a good deal smaller than the standard NR200 which would make it
+a fun challenge.</li>
+  <li>I’d have to use a riser to connect the GPU to the motherboard via a cable, which is another fun one!</li>
+</ul>
+
+<p>Apparently reviews say that a water cooler (all-in-one or AIO) is sufficient,
+so this also makes the build a bit easier to only require a single cooler
+component to install.</p>
+
+<h3 id="choosing-a-motherboard">Choosing a motherboard</h3>
+
+<p>Decision: <a href="https://www.newegg.com/asus-rog-strix-x870-i-gaming-wifi-mini-itx-amd-motherboard-amd-x870-am5/p/N82E16813119685R?Item=N82E16813119685R">ROG Strix X870-I Gaming
+WIFI</a></p>
+
+<p>For a motherboard, my main requirement was something that supported USB4:
+although extremely unlikely, I have multiple Thunderbolt 3/4 docks and wanted to
+see if eventually I could just plug it into one of those vs reroute all the
+cables if I ever wanted to use this directly.</p>
+
+<p>That said, it’s not as simple as a USB4 port being available: with the fact that
+I’ll be using a dedicated GPU, I would have to get hybrid graphics (with GPU and
+CPU) working in Linux, then connect that. This is a different configuration than
+what I intend to use (with streaming via a virtualized monitor).</p>
+
+<p>Ultimately I went with the ROG Strix X870-I: with 2 USB4 ports and multiple
+others including Wifi7, it’s the most future-proof, especially as I’ll likely be
+upgrading the GPU as time goes on.</p>
+
+<h3 id="cpu">CPU</h3>
+
+<ul>
+  <li>Decision: <a href="https://www.newegg.com/amd-ryzen-7-9000-series-ryzen-7-9800x3d-granite-ridge-zen-5-socket-am5-desktop-cpu-processor/p/N82E16819113877">AMD 9800X3D</a></li>
+</ul>
+
+<p>The current top of the line CPU for gaming is the AMD 9800X3D. So I went with that.</p>
+
+<h3 id="gpu">GPU</h3>
+
+<p>Decision: <a href="https://www.newegg.com/gigabyte-gv-r9060xtgaming-oc-16gd-radeon-rx-9060-xt-16gb-graphics-card-triple-fans/p/N82E16814932806">16GB AMD 9060XT</a></p>
+
+<p>For the GPU, I went with an AMD GPU, primarily due to the price: during 2025 I honestly wasn’t thinking too much about local AI, so did not think about the disadvantages that running on AMD would cause, performance-wise. That said with 2026 agents perhaps it’s easier to optimize.</p>
+
+<p>Regardless, it was an affordable option, and cost me roughly $300 at the time. In particular, I opted for 16GB of VRAM, because the main bottleneck for this rendering can often be the need to pull the data from the host RAM into the GPU DRAM. At 1440p resolution and high/epic presets, Expedition 33 has a 10-20% higher frame rate. And I think it, to some extent, future-proofs me for other games.</p>
+
+<h3 id="ram">RAM</h3>
+
+<p>Decision: <a href="https://www.newegg.com/team-group-t-create-expert-96gb-ddr5-6400-cas-latency-cl32-desktop-memory-black/p/N82E16820985240">T-Create 96gb (2x48gb) DDR5-6400</a>.</p>
+
+<ul>
+  <li>For SFF PCs, only get low-profile RAM sticks (which will ensure room for CPU heatsinks)</li>
+</ul>
+
+<p>For RAM, I guess the motherboard has already decided that it will be DDR5.</p>
+
+<p>I looked for the largest amount of RAM I could get, which looked to be 96gb in 2025.</p>
+
+<p>I chose 6400 because it was $60 (20%) cheaper than 6800, and it sounds like
+ultimately the RAM speed is not a huge impact on gaming performance (~1 FPS on
+most games).</p>
+
+<h3 id="aio-cooler">AIO cooler</h3>
+
+<ul>
+  <li>Decision: <a href="https://www.newegg.com/p/3C6-03AW-001P0">DeepCool LS520 SE</a></li>
+</ul>
+
+<p>You have to be careful with the liquid cooling as well, there are several concerns:</p>
+
+<ul>
+  <li>The height of the cap on the CPU (some RGB models have really large ones that
+protrude from the case)</li>
+  <li>The size of the fans: the case itself can only fit smaller (120mm fans), so
+you have to buy an AIO cooler that fits.</li>
+</ul>
+
+<p>The A4 H2O allows only 55mm of clearance for the pump block on top of the CPU. I
+found the DeepCool LS520 SE has the exact clearance I need, and 120mm fans. And
+the thermal paste is pre-applied!</p>
+
+<h3 id="the-operating-system">The operating system</h3>
+
+<p>For the operating system, I went with a vanilla Ubuntu installer. This was primarily because I was hoping for the stability of the LTS releases, as well as the fact that Moonlight had Debian packages for them.</p>
+
+<p>However, I ran into snags with drivers: the LTS releases used an outdated Linux kernel which didn’t support my GPU, nor the Wifi 7 module my motherboard uses.</p>
+
+<p>Ultimately, I upgraded to Ubuntu 25.04, then 25.10 when that became available. I also used the <a href="https://ubuntu.com/kernel/lifecycle">hardware enablement</a> packages to support my drivers.</p>
+
+<p>If I had to re-do, I might just use something like Arch Linux, where I don’t have to worry about drivers.</p>
+
+<p>For a few other tricks I used, see <a href="/ubuntu-sunshine/">my other blog post about streaming with moonlight</a>.</p>
+
+<h2 id="end-result">End Result</h2>
+
+<p><img src="../../assets/2026-11-09-sff-pc.png" alt="Setting up Ubuntu on the open SFF PC build" /></p>
+
+<p><img src="../../assets/2026-11-09-sff-pc-1.png" alt="The finished SFF PC next to the original full-tower desktop" /></p>
+
+<p>The finished product, next to my original tower! The PC sits in my closet, streaming games via Moonlight.</p>]]></content><author><name></name></author><category term="coding" /><summary type="html"><![CDATA[note: this is a really old post that I never published. I’m doing it now, but obviously pricing of components is significantly higher than it was when I wrote this in June of 2025.]]></summary></entry><entry><title type="html">Where do platform teams go now?</title><link href="https://y.tsutsumi.io/where-do-platform-teams-go-now/" rel="alternate" type="text/html" title="Where do platform teams go now?" /><published>2026-11-02T07:00:00+00:00</published><updated>2026-11-02T07:00:00+00:00</updated><id>https://y.tsutsumi.io/where-do-platform-teams-go-now</id><content type="html" xml:base="https://y.tsutsumi.io/where-do-platform-teams-go-now/"><![CDATA[<p>As an engineer who’s worked on platform teams almost my whole career, I think the time has come for teams to fundamentally change the way we work. AI has made it easy to blow right past, rewrite, and re-invent platforms when users don’t find it helpful. Platform teams do help, and I think it’s important that we change our tack to ensure healthy, common ecosystems.</p>
+
+<p>In summary, I’m advocating for:</p>
+
+<ol>
+  <li>A mindset shift toward close, realtime co-design, directly with the customer.</li>
+  <li>Pursuing 10x experiments to find and explore new opportunities.</li>
+</ol>
+
+<h2 id="background">Background</h2>
+
+<h3 id="why-do-platform-teams-exist">Why do platform teams exist?</h3>
+
+<p>When a company is founded, the number of employees is small, and they are generally mission-focused:</p>
+
+<ul>
+  <li>Build things to specifically address what they need.</li>
+  <li>Pick up only the layers of abstraction needed at the time.</li>
+  <li>Focus on accomplishing the organization’s goals, with long-term maintenance and priority as a secondary concern.</li>
+</ul>
+
+<p>Traditionally, this approach hits a bottleneck as a company increases in size, products, and complexity. This is where platform teams are founded. Platform teams:</p>
+
+<ul>
+  <li>Build shared abstractions that reduce the complexity of a problem for the business.</li>
+  <li>Govern the usage of shared resources.</li>
+  <li>Maintain shared services, reducing the need for operational toil on product teams.</li>
+  <li>Identify further areas of shared problems.</li>
+</ul>
+
+<p>Platform teams rarely accelerate the <em>first</em> team that encounters a problem. However, they often accelerate the second, third, and subsequent teams. They also ensure the reliability of the platform.</p>
+
+<h3 id="what-has-changed-almost-anything-can-be-agentically-coded-now">What has changed: almost anything can be agentically coded now</h3>
+
+<p>We live in a world where almost anything, no matter how complex, can be agent-coded as a solution to a problem. For example, I work in machine learning, so these include:</p>
+
+<ul>
+  <li>complex data-loading and compression strategies.</li>
+  <li>quantization evaluation tooling.</li>
+  <li>fully-featured UIs with rich metadata to analyze the data.</li>
+</ul>
+
+<p>However, this can apply to a lot of other areas, such as with web services:</p>
+
+<ul>
+  <li>telemetry pipelines</li>
+  <li>a/b testing services</li>
+  <li>pub/sub frameworks.</li>
+</ul>
+
+<p>Customers of platform teams are being bottlenecked less and less by 0-to-1 offerings from platform teams. And systems that do not provide perceived value to the end user can be easily bypassed.</p>
+
+<p>The short of it is: users can solve many of their own problems and build bespoke solutions that work for them, and in some ways improve on the offerings that “standard” infrastructure provides.</p>
+
+<h3 id="the-perception-infra-is-seen-as-slow-complex-and-unreliable">The perception: “Infra” is seen as slow, complex, and unreliable</h3>
+
+<p><em>NOTE</em>: perception is <em>not</em> always reality. This section serves as an honest reflection of sentiment that is worth being aware of.</p>
+
+<p>Internally at GM, when talking to users about ML pipelines, the main reason given for the bypass is that shared platforms are seen as <em>slow</em>, <em>complex</em>, and <em>unreliable</em>. The sentiment is debatable, but the rationale is:</p>
+
+<ul>
+  <li>The layers of abstraction that these systems provide are difficult for agents to understand.</li>
+  <li>Compared to a third-party company or a software-as-a-service (SaaS) platform, internal services are perceived to have more outages.</li>
+  <li>The platform is slow: existing common strategies around dataloading, delays for pipeline startup time, are seen as delays that could be bypassed with bespoke, tailor-tuned code.</li>
+</ul>
+
+<p>This is not unique: I have worked on platforms almost my whole career, and have always heard feedback mainly about speed gaps in the platform. In other words, platforms often become perceived as the exact opposite of what they are intended to be.</p>
+
+<h2 id="where-to-go-from-here-the-approach-for-platforms-needs-to-change">Where to go from here: the approach for platforms needs to change</h2>
+
+<p>So where do we go from here? Given how easy it is to agentically code everything, and the general sentiment around shared platforms, how can we ensure the success of a platform?</p>
+
+<h3 id="the-strategy-summary">The strategy summary</h3>
+
+<p>The strategy comes down to the following:</p>
+
+<ul>
+  <li>Proactive customer outreach and co-design: solve the problems the customers are having <em>now</em>. Validate success with the customer.</li>
+  <li>Embed, with direct project contribution: don’t wait for customers to come to you. Join in on users’ standups and team meetings to hear about their problems.</li>
+  <li>Run our own 10x experiments: explore new opportunities the same way product teams do.</li>
+  <li>Speed, speed, speed: build platforms that are faster and more reliable than any agentically created system.</li>
+  <li>Minimize abstractions: build only what the customer needs.</li>
+  <li>Add guardrails where they matter.</li>
+</ul>
+
+<h3 id="proactive-customer-outreach-and-co-design">Proactive customer outreach and co-design</h3>
+
+<p>“If you build it, they will come” is less true now. If an agent can just code something that works, the customer may never reach out to see what the shared infrastructure can do.</p>
+
+<p>Any new tool should be written with an explicit customer and use case in mind. Co-design is how one can discover the pain points and gaps.</p>
+
+<p>A product should only be called complete when a customer has validated it, and can say it is providing meaningful value.</p>
+
+<p>Everyone, no matter what seniority you are, should take 30 minutes out of their week to either see a customer’s workflow to understand their painpoints directly, or look at the execution chat channels to see what issues are being raised. If you see friction in someone else’s domain, start a thread and let them know!</p>
+
+<h3 id="embed-with-direct-contribution">Embed, with direct contribution</h3>
+
+<p>Instead of allowing product workstreams to work by themselves, embed into those teams, join their standup and sync meetings, and directly make platform improvements that the customer is asking for: level up the platform to accelerate critical user priorities.</p>
+
+<p>I had a great example of this with an internal project, where a customer decided not to use some of the libraries and abstractions we have around PyTorch to help add metadata to improve compilation to GPU-native code. We joined their meetings and had the discussion, and found the main concern was with coupling on some other legacy libraries and increased build times. From there, we moved quickly, shaved off over 30,000 dependent files, and reduced our build times by 20-30 seconds.</p>
+
+<p>That engagement continues to pay dividends, with active discussion on the merit of the abstractions around aspects like the multiple classes involved in training configuration.</p>
+
+<h3 id="run-our-own-10x-experiments">Run our own 10x experiments</h3>
+
+<p>Product teams, being oriented toward a smaller business goal and not maintenance for others, have a little more freedom with their implementations. But that does not mean that platform teams can’t experiment in a similar fashion.</p>
+
+<p>We should run 10x experiments (e.g., cleanroom implementations, rewrites to lower level languages, or complete redesigns). We could try having an agent run the experiment, see what it finds, and transfer learnings.</p>
+
+<h3 id="speed-speed-speed">Speed, speed, speed</h3>
+
+<p>Using the platform and its tools should be comparable to a third-party service, or the raw components. Significant overhead invites teams to skip common components altogether.</p>
+
+<h3 id="minimize-abstractions-work-toward-small-utilities">Minimize abstractions, work toward small utilities</h3>
+
+<p>Agents are really good at taking small abstractions, and composing them together:</p>
+
+<ul>
+  <li>They can tirelessly look for methods in the right module.</li>
+  <li>Tests can be written to validate behavior.</li>
+  <li>Agents are good at writing simple, functional code.</li>
+</ul>
+
+<p>Traditionally, abstractions have been added to attempt to reduce human cognitive load. However:</p>
+
+<ul>
+  <li>agents have no such limitation</li>
+  <li>abstractions can cause agents to introduce additional abstractions just to get the functionality they’re looking for, increasing abstractions unnecessarily.</li>
+</ul>
+
+<p>Minimizing the layers between an agent and the functionality ensures those primitives are used more often, as they would be nearly identical to the code the agent would generate anyway.</p>
+
+<p><em>If using the abstraction is more lines of code than just writing the unabstracted version, that is almost always an antipattern</em>.</p>
+
+<h3 id="add-guardrails-where-they-matter">Add guardrails where they matter</h3>
+
+<p>Platforms will always exist to provide guardrails. These are critical to ensure that the organization at large is able to stay functional, preventing a single bad actor from impacting velocity for all. These include:</p>
+
+<ul>
+  <li>quotas, queues, and usage limits to prioritize scarce resources like compute.</li>
+  <li>managing egress limits and throttling egress.</li>
+  <li>using common platforms when dealing with hairy, business-critical problems: billing, authorization, and security in general—domains where we need careful scrutiny, because a failure can sink a business.</li>
+</ul>
+
+<h2 id="conclusion-and-on-to-an-exciting-new-world">Conclusion, and on to an exciting new world</h2>
+
+<p>Although platform teams are less often in the critical path for innovation in this new world, this is an exciting opportunity to meet the customer where they are, and directly contribute to the organization’s most important goals!</p>
+
+<p>Instead of playing a passive role waiting for adoption to drive impact, platform teams can be proactive, solve immediate blockers and problems, and continue to participate in our product wins!</p>
+
+<p>To do so, we need to double down on a mindset around <em>user</em> value.</p>
+
+<p>Platform teams are dead. Long live platform teams!</p>
+
+<h2 id="additional-details-and-elaboration">Additional details and elaboration</h2>
+
+<h3 id="the-importance-of-validation-directly-with-a-customer">The importance of validation directly with a customer</h3>
+
+<p>This is a big one. I have been in several meetings where the platform team has made multiple changes to improve reliability - adding monitors, re-architecting systems, etc. But the user didn’t feel like things had changed at all.</p>
+
+<p>This could be a misconception on the user’s part: they are probably doing multiple things, and they may only use your product once in a while.</p>
+
+<p>But it also could be that the fundamental problem has not yet been solved. To ensure it is:</p>
+
+<ul>
+  <li>Meet with the customer, and show them what you’ve done.</li>
+  <li>Confirm that they agree the problem is addressed.</li>
+</ul>]]></content><author><name></name></author><category term="coding" /><summary type="html"><![CDATA[As an engineer who’s worked on platform teams almost my whole career, I think the time has come for teams to fundamentally change the way we work. AI has made it easy to blow right past, rewrite, and re-invent platforms when users don’t find it helpful. Platform teams do help, and I think it’s important that we change our tack to ensure healthy, common ecosystems.]]></summary></entry><entry><title type="html">How I code in 2026</title><link href="https://y.tsutsumi.io/how-i-code-in-2026/" rel="alternate" type="text/html" title="How I code in 2026" /><published>2026-10-05T07:00:00+00:00</published><updated>2026-10-05T07:00:00+00:00</updated><id>https://y.tsutsumi.io/how-i-code-in-2026</id><content type="html" xml:base="https://y.tsutsumi.io/how-i-code-in-2026/"><![CDATA[<ul>
+  <li><a href="#tldr">TLDR</a></li>
+  <li><a href="#agents-write-the-code">Agents write the code</a>
+    <ul>
+      <li><a href="#what-i-do-modify-by-hand">What I do modify by hand</a></li>
+    </ul>
+  </li>
+  <li><a href="#i-read-the-code">I read the code</a></li>
+  <li><a href="#stack-up-a-mega-pr-then-break-it-down">Stack up a mega-PR, then break it down</a></li>
+  <li><a href="#agents-help-review-the-code">Agents help review the code</a></li>
+  <li><a href="#using-agents-to-help-prioritize-reviews">Using agents to help prioritize reviews</a></li>
+  <li><a href="#for-small-pet-projects-i-yolo">For small pet projects, I yolo</a></li>
+  <li><a href="#final-thoughts">Final thoughts</a></li>
+</ul>
+
+<p>The way I code now, or rather “code”, is completely different than it was in 2025. With that progress, I thought it would be fun to document my current process. In reality, who knows how I’ll be doing it, even 4 months down the road.</p>
+
+<p>I remember the days when I would spend hours rooting around for the right place to modify, thinking through every single keystroke. The reactions to this shift range from outright disgust to unbridled excitement, but either way the reality is that the industry has largely moved on. Or at least, it’s going to.</p>
+
+<h2 id="tldr">TLDR</h2>
+
+<ul>
+  <li>I haven’t really integrated using my voice yet. But I’m interested in it!</li>
+  <li>I don’t hand write code. I have agents write it, and I chat with it.
+    <ul>
+      <li>When the agent writes code, I have it make one mega-PR, then split it as needed.</li>
+    </ul>
+  </li>
+  <li>Agents help me review code, but I still review them myself.
+    <ul>
+      <li>I use a skill to help me manage the now massive review queue.</li>
+    </ul>
+  </li>
+  <li>On any given day I have up to 4 worktrees active doing work. I occasionally have a need to go beyond that number (5, maybe 6, to do investigative work, or if my other agents are waiting on CI, tests, or some long command).</li>
+</ul>
+
+<h2 id="agents-write-the-code">Agents write the code</h2>
+
+<p>These days, I do not hand-modify code. Maybe I will touch a constant or two, but almost any operation is easier to just type a few words and have the agent do it instead:</p>
+
+<ul>
+  <li>refactoring a name requires touching multiple files.</li>
+  <li>modifying some behavioral function requires fixing unit tests.</li>
+</ul>
+
+<p>Whenever I think about going and opening a file in an IDE, I just realize it’s faster to tell my agent to go do it.</p>
+
+<h3 id="what-i-do-modify-by-hand">What I do modify by hand</h3>
+
+<p>There are things I touch a handful of the time:</p>
+
+<ul>
+  <li>small docstrings with poor grammar.</li>
+  <li>pr descriptions.</li>
+</ul>
+
+<p>But again, my mindset comes down to whether it’s easier to type a few lines in my editor, or just tell the agent.</p>
+
+<h2 id="i-read-the-code">I read the code</h2>
+
+<p>I still read the code my agent produces. Honestly, it’s a good mental exercise for me to be able to understand how these pieces fit.</p>
+
+<p>I often ask follow-up questions in the agent session. This is how I ramp myself up on the architecture of the system, ask about tradeoffs, etc.</p>
+
+<h2 id="stack-up-a-mega-pr-then-break-it-down">Stack up a mega-PR, then break it down</h2>
+
+<p>Often the work I’m trying to do is to lead to a particular outcome, and it’s much easier to let an agent loose (safely), see what it can find, then correct it all later.</p>
+
+<p>So I typically have an agent work on a pretty massive change, refactoring and modifying whatever files it needs. After that, I look at the changes, adjust the results, and once I think it’s ready, cut it down into several pieces into a stack (we use Graphite at GM).</p>
+
+<h2 id="agents-help-review-the-code">Agents help review the code</h2>
+
+<p>Some people just let agents review everything, with very little human oversight. The options I’ve heard of are:</p>
+
+<ol>
+  <li>full auto: have agents review everything. If it LGTM to them, merge.</li>
+  <li>agents, then review yourself: have an agent review the code first, and identify the risk and problem areas. Review those yourself.</li>
+  <li>manual (of course): review it all yourself.</li>
+</ol>
+
+<p>I go with 2, or if the LOC is small enough, I just review it myself (3):</p>
+
+<ul>
+  <li>Agents catch a good number of issues I don’t.</li>
+  <li>Despite the fact that I see agents give correct answers a vast majority of the time, they still make mistakes. And I want to make sure I am still a trustworthy producer of features, rather than someone who pushes responsibility on others to keep me and my agents in check.</li>
+</ul>
+
+<h2 id="using-agents-to-help-prioritize-reviews">Using agents to help prioritize reviews</h2>
+
+<p>I am in a few groups on our GitHub repository, and the number of reviews is growing. As a result, I have 100+ reviews in my queue at any moment.</p>
+
+<p>I wrote a skill to help organize them, so I can make sure to unblock small, safe changes, and also raise up the big changes that might require more thorough review. I categorize mine into:</p>
+
+<ul>
+  <li>safe: constant / enum / value changes. Easy LGTM.</li>
+  <li>mostly safe: a few refactors. Requires a little reading but not bad.</li>
+  <li>complex: this is the category where a lot of review and time is needed.
+    <ul>
+      <li>I’ll probably have my review agent look at it first and give me some ideas on what to look at.</li>
+    </ul>
+  </li>
+  <li>reviewed: these are ones I’ve already reviewed.</li>
+</ul>
+
+<h2 id="for-small-pet-projects-i-yolo">For small pet projects, I yolo</h2>
+
+<p>The above is all for production, critical code bases: these are the things where degrading code quality can increase complexity and make things slower for agents, and likely completely incomprehensible for humans. I want to steer very safely for those.</p>
+
+<p>But for small projects that only run locally, single-page-apps and utilities, I can just work directly from the spec:</p>
+
+<ul>
+  <li>I define what I want.</li>
+  <li>I review, and give feedback on the high-level approach.</li>
+  <li>The agent modifies accordingly.</li>
+</ul>
+
+<p>The models (I usually use a mix of ChatGPT Sol, Opus 5.5, Gemini flash 3.8) are already great at producing small-scoped projects. I think we’re past the point of needing to steer agents because they’re not giving us at least <em>something</em> usable. And it’s great being able to quickly iterate on something you need.</p>
+
+<h2 id="final-thoughts">Final thoughts</h2>
+
+<p>It’s amazing to me how in a few months, I went from some hand writing of PRs to effectively zero. A lot of people feel like this is a sign that our whole profession might become obsolete, and admittedly there’s some truth to that.</p>
+
+<p>However, it still feels like human, expert judgment is critical here. At least if you care about code quality and keeping the codebase functional, having expert reviewers who can steer changes toward re-use, eliminate abstractions, and make sure core use cases are satisfied is essential.</p>]]></content><author><name></name></author><category term="coding" /><summary type="html"><![CDATA[TLDR Agents write the code What I do modify by hand I read the code Stack up a mega-PR, then break it down Agents help review the code Using agents to help prioritize reviews For small pet projects, I yolo Final thoughts]]></summary></entry><entry><title type="html">Calculating and achieving peak TOPS on the DGX Spark</title><link href="https://y.tsutsumi.io/peak-tops-dgx-spark/" rel="alternate" type="text/html" title="Calculating and achieving peak TOPS on the DGX Spark" /><published>2026-07-20T07:00:00+00:00</published><updated>2026-07-20T07:00:00+00:00</updated><id>https://y.tsutsumi.io/figuring-out-actual-flops</id><content type="html" xml:base="https://y.tsutsumi.io/peak-tops-dgx-spark/"><![CDATA[<p>You’ll often see “peak TOPS” advertised for accelerators like GPUs - but where does that number come from, and can we achieve it? Let’s break it down using the DGX Spark’s 1000 TOPS as an example.</p>
+
+<p>Peak TOPS refers to trillions of floating point operations per second - but in the case of accelerators like NVIDIA GPUs, that number is almost always in reference to an MMA operation - performing matrix multiplication and accumulating the results.</p>
+
+<p>It’s also worth noting that TOPS is always in the context of a specific <em>precision</em> - the data type that you’re operating on. Many vendors now report peak TOPS in a smaller data type used in quantized data formats such as FP8, INT8, or as low as FP4 (or per-block precision like NVFP4).</p>
+
+<p>In addition, oftentimes TOPS are now reported using “sparse” TOPS - which assumes that the underlying matrix being multiplied has a pattern of zero or near-zero values that would effectively skip the multiplication entirely. It’s often ratios of 2:1 sparsity, so when we see reports of “X TOPS”, it’s X/2. So in the case of DGX, we should target roughly 500 TOPS.</p>
+
+<p>Can we derive this number? For NVidia blackwell GPUs, the TOPS match this equation:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SM_COUNT * TENSOR_CORES_PER_SM * TENSOR_CORE_FLOPS_PER_CYCLE * CLOCK_SPEED
+</code></pre></div></div>
+
+<p>Substituting the Blackwell architecture parameters for the GB10 GPU:</p>
+
+<ul>
+  <li>SMs = 48</li>
+  <li>Tensor Cores per SM = 4</li>
+  <li>Tensor Core FP4 FLOPS per cycle = 2048</li>
+  <li>Clock Speed = 2.418 GHz</li>
+</ul>
+
+<p>Substituting these values into the equation above:</p>
+
+<p>Peak FP4 = 48 SMs * 4 Tensor Cores/SM * 2048 FLOPs/Core/Clock * 2.418 * 10^9 Hz
+Peak FP4 = 950,273,280,000 operations per second ~= 950.27 TFLOPS</p>
+
+<p>But of course those are reported as sparse TOPS, so we halve the value:</p>
+
+<p>Sparse FP4 = Peak FP4 / 2
+Sparse FP4 = 475,136,640,000 operations per second ~= 475.14 TFLOPS</p>
+
+<p>To achieve this, however, you need to make sure you’re maximizing the number of values you can fit in the registers of the tensor core as well. Specifically, you have to use the <code class="language-plaintext highlighter-rouge">mma.sync.aligned.kind::mxf4nvf4.block_scale.scale_vec</code> matrix multiply instruction, ensuring that you don’t pad additional bits in the register, using only the required 4 bits per element. Otherwise, for example with 8 bit padding, you’re effectively halving the utilization of the tensor core.</p>
+
+<p>However, if you get all of those right, you can finally achieve max TOPS!</p>
+
+<p>Thanks to <a href="https://github.com/secYOUre">Alfonso De Gregorio</a> for the <code class="language-plaintext highlighter-rouge">nvfp4bench</code> tool (https://github.com/secYOUre/nvfp4bench), and for sharing the final insight of the register padding slowing things down in my own benchmarks: https://github.com/toumorokoshi/yft-ml-sandbox/blob/main/cuda/gemm/experiment.md</p>
+
+<h2 id="additional-notes">Additional Notes</h2>
+
+<h3 id="how-to-query-hardware-parameters">How to Query Hardware Parameters</h3>
+
+<h4 id="method-1-programmatically-querying-sm-count-and-clock-speed-via-cuda-api">Method 1: Programmatically Querying SM Count and Clock Speed via CUDA API</h4>
+
+<p>You can write a simple CUDA program querying the <a href="https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__DEVICE.html#group__CUDART__DEVICE_1g1bf2e920221402b11ede84cf7cc60dc1">cudaGetDeviceProperties</a> API to retrieve these hardware specifications directly:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;cuda_runtime.h&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">cudaDeviceProp</span> <span class="n">prop</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">deviceId</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// Target GPU device ID</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">cudaGetDeviceProperties</span><span class="p">(</span><span class="o">&amp;</span><span class="n">prop</span><span class="p">,</span> <span class="n">deviceId</span><span class="p">)</span> <span class="o">==</span> <span class="n">cudaSuccess</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"GPU Device: %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">prop</span><span class="p">.</span><span class="n">name</span><span class="p">);</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"SM Count (multiProcessorCount): %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">prop</span><span class="p">.</span><span class="n">multiProcessorCount</span><span class="p">);</span>
+
+        <span class="kt">int</span> <span class="n">clockRateKHz</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="c1">// Query clock rate attribute (cudaDevAttrClockRate)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">cudaDeviceGetAttribute</span><span class="p">(</span><span class="o">&amp;</span><span class="n">clockRateKHz</span><span class="p">,</span> <span class="n">cudaDevAttrClockRate</span><span class="p">,</span> <span class="n">deviceId</span><span class="p">)</span> <span class="o">==</span> <span class="n">cudaSuccess</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">printf</span><span class="p">(</span><span class="s">"Clock Rate (cudaDevAttrClockRate): %d kHz (%.3f GHz)</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">clockRateKHz</span><span class="p">,</span> <span class="n">clockRateKHz</span> <span class="o">/</span> <span class="mf">1e6</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h4 id="inspecting-compute-capability-via-nvidia-smi">Inspecting Compute Capability via nvidia-smi</h4>
+
+<p>You can query the GPU model name and its CUDA Compute Capability from the command line:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nvidia-smi <span class="nt">--query-gpu</span><span class="o">=</span>name,compute_cap <span class="nt">--format</span><span class="o">=</span>csv
+</code></pre></div></div>
+<p>For example, this returns <code class="language-plaintext highlighter-rouge">NVIDIA GB10, 12.1</code>. Once you have the Compute Capability, you can reference the <a href="https://developer.nvidia.com/cuda-gpus">NVIDIA Developer CUDA GPUs Page</a> and the <a href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#features-and-technical-specifications">NVIDIA CUDA C++ Programming Guide Architecture Specs</a> to look up the exact SM counts and Tensor Core properties.</p>
+
+<h2 id="references">References</h2>
+
+<ul>
+  <li><strong>Information about SM / Tensor Core counts:</strong> https://chipsandcheese.com/p/analyzing-nvidia-gb10s-gpu</li>
+  <li><strong>NVIDIA Blackwell Architecture Whitepaper:</strong> <a href="https://images.nvidia.com/aem-dam/Solutions/Data-Center/blackwell/nvidia-blackwell-gpu-architecture-whitepaper.pdf">NVIDIA Blackwell GPU Architecture Whitepaper</a> - Core specifications for SM counts, fifth-generation Tensor Cores, and FP4 throughput metrics.</li>
+</ul>]]></content><author><name></name></author><category term="coding" /><summary type="html"><![CDATA[You’ll often see “peak TOPS” advertised for accelerators like GPUs - but where does that number come from, and can we achieve it? Let’s break it down using the DGX Spark’s 1000 TOPS as an example.]]></summary></entry><entry><title type="html">Playing around with Local LLMs</title><link href="https://y.tsutsumi.io/playing-with-local-llms/" rel="alternate" type="text/html" title="Playing around with Local LLMs" /><published>2026-07-13T07:00:00+00:00</published><updated>2026-07-13T07:00:00+00:00</updated><id>https://y.tsutsumi.io/playing-with-local-llms</id><content type="html" xml:base="https://y.tsutsumi.io/playing-with-local-llms/"><![CDATA[<p>Like many, I’ve started to get really bullish on the future of local LLMs - the open models and weights are getting better every few weeks. Qualitatively, I think it’s still abundantly clear that local LLMs are not at par with the larger hosted models for my high-priority use cases like coding.</p>
+
+<p>That all said, it’s a matter of time.</p>
+
+<h2 id="how-do-you-run-local-llms">How do you run local LLMs?</h2>
+
+<p><a href="https://github.com/ggml-org/llama.cpp">llama.cpp</a> has been a good harness:</p>
+
+<ul>
+  <li>It’s able to run most of the modern models without issue.</li>
+  <li>It has a simple command, <code class="language-plaintext highlighter-rouge">llama-server</code>, for serving the model text-completion API interface that is commonly used by harnesses.</li>
+</ul>
+
+<p>Using it is as simple as downloading the <a href="https://github.com/ggml-org/llama.cpp/releases">prebuilt binaries</a> from the GitHub. More ideally you build from source, which can sometimes improve support for your GPU as the build can detect it and compile itself appropriately.</p>
+
+<p>llama.cpp works with models that are saved in the gguf format. I’ve found that <a href="https://huggingface.co/unsloth">unsloth.ai</a>’s <a href="https://huggingface.co/unsloth">huggingface collections</a> have most models I’ve wanted to try.</p>
+
+<p>I grab a model and serve it from my NVidia Spark DGX at port <code class="language-plaintext highlighter-rouge">0.0.0.0</code> so my other machines can access it:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>llama-server <span class="nt">-hf</span> unsloth/gemma-4-E4B-it-GGUF:UD-Q4_K_XL <span class="nt">-h</span> 0.0.0.0
+</code></pre></div></div>
+
+<h2 id="what-impacts-the-runtime-latency-of-a-model">What impacts the runtime latency of a model</h2>
+
+<p>A critical aspect of local models is the runtime latency - I think roughly 60 tokens / second is the sweet spot, producing a good amount of code quickly without having to shift my focus for long periods of time.</p>
+
+<p>It’s a bit reductionist to boil things down to a few specific parameters, but with the model’s I’ve been testing I think the general factors I see are:</p>
+
+<ul>
+  <li>Total size of the weights: a combination of total parameter count * data format (fp16, fp8, int8, and lower). Running models with larger weights is bottle-necked by the total amount of dram that your GPU supports (i.e. the DGX spark has 128GB of unified memory available).</li>
+  <li>The size of the effective weights: using techniques like mixture of experts, not all weights are utilized on each inference run. Although the weights still need to be loaded into dram to ensure they can be quickly read for each token prediction. This is limited by memory bandwidth to load the values by GPU, or in rarer cases the tops.</li>
+</ul>
+
+<h2 id="what-models-work-well">What models work well?</h2>
+
+<h3 id="qwen36-27b">Qwen3.6-27b</h3>
+
+<p>I’ve heard this is a great model, but the 7-8 token/s were not enough for me to be truly productive: especially with the amount of thinking it does, it barely gets to a tool call within the span of 10 minutes. Even with multi-token-prediction (MTP) where a speedup is expected, it is just too slow.</p>
+
+<h3 id="qwen3-code-next">Qwen3-code-next</h3>
+
+<p>I’ve found that this has been fairly productive - at 60+ tok/s it’s able to produce code efficiently, and call tools appropriately. I’ve had it write a couple changes to vs code extensions, or add features to fairly large frontend applications.</p>
+
+<p>It is definitely not as robust as my go-tos: Cursor’s default and Gemini flash 3.5 medium: both can make these changes and test them without issue.</p>
+
+<h2 id="where-do-local-models-fall-short">Where do local models fall short?</h2>
+
+<p>Despite my enthusiasm, local models are still no where near good enough to replace all use cases I have for larger models. Examples include:</p>
+
+<ul>
+  <li>Getting stuck into loops: even on relatively simple solutions (remove all translucent panels in this react page), it will get stuck in a loop where it redoes and undoes the change, because it keeps second-guessing itself.</li>
+  <li>Requiring very specific instructions: with models like Gemini-3.5-medium I can just say “add a copy to jira link on the issue page”. With Qwen3-coder-next I have to give a precise list of steps, sometimes mentioning what files to touch.</li>
+  <li>With all the local models I’ve tried, I’ve had to give specific feedback after the change as well - in some cases the feature is entirely incorrect (e.g. access to the Jira API doesn’t work).</li>
+</ul>
+
+<p>But in some cases it’s able to read the codebase, produce fixes, and resolve them without personal intervention. I couldn’t imagine a local model that I can run on a tiny computer on my desk being capable of that a year ago.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Although local LLMs aren’t all I need <em>yet</em>, it’s very easy to see a future where that may be the case. It’s going to be a combination of:</p>
+
+<ul>
+  <li>Better models that need fewer weights to achieve similar benchmarks.</li>
+  <li>Increased memory storage to enable models with a larger number of total parameters.</li>
+  <li>Increased memory bandwidth and/or flops to enable running models at much faster tokens / second for larger effective weights.</li>
+</ul>
+
+<h2 id="side-quest-profiling-my-gpu">Side quest: Profiling my GPU</h2>
+
+<p>I really wanted to get Qwen 3.6 working, so I tried to profile the execution of the model. To do so on an NVidia GPU, one can use Nvidia Nsight Systems to get a sense of the kernels that have the longest runtime:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nsys <span class="nt">-o</span> llama_profile ./build/bin/llama-cli <span class="nt">-hf</span> <span class="k">${</span><span class="nv">MODEL</span><span class="k">}</span> <span class="nt">-p</span> <span class="s2">"The quick brown fox"</span> <span class="nt">-n</span> 5 <span class="nt">--no-conversation</span>
+</code></pre></div></div>
+
+<p>Then produce a match that looks at the specific kernels in question:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo</span> <span class="nt">-E</span> /usr/local/cuda/bin/ncu <span class="nt">-f</span> <span class="nt">-k</span> regex:<span class="s1">'(quantize_q8_1|mul_mat_vec_q|k_bin_bcast|k_get_rows_float)'</span> <span class="nt">-o</span> <span class="nv">$PWD</span>/llama_profile_report ~/bin/llama-completion <span class="nt">-hf</span> <span class="k">${</span><span class="nv">MODEL</span><span class="k">}</span> <span class="nt">-p</span> <span class="s2">"The quick brown fox"</span> <span class="nt">-n</span> 1 <span class="nt">-no-cnv</span>
+</code></pre></div></div>
+
+<p>What’s interesting about this investigation is that I found that the workload is neither saturating compute nor memory bandwidth - the SM activation actually seems to be somewhat uneven, perhaps due to sparse matrix multiplication. Something I plan on looking at, with a write up in the future.</p>
+
+<p><img src="../../assets/2026-07-13-playing-with-local-llms.png" alt="" /></p>
+
+<h2 id="references">References</h2>]]></content><author><name></name></author><category term="coding" /><summary type="html"><![CDATA[Like many, I’ve started to get really bullish on the future of local LLMs - the open models and weights are getting better every few weeks. Qualitatively, I think it’s still abundantly clear that local LLMs are not at par with the larger hosted models for my high-priority use cases like coding.]]></summary></entry><entry><title type="html">Thoughts on Subpaths in AEPs</title><link href="https://y.tsutsumi.io/aep-subpaths/" rel="alternate" type="text/html" title="Thoughts on Subpaths in AEPs" /><published>2026-07-06T07:00:00+00:00</published><updated>2026-07-06T07:00:00+00:00</updated><id>https://y.tsutsumi.io/aep-subpaths</id><content type="html" xml:base="https://y.tsutsumi.io/aep-subpaths/"><![CDATA[<h2 id="problem">Problem</h2>
+
+<p>The primary problem has to do with AEP-compliant APIs that have a subpath prefix. An example is something like:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>api.example.com/users/v1
+</code></pre></div></div>
+
+<p>Here the resource path starts <em>after</em> a constant prefix in the API.</p>
+
+<p>The question is: should APIs with a path prefix like this be allowed? and if so, how should the clients and consumers handle this?</p>
+
+<h2 id="should-apis-with-path-prefixes-be-allowed">Should APIs with path prefixes be allowed?</h2>
+
+<p>Even today, having a path prefix is a very common attribute in APIs. Therefore, I don’t see much of an option here but to allow these.</p>
+
+<p>Examples include:</p>
+
+<ul>
+  <li>The Google APIs, which are always <a href="https://cloud.google.com/iam/docs/reference/rest/">wrapped with a version prefix</a>.</li>
+  <li>The Roblox Cloud APIs, prefixed with a <a href="https://create.roblox.com/docs/en-us/cloud/features/groups">version and cloud prefix</a>.</li>
+</ul>
+
+<p>To exclude these APIs from compliance because their existence of a prefix would significantly hamper the adoption of the AEPs.</p>
+
+<p>Therefore, I think the choice to include support for this is more of a practical choice than one taken for an ideal design.</p>
+
+<h2 id="problems-with-a-path-prefix">Problems with a path prefix</h2>
+
+<p>Introducing this pattern, however, comes with challenges. Enumerating the difficulties, those are:</p>
+
+<h3 id="a-path-prefix-breaks-the-collectionresource-pattern">A path prefix breaks the collection/resource pattern</h3>
+
+<p>The main issue with a prefix comes with the ability to semantically interpret the meaning of a path. The resource model in the AEP specific includes a pattern of collection, resource id elements. For example, take a book in a bookshelf:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/bookshelves/living-room/books/pride-and-prejudice.
+</code></pre></div></div>
+
+<p>From here, it’s very easy to understand the following:</p>
+
+<ul>
+  <li>there are two collections of resources: <code class="language-plaintext highlighter-rouge">bookshelves</code> and <code class="language-plaintext highlighter-rouge">books</code>.</li>
+  <li><code class="language-plaintext highlighter-rouge">books</code> are a subcollection under a bookshelf.</li>
+  <li>The bookshelf in question is <code class="language-plaintext highlighter-rouge">living-room</code>, while the book in question is <code class="language-plaintext highlighter-rouge">pride-and-prejudice</code>.</li>
+</ul>
+
+<p>If we add a prefix, say, <code class="language-plaintext highlighter-rouge">cloud/v1</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/cloud/v1/bookshelves/living-room/books/pride-and-prejudice
+</code></pre></div></div>
+
+<p>Now there is some ambiguity: is <code class="language-plaintext highlighter-rouge">v1</code> a cloud? Although this is immediately obvious to a human, to a machine there is no longer a discrete algorithm to extract collections and elements.</p>
+
+<h2 id="addressing-the-problems">Addressing the problems</h2>
+
+<p>Although the above brings up more abstract problems, we need to look at how to resolve them discretely. Thinking through where there are practical challenges:</p>
+
+<h3 id="how-to-reference-a-resource">How to reference a resource</h3>
+
+<p>For a <em>resource reference</em>, the path to the resource is used. Should this resource include the path prefix, or no?</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    # with the prefix
+    book: "/cloud/v1/bookshelves/living-room/books/pride-and-prejudice",
+    # without
+    book: "bookshelves/living-room/books/pride-and-prejudice",
+</code></pre></div></div>
+
+<p>For protobuf APIs in the AEPs, the path of the resource is used directly in operations such as Get / Update / Delete. Therefore, it does not need the prefix.</p>
+
+<p>For <em>REST</em> JSON APIs, the reference will probably, at some point, be used to reconstruct the full path. For example, a backend may perform a GET on the HTTP path of the resource to retrieve information about it. However, resolving that resource reference would require some knowledge of the API domain to begin with, so it wouldn’t be a stretch to <em>also</em> intern the path.</p>
+
+<p>The biggest issue is with <em>full resource paths</em> - examples where a resource references another resource in a different API. However, that too could also be solved by
+including the full path, including the api name, which in turn would also include the path prefix:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{api name}/{resource path}
+{api.example.com/cloud/v1}/{bookshelves/living-room/books/pride-and-prejudice}
+</code></pre></div></div>
+
+<p>So there are cases well handled as well.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>To support subpaths in API, I propose the following:</p>
+
+<ol>
+  <li>full resource paths to other APIs <em>always</em> include the api name: this enables clients to retrieve the resource without knowledge of where the API description of that separate API exists.
+    <ol>
+      <li>alternatively, the API <em>could</em> describe the API name it expects via an annotation. This would allow a client to resolve that path.</li>
+    </ol>
+  </li>
+  <li>modify the API names description to clarify that it can include a sub-path.
+    <ol>
+      <li>this also solves a separate problem, where an API may have resources tightly coupled to a separate path.</li>
+    </ol>
+  </li>
+</ol>]]></content><author><name></name></author><category term="coding" /><summary type="html"><![CDATA[Problem]]></summary></entry><entry><title type="html">Thoughts on allow_missing in AEPs</title><link href="https://y.tsutsumi.io/aep-allow-missing/" rel="alternate" type="text/html" title="Thoughts on allow_missing in AEPs" /><published>2026-06-29T07:00:00+00:00</published><updated>2026-06-29T07:00:00+00:00</updated><id>https://y.tsutsumi.io/aep-allow-missing</id><content type="html" xml:base="https://y.tsutsumi.io/aep-allow-missing/"><![CDATA[<p>The main concern I have with <code class="language-plaintext highlighter-rouge">allow_missing</code> is duplication. Does it overlap with some existing api, such as the new apply method?</p>
+
+<p>I could imagine there’s some differences:</p>
+
+<ul>
+  <li>If a field is missing, an apply could reject the request, while update with allow_missing would silently accept it with some default.</li>
+</ul>
+
+<p>Today, apply with fields missing does not actually state that the request should be rejected. Instead, it states:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Note that PUT requests with fields missing in the resource may result in overwriting values in the resource with existing values. For that reason, AEP-compliant APIs generally use the PATCH HTTP verb.
+</code></pre></div></div>
+
+<p>So the behavior is actually one of:</p>
+
+<ul>
+  <li>use the default values for those fields.</li>
+  <li>do not modify the existing one.</li>
+</ul>
+
+<p>But does not clarify which is expected. This should be fixed regardless.</p>
+
+<p>If the choice is to leave unset values unmodified, that it is identical to the behavior of update with <code class="language-plaintext highlighter-rouge">allow_missing</code>.</p>
+
+<p>If default values are chosen, then in proto, that would be nearly identical to an update with a full field mask set (a wildcard <code class="language-plaintext highlighter-rouge">*</code>).</p>
+
+<p>But thinking a bit about that second user journey, generally the idea that one would like to <em>reset</em> a resource back to it’s default values is somewhat non-sensical:</p>
+
+<ul>
+  <li>If one would like to update a resource back to it’s default, set it explicitly in your update.</li>
+  <li>If you would like to leave the value alone, leave it unset.</li>
+</ul>
+
+<p>This is a relatively easy thing to accomplish in OAS: one can examine the fields in a resource, see if they are unset, and then in turn only modify the ones that are set.</p>
+
+<p>For protobuf, this is a bit more difficult because of the fact that non-optional fields are set to their default values. However, even there I think there’s a solution: effectively make every protobuf field explicitly optional, at which point it behaves just like json.</p>
+
+<p>In the above case, one can just set the fields they would like to modify, or are aware of. Combined with a field mask, this would determine wet</p>
+
+<h2 id="user-journeys">User journeys</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>What you’re trying to do with a field</th>
+      <th>how to accomplish it in protobuf</th>
+      <th>how to do it in REST</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Set a field to empty</td>
+      <td>include it in the field mask, set field as null</td>
+      <td>set value as none</td>
+    </tr>
+    <tr>
+      <td>Don’t modify a field</td>
+      <td>don’t include the field in the field mask, set field as null</td>
+      <td>don’t include value in json payload</td>
+    </tr>
+    <tr>
+      <td>Set a field to a specific value</td>
+      <td>include the field in the field mask, set field with desired value</td>
+      <td>include value in json payload</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>Ultimately, <code class="language-plaintext highlighter-rouge">allow_missing</code> and update, due to it’s inclusion of field masks, are a more flexible version of the apply method. Generally clients should just use that method across the board.</p>
+
+<p>In addition, the following guidance should probably be added:</p>
+
+<ul>
+  <li>update protobuf guidance that all fields should be optional.</li>
+  <li>the apply field should clarify whether it will use default values if a field is missing, or leave the field unmodified.</li>
+  <li>the apply field should clarify that a request with required fields missing will reject the response.</li>
+</ul>]]></content><author><name></name></author><category term="coding" /><summary type="html"><![CDATA[The main concern I have with allow_missing is duplication. Does it overlap with some existing api, such as the new apply method?]]></summary></entry><entry><title type="html">Thoughts on Soft Delete</title><link href="https://y.tsutsumi.io/aep-soft-delete/" rel="alternate" type="text/html" title="Thoughts on Soft Delete" /><published>2026-06-22T07:00:00+00:00</published><updated>2026-06-22T07:00:00+00:00</updated><id>https://y.tsutsumi.io/aep-soft-delete</id><content type="html" xml:base="https://y.tsutsumi.io/aep-soft-delete/"><![CDATA[<p>This document serves as a corrolary to <a href="https://github.com/aep-dev/aeps/issues/111">this issue on
+aep.dev</a>, including my thoughts to
+remove the soft delete pattern.</p>
+
+<h2 id="the-background">The background</h2>
+
+<p>As of 2025-09-13, the aeps have a pattern in which one can “soft delete” a
+resource - where it not actually removed from a collection, but is actually
+flagged as deleted. This allows the resource to be recoverable later.</p>
+
+<p>The soft delete pattern, I believe, exists to serve the purpose of situations
+where recovery is desired, such as most situations where persistent data is
+stored:</p>
+
+<ul>
+  <li>A database, where recreating the resource does not restore any valuble data
+stored.</li>
+  <li>A filesystem, where a file may need to be recovered after the fact.</li>
+</ul>
+
+<h2 id="the-implementation-of-soft-delete-today">The implementation of soft delete today</h2>
+
+<p>The current implementation of AEPs’ soft delete boils down to the following:</p>
+
+<ol>
+  <li>a new custom method, <code class="language-plaintext highlighter-rouge">undelete</code>, on the resource.</li>
+  <li>an added field <code class="language-plaintext highlighter-rouge">show_deleted</code> to the <code class="language-plaintext highlighter-rouge">List</code> standard method, where resources
+are hidden unless specified.</li>
+  <li>an added field <code class="language-plaintext highlighter-rouge">show_deleted</code> to the <code class="language-plaintext highlighter-rouge">Get</code> standard method, where the resource will
+return 410 without it.</li>
+</ol>
+
+<p>There are a few other details (such as the usage of expiry_date) that are
+additional, but do not force any additional fields on the standard methods.</p>
+
+<h2 id="the-problems-soft-delete-is-not-compatible-with-declarative-clients">The problems: soft delete is not compatible with declarative clients</h2>
+
+<p>Declarative clients expect consistent resource-oriented operations on each
+resource - for simple CRUD on a resource, declarative clients are able to easily
+map each operation to the resource lifecycle.</p>
+
+<pre><code class="language-mermaid">graph LR
+  exists
+  not_exists
+  exists -- "update" --&gt; exists
+  not_exists -- "create" --&gt; exists
+  exists -- "delete" --&gt; not_exists
+</code></pre>
+
+<p>For soft delete, where would that fit in? Effectively it creates another state - soft deleted.</p>
+
+<pre><code class="language-mermaid">graph LR
+  exists
+  soft_deleted
+  not_exists
+  not_exists -- "create" --&gt; exists
+  exists -- "update" --&gt; exists
+  soft_delete -- "undelete" --&gt; exists
+  soft_delete -- "expiry hit" --&gt; not_exists
+</code></pre>
+
+<p>But this may also result in weird cases like:</p>
+
+<p>A resource “create” throwing an error because the resource is soft-deleted, and
+therefore exists. But a get would return a 404.</p>
+
+<h2 id="proposed-alternative">Proposed alternative</h2>
+
+<p>Since the primary use case is about backing up and enabling restoration of data,
+the proposal would be to replace these augmentations on the primary resource, to
+adding a second resource for “backups” or “snapshots”.</p>
+
+<p>The pattern would look something like:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/database/foo
+/database-snapshots/foo/snapshots/latest
+</code></pre></div></div>
+
+<p>The database-snapshot could be support a custom method, <code class="language-plaintext highlighter-rouge">restore</code>, that would be
+similar to undelete and bring an old resource back.</p>
+
+<p>This would be similar to the <a href="https://aep.dev/162/">resource revision</a> pattern -
+where a design pattern is introduced by adding a new resource, not by augmenting
+standard methods.</p>]]></content><author><name></name></author><category term="coding" /><summary type="html"><![CDATA[This document serves as a corrolary to this issue on aep.dev, including my thoughts to remove the soft delete pattern.]]></summary></entry><entry><title type="html">Local, Parallel, and Autonomous: Building a Fully Agent-Generated Codebase</title><link href="https://y.tsutsumi.io/2026/03/30/agentic-orchestration-with-beads-and-lelouch/" rel="alternate" type="text/html" title="Local, Parallel, and Autonomous: Building a Fully Agent-Generated Codebase" /><published>2026-03-30T07:00:00+00:00</published><updated>2026-03-30T07:00:00+00:00</updated><id>https://y.tsutsumi.io/2026/03/30/agentic-orchestration-with-beads-and-lelouch</id><content type="html" xml:base="https://y.tsutsumi.io/2026/03/30/agentic-orchestration-with-beads-and-lelouch/"><![CDATA[<p>I’ve started a video series on agentic coding, and you can view the first video <a href="https://youtu.be/dXyPfslMLYE?si=uRz0qamR3sqWTW0i">here</a>. This is a short summary if you prefer a post instead!</p>
+
+<p>The agentic workflow is something I’m calling “local, parallel, and autonomous”.
+It’s a dive deep into making a whole codebase from scratch, completely
+hands-off.</p>
+
+<h4 id="the-core-attributes">The Core Attributes</h4>
+
+<p>The main pillars for this workflow are straightforward:</p>
+
+<ul>
+  <li><strong>Local:</strong> All the git worktrees run locally on my machine, avoiding the complications of remote execution.</li>
+  <li><strong>Parallel:</strong> It’s built to scale so multiple agents can work on different issues across multiple worktrees at the same time.</li>
+  <li><strong>Autonomous:</strong> The agents complete issues from start to finish without human intervention.</li>
+</ul>
+
+<h4 id="choosing-the-right-projects">Choosing the Right Projects</h4>
+
+<p>Let’s be clear: as of March 2026, there are a <em>lot</em> of risks with this approach. I wouldn’t confidently build and deploy a production SaaS web application this way because the necessary guardrails for safety and privacy requirements just aren’t there yet.</p>
+
+<p>Because of that, I choose self-contained, smaller projects. I’ve built a few codebases this way, including:</p>
+
+<ul>
+  <li>Small VS Code extensions (one to <a href="https://github.com/toumorokoshi/vscode-hivemind">synchronize my dotfiles</a>, another to add missing file operations).</li>
+  <li>A self-contained GitHub page that <a href="https://github.com/toumorokoshi/paste-as-simple-markdown">converts LaTeX to Markdown and plaintext</a>.</li>
+  <li><a href="https://github.com/toumorokoshi/lelouch/tree/main/docs">Lelouch</a>, the workload orchestrator I use for this very process.</li>
+</ul>
+
+<p>For more complex, large-scale systems, I still rely heavily on a manual cycle where the AI generates code and I heavily review it.</p>
+
+<h4 id="bootstrapping-setting-the-guardrails">Bootstrapping: Setting the Guardrails</h4>
+
+<p>To get things started, I wrote a repository called <a href="https://github.com/toumorokoshi/agentic-bootstrap">agentic-bootstrap</a> to provide the scaffolding. Inside its <code class="language-plaintext highlighter-rouge">templates/</code> directory, I keep generic rules that help agents stay on the rails.</p>
+
+<p>The bootstrap relies on a few key components:</p>
+
+<ul>
+  <li><strong>AGENTS.md:</strong> This file acts as the playbook. It tells agents to study the README first, ensures CI passes, enforces linting rules, and mandates that documentation is always updated.</li>
+  <li><strong>specs/:</strong> This directory holds design specifications. Splitting the design up limits the context an agent has to load to accomplish a particular task, separating the “designer” agent from the “executor” agent.</li>
+  <li><strong>Example Files:</strong> For the Heaptrack UI, I included a sample <code class="language-plaintext highlighter-rouge">.zst</code> file in the repo so the agent actually knows how to read the format it’s supposed to parse.</li>
+</ul>
+
+<h4 id="writing-specs-the-grill-approach">Writing Specs: The “Grill” Approach</h4>
+
+<p>When it’s time to write the overall design, you can write it yourself, but I
+used an approach called “grilling” to illustrate another, more agentic way to
+bootstrap.</p>
+
+<p>I tell the agent: <em>“Interview me about the purpose of this project”</em>. It asks me questions about architecture and UI, and I respond with my requirements—for example, that the app should be a purely client-side React app, include dark mode, and support drag-and-drop.</p>
+
+<p>The agent then writes out the design documents in the <code class="language-plaintext highlighter-rouge">specs/</code> directory. I usually do a quick offline review; for instance, the agent once hallucinated some weird typography requirements asking for “Apple’s clear glass” style, which I promptly deleted.</p>
+
+<h4 id="managing-the-queue-with-beads">Managing the Queue with Beads</h4>
+
+<p>For the issue database, I use a tool called Beads, created by Steve Yegge. It acts as a local database for issues, supports being reused across multiple work trees, and is highly agent-friendly with support for <code class="language-plaintext highlighter-rouge">--json</code> flags.</p>
+
+<p>You simply initialize it with <code class="language-plaintext highlighter-rouge">bd init --stealth</code>. From there, you can manage the queue:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">bd create</code> to make new issues.</li>
+  <li><code class="language-plaintext highlighter-rouge">bd update {id} --status=open</code> or <code class="language-plaintext highlighter-rouge">--status=closed</code> to manage state.</li>
+  <li><code class="language-plaintext highlighter-rouge">bd delete {id}</code> to remove them.</li>
+</ul>
+
+<p>I like to use a “thinking” model for a seeder prompt to write highly detailed initial issues, and I use the Beads VS Code extension to visually track what the agents are working on.</p>
+
+<h4 id="orchestration-with-lelouch">Orchestration with Lelouch</h4>
+
+<p>To orchestrate the workers, I wrote <a href="https://github.com/toumorokoshi/lelouch">Lelouch</a>. It’s effectively a way to run an agent, one per github worktree, pulling issues out of the Beads database.</p>
+
+<p>To initialize it just run <code class="language-plaintext highlighter-rouge">lelouch init</code> per worktree. It monitors your
+repositories, pulling open tasks from the Beads database by priority and
+dispatching them.</p>
+
+<p>I typically run Lelouch with the Gemini Flash model via CLI because it has a
+more forgiving usage limit. I also add a pre-prompt like <em>“run tests, commit,
+and push”</em> to make sure it follows through.</p>
+
+<p>When I run <code class="language-plaintext highlighter-rouge">lelouch run -v</code>, the loop begins. It moves issues to “in progress” and logs the agent’s responses directly into the working notes, so I can see exactly what it’s up to. It’s incredibly satisfying to just watch the issues update in the VS Code extension while the agents hum away.</p>
+
+<h4 id="handling-bugs-and-gaps">Handling Bugs and Gaps</h4>
+
+<p>The process isn’t perfect. During my Heaptrack build, the agent created a <code class="language-plaintext highlighter-rouge">gaps.md</code> file but failed to actually implement the missing features. I had to manually prompt it: <em>“There are gaps in gaps.md that are not yet implemented. Please create BD issues for them.”</em>.</p>
+
+<p>When I tested the UI, I found that the flame graph had sizing issues and the <code class="language-plaintext highlighter-rouge">.zst</code> file wasn’t loading properly.</p>
+
+<p>Fixing this is a matter of adding issues to the command line via <code class="language-plaintext highlighter-rouge">bd q "fix the
+bug with the zst file not outputting the flame graph"</code>. Lelouch immediately
+picks it up in the background.</p>
+
+<h4 id="takeaways-for-2026">Takeaways for 2026</h4>
+
+<p>I’ve done this with four or five projects now, and having a central issue database with parallel worker agents is a scalable model.</p>
+
+<p>I know that there’s been existing examples online of people who have done
+everything from write compilers over to full web browsers, and games with
+varying success. Despite that, I’m still skeptical and looking for ways to get it to be a consistent, high quality enough generator that it can be used for more production code. To get there, I think it’ll take more guardrails, especially security-related ones. Some projects are already using agents with a security persona to try to get there.</p>
+
+<p>But all technology has to start somewhere, and this workflow serves as an interesting baseline for my process I intend to grow.</p>]]></content><author><name></name></author><category term="coding" /><summary type="html"><![CDATA[I’ve started a video series on agentic coding, and you can view the first video here. This is a short summary if you prefer a post instead!]]></summary></entry></feed>
