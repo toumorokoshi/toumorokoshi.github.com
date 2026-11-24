@@ -363,4 +363,7 @@ html { scroll-behavior: smooth; }
 
 .post-toc .post-toc-level-3 > .post-toc-link.is-active { color: #2a7ae2; }
 
+/* ========================================================================== MathML ========================================================================== */
+math[display="block"] { display: block; margin: 1em 0; overflow-x: auto; }
+
 /*# sourceMappingURL=style.css.map */

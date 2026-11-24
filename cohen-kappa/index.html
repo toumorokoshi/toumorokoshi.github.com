@@ -79,24 +79,24 @@
     <div class="post-content e-content" itemprop="articleBody">
         <p>Cohen’s Kappa is pretty interesting - it’s a way to measure how much two independent classifiers agree, beyond what you’d expect by chance. It’s written out as:</p>
 
-\[\kappa = \frac{p_o - p_e}{1 - p_e}\]
+<math display="block" class="tml-display" style="display:block math;"><mrow><mi>κ</mi><mo>=</mo><mfrac><mrow><msub><mi>p</mi><mi>o</mi></msub><mo>−</mo><msub><mi>p</mi><mi>e</mi></msub></mrow><mrow><mn>1</mn><mo>−</mo><msub><mi>p</mi><mi>e</mi></msub></mrow></mfrac></mrow></math>
 
 <p>where:</p>
 
 <ul>
-  <li>\(p_o\) is the observed agreement: the fraction of items both classifiers labeled the same.</li>
-  <li>\(p_e\) is the expected agreement by chance: \(p_e = \sum_k p_{A,k} \cdot p_{B,k}\), where \(p_{A,k}\) and \(p_{B,k}\) are the fractions of items that A and B each assigned to category \(k\).</li>
+  <li><math><msub><mi>p</mi><mi>o</mi></msub></math> is the observed agreement: the fraction of items both classifiers labeled the same.</li>
+  <li><math><msub><mi>p</mi><mi>e</mi></msub></math> is the expected agreement by chance: <math><mrow><msub><mi>p</mi><mi>e</mi></msub><mo>=</mo><msub><mo movablelimits="false">∑</mo><mi>k</mi></msub><msub><mi>p</mi><mrow><mi>A</mi><mo separator="true">,</mo><mi>k</mi></mrow></msub><mo>⋅</mo><msub><mi>p</mi><mrow><mi>B</mi><mo separator="true">,</mo><mi>k</mi></mrow></msub></mrow></math>, where <math><msub><mi>p</mi><mrow><mi>A</mi><mo separator="true">,</mo><mi>k</mi></mrow></msub></math> and <math><msub><mi>p</mi><mrow><mi>B</mi><mo separator="true">,</mo><mi>k</mi></mrow></msub></math> are the fractions of items that A and B each assigned to category <math><mi>k</mi></math>.</li>
 </ul>
 
-<p>So, effectively, it measures how much the two classifiers agree after removing the agreement you’d expect by chance. A \(\kappa\) of 1 is perfect agreement, and 0 is no better than chance.</p>
+<p>So, effectively, it measures how much the two classifiers agree after removing the agreement you’d expect by chance. A <math><mi>κ</mi></math> of 1 is perfect agreement, and 0 is no better than chance.</p>
 
 <p>The algorithm is basically:</p>
 
 <ol>
   <li>Have the two parties, A and B, perform the classification.</li>
-  <li>Figure out the expected agreement by chance. For each category \(k\), multiply the fraction of items A put in \(k\) by the fraction B put in \(k\), then sum across all categories to get \(p_e\).</li>
-  <li>Calculate the observed agreement \(p_o\): the fraction of items where A and B chose the same category.</li>
-  <li>Subtract the expected agreement from the observed agreement, and divide by the most agreement possible beyond chance: \(\kappa = (p_o - p_e) / (1 - p_e)\).</li>
+  <li>Figure out the expected agreement by chance. For each category <math><mi>k</mi></math>, multiply the fraction of items A put in <math><mi>k</mi></math> by the fraction B put in <math><mi>k</mi></math>, then sum across all categories to get <math><msub><mi>p</mi><mi>e</mi></msub></math>.</li>
+  <li>Calculate the observed agreement <math><msub><mi>p</mi><mi>o</mi></msub></math>: the fraction of items where A and B chose the same category.</li>
+  <li>Subtract the expected agreement from the observed agreement, and divide by the most agreement possible beyond chance: <math><mrow><mi>κ</mi><mo>=</mo><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><msub><mi>p</mi><mi>o</mi></msub><mo>−</mo><msub><mi>p</mi><mi>e</mi></msub><mo fence="true" form="postfix" stretchy="false">)</mo></mrow><mi>/</mi><mrow><mo fence="true" form="prefix" stretchy="false">(</mo><mn>1</mn><mo>−</mo><msub><mi>p</mi><mi>e</mi></msub><mo fence="true" form="postfix" stretchy="false">)</mo></mrow></mrow></math>.</li>
 </ol>
     </div>
 
