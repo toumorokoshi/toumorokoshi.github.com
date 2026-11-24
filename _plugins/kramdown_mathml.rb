@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+$LOAD_PATH.unshift(__dir__) unless $LOAD_PATH.include?(__dir__)
+
 require "json"
 require "kramdown"
 
@@ -11,12 +13,13 @@ module Kramdown
         WORKER_PATH = File.expand_path("mathml-worker.js", __dir__)
         MUTEX = Mutex.new
 
-        def self.call(_converter, el, opts)
+        def self.call(_converter, el, opts = {})
           display_mode = el.options[:category] == :block
           html = render(el.value, display_mode)
 
           if display_mode
-            "#{' ' * opts}#{html}\n"
+            indent = opts[:indent] || 0
+            "#{' ' * indent}#{html}\n"
           else
             html
           end
@@ -71,3 +74,5 @@ module Kramdown
     end
   end
 end
+
+Kramdown::Converter.add_math_engine(:mathml, Kramdown::Converter::MathEngine::Mathml)
